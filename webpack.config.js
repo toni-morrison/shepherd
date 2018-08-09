@@ -1,6 +1,6 @@
 var path = require('path');
-var SRC_DIR = path.join(__dirname, '/src');
-var DEST_DIR = path.join(__dirname, '/public');
+var SRC_DIR = path.join(__dirname, '/client');
+var DEST_DIR = path.join(__dirname, '/client');
 
 module.exports = {
   entry: `${SRC_DIR}/index.jsx`,
