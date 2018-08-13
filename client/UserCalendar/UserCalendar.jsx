@@ -1,10 +1,14 @@
 import React from 'react';
 
-class UserCalendar extends React.Component {
+export default class UserCalendar extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
-    return <div />;
+    return(
+      <div>
+        <p>USER CALENDAR COMPONENT</p>
+      </div>
+    )
   }
 }
