@@ -1,9 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider, Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import React from "react";
+import ReactDOM from "react-dom";
+import axios from "axios";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider, Query } from "react-apollo";
+import gql from "graphql-tag";
+import Login from "./Login/Login.jsx";
+import Signup from "./Signup/Signup.jsx";
 
 const client = new ApolloClient();
 
@@ -18,9 +20,11 @@ class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <div>Shepherd</div>
+        <Login />
+        <Signup />
       </ApolloProvider>
     );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById("app"));
