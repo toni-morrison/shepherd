@@ -1,11 +1,11 @@
-import firebase from "../../server/auth/firebase.js";
-import React from "react";
+import firebase from '../../server/firebase/firebase.js';
+import React from 'react';
 
 export default class GoogleLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: ""
+      user: ''
     };
     this.loginWithGoogle = this.loginWithGoogle.bind(this);
   }

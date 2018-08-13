@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
 export default class EmailLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: ""
+      email: '',
+      password: ''
     };
     this.validateForm = this.validateForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
