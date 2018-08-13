@@ -1,6 +1,6 @@
-import React from "react";
-import GoogleLogin from "./GoogleLogin.jsx";
-import EmailLogin from "./EmailLogin.jsx";
+import React from 'react';
+import GoogleLogin from './GoogleLogin.jsx';
+import EmailLogin from './EmailLogin.jsx';
 
 export default class Login extends React.Component {
   constructor(props) {
