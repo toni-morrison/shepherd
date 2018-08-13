@@ -1,5 +1,6 @@
 import React from 'react'
-class ___ extends React.Component {
+
+export default class UserViewingSitter extends React.Component {
   constructor (props) {
     super(props)
   }
