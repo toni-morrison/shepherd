@@ -1,0 +1,5 @@
+client ID: 667292252749-a250ctrk4m90rt4hu3iflie2lot9splk.apps.googleusercontent.com
+client secret: BsdYQDfpTTEJ_OFysfzYMnzq
+API key: AIzaSyA3tNjW2qXiX07_v3rpKhWvN_CKfkUNqfc
+<iframe src="https://calendar.google.com/calendar/embed?src=skeithnine%40gmail.com&ctz=America%2FNew_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+<iframe src="https://calendar.google.com/calendar/embed?src=4ggtmdojqb8je3n6mlnicj02jc%40group.calendar.google.com&ctz=America%2FNew_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
