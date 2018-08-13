@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import UserSearchResults from './UserSearchResults.jsx';
 
+
 export default class UserSearch extends React.Component {
   constructor(props) {
     super(props)
