@@ -19,10 +19,12 @@ class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <div>Shepherd</div>
+        <Login />
+        <Signup />
         <TopTabs />
       </ApolloProvider>
     );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById("app"));
