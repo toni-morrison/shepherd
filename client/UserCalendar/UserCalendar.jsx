@@ -24,8 +24,7 @@ class UserCalendar extends React.Component {
 
       // Handle the initial sign-in state.
       updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-//      authorizeButton.onclick = handleAuthClick;
-//      signoutButton.onclick = handleSignoutClick;
+
     });
   }
   
@@ -42,8 +41,8 @@ class UserCalendar extends React.Component {
       <iframe src={this.state.source} style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
       <script async defer src="https://apis.google.com/js/api.js"
-        onload="this.onload=function(){};this.handleClientLoad()"
-        onreadystatechange="if (this.readyState === 'complete') this.onload()">
+        onload={this.onload=function(){};this.handleClientLoad()}
+        onreadystatechange={if (this.readyState === 'complete') this.onload()}>
       </script>
       
       
