@@ -8,7 +8,6 @@ import TopTabs from './Tabs/TopTabs.jsx';
 import Login from './Login/Login.jsx';
 import Signup from './Signup/Signup.jsx';
 // import Calendar from "./Calendar/Calendar.jsx"
-import SitterRequest from './SitterRequest/SitterRequest.jsx';
 import UserSitterRequest from './UserSitterRequest/UserSitterRequest.jsx';
 
 const client = new ApolloClient();
