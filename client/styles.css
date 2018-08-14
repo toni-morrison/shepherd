@@ -28,3 +28,6 @@ textarea#formControlsTextarea {
   border: solid 2px;
   margin: 3px;
 }
+div#full-list {
+  width: 50%;
+}
