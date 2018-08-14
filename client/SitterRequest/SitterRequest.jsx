@@ -7,7 +7,7 @@ import {
   OverlayTrigger
 } from 'react-bootstrap';
 
-class SitterRequest extends React.Component {
+export default class SitterRequest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +29,7 @@ class SitterRequest extends React.Component {
   }
 
   render() {
+    //all information will passed to this component, for now dummy data
     const sitterPic = (
       <img
         id="sitterPicture"
@@ -53,7 +54,7 @@ class SitterRequest extends React.Component {
             <li>Take the kids to the park with the dog</li>
             <li>Watch TV </li>
             <li>Put Mikey to bed at 8:30</li>
-            <li>Put Tracey to be at 9:30</li>
+            <li>Put Tracey to bed at 9:30</li>
           </ul>
         </div>
       </Popover>
@@ -110,5 +111,3 @@ class SitterRequest extends React.Component {
     );
   }
 }
-
-export default SitterRequest;
