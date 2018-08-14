@@ -16,60 +16,68 @@ export default class SplashPage extends React.Component {
   }
 
   render() {
-    return (
-      <ReactFullpage
-        {...fullpageOptions}
-        render={({ state, fullpageApi }) => {
-          return (
-            <div>
-              <div className="section" id="section0">
-                <div style={{ position: 'absolute', right: '1em', top: '1em' }}>
-                  <Button>Log In</Button>
-                  <Button bsStyle="info">Sign Up</Button>
-                </div>
-                <Jumbotron
-                  style={{
-                    backgroundColor: 'rgba(255,255,255,0.7)',
-                    textAlign: 'center'
-                  }}
-                >
-                  <h1>Shepherd</h1>
-                  <p>Peace of mind for you</p>
-                  <Button
-                    bsStyle="primary"
-                    onClick={() => fullpageApi.moveSectionDown()}
+    if (this.props.signedIn) {
+      return null;
+    } else {
+      return (
+        <ReactFullpage
+          {...fullpageOptions}
+          render={({ state, fullpageApi }) => {
+            return (
+              <div>
+                <div className="section" id="section0">
+                  <div
+                    style={{ position: 'absolute', right: '1em', top: '1em' }}
                   >
-                    Learn More
-                  </Button>
-                </Jumbotron>
+                    <Button>Log In</Button>
+                    <Button bsStyle="info">Sign Up</Button>
+                  </div>
+                  <Jumbotron
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.7)',
+                      textAlign: 'center'
+                    }}
+                  >
+                    <h1>Shepherd</h1>
+                    <p>Peace of mind for you</p>
+                    <Button
+                      bsStyle="primary"
+                      onClick={() => fullpageApi.moveSectionDown()}
+                    >
+                      Learn More
+                    </Button>
+                  </Jumbotron>
+                </div>
+                <div className="section" id="section1">
+                  <Jumbotron
+                    style={{ backgroundColor: 'rgba(255,255,255,1.0)' }}
+                  >
+                    <Grid>
+                      <Row style={{ alignItems: 'center', display: 'flex' }}>
+                        <Col md={9}>
+                          <h1>Easy to Use</h1>
+                          <p>
+                            Shepherd makes finding a housesitter, petsitter, or
+                            babysitter easy.
+                          </p>
+                          <Button bsStyle="primary">Sign Up Now</Button>
+                        </Col>
+                        <Col md={3}>
+                          <Image
+                            src="https://i.imgur.com/S1hQpzk.png"
+                            responsive
+                            id="splashImg0"
+                          />
+                        </Col>
+                      </Row>
+                    </Grid>
+                  </Jumbotron>
+                </div>
               </div>
-              <div className="section" id="section1">
-                <Jumbotron style={{ backgroundColor: 'rgba(255,255,255,1.0)' }}>
-                  <Grid>
-                    <Row style={{ alignItems: 'center', display: 'flex' }}>
-                      <Col md={9}>
-                        <h1>Easy to Use</h1>
-                        <p>
-                          Shepherd makes finding a housesitter, petsitter, or
-                          babysitter easy.
-                        </p>
-                        <Button bsStyle="primary">Sign Up Now</Button>
-                      </Col>
-                      <Col md={3}>
-                        <Image
-                          src="https://i.imgur.com/S1hQpzk.png"
-                          responsive
-                          id="splashImg0"
-                        />
-                      </Col>
-                    </Row>
-                  </Grid>
-                </Jumbotron>
-              </div>
-            </div>
-          );
-        }}
-      />
-    );
+            );
+          }}
+        />
+      );
+    }
   }
 }
