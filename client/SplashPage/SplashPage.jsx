@@ -107,7 +107,7 @@ export default class SplashPage extends React.Component {
                             Shepherd makes finding a housesitter, petsitter, or
                             babysitter easy.
                           </p>
-                          <Button bsStyle="primary">Sign Up Now</Button>
+                          <Button bsStyle="primary" onClick={this.handleToggleSignup}>Sign Up Now</Button>
                         </Col>
                         <Col md={3}>
                           <Image
