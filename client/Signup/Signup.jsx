@@ -12,7 +12,7 @@ export default class Signup extends React.Component {
       street: '',
       city: '',
       state: '',
-      zipcode: null
+      zipcode: undefined
     };
     this.validateForm = this.validateForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -43,7 +43,6 @@ export default class Signup extends React.Component {
   render() {
     return (
       <div className="auth-form">
-        {' '}
         Signup
         <form onSubmit={this.handleSignupSubmit}>
           <input
