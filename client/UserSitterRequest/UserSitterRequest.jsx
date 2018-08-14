@@ -172,7 +172,10 @@ export default class UserSitterRequest extends React.Component {
           <h3>
             Add Message:{' '}
             <FormGroup controlId="formControlsTextarea">
-              <FormControl componentClass="textarea" placeholder="textarea" />
+              <FormControl
+                componentClass="textarea"
+                placeholder="Enter Message"
+              />
             </FormGroup>
           </h3>
           <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
