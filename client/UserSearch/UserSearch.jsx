@@ -2,14 +2,13 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import UserSearchResults from './UserSearchResults.jsx';
 
-
 export default class UserSearch extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       searchResults: false
-    }
+    };
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
   }
@@ -18,7 +17,7 @@ export default class UserSearch extends React.Component {
   handleSearchClick() {
     this.setState({
       searchResults: !this.state.searchResults
-    })
+    });
   }
 
   render() {
@@ -28,11 +27,9 @@ export default class UserSearch extends React.Component {
           <p>USER SEARCH COMPONENT</p>
           <Button onClick={this.handleSearchClick}>SEARCH</Button>
         </div>
-      )
+      );
     } else {
-      return (
-        <UserSearchResults handleSearchClick={this.handleSearchClick}/>
-      )
+      return <UserSearchResults handleSearchClick={this.handleSearchClick} />;
     }
   }
 }

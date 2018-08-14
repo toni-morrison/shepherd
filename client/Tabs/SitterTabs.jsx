@@ -7,12 +7,9 @@ import SitterSchedule from '../SitterSchedule/SitterSchedule.jsx';
 import SitterProfile from '../SitterProfile/SitterProfile.jsx';
 
 export default class SitterTabs extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
+  constructor(props) {
+    super(props);
   }
-
-
 
   render() {
     return (
@@ -25,16 +22,25 @@ export default class SitterTabs extends React.Component {
               <NavItem eventKey="third">REVIEWS</NavItem>
               <NavItem eventKey="fourth">SCHEDULE</NavItem>
               <NavItem eventKey="fifth">PROFILE</NavItem>
-
             </Nav>
           </Col>
           <Col sm={8}>
-            <Tab.Content animation>
-              <Tab.Pane eventKey="first"><SitterHome /></Tab.Pane>
-              <Tab.Pane eventKey="second"><SitterMetrics /></Tab.Pane>
-              <Tab.Pane eventKey="third"><SitterReviews /></Tab.Pane>
-              <Tab.Pane eventKey="fourth"><SitterSchedule /></Tab.Pane>
-              <Tab.Pane eventKey="fifth"><SitterProfile /></Tab.Pane>
+            <Tab.Content>
+              <Tab.Pane eventKey="first">
+                <SitterHome />
+              </Tab.Pane>
+              <Tab.Pane eventKey="second">
+                <SitterMetrics />
+              </Tab.Pane>
+              <Tab.Pane eventKey="third">
+                <SitterReviews />
+              </Tab.Pane>
+              <Tab.Pane eventKey="fourth">
+                <SitterSchedule />
+              </Tab.Pane>
+              <Tab.Pane eventKey="fifth">
+                <SitterProfile />
+              </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>
