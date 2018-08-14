@@ -71,10 +71,6 @@ export default class SitterRequest extends React.Component {
 
     return (
       <div className="request-modal">
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-          Show Request
-        </Button>
-        <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Pending Request</Modal.Title>
           </Modal.Header>
@@ -107,7 +103,6 @@ export default class SitterRequest extends React.Component {
           <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
             Decline
           </Button>
-        </Modal>
       </div>
     );
   }

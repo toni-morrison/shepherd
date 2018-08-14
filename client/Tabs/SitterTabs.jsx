@@ -1,21 +1,18 @@
 import React from 'react';
 import { Row, Col, Tab, Nav, NavItem } from 'react-bootstrap';
+import SitterHome from '../SitterHome/SitterHome.jsx';
+import SitterMetrics from '../SitterMetrics/SitterMetrics.jsx';
+import SitterReviews from '../SitterReviews/SitterReviews.jsx';
+import SitterSchedule from '../SitterSchedule/SitterSchedule.jsx';
+import SitterProfile from '../SitterProfile/SitterProfile.jsx';
 
 export default class SitterTabs extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.handleSelect = this.handleSelect.bind(this);
-
-    this.state = {
-      key: 1
-    };
   }
 
-  handleSelect(key) {
-    alert(`selected ${key}`);
-    this.setState({ key });
-  }
+
 
   render() {
     return (
@@ -33,11 +30,11 @@ export default class SitterTabs extends React.Component {
           </Col>
           <Col sm={8}>
             <Tab.Content animation>
-              <Tab.Pane eventKey="first">HOME COMPONENT</Tab.Pane>
-              <Tab.Pane eventKey="second">METRICS COMPONENT</Tab.Pane>
-              <Tab.Pane eventKey="third">REVIEWS COMPONENT</Tab.Pane>
-              <Tab.Pane eventKey="fourth">SCHEDULE COMPONENT</Tab.Pane>
-              <Tab.Pane eventKey="fifth">PROFILE COMPONENT</Tab.Pane>
+              <Tab.Pane eventKey="first"><SitterHome /></Tab.Pane>
+              <Tab.Pane eventKey="second"><SitterMetrics /></Tab.Pane>
+              <Tab.Pane eventKey="third"><SitterReviews /></Tab.Pane>
+              <Tab.Pane eventKey="fourth"><SitterSchedule /></Tab.Pane>
+              <Tab.Pane eventKey="fifth"><SitterProfile /></Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>
