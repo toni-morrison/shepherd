@@ -88,6 +88,7 @@ export default class SitterRequest extends React.Component {
           <h3>Date: August, 21st 2018</h3>
           <h3>Time: 5:30pm to 10:00pm</h3>
           <h3>Total Price: $175 </h3>
+
           <h3>
             List:{' '}
             <OverlayTrigger overlay={listPopover}>

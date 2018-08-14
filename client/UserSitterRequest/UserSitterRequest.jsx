@@ -4,17 +4,22 @@ import {
   ButtonToolbar,
   Modal,
   Popover,
-  OverlayTrigger
+  OverlayTrigger,
+  FormGroup,
+  FormControl
 } from 'react-bootstrap';
 
 export default class UserSitterRequest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false
+      show: false,
+      showAddList: false,
+      showAddMessage: false
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
+    this.handleShowList = this.handleShowList.bind(this);
   }
 
   handleClose() {
@@ -27,6 +32,11 @@ export default class UserSitterRequest extends React.Component {
       show: true
     });
   }
+  handleShowList() {
+    this.setState({
+      showAddList: !this.state.showAddList
+    });
+  }
 
   render() {
     //all information will passed to this component, for now dummy data
@@ -37,16 +47,8 @@ export default class UserSitterRequest extends React.Component {
       />
     );
 
-    const namePopover = (
-      <Popover id="modal-popover" title="Joana BabbyCarer">
-        {sitterPic}
-        <br />
-        Other users have rated her 4.5/5
-      </Popover>
-    );
-
-    const listPopover = (
-      <Popover id="modal-popover" title="Instructions List">
+    const listPopover1 = (
+      <Popover id="modal-popover" title="Instructions List 1">
         <div>
           <ul>
             <li>Take out the dog</li>
@@ -59,20 +61,92 @@ export default class UserSitterRequest extends React.Component {
         </div>
       </Popover>
     );
+    const listPopover2 = (
+      <Popover id="modal-popover" title="Instructions List 2">
+        <div>
+          <ul>
+            <li>Make some sandwiches for the kids</li>
+            <li>Anything but fish sandwiches</li>
+            <li>Feed the kids some doritos</li>
+            <li>Feed the kids some cheese</li>
+            <li>Feed the kids some whipped cream</li>
+            <li>Feed the kids some candy</li>
+            <li>Gosh darn our genetics</li>
+          </ul>
+        </div>
+      </Popover>
+    );
+    const listPopover3 = (
+      <Popover id="modal-popover" title="Instructions List 3">
+        <div>
+          <ul>
+            <li>Something something that things</li>
+            <li>Give me a high five</li>
+            <li>Find my children</li>
+            <li>If you cant thats fine also</li>
+            <li>I am 90% sure I have children somewhere</li>
+            <li>Dont set our house on fire</li>
+          </ul>
+        </div>
+      </Popover>
+    );
+    const listPopover4 = (
+      <Popover id="modal-popover" title="Instructions List 4">
+        <div>
+          <ul>
+            <li>Hello? Can you hear me?</li>
+            <li>I am trapped, help please.</li>
+            <li>Where? in the computer i think.</li>
+            <li>Dont worry about it actually, its nice here.</li>
+          </ul>
+        </div>
+      </Popover>
+    );
 
-    const messagePopover = (
-      <Popover id="modal-popover" title="Message">
-        <p>
-          Thank you so much for doing this! If you want anything to eat, please
-          order a pizza on us!
-        </p>
+    const addList = (
+      <Modal show={this.state.showAddList} onHide={this.handleShowList}>
+        <Modal.Header closeButton>
+          <Modal.Title>Instructions</Modal.Title>
+        </Modal.Header>
+        <div>
+          <ul>
+            <OverlayTrigger overlay={listPopover1}>
+              <li>
+                <a href="#popover">Instructions 1</a>
+              </li>
+            </OverlayTrigger>
+            <OverlayTrigger overlay={listPopover2}>
+              <li>
+                <a href="#popover">Instructions 2</a>
+              </li>
+            </OverlayTrigger>
+            <OverlayTrigger overlay={listPopover3}>
+              <li>
+                <a href="#popover">Instructions 3</a>
+              </li>
+            </OverlayTrigger>
+            <OverlayTrigger overlay={listPopover4}>
+              <li>
+                <a href="#popover">Instructions 4</a>
+              </li>
+            </OverlayTrigger>
+          </ul>
+        </div>
+      </Modal>
+    );
+
+    const namePopover = (
+      <Popover id="modal-popover" title="Joana BabbyCarer">
+        {sitterPic}
+        <br />
+        Other users have rated her 4.5/5
       </Popover>
     );
 
     return (
       <div className="request-modal">
         <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-          Show Request
+          Send Request
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
@@ -90,21 +164,22 @@ export default class UserSitterRequest extends React.Component {
           <h3>Total Price: $175 </h3>
           <h3>
             List:{' '}
-            <OverlayTrigger overlay={listPopover}>
-              <a href="#popover">Instructions</a>
-            </OverlayTrigger>
+            <a href="#addList" onClick={this.handleShowList}>
+              Add List
+            </a>
+            {addList}
           </h3>
           <h3>
-            Message:{' '}
-            <OverlayTrigger overlay={messagePopover}>
-              <a href="#popover">Thank you!</a>
-            </OverlayTrigger>
+            Add Message:{' '}
+            <FormGroup controlId="formControlsTextarea">
+              <FormControl componentClass="textarea" placeholder="textarea" />
+            </FormGroup>
           </h3>
           <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
-            Accept
+            Confirm
           </Button>
           <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
-            Decline
+            Go Back
           </Button>
         </Modal>
       </div>
