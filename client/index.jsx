@@ -7,7 +7,6 @@ import gql from 'graphql-tag';
 import TopTabs from './Tabs/TopTabs.jsx'
 import Login from './Login/Login.jsx';
 import Signup from './Signup/Signup.jsx';
-import SitterRequest from './SitterRequest/SitterRequest.jsx';
 
 const client = new ApolloClient();
 
