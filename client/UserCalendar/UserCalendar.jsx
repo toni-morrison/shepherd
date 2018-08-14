@@ -1,12 +1,12 @@
 import React from 'react'
+import BigCalendar from 'react-big-calendar'
 export default class UserCalendar extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      source: "https://calendar.google.com/calendar/embed/",
-      API_KEY: '',
-      CLIENT_ID: '',
-      SCOPES: ["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/calendar"],
+      API_KEY: 'AIzaSyA3tNjW2qXiX07_v3rpKhWvN_CKfkUNqfc',
+      CLIENT_ID: '667292252749-a250ctrk4m90rt4hu3iflie2lot9splk.apps.googleusercontent.com',
+      SCOPES: ["https://www.googleapis.com/auth/calendar"],
       DISCOVERY_DOCS: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"]
     }
   }
@@ -17,7 +17,11 @@ export default class UserCalendar extends React.Component {
   
   render () {
     return (<div>
-        <iframe src="https://calendar.google.com/calendar/embed?src=4ggtmdojqb8je3n6mlnicj02jc%40group.calendar.google.com&ctz=America%2FNew_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        <BigCalendar
+          step = {60}
+          showMultiDayTimes
+          defaultDate = {new Date (2018, 8, 14)}
+          />
 
       </div>)
   }
