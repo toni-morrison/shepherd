@@ -2,10 +2,9 @@ import React from 'react';
 import { Button, Grid, Row, Col, ToggleButtonGroup, ToggleButton, FormGroup, FormControl } from 'react-bootstrap';
 import UserSearchResults from './UserSearchResults.jsx';
 
-
 export default class UserSearch extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       searchResults: false,
@@ -19,7 +18,7 @@ export default class UserSearch extends React.Component {
   handleSearchClick() {
     this.setState({
       searchResults: !this.state.searchResults
-    })
+    });
   }
 
   handleFindSelection(e) {
@@ -80,11 +79,9 @@ export default class UserSearch extends React.Component {
 
           </Grid>
         </div>
-      )
+      );
     } else {
-      return (
-        <UserSearchResults handleSearchClick={this.handleSearchClick}/>
-      )
+      return <UserSearchResults handleSearchClick={this.handleSearchClick} />;
     }
   }
 }

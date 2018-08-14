@@ -1,18 +1,18 @@
-import React from "react";
+import React from 'react';
 
 export default class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      firstname: "",
-      lastname: "",
-      street: "",
-      city: "",
-      state: "",
-      zipcode: null
+      email: '',
+      password: '',
+      confirmPassword: '',
+      firstname: '',
+      lastname: '',
+      street: '',
+      city: '',
+      state: '',
+      zipcode: undefined
     };
     this.validateForm = this.validateForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -43,7 +43,6 @@ export default class Signup extends React.Component {
   render() {
     return (
       <div className="auth-form">
-        {" "}
         Signup
         <form onSubmit={this.handleSignupSubmit}>
           <input

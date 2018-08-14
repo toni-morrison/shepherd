@@ -1,0 +1,67 @@
+type User {
+  id: ID! @unique
+  username: String!
+  first_name: String!
+  last_name: String!
+  street_address: String
+  city: String
+  state: String
+  zip_code: Int
+  sitter: Boolean
+  rating: Int
+}
+
+type SitterRate {
+  child_rate: Float
+  child_addl: Float
+  pet_rate: Float
+  pet_addl: Float
+  home_rate: Float
+  home_addl: Float
+}
+
+enum DayOfWeek {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+type TimeInterval {
+  start_time: Int!
+  end_time: Int!
+  day_of_week: DayOfWeek
+}
+
+type Sitter {
+  id: ID! @unique
+  bio: String!
+  rates: SitterRate!
+  hours: [TimeInterval!]!
+}
+
+type TodoList {
+  id: ID! @unique
+  user: User!
+  name: String!
+}
+
+type Instruction {
+  id: ID! @unique
+  list: TodoList!
+  time: TimeInterval!
+  desc: String!
+}
+
+type Appointment {
+  id: ID! @unique
+  time: TimeInterval!
+  user: User!
+  sitter: Sitter!
+  comment: String!
+  rating: Int
+  pending: Boolean!
+}

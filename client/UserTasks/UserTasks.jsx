@@ -4,7 +4,10 @@ export default class UserTasks extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
-    return <div />;
+    return(
+      <p>LISTS COMPONENT CONNECTED</p>
+    )
   }
 }
