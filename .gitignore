@@ -83,3 +83,6 @@ typings/
 
 # private keys
 *.pem
+
+# config files
+docker-compose.yml
