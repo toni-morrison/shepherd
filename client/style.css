@@ -1,0 +1,10 @@
+/* img#sitterPicture {
+    height: 15%;
+    width: 25%;
+} */
+textarea#formControlsTextarea {
+  width: 53%;
+  height: 6%;
+  border: solid 2px;
+  margin: 3px;
+}
