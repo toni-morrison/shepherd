@@ -2,7 +2,8 @@ import React from 'react';
 import { Row, Col, Tab, Nav, NavItem } from 'react-bootstrap';
 import UserSearch from '../UserSearch/UserSearch.jsx';
 import UserCalendar from '../UserCalendar/UserCalendar.jsx';
-
+import UserTasks from '../UserTasks/UserTasks.jsx';
+import UserProfile from '../UserProfile/UserProfile.jsx';
 
 class UserTabs extends React.Component {
   render() {
@@ -18,11 +19,19 @@ class UserTabs extends React.Component {
             </Nav>
           </Col>
           <Col sm={8}>
-            <Tab.Content animation>
-              <Tab.Pane eventKey="first"><UserSearch /></Tab.Pane>
-              <Tab.Pane eventKey="second"><UserCalendar /></Tab.Pane>
-              <Tab.Pane eventKey="third">LISTS COMPONENT</Tab.Pane>
-              <Tab.Pane eventKey="fourth">PROFILE COMPONENT</Tab.Pane>
+            <Tab.Content>
+              <Tab.Pane eventKey="first">
+                <UserSearch />
+              </Tab.Pane>
+              <Tab.Pane eventKey="second">
+                <UserCalendar />
+              </Tab.Pane>
+              <Tab.Pane eventKey="third">
+                <UserTasks />
+              </Tab.Pane>
+              <Tab.Pane eventKey="fourth">
+                <UserProfile />
+              </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>

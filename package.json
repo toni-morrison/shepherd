@@ -30,12 +30,13 @@
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "mysql": "^2.15.0",
     "nodemon": "^1.18.2",
-    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "webpack": "^4.16.0"
   },
   "dependencies": {
+    "@fullpage/react-fullpage": "0.0.6",
     "apollo-boost": "^0.1.13",
     "axios": "^0.18.0",
     "express": "^4.16.3",
@@ -44,7 +45,6 @@
     "graphql": "^0.13.2",
     "react": "^16.4.1",
     "react-apollo": "^2.1.11",
-    "react-big-calendar": "^0.19.2",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.1",
     "webpack-cli": "^3.1.0"

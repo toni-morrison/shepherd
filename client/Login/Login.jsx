@@ -9,12 +9,14 @@ export default class Login extends React.Component {
       renderEmailField: false,
       renderGoogleLogin: false
     };
-
-    this.handleChange = this.handleChange.bind(this);
+    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.renderEmail = this.renderEmail.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleLoginSubmit() {}
+  handleLoginSubmit() {
+    this.props.handleUserLogin();
+  }
 
   renderEmail() {
     this.setState({
@@ -33,10 +35,13 @@ export default class Login extends React.Component {
       <div className="auth-form">
         Login
         <br />
-        <button type="button" onClick={() => this.renderEmail()}>
+        <button type="button" onClick={this.renderEmail}>
           Login With Email
         </button>
-        {this.state.renderEmailField && <EmailLogin />}
+        <EmailLogin
+          renderEmailField={this.state.renderEmailField}
+          handleLoginSubmit={this.handleLoginSubmit}
+        />
         <GoogleLogin />
       </div>
     );
