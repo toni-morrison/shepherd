@@ -45,6 +45,7 @@
     "express-graphql": "^0.6.12",
     "firebase": "^5.3.0",
     "graphql": "^0.13.2",
+    "moment": "^2.22.2",
     "react": "^16.4.1",
     "react-apollo": "^2.1.11",
     "react-big-calendar": "^0.19.2",
