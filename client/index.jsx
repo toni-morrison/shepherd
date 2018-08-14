@@ -4,6 +4,7 @@ import axios from 'axios';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider, Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Button } from 'react-bootstrap';
 import TopTabs from './Tabs/TopTabs.jsx';
 // import Calendar from "./Calendar/Calendar.jsx"
 import SplashPage from './SplashPage/SplashPage.jsx';
@@ -15,14 +16,24 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      signedIn: true // TODO: Change to false during production
+      signedIn: false // TODO: Change to false during production
     };
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  handleLogin() {
+    this.setState({
+      signedIn: true
+    });
   }
 
   render() {
     return (
       <ApolloProvider client={client}>
-        <SplashPage signedIn={this.state.signedIn} />
+        <SplashPage
+          signedIn={this.state.signedIn}
+          handleLogin={this.handleLogin}
+        />
         <TopTabs signedIn={this.state.signedIn} />
       </ApolloProvider>
     );

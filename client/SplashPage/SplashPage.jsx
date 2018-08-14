@@ -1,6 +1,14 @@
 import React from 'react';
 import ReactFullpage from '@fullpage/react-fullpage';
-import { Grid, Col, Row, Button, Jumbotron, Image } from 'react-bootstrap';
+import {
+  Grid,
+  Col,
+  Row,
+  Button,
+  Jumbotron,
+  Image,
+  Modal
+} from 'react-bootstrap';
 import Login from '../Login/Login.jsx';
 import Signup from '../Signup/Signup.jsx';
 
@@ -13,6 +21,31 @@ let fullpageOptions = {
 export default class SplashPage extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showLogin: false,
+      showSignup: false
+    };
+    this.handleToggleLogin = this.handleToggleLogin.bind(this);
+    this.handleToggleSignup = this.handleToggleSignup.bind(this);
+    this.handleUserLogin = this.handleUserLogin.bind(this);
+  }
+
+  handleToggleLogin() {
+    this.setState({
+      showLogin: !this.state.showLogin
+    });
+  }
+
+  handleToggleSignup() {
+    this.setState({
+      showSignup: !this.state.showSignup
+    });
+  }
+
+  handleUserLogin() {
+    this.handleToggleLogin();
+    this.props.handleLogin();
   }
 
   render() {
@@ -29,8 +62,22 @@ export default class SplashPage extends React.Component {
                   <div
                     style={{ position: 'absolute', right: '1em', top: '1em' }}
                   >
-                    <Button>Log In</Button>
-                    <Button bsStyle="info">Sign Up</Button>
+                    <Button onClick={this.handleToggleLogin}>Log In</Button>
+                    <Modal
+                      show={this.state.showLogin}
+                      onHide={this.handleToggleLogin}
+                    >
+                      <Login handleUserLogin={this.handleUserLogin} />
+                    </Modal>
+                    <Button bsStyle="info" onClick={this.handleToggleSignup}>
+                      Sign Up
+                    </Button>
+                    <Modal
+                      show={this.state.showSignup}
+                      onHide={this.handleToggleSignup}
+                    >
+                      <Signup toggleSignup={this.handleToggleSignup} />
+                    </Modal>
                   </div>
                   <Jumbotron
                     style={{
