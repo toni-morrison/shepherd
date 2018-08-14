@@ -10,6 +10,7 @@ import Signup from './Signup/Signup.jsx';
 // import Calendar from "./Calendar/Calendar.jsx"
 import SitterRequest from './SitterRequest/SitterRequest.jsx';
 import UserSitterRequest from './UserSitterRequest/UserSitterRequest.jsx';
+import InstructionList from './InstructionList/InstructionList.jsx';
 
 const client = new ApolloClient();
 
@@ -29,7 +30,7 @@ class App extends React.Component {
         <Signup /> */}
         {/* <Calendar/> */}
         <TopTabs />
-        <UserSitterRequest />
+        <InstructionList />
       </ApolloProvider>
     );
   }
