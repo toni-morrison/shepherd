@@ -31,8 +31,11 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
+    "graphql-cli": "^2.16.5",
+    "graphql-yoga": "^1.16.1",
     "mysql": "^2.15.0",
     "nodemon": "^1.18.2",
+    "prisma-binding": "^2.1.4",
     "webpack": "^4.16.0"
   },
   "dependencies": {
