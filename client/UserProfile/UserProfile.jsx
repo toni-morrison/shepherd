@@ -1,42 +1,65 @@
 import React from 'react'
-import { Button, Grid, Row, Col, ToggleButtonGroup, ToggleButton, FormGroup, FormControl, ControlLabel, Form } from 'react-bootstrap';
+import { Button, Grid, Row, Col, Well } from 'react-bootstrap';
+import StarRatings from 'react-star-ratings';
+import UserProfileUpdate from './UserProfileUpdate.jsx';
 
 export default class UserProfile extends React.Component {
   constructor (props) {
     super(props)
+
+    this.state = {
+      update: false
+    }
+
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
+  
+handleSubmit() {
+  this.setState({
+    update: !this.state.update
+  })
+}
+
   render () {
-    return(
-      <div>
-        <Grid>
-          <Row>
-            <Form inline>
-              <Col xs={3} >
-                <FormGroup controlId="formInlineFirstName">
-                  <ControlLabel>First Name</ControlLabel>{' '}
-                  <FormControl type="text"/>
-                </FormGroup>{' '}
+    if (this.state.update === false) {
+      return(
+        <div>
+          <Grid>
+            <Row>
+              <Col xs={3} xsOffset={4}>
+              <center>
+                <strong>Your Rating</strong><br/>
+                <StarRatings
+                  numberOfStars={5}
+                  rating={4} // pull current user rating from DB
+                  starDimension="30px"
+                  starSpacing="1px"
+                  starRatedColor="gold"
+                  starEmptyColor="grey"
+                />
+              </center>
               </Col>
+            </Row>
+          </Grid>
 
-              <Col xs={3}>
-                <FormGroup controlId="formInlineLastName">
-                  <ControlLabel>Last Name</ControlLabel>{' '}
-                  <FormControl type="text" />
-                </FormGroup>{' '}
-              </Col>
+          <br/>
 
-              <Col xs={3}>
-                <FormGroup controlId="formInlineEmail">
-                  <ControlLabel>Email</ControlLabel>{' '}
-                  <FormControl type="text" />
-                </FormGroup>{' '}
-              </Col>
-            </Form>
-          </Row>
+          <Well bsSize="large" style={{ width:'100%' }}>
+            {/* PHOTO OF USER */}
+            Name: <br/>
+            Email: <br/>
+            Address: <br/><br/>
 
-          
-        </Grid>
-      </div>
-    )
+            <Button onClick={this.handleSubmit}>Click to Update</Button>
+          </Well>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <UserProfileUpdate handleUpdate={this.handleSubmit}/>
+        </div>
+      )
+    }
   }
 }
