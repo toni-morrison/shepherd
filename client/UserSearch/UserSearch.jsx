@@ -29,7 +29,6 @@ export default class UserSearch extends React.Component {
     if (this.state.searchResults === false) {
       return (
         <div>
-          <p>USER SEARCH COMPONENT</p>
           <Grid>
             <Row>
               <Col xs={6} xsOffset={3}>

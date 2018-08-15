@@ -1,11 +1,6 @@
 import React from 'react'
 import {Modal} from 'react-bootstrap'
 function AppointmentModal (props) {
-  let trackerObj = ''
-  if (props.currentEvent.instructions) {
-    props.currentEvent.instructions.forEach ((instruction) => trackerObj += instruction)
-  }
-  console.log (trackerObj)
   return (
     <Modal show = {props.show} onHide = {props.handleClose}>
       <Modal.Header closeButton>
@@ -25,7 +20,7 @@ function AppointmentModal (props) {
           </ul>
         </div>
       </Modal.Body>
-      
+
     </Modal>
   )
 }
