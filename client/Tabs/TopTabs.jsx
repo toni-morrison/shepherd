@@ -35,11 +35,11 @@ export default class TopTabs extends React.Component {
             <Col sm={12}>
               <Tab.Content animation={false}>
                 <Tab.Pane eventKey="first">
-                  <br />
+                  <br/><br/>
                   <UserTabs />
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
-                  <br />
+                  <br/><br/>
                   <SitterTabs />
                 </Tab.Pane>
               </Tab.Content>

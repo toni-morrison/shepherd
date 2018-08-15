@@ -16,7 +16,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      signedIn: false // TODO: Change to false during production
+      signedIn: true // TODO: Change to false during production
     };
     this.handleLogin = this.handleLogin.bind(this);
   }
