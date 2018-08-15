@@ -55,6 +55,7 @@
     "react-big-calendar": "^0.19.2",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.1",
+    "react-star-ratings": "^2.3.0",
     "webpack-cli": "^3.1.0"
   }
 }

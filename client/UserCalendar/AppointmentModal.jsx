@@ -1,5 +1,8 @@
 import React from 'react'
-import {Modal} from 'react-bootstrap'
+import {
+  Modal,
+  Button}
+from 'react-bootstrap'
 function AppointmentModal (props) {
   return (
     <Modal show = {props.show} onHide = {props.handleClose}>
@@ -7,10 +10,20 @@ function AppointmentModal (props) {
         <Modal.Title>{props.currentEvent.username}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Status:     {props.currentEvent.status}
-        Start Time: {props.currentEvent.start}
-        Cost:       ${props.currentEvent.cost}
+        <div> Status:     {props.currentEvent.status} </div>
+        <div> Start Time: {props.currentEvent.start ? props.currentEvent.start.toLocaleDateString () + ', ' + props.currentEvent.start.toLocaleTimeString () : ''} </div>
+        <div> Cost:       ${props.currentEvent.cost}</div>  
+        <div> Instructions:
+          <ul>
+            {  
+              (props.currentEvent.instructions) ?
+                props.currentEvent.instructions.map (function (instruction) {return (<li>{instruction}</li>)})
+                : <li>Instruction Here</li>
+            }
+          </ul>
+        </div>
       </Modal.Body>
+      <Button onClick = {props.handleOpenCancel}>Cancel Appointment</Button>
     </Modal>
   )
 }
