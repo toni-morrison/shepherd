@@ -1,5 +1,8 @@
 import React from 'react'
-import {Modal} from 'react-bootstrap'
+import {
+  Modal,
+  Button}
+from 'react-bootstrap'
 function AppointmentModal (props) {
   return (
     <Modal show = {props.show} onHide = {props.handleClose}>
@@ -20,7 +23,7 @@ function AppointmentModal (props) {
           </ul>
         </div>
       </Modal.Body>
-
+      <Button onClick = {props.handleOpenCancel}>Cancel Appointment</Button>
     </Modal>
   )
 }
