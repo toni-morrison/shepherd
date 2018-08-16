@@ -70,11 +70,7 @@ export default class SitterSetSchedule extends React.Component {
                   )
                 })}
                 <br/>
-                <Col xs={9} xsOffset={2}>
-                <center>
-                  <Button>Submit/Update</Button>
-                  </center>
-                </Col>
+                  <Button>Click to Update</Button>
                 <br/>
               </Well>
           </Col>
