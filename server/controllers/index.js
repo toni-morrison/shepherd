@@ -11,11 +11,14 @@ const options = {
 
 const resolvers = {
   Query: {
-    findUsersByUsername: (_, args, context, info) => {
-      return context.prisma.query.users(
+    findUsers: (_, args, context, info) => {
+      return context.prisma.query.users( // SELECT * FROM USERS
+        // WHERE USERNAME === ARGS.USERNAME
         {
           where: {
-            username: args.username
+            id: args.id,
+            first_name: args.first_name,
+            last_name: args.last_name
           }
         },
         info
