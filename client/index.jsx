@@ -4,6 +4,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import TopTabs from './Tabs/TopTabs.jsx';
 import SplashPage from './SplashPage/SplashPage.jsx';
+import firebase from '../server/firebase/firebase.js';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql'
@@ -14,14 +15,43 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      signedIn: true // TODO: Change to false during production
+      signedIn: false, // TODO: Change to false during production
+      user: null
     };
     this.handleLogin = this.handleLogin.bind(this);
+    this.checkUser = this.checkUser.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+  componentDidMount() {
+    this.checkUser();
+  }
+
+  checkUser() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState(
+          {
+            user: user.email
+          },
+          () => {
+            this.handleLogin();
+          }
+        );
+      } else {
+        console.log('not signed in!');
+      }
+    });
   }
 
   handleLogin() {
     this.setState({
       signedIn: true
+    });
+  }
+
+  handleLogout() {
+    this.setState({
+      signedIn: false
     });
   }
 
@@ -32,7 +62,7 @@ class App extends React.Component {
           signedIn={this.state.signedIn}
           handleLogin={this.handleLogin}
         />
-        <TopTabs signedIn={this.state.signedIn} />
+        <TopTabs logout={this.handleLogout} signedIn={this.state.signedIn} />
       </ApolloProvider>
     );
   }
