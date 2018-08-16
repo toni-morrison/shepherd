@@ -40,6 +40,7 @@ export default class SitterProfile extends React.Component {
             </Row>
 
             <SitterSetSchedule/>
+
           </Grid>
         </div>
       )
