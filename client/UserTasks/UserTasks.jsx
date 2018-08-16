@@ -14,18 +14,25 @@ export default class UserTasks extends React.Component {
     super(props);
     this.state = {
       currentInstruction: [],
+      currentInstructionID: '',
       modalShow: false
     }
     this.handleModalClose = this.handleModalClose.bind(this);
     this.handleTasksSelect = this.handleTasksSelect.bind(this);
+    this.handleTasksEdit = this.handleTasksEdit.bind(this);
   }
 
-  handleTasksSelect (instructions) {
+  handleTasksSelect (instructions, ID) {
     this.setState ({
       modalShow : true,
-      currentInstruction: instructions
+      currentInstruction: instructions,
+      currentInstructionID: ID
     })
 
+  }
+  
+  handleTasksEdit () {
+    console.log ('Editing Tasks ID: ', this.state.currentInstructionID)
   }
   
   handleModalClose () {
@@ -42,7 +49,7 @@ export default class UserTasks extends React.Component {
               instructions.map ((instructionSet) => (
                 <Col md={4}>
                   <Button bsSize = 'large' block 
-                    onClick = {function (){this.handleTasksSelect(instructionSet.instructions)}.bind(this)}>{instructionSet.title}</Button>
+                    onClick = {function (){this.handleTasksSelect(instructionSet.instructions, instructionSet.instructionID)}.bind(this)}>{instructionSet.title}</Button>
                 </Col>)
               )
             } 
@@ -54,7 +61,8 @@ export default class UserTasks extends React.Component {
         <TasksModal 
           instructions = {this.state.currentInstruction} 
           handleClose = {this.handleModalClose} 
-          show = {this.state.modalShow}/>
+          show = {this.state.modalShow}
+          handleEdit = {this.handleTasksEdit}/>
       </div>
     )
   }

@@ -1,5 +1,6 @@
 export default [
   { title: 'Instruction set 1',
+    instructionID: '1',
     instructions: [
     ['8:00 AM','Instruction1'],
     ['8:30 AM','Instruction2'],
@@ -8,6 +9,7 @@ export default [
     ['10:00 AM','Instruction5']
   ]},
   { title: 'Instructions 2',
+    instructionID: '2',
     instructions: [
     ['8:00 AM','Instruction6'],
     ['8:30 AM','Instruction7'],
@@ -16,6 +18,7 @@ export default [
     ['10:00 AM','Instruction10']
   ]},
   { title: 'Instructions 3',
+    instructionID: '3',
     instructions: [
     ['8:00 AM','Instruction11'],
     ['8:30 AM','Instruction12'],
@@ -24,6 +27,7 @@ export default [
     ['10:00 AM','Instruction15']
   ]},
   { title: 'Instructions 4',
+    instructionID: '4',
     instructions: [
     ['8:00 AM','Instruction16'],
     ['8:30 AM','Instruction17'],
@@ -32,6 +36,7 @@ export default [
     ['10:00 AM','Instruction20']
   ]},
   { title: 'Instructions 5',
+    instructionID: '5',
     instructions: [
     ['8:00 AM','Instruction21'],
     ['8:30 AM','Instruction22'],

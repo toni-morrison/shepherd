@@ -11,7 +11,7 @@ function TasksModal (props) {
         <ul>
           {props.instructions.map (function (instruction) { return (<li>{instruction[0]} : {instruction[1]}</li>)})}
         </ul>
-        <Button></Button>
+        <Button onClick = {props.handleEdit}>Edit Tasks</Button>
       </Modal.Body>
     </Modal>
   )
