@@ -40,18 +40,22 @@ handleSubmit() {
               </center>
               </Col>
             </Row>
-          </Grid>
+
 
           <br/>
+            <Row>
+              <Col xs={12}>
+                <Well bsSize="large" style={{ width:'100%' }}>
+                  {/* PHOTO OF USER */}
+                  Name: <br/>
+                  Email: <br/>
+                  Address: <br/><br/>
 
-          <Well bsSize="large" style={{ width:'100%' }}>
-            {/* PHOTO OF USER */}
-            Name: <br/>
-            Email: <br/>
-            Address: <br/><br/>
-
-            <Button onClick={this.handleSubmit}>Click to Update</Button>
-          </Well>
+                  <Button onClick={this.handleSubmit}>Click to Update</Button>
+                </Well>
+              </Col>
+            </Row>
+        </Grid>
         </div>
       )
     } else {
