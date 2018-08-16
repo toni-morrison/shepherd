@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Grid, Row, Col, ToggleButtonGroup, ToggleButton, FormGroup, FormControl } from 'react-bootstrap';
 import UserSearchResults from './UserSearchResults.jsx';
+import Datetime from 'react-datetime'
 
 export default class UserSearch extends React.Component {
   constructor(props) {
@@ -8,10 +9,12 @@ export default class UserSearch extends React.Component {
 
     this.state = {
       searchResults: false,
-      findValues: []
+      findValues: [],
+      currentDate : ''
     }
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   // changes searchResults to true/false for conditional render
@@ -21,6 +24,13 @@ export default class UserSearch extends React.Component {
     });
   }
 
+  handleDateChange (newDate) {
+    console.log (newDate._d);
+    this.setState({
+      currentDate: newDate._d
+    })
+  }
+  
   handleFindSelection(e) {
     this.setState({ value: e });
   }
@@ -48,7 +58,7 @@ export default class UserSearch extends React.Component {
               <Col xs={6} xsOffset={3}>
               <center>
                 <h2>DATES</h2>
-                <p>THERE WILL BE A MAGICAL CALENDAR HERE</p>
+                <div><Datetime onChange = {this.handleDateChange}/></div>
               </center>
               </Col>
             </Row>
