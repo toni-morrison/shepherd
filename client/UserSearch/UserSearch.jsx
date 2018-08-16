@@ -4,30 +4,29 @@ import UserSearchResults from './UserSearchResults.jsx';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const aQuery = (
-  <Query query={gql`
-    {
-      findUsersByFirstName(first_name: "Dan") {
-        id
-        first_name
-        last_name
-      }
-    }
-  `}
-  >
-    {({ loading, error, data }) => {
-      console.log(data);
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>Error :</p>;
+// const aQuery = (
+//   <Query query={gql`
+//     {
+//       findUsersByFirstName(first_name: "Dan") {
+//         id
+//         first_name
+//         last_name
+//       }
+//     }
+//   `}
+//   >
+//     {({ loading, error, data }) => {
+//       if (loading) return <p>Loading...</p>;
+//       if (error) return <p>Error :</p>;
 
-      return data.findUsersByFirstName.map(({ id, first_name, last_name }) => (
-        <div key={id}>
-          <p>{`${id} : ${first_name} ${last_name}`}</p>
-        </div>
-      ))
-    }}
-  </Query>
-)
+//       return data.findUsersByFirstName.map(({ id, first_name, last_name }) => (
+//         <div key={id}>
+//           <p>{`${id} : ${first_name} ${last_name}`}</p>
+//         </div>
+//       ))
+//     }}
+//   </Query>
+// )
 
 export default class UserSearch extends React.Component {
   constructor(props) {
@@ -58,7 +57,7 @@ export default class UserSearch extends React.Component {
         <div>
           <Grid>
             <Row>
-          {aQuery}
+          {/* {aQuery} */}
               <Col xs={6} xsOffset={3}>
               <center>
                 <h2>FIND A</h2>
