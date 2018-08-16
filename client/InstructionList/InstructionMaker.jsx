@@ -81,7 +81,7 @@ export default class InstructionMaker extends React.Component {
       var timeStr = current.format('h:mm a');
       result.push([timeStr]);
       // result.push(current.format('h:mm a'));
-      current.add(15, 'minutes');
+      current.add(30, 'minutes');
     }
     return result;
   }
