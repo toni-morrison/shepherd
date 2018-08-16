@@ -1,0 +1,15 @@
+# import Appointment from './generated/prisma.graphql'
+# import Instruction from './generated/prisma.graphql'
+# import Sitter from './generated/prisma.graphql'
+# import SitterRate from './generated/prisma.graphql'
+# import TimeInterval from './generated/prisma.graphql'
+# import TodoList from './generated/prisma.graphql'
+# import User from './generated/prisma.graphql'
+
+type Query {
+  findUsers(id: ID, first_name: String, last_name: String): [User]
+}
+
+type Mutation {
+  signup(username: String!, first_name: String!, last_name: String!): User!
+}
