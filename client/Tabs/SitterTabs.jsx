@@ -17,7 +17,6 @@ export default class SitterTabs extends React.Component {
       .signOut()
       .then(() => {
         this.props.logout();
-        console.log('LOGGEDOUT!');
       })
       .catch(err => {
         console.log('ERROR!');
