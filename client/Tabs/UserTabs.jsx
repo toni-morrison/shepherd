@@ -4,8 +4,21 @@ import UserSearch from '../UserSearch/UserSearch.jsx';
 import UserCalendar from '../UserCalendar/UserCalendar.jsx';
 import UserTasks from '../UserTasks/UserTasks.jsx';
 import UserProfile from '../UserProfile/UserProfile.jsx';
+import firebase from '../../server/firebase/firebase.js';
 
 class UserTabs extends React.Component {
+  logOut() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.props.logout();
+        console.log('LOGGEDOUT!');
+      })
+      .catch(err => {
+        console.log('ERROR!');
+      });
+  }
   render() {
     return (
       <Tab.Container id="user-tabs" defaultActiveKey="first">
@@ -16,6 +29,9 @@ class UserTabs extends React.Component {
               <NavItem eventKey="second">SCHEDULE</NavItem>
               <NavItem eventKey="third">LISTS</NavItem>
               <NavItem eventKey="fourth">PROFILE</NavItem>
+              <NavItem eventKey="fifth" onClick={() => this.logOut()}>
+                LOGOUT
+              </NavItem>
             </Nav>
           </Col>
           <Col sm={8}>

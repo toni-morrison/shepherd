@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from '../../server/firebase/firebase.js';
 
 export default class EmailLogin extends React.Component {
   constructor(props) {
@@ -9,6 +10,7 @@ export default class EmailLogin extends React.Component {
     };
     this.validateForm = this.validateForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleEmailLogin = this.handleEmailLogin.bind(this);
   }
 
   validateForm() {
@@ -21,13 +23,26 @@ export default class EmailLogin extends React.Component {
     });
   }
 
+  handleEmailLogin() {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(result => {
+        this.props.handleLoginSubmit();
+        console.log('result:', result);
+      })
+      .catch(err => {
+        console.log('ERROR: ', err);
+      });
+  }
+
   render() {
     if (!this.props.renderEmailField) {
       return null;
     } else {
       return (
         <div className="auth-form">
-          <form onSubmit={this.props.handleLoginSubmit}>
+          <form>
             <input
               id="email"
               type="email"
@@ -44,7 +59,13 @@ export default class EmailLogin extends React.Component {
               onChange={this.handleChange}
             />
             <br />
-            <button disabled={!this.validateForm()}>Submit</button>
+            <button
+              type="button"
+              onClick={() => this.handleEmailLogin()}
+              disabled={!this.validateForm()}
+            >
+              Submit
+            </button>
           </form>
         </div>
       );
