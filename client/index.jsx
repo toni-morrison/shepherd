@@ -15,7 +15,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      user: undefined
+      user: "Debbie"
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.checkUser = this.checkUser.bind(this);
