@@ -65,7 +65,7 @@ export default class UserTasks extends React.Component {
         <Grid>
           <Row>
             {instructions.map(instructionSet => (
-              <Col md={4}>
+              <Col key={instructionSet.title} md={4}>
                 <Button
                   bsSize="large"
                   block
