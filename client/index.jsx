@@ -60,11 +60,8 @@ class App extends React.Component {
     } else {
       return (
         <ApolloProvider client={client}>
-          {this.state.user ? (
-            <TopTabs logout={this.handleLogout} user={this.state.user} />
-          ) : (
-            <SplashPage handleLogin={this.handleLogin} />
-          )}
+          <TopTabs logout={this.handleLogout} user={this.state.user} />
+          <SplashPage handleLogin={this.handleLogin} user={this.state.user} />
         </ApolloProvider>
       );
     }
