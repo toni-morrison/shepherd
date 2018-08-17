@@ -9,13 +9,8 @@ export default class Login extends React.Component {
       renderEmailField: false,
       renderGoogleLogin: false
     };
-    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.renderEmail = this.renderEmail.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleLoginSubmit() {
-    this.props.handleUserLogin();
   }
 
   renderEmail() {
@@ -40,9 +35,9 @@ export default class Login extends React.Component {
         </button>
         <EmailLogin
           renderEmailField={this.state.renderEmailField}
-          handleLoginSubmit={this.handleLoginSubmit}
+          handleToggleLogin={this.props.handleToggleLogin}
         />
-        <GoogleLogin />
+        <GoogleLogin handleToggleLogin={this.props.handleToggleLogin} />
       </div>
     );
   }

@@ -15,9 +15,6 @@ export default class SitterTabs extends React.Component {
     firebase
       .auth()
       .signOut()
-      .then(() => {
-        this.props.logout();
-      })
       .catch(err => {
         console.log('ERROR!');
       });

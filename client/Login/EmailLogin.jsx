@@ -28,7 +28,7 @@ export default class EmailLogin extends React.Component {
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(result => {
-        this.props.handleLoginSubmit();
+        this.props.handleToggleLogin();
         console.log('result:', result);
       })
       .catch(err => {
