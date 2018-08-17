@@ -13,7 +13,7 @@ export default class SitterSetPrices extends React.Component {
           <Col xs={12}>
             <center><h3>Pricing</h3></center>
               <Well bsSize="large" style={{ width:'100%' }}>
-                <Row inline>
+                <Row>
                   <Col xs={1}>
                   <h4>Child:</h4> 
                   </Col>
@@ -39,7 +39,7 @@ export default class SitterSetPrices extends React.Component {
                   </Col>
                 </Row>
 
-                <Row inline>
+                <Row>
                   <Col xs={1}>
                   <h4>Pet:</h4> 
                   </Col>
@@ -66,7 +66,7 @@ export default class SitterSetPrices extends React.Component {
                 </Row>
 
 
-                <Row inline>
+                <Row>
                   <Col xs={1}>
                   <h4>House:</h4> 
                   </Col>
