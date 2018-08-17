@@ -30,8 +30,9 @@ textarea#formControlsTextarea {
 }
 
 table.table.table-striped.table-bordered.table-condensed.table-hover {
-  width: 45%;
+  width: 95%;
   border: solid 2px;
+  margin: auto;
 }
 th {
   width: 30%;
@@ -43,4 +44,7 @@ select#formControlsSelect {
 
 input.form-control {
   width: 25%;
+}
+div#full-list {
+  margin: 10px;
 }
