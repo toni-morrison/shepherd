@@ -49,12 +49,10 @@ export default class SitterRequest extends React.Component {
       <Popover id="modal-popover" title="Instructions List">
         <div>
           <ul>
-            <li>Take out the dog</li>
-            <li>Give Mikey medicine</li>
-            <li>Take the kids to the park with the dog</li>
-            <li>Watch TV </li>
-            <li>Put Mikey to bed at 8:30</li>
-            <li>Put Tracey to bed at 9:30</li>
+              <li>Take out the garbage</li>
+              <li>Mow the lawn</li>
+              <li>Dust the bookshelf</li>
+
           </ul>
         </div>
       </Popover>
