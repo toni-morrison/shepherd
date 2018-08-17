@@ -3,7 +3,12 @@ import c3 from 'c3';
 import d3 from 'd3';
 // import 'c3/c3.css';
 
-export default class Chart extends React.Component {
+const columns = [
+  ['Your Monthly Numbers', 1500, 1700, 2000, 2000, 2100, 2200],
+  ['Global Average', 1500, 1450, 1520, 1520, 1533, 1528]
+];
+
+export default class MontlyhChart extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -18,15 +23,15 @@ export default class Chart extends React.Component {
 
   updateChart() {
     const chart = c3.generate({
-      bindto: '#chart',
+      bindto: '#monthlyChart',
       data: {
-        columns: this.props.columns,
+        columns: columns,
         type: this.props.chartType
       }
     });
   }
 
   render() {
-    return <div id="chart">hi</div>;
+    return <div id="monthlyChart">hi</div>;
   }
 }

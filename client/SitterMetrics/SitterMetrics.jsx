@@ -1,13 +1,11 @@
 import React from 'react';
 import c3 from 'c3';
 import d3 from 'd3';
-import Chart from './Chart.jsx';
+import WeeklyChart from './WeeklyChart.jsx';
+import DailyChart from './DailyChart.jsx';
+import MonthlyChart from './MonthlyChart.jsx';
+import MonthlyTarget from './MonthlyTarget.jsx';
 // import 'c3/c3.css';
-
-const columns = [
-  ['Your Weekly Numbers', 200, 220, 400, 400, 350, 250],
-  ['Sitter Average Numbers', 175, 200, 420, 340, 320, 210]
-];
 
 export default class SitterMetrics extends React.Component {
   constructor(props) {
@@ -33,11 +31,28 @@ export default class SitterMetrics extends React.Component {
 
   render() {
     return (
-      <div className="app-wrap">
-        <Chart columns={columns} chartType={this.state.chartType} />
+      <div>
+        <div className="app-wrap">
+          <h3>Daily Earnings</h3>
 
-        <button onClick={this.setBarChart}>bar</button>
-        <button onClick={this.setLineChart}>line</button>
+          <DailyChart chartType={this.state.chartType} />
+
+          <button onClick={this.setBarChart}>bar</button>
+          <button onClick={this.setLineChart}>line</button>
+          <br />
+        </div>
+        <div className="app-wrap">
+          <h3>Weekly Earnings</h3>
+          <WeeklyChart chartType={this.state.chartType} />
+
+          <br />
+        </div>
+        <div className="app-wrap">
+          <h3>Monthly Earnings</h3>
+          <MonthlyChart chartType={this.state.chartType} />
+
+          <br />
+        </div>
       </div>
     );
   }
