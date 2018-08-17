@@ -5,10 +5,22 @@ import SitterMetrics from '../SitterMetrics/SitterMetrics.jsx';
 import SitterReviews from '../SitterReviews/SitterReviews.jsx';
 import SitterSchedule from '../SitterSchedule/SitterSchedule.jsx';
 import SitterProfile from '../SitterProfile/SitterProfile.jsx';
+import firebase from '../../server/firebase/firebase.js';
 
 export default class SitterTabs extends React.Component {
   constructor(props) {
     super(props);
+  }
+  sitLogOut() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.props.logout();
+      })
+      .catch(err => {
+        console.log('ERROR!');
+      });
   }
 
   render() {
@@ -22,6 +34,7 @@ export default class SitterTabs extends React.Component {
               <NavItem eventKey="third">REVIEWS</NavItem>
               <NavItem eventKey="fourth">SCHEDULE</NavItem>
               <NavItem eventKey="fifth">PROFILE</NavItem>
+              <NavItem onClick={() => this.sitLogOut()}>LOGOUT</NavItem>
             </Nav>
           </Col>
           <Col sm={8}>

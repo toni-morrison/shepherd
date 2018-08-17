@@ -28,3 +28,23 @@ textarea#formControlsTextarea {
   border: solid 2px;
   margin: 3px;
 }
+
+table.table.table-striped.table-bordered.table-condensed.table-hover {
+  width: 95%;
+  border: solid 2px;
+  margin: auto;
+}
+th {
+  width: 30%;
+}
+
+select#formControlsSelect {
+  width: 25%;
+}
+
+input.form-control {
+  width: 25%;
+}
+div#full-list {
+  margin: 10px;
+}

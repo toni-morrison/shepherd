@@ -1,14 +1,13 @@
 type User {
   id: ID! @unique
-  username: String!
+  email: String!
   first_name: String!
   last_name: String!
   street_address: String
   city: String
   state: String
-  zip_code: Int
-  sitter: Boolean
-  rating: Int
+  zip_code: String
+  sitter: Boolean!
 }
 
 type SitterRate {

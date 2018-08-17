@@ -1,9 +1,25 @@
 import React from 'react';
-import { ButtonToolbar, Grid, Row, Col, Well, DropdownButton, MenuItem, Button } from 'react-bootstrap';
+import {
+  ButtonToolbar,
+  Grid,
+  Row,
+  Col,
+  Well,
+  DropdownButton,
+  MenuItem,
+  Button
+} from 'react-bootstrap';
 
-var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-var hours = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
-
+var days = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+];
+var hours = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
 
 export default class SitterSetSchedule extends React.Component {
   constructor(props) {
@@ -35,10 +51,9 @@ export default class SitterSetSchedule extends React.Component {
     console.log(obj)
     // let spliced = this.state[obj.day].splice
   }
-  
-  
+
   render() {
-    return(
+    return (
       <div>
         <Row>
           <Col xs={12}>
@@ -102,6 +117,6 @@ export default class SitterSetSchedule extends React.Component {
           </Col>
         </Row>
       </div>
-    )
+    );
   }
 }
