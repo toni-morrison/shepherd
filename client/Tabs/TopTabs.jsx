@@ -37,12 +37,12 @@ export default class TopTabs extends React.Component {
                   <Tab.Pane eventKey="first">
                     <br />
                     <br />
-                    <UserTabs logout={this.props.logout} />
+                    <UserTabs />
                   </Tab.Pane>
                   <Tab.Pane eventKey="second">
                     <br />
                     <br />
-                    <SitterTabs logout={this.props.logout} />
+                    <SitterTabs />
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
