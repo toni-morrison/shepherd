@@ -12,13 +12,10 @@ const options = {
 const resolvers = {
   Query: {
     findUsers: (_, args, context, info) => {
-      return context.prisma.query.users( // SELECT * FROM USERS
-        // WHERE USERNAME === ARGS.USERNAME
+      return context.prisma.query.users(
         {
           where: {
-            id: args.id,
-            first_name: args.first_name,
-            last_name: args.last_name
+            email: args.email
           }
         },
         info
@@ -30,9 +27,14 @@ const resolvers = {
       return context.prisma.mutation.createUser(
         {
           data: {
-            username: args.username,
+            email: args.email,
             first_name: args.first_name,
-            last_name: args.last_name
+            last_name: args.last_name,
+            street_address: args.street_address || undefined,
+            city: args.city || undefined,
+            state: args.state || undefined,
+            zip_code: args.zip_code || undefined,
+            sitter: false
           }
         },
         info

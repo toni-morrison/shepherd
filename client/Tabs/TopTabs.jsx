@@ -20,7 +20,7 @@ export default class TopTabs extends React.Component {
   }
 
   render() {
-    if (!this.props.signedIn) {
+    if (!this.props.user) {
       return null;
     } else {
       return (
