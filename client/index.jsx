@@ -4,6 +4,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import TopTabs from './Tabs/TopTabs.jsx';
 import SplashPage from './SplashPage/SplashPage.jsx';
+import { CircleLoader } from 'react-spinners';
 import firebase from '../server/firebase/firebase.js';
 
 const client = new ApolloClient({
@@ -15,6 +16,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      loaded: false,
       user: undefined
     };
     this.handleLogin = this.handleLogin.bind(this);
@@ -23,41 +25,49 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.checkUser();
-  }
-
-  checkUser() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.setState({
-          user: user.email
-        });
+        this.setState({ user: user.email, loaded: true });
       } else {
         console.log('not signed in!');
+        this.setState({ user: undefined, loaded: true });
       }
     });
   }
+
+  checkUser() {}
 
   handleLogin() {
     this.checkUser();
   }
 
   handleLogout() {
-    this.setState({
-      user: undefined
-    });
+    this.checkUser();
   }
 
   render() {
-    return (
-      <ApolloProvider client={client}>
-        <SplashPage
-          user={this.state.user}
-          handleLogin={this.handleLogin}
-        />
-        <TopTabs logout={this.handleLogout} user={this.state.user} />
-      </ApolloProvider>
-    );
+    if (!this.state.loaded) {
+      return (
+        <div className="loader">
+          <CircleLoader
+            sizeUnit={'px'}
+            size={150}
+            color={'#123abc'}
+            loading={!this.state.loaded}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <ApolloProvider client={client}>
+          {this.state.user ? (
+            <TopTabs logout={this.handleLogout} user={this.state.user} />
+          ) : (
+            <SplashPage handleLogin={this.handleLogin} />
+          )}
+        </ApolloProvider>
+      );
+    }
   }
 }
 

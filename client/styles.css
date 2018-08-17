@@ -48,3 +48,13 @@ input.form-control {
 div#full-list {
   margin: 10px;
 }
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  border-color: red;
+}
