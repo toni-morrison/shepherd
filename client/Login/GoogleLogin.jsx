@@ -16,7 +16,7 @@ export default class GoogleLogin extends React.Component {
       .auth()
       .signInWithPopup(provider)
       .then(result => {
-        this.props.handleLoginSubmit();
+        this.props.handleToggleLogin();
       })
       .catch(err => {
         console.log(err);

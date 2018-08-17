@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider, Query } from 'react-apollo';
+import gql from 'graphql-tag';
 import TopTabs from './Tabs/TopTabs.jsx';
 import SplashPage from './SplashPage/SplashPage.jsx';
 import { CircleLoader } from 'react-spinners';
@@ -19,9 +20,6 @@ class App extends React.Component {
       loaded: false,
       user: undefined
     };
-    this.handleLogin = this.handleLogin.bind(this);
-    this.checkUser = this.checkUser.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
   }
 
   componentDidMount() {
@@ -33,16 +31,6 @@ class App extends React.Component {
         this.setState({ user: undefined, loaded: true });
       }
     });
-  }
-
-  checkUser() {}
-
-  handleLogin() {
-    this.checkUser();
-  }
-
-  handleLogout() {
-    this.checkUser();
   }
 
   render() {
@@ -60,8 +48,10 @@ class App extends React.Component {
     } else {
       return (
         <ApolloProvider client={client}>
-          <TopTabs logout={this.handleLogout} user={this.state.user} />
-          <SplashPage handleLogin={this.handleLogin} user={this.state.user} />
+          <div id="fullpage">
+            <TopTabs user={this.state.user} />
+            <SplashPage user={this.state.user} />
+          </div>
         </ApolloProvider>
       );
     }

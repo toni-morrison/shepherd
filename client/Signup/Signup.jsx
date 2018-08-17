@@ -82,7 +82,7 @@ export default class Signup extends React.Component {
             sitter: false
           }
         });
-        this.props.handleUserSignup();
+        this.props.handleToggleSignup();
       })
       .catch(err => {
         console.log('ERROR:', err);

@@ -28,8 +28,6 @@ export default class SplashPage extends React.Component {
     };
     this.handleToggleLogin = this.handleToggleLogin.bind(this);
     this.handleToggleSignup = this.handleToggleSignup.bind(this);
-    this.handleUserLogin = this.handleUserLogin.bind(this);
-    this.handleUserSignup = this.handleUserSignup.bind(this);
   }
 
   handleToggleLogin() {
@@ -42,16 +40,6 @@ export default class SplashPage extends React.Component {
     this.setState({
       showSignup: !this.state.showSignup
     });
-  }
-
-  handleUserLogin() {
-    this.handleToggleLogin();
-    this.props.handleLogin();
-  }
-
-  handleUserSignup() {
-    this.handleToggleSignup();
-    this.props.handleLogin();
   }
 
   render() {
@@ -71,7 +59,7 @@ export default class SplashPage extends React.Component {
                       show={this.state.showLogin}
                       onHide={this.handleToggleLogin}
                     >
-                      <Login handleUserLogin={this.handleUserLogin} />
+                      <Login handleToggleLogin={this.handleToggleLogin} />
                     </Modal>
                     <Button bsStyle="info" onClick={this.handleToggleSignup}>
                       Sign Up
@@ -80,7 +68,7 @@ export default class SplashPage extends React.Component {
                       show={this.state.showSignup}
                       onHide={this.handleToggleSignup}
                     >
-                      <Signup handleUserSignup={this.handleUserSignup} />
+                      <Signup handleToggleSignup={this.handleToggleSignup} />
                     </Modal>
                   </div>
                   <Jumbotron

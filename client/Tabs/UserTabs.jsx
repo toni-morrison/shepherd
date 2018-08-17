@@ -11,10 +11,6 @@ class UserTabs extends React.Component {
     firebase
       .auth()
       .signOut()
-      .then(() => {
-        this.props.logout();
-        console.log('LOGGEDOUT!');
-      })
       .catch(err => {
         console.log('ERROR!');
       });
