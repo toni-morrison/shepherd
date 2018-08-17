@@ -42,7 +42,7 @@ export default class Login extends React.Component {
           renderEmailField={this.state.renderEmailField}
           handleLoginSubmit={this.handleLoginSubmit}
         />
-        <GoogleLogin />
+        <GoogleLogin handleLoginSubmit={this.handleLoginSubmit} />
       </div>
     );
   }

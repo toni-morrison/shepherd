@@ -50,3 +50,13 @@ div#full-list {
 input#instructions {
   width: 25%;
 }
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  border-color: red;
+}
