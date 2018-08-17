@@ -29,6 +29,7 @@ export default class SplashPage extends React.Component {
     this.handleToggleLogin = this.handleToggleLogin.bind(this);
     this.handleToggleSignup = this.handleToggleSignup.bind(this);
     this.handleUserLogin = this.handleUserLogin.bind(this);
+    this.handleUserSignup = this.handleUserSignup.bind(this);
   }
 
   handleToggleLogin() {
@@ -48,8 +49,13 @@ export default class SplashPage extends React.Component {
     this.props.handleLogin();
   }
 
+  handleUserSignup() {
+    this.handleToggleSignup();
+    this.props.handleLogin();
+  }
+
   render() {
-    if (this.props.signedIn) {
+    if (this.props.user) {
       return null;
     } else {
       return (
@@ -76,7 +82,9 @@ export default class SplashPage extends React.Component {
                       show={this.state.showSignup}
                       onHide={this.handleToggleSignup}
                     >
-                      <Signup toggleSignup={this.handleToggleSignup} />
+                      <Signup
+                        handleUserSignup={this.handleUserSignup}
+                      />
                     </Modal>
                   </div>
                   <Jumbotron
@@ -107,7 +115,12 @@ export default class SplashPage extends React.Component {
                             Shepherd makes finding a housesitter, petsitter, or
                             babysitter easy.
                           </p>
-                          <Button bsStyle="primary" onClick={this.handleToggleSignup}>Sign Up Now</Button>
+                          <Button
+                            bsStyle="primary"
+                            onClick={this.handleToggleSignup}
+                          >
+                            Sign Up Now
+                          </Button>
                         </Col>
                         <Col md={3}>
                           <Image

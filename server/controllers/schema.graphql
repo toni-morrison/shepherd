@@ -7,9 +7,18 @@
 # import User from './generated/prisma.graphql'
 
 type Query {
-  findUsers(id: ID, first_name: String, last_name: String): [User]
+  findUsers(email: String!): [User!]!
 }
 
 type Mutation {
-  signup(username: String!, first_name: String!, last_name: String!): User!
+  signup(
+    email: String!
+    first_name: String!
+    last_name: String!
+    street_address: String
+    city: String
+    state: String
+    zip_code: String
+    sitter: Boolean!
+  ): User!
 }

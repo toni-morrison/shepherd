@@ -15,13 +15,13 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      signedIn: false, // TODO: Change to false during production
-      user: null
+      user: undefined
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.checkUser = this.checkUser.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
   }
+
   componentDidMount() {
     this.checkUser();
   }
@@ -29,14 +29,9 @@ class App extends React.Component {
   checkUser() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.setState(
-          {
-            user: user.email
-          },
-          () => {
-            this.handleLogin();
-          }
-        );
+        this.setState({
+          user: user.email
+        });
       } else {
         console.log('not signed in!');
       }
@@ -44,14 +39,12 @@ class App extends React.Component {
   }
 
   handleLogin() {
-    this.setState({
-      signedIn: true
-    });
+    this.checkUser();
   }
 
   handleLogout() {
     this.setState({
-      signedIn: false
+      user: undefined
     });
   }
 
@@ -59,10 +52,10 @@ class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <SplashPage
-          signedIn={this.state.signedIn}
+          user={this.state.user}
           handleLogin={this.handleLogin}
         />
-        <TopTabs logout={this.handleLogout} signedIn={this.state.signedIn} />
+        <TopTabs logout={this.handleLogout} user={this.state.user} />
       </ApolloProvider>
     );
   }
