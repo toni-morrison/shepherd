@@ -28,6 +28,11 @@ export default class InstructionMaker extends React.Component {
   }
   componentDidMount() {
     this.setTimes();
+    if (this.props.currentInstruction.length > 0) {
+      this.setState({
+        time: this.props.currentInstruction
+      });
+    }
   }
 
   setTimes() {

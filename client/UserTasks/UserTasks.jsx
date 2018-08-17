@@ -96,7 +96,7 @@ export default class UserTasks extends React.Component {
           instructions={this.state.currentInstruction}
           handleClose={this.handleModalClose}
           show={this.state.modalShow}
-          handleEdit={this.handleTasksEdit}
+          handleEdit={this.handleOpenInstructions}
         />
         <Modal
           show={this.state.showInstructions}
@@ -106,7 +106,9 @@ export default class UserTasks extends React.Component {
             <Modal.Title>Add Instructions</Modal.Title>
           </Modal.Header>
           <div>
-            <InstructionMaker />
+            <InstructionMaker
+              currentInstruction={this.state.currentInstruction}
+            />
           </div>
         </Modal>
       </div>
