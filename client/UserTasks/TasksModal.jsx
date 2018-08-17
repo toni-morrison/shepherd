@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+
 function TasksModal(props) {
   return (
     <Modal show={props.show} onHide={props.handleClose}>
