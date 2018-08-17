@@ -159,6 +159,7 @@ export default class InstructionMaker extends React.Component {
           <form id="instruction-list">
             <ControlLabel>Enter Instruction</ControlLabel>
             <FormControl
+              id="instructions"
               name="instruction"
               type="text"
               value={this.state.instruction}
