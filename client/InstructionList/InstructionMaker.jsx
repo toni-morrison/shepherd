@@ -34,8 +34,8 @@ export default class InstructionMaker extends React.Component {
     this.setState(
       {
         time: this.intervals(
-          this.state.start || '6:00 pm',
-          this.state.end || '11:45 pm'
+          this.state.start || '6:00 PM',
+          this.state.end || '11:45 PM'
         )
       },
       () => {
