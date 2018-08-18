@@ -28,6 +28,11 @@ export default class InstructionMaker extends React.Component {
   }
   componentDidMount() {
     this.setTimes();
+    if (this.props.currentInstruction.length > 0) {
+      this.setState({
+        time: this.props.currentInstruction
+      });
+    }
   }
 
   setTimes() {
@@ -159,6 +164,7 @@ export default class InstructionMaker extends React.Component {
           <form id="instruction-list">
             <ControlLabel>Enter Instruction</ControlLabel>
             <FormControl
+              id="instructions"
               name="instruction"
               type="text"
               value={this.state.instruction}
