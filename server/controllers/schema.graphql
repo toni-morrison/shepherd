@@ -19,6 +19,5 @@ type Mutation {
     city: String
     state: String
     zip_code: String
-    sitter: Boolean!
   ): User!
 }

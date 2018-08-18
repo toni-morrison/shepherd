@@ -33,8 +33,7 @@ const resolvers = {
             street_address: args.street_address || undefined,
             city: args.city || undefined,
             state: args.state || undefined,
-            zip_code: args.zip_code || undefined,
-            sitter: false
+            zip_code: args.zip_code || undefined
           }
         },
         info
