@@ -19,16 +19,6 @@ type SitterRate {
   home_addl: Float
 }
 
-enum DayOfWeek {
-  SUNDAY
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-}
-
 type Sitter {
   id: ID! @unique
   bio: String!
@@ -45,7 +35,6 @@ type Sitter {
 type TodoList {
   id: ID! @unique
   user: User!
-  instructions: [Instruction!]!
   name: String!
 }
 
@@ -53,6 +42,7 @@ type Instruction {
   id: ID! @unique
   time: String!
   desc: String!
+  list_id: TodoList!
 }
 
 type Appointment {

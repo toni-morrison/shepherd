@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Sat Aug 18 2018 09:53:32 GMT-0500 (GMT-05:00)
+# timestamp: Sat Aug 18 2018 11:52:07 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -308,6 +308,7 @@ type Instruction implements Node {
   id: ID!
   time: String!
   desc: String!
+  list_id(where: TodoListWhereInput): TodoList!
 }
 
 """A connection to a list of items."""
@@ -323,11 +324,7 @@ type InstructionConnection {
 input InstructionCreateInput {
   time: String!
   desc: String!
-}
-
-input InstructionCreateManyInput {
-  create: [InstructionCreateInput!]
-  connect: [InstructionWhereUniqueInput!]
+  list_id: TodoListCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -397,34 +394,10 @@ input InstructionSubscriptionWhereInput {
   node: InstructionWhereInput
 }
 
-input InstructionUpdateDataInput {
-  time: String
-  desc: String
-}
-
 input InstructionUpdateInput {
   time: String
   desc: String
-}
-
-input InstructionUpdateManyInput {
-  create: [InstructionCreateInput!]
-  connect: [InstructionWhereUniqueInput!]
-  disconnect: [InstructionWhereUniqueInput!]
-  delete: [InstructionWhereUniqueInput!]
-  update: [InstructionUpdateWithWhereUniqueNestedInput!]
-  upsert: [InstructionUpsertWithWhereUniqueNestedInput!]
-}
-
-input InstructionUpdateWithWhereUniqueNestedInput {
-  where: InstructionWhereUniqueInput!
-  data: InstructionUpdateDataInput!
-}
-
-input InstructionUpsertWithWhereUniqueNestedInput {
-  where: InstructionWhereUniqueInput!
-  update: InstructionUpdateDataInput!
-  create: InstructionCreateInput!
+  list_id: TodoListUpdateOneInput
 }
 
 input InstructionWhereInput {
@@ -556,6 +529,7 @@ input InstructionWhereInput {
 
   """All values not ending with the given string."""
   desc_not_ends_with: String
+  list_id: TodoListWhereInput
 }
 
 input InstructionWhereUniqueInput {
@@ -569,36 +543,36 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createTodoList(data: TodoListCreateInput!): TodoList!
-  createAppointment(data: AppointmentCreateInput!): Appointment!
   createInstruction(data: InstructionCreateInput!): Instruction!
+  createAppointment(data: AppointmentCreateInput!): Appointment!
+  createTodoList(data: TodoListCreateInput!): TodoList!
   createSitter(data: SitterCreateInput!): Sitter!
   createUser(data: UserCreateInput!): User!
   createSitterRate(data: SitterRateCreateInput!): SitterRate!
-  updateTodoList(data: TodoListUpdateInput!, where: TodoListWhereUniqueInput!): TodoList
-  updateAppointment(data: AppointmentUpdateInput!, where: AppointmentWhereUniqueInput!): Appointment
   updateInstruction(data: InstructionUpdateInput!, where: InstructionWhereUniqueInput!): Instruction
+  updateAppointment(data: AppointmentUpdateInput!, where: AppointmentWhereUniqueInput!): Appointment
+  updateTodoList(data: TodoListUpdateInput!, where: TodoListWhereUniqueInput!): TodoList
   updateSitter(data: SitterUpdateInput!, where: SitterWhereUniqueInput!): Sitter
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deleteTodoList(where: TodoListWhereUniqueInput!): TodoList
-  deleteAppointment(where: AppointmentWhereUniqueInput!): Appointment
   deleteInstruction(where: InstructionWhereUniqueInput!): Instruction
+  deleteAppointment(where: AppointmentWhereUniqueInput!): Appointment
+  deleteTodoList(where: TodoListWhereUniqueInput!): TodoList
   deleteSitter(where: SitterWhereUniqueInput!): Sitter
   deleteUser(where: UserWhereUniqueInput!): User
-  upsertTodoList(where: TodoListWhereUniqueInput!, create: TodoListCreateInput!, update: TodoListUpdateInput!): TodoList!
-  upsertAppointment(where: AppointmentWhereUniqueInput!, create: AppointmentCreateInput!, update: AppointmentUpdateInput!): Appointment!
   upsertInstruction(where: InstructionWhereUniqueInput!, create: InstructionCreateInput!, update: InstructionUpdateInput!): Instruction!
+  upsertAppointment(where: AppointmentWhereUniqueInput!, create: AppointmentCreateInput!, update: AppointmentUpdateInput!): Appointment!
+  upsertTodoList(where: TodoListWhereUniqueInput!, create: TodoListCreateInput!, update: TodoListUpdateInput!): TodoList!
   upsertSitter(where: SitterWhereUniqueInput!, create: SitterCreateInput!, update: SitterUpdateInput!): Sitter!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManyTodoLists(data: TodoListUpdateInput!, where: TodoListWhereInput): BatchPayload!
-  updateManyAppointments(data: AppointmentUpdateInput!, where: AppointmentWhereInput): BatchPayload!
   updateManyInstructions(data: InstructionUpdateInput!, where: InstructionWhereInput): BatchPayload!
+  updateManyAppointments(data: AppointmentUpdateInput!, where: AppointmentWhereInput): BatchPayload!
+  updateManyTodoLists(data: TodoListUpdateInput!, where: TodoListWhereInput): BatchPayload!
   updateManySitters(data: SitterUpdateInput!, where: SitterWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManySitterRates(data: SitterRateUpdateInput!, where: SitterRateWhereInput): BatchPayload!
-  deleteManyTodoLists(where: TodoListWhereInput): BatchPayload!
-  deleteManyAppointments(where: AppointmentWhereInput): BatchPayload!
   deleteManyInstructions(where: InstructionWhereInput): BatchPayload!
+  deleteManyAppointments(where: AppointmentWhereInput): BatchPayload!
+  deleteManyTodoLists(where: TodoListWhereInput): BatchPayload!
   deleteManySitters(where: SitterWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManySitterRates(where: SitterRateWhereInput): BatchPayload!
@@ -632,20 +606,20 @@ type PageInfo {
 }
 
 type Query {
-  todoLists(where: TodoListWhereInput, orderBy: TodoListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TodoList]!
-  appointments(where: AppointmentWhereInput, orderBy: AppointmentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Appointment]!
   instructions(where: InstructionWhereInput, orderBy: InstructionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Instruction]!
+  appointments(where: AppointmentWhereInput, orderBy: AppointmentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Appointment]!
+  todoLists(where: TodoListWhereInput, orderBy: TodoListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TodoList]!
   sitters(where: SitterWhereInput, orderBy: SitterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sitter]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   sitterRates(where: SitterRateWhereInput, orderBy: SitterRateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SitterRate]!
-  todoList(where: TodoListWhereUniqueInput!): TodoList
-  appointment(where: AppointmentWhereUniqueInput!): Appointment
   instruction(where: InstructionWhereUniqueInput!): Instruction
+  appointment(where: AppointmentWhereUniqueInput!): Appointment
+  todoList(where: TodoListWhereUniqueInput!): TodoList
   sitter(where: SitterWhereUniqueInput!): Sitter
   user(where: UserWhereUniqueInput!): User
-  todoListsConnection(where: TodoListWhereInput, orderBy: TodoListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TodoListConnection!
-  appointmentsConnection(where: AppointmentWhereInput, orderBy: AppointmentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AppointmentConnection!
   instructionsConnection(where: InstructionWhereInput, orderBy: InstructionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): InstructionConnection!
+  appointmentsConnection(where: AppointmentWhereInput, orderBy: AppointmentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AppointmentConnection!
+  todoListsConnection(where: TodoListWhereInput, orderBy: TodoListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TodoListConnection!
   sittersConnection(where: SitterWhereInput, orderBy: SitterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitterConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   sitterRatesConnection(where: SitterRateWhereInput, orderBy: SitterRateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitterRateConnection!
@@ -1480,9 +1454,9 @@ input SitterWhereUniqueInput {
 }
 
 type Subscription {
-  todoList(where: TodoListSubscriptionWhereInput): TodoListSubscriptionPayload
-  appointment(where: AppointmentSubscriptionWhereInput): AppointmentSubscriptionPayload
   instruction(where: InstructionSubscriptionWhereInput): InstructionSubscriptionPayload
+  appointment(where: AppointmentSubscriptionWhereInput): AppointmentSubscriptionPayload
+  todoList(where: TodoListSubscriptionWhereInput): TodoListSubscriptionPayload
   sitter(where: SitterSubscriptionWhereInput): SitterSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   sitterRate(where: SitterRateSubscriptionWhereInput): SitterRateSubscriptionPayload
@@ -1491,7 +1465,6 @@ type Subscription {
 type TodoList implements Node {
   id: ID!
   user(where: UserWhereInput): User!
-  instructions(where: InstructionWhereInput, orderBy: InstructionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Instruction!]
   name: String!
 }
 
@@ -1508,7 +1481,11 @@ type TodoListConnection {
 input TodoListCreateInput {
   name: String!
   user: UserCreateOneInput!
-  instructions: InstructionCreateManyInput
+}
+
+input TodoListCreateOneInput {
+  create: TodoListCreateInput
+  connect: TodoListWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -1575,10 +1552,27 @@ input TodoListSubscriptionWhereInput {
   node: TodoListWhereInput
 }
 
+input TodoListUpdateDataInput {
+  name: String
+  user: UserUpdateOneInput
+}
+
 input TodoListUpdateInput {
   name: String
   user: UserUpdateOneInput
-  instructions: InstructionUpdateManyInput
+}
+
+input TodoListUpdateOneInput {
+  create: TodoListCreateInput
+  connect: TodoListWhereUniqueInput
+  delete: Boolean
+  update: TodoListUpdateDataInput
+  upsert: TodoListUpsertNestedInput
+}
+
+input TodoListUpsertNestedInput {
+  update: TodoListUpdateDataInput!
+  create: TodoListCreateInput!
 }
 
 input TodoListWhereInput {
@@ -1671,9 +1665,6 @@ input TodoListWhereInput {
   """All values not ending with the given string."""
   name_not_ends_with: String
   user: UserWhereInput
-  instructions_every: InstructionWhereInput
-  instructions_some: InstructionWhereInput
-  instructions_none: InstructionWhereInput
 }
 
 input TodoListWhereUniqueInput {
