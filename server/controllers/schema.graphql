@@ -22,4 +22,5 @@ type Mutation {
   ): User!
   createList(email: String!, name: String!): TodoList!
   updateListName(id: ID!, name: String!): TodoList!
+  createInstruction(time: String!, desc: String!, list_id: ID!): Instruction!
 }

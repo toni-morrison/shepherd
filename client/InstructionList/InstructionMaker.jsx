@@ -19,6 +19,14 @@ const UPDATE_TODO_LIST_NAME = gql`
   }
 `;
 
+const CREATE_INSTRUCTION = gql`
+  mutation createInstruction($time: String!, $desc: String!, $list_id: ID!) {
+    createInstruction(time: $time, desc: $desc, list_id: $list_id) {
+      id
+    }
+  }
+`;
+
 export default class InstructionMaker extends React.Component {
   constructor(props) {
     super(props);

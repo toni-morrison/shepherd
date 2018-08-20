@@ -66,6 +66,18 @@ const resolvers = {
         },
         info
       );
+    },
+    createInstruction: (_, args, context, info) => {
+      return context.prisma.mutation.createInstruction(
+        {
+          data: {
+            time: args.time,
+            desc: args.desc,
+            list_id: args.id
+          }
+        },
+        info
+      );
     }
   }
 };
