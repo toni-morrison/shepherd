@@ -46,9 +46,11 @@ export default class SitterReviewCard extends React.Component {
                   <Image src={review.img} responsive />
                 {/* </Col> */}
                 {/* <Col xs={9}> */}
+                <h4>
                   <b>Name:</b> {review.name}<br/>
                   <b>Date:</b> {review.date}<br/>
                   <b>Review:</b> {review.review}<br/>
+                  </h4>
                 {/* </Col> */}
               </Well><br/>
               </div>
