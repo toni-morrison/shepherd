@@ -32,12 +32,15 @@ type Sitter {
   fri: String
   sat: String
   gCalID: String
+  user: User!
 }
 
 type TodoList {
   id: ID! @unique
   user: User!
   name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Instruction {
@@ -45,6 +48,8 @@ type Instruction {
   time: String!
   desc: String!
   list_id: TodoList!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Appointment {
@@ -53,6 +58,8 @@ type Appointment {
   user: User!
   sitter: Sitter!
   comment: String!
+  todoList: TodoList
+  pending: Boolean
   userRating: Int
   sitterRating: Int
   userReview: String

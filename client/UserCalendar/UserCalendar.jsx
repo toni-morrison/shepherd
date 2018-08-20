@@ -17,6 +17,9 @@ export default class UserCalendar extends React.Component {
       }
     BigCalendar.setLocalizer(BigCalendar.momentLocalizer (moment))
     this.allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
+    events.forEach (
+      (event) => event.title = event.status + ': ' + event.sittername
+    )
     this.handleCloseApnt = this.handleCloseApnt.bind(this)
     this.handleCloseCancel = this.handleCloseCancel.bind(this)
     this.handleOpenCancel = this.handleOpenCancel.bind(this)
