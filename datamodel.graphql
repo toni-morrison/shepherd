@@ -8,6 +8,7 @@ type User {
   state: String
   zip_code: String
   gCalID: String
+  rating: Int
   sitter: Sitter
 }
 

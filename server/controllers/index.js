@@ -33,7 +33,8 @@ const resolvers = {
             street_address: args.street_address,
             city: args.city,
             state: args.state,
-            zip_code: args.zip_code
+            zip_code: args.zip_code,
+            rating: 0
           }
         },
         info
