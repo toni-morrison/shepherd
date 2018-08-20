@@ -53,6 +53,19 @@ const resolvers = {
         },
         info
       );
+    },
+    updateListName: (_, args, context, info) => {
+      return context.prisma.mutation.updateTodoList(
+        {
+          data: {
+            name: args.name
+          },
+          where: {
+            id: args.id
+          }
+        },
+        info
+      );
     }
   }
 };

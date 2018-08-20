@@ -29,13 +29,15 @@ export default class UserTasks extends React.Component {
       currentInstruction: [],
       currentListId: '',
       modalShow: false,
-      showInstructions: false
+      showInstructions: false,
+      name: 'Untitled'
     };
     this.handleModalClose = this.handleModalClose.bind(this);
     this.handleTasksSelect = this.handleTasksSelect.bind(this);
     this.handleTasksEdit = this.handleTasksEdit.bind(this);
     this.handleCloseInstructions = this.handleCloseInstructions.bind(this);
     this.handleOpenInstructions = this.handleOpenInstructions.bind(this);
+    this.changeName = this.changeName.bind(this);
   }
 
   handleTasksSelect(instructions, ID) {
@@ -73,7 +75,7 @@ export default class UserTasks extends React.Component {
     createList({
       variables: {
         email: 'daniel.guan.bca@gmail.com',
-        name: 'testFromJS'
+        name: this.state.name
       }
     }).then(({ data }) => {
       this.setState(
@@ -84,6 +86,12 @@ export default class UserTasks extends React.Component {
           this.handleOpenInstructions();
         }
       );
+    });
+  }
+
+  changeName(newName) {
+    this.setState({
+      name: newName
     });
   }
 
@@ -141,12 +149,14 @@ export default class UserTasks extends React.Component {
                 onHide={this.handleCloseInstructions}
               >
                 <Modal.Header closeButton>
-                  <Modal.Title>Add Instructions</Modal.Title>
+                  <Modal.Title>{this.state.name}</Modal.Title>
                 </Modal.Header>
                 <div>
                   <InstructionMaker
+                    changeName={this.changeName}
                     currentInstruction={this.state.currentInstruction}
                     currentListId={this.state.currentListId}
+                    name={this.state.name}
                   />
                 </div>
               </Modal>
