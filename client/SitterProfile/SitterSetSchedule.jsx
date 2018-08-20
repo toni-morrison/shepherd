@@ -10,7 +10,7 @@ import {
   Button
 } from 'react-bootstrap';
 
-var days = [
+let days = [
   'Sunday',
   'Monday',
   'Tuesday',
@@ -19,38 +19,78 @@ var days = [
   'Friday',
   'Saturday'
 ];
-var hours = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+let hours = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
 export default class SitterSetSchedule extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      Sunday: ['Start'],
-      Monday: ['Start'],
-      Tuesday: ['Start'],
-      Wednesday: ['Start'],
-      Thursday: ['Start'],
-      Friday: ['Start'],
-      Saturday: ['Start']
+      Sunday: {startHour: 'Start', startMin: '00', startAm: 'AM', endHour: 'End', endMin: '00', endAm: 'AM'},
+      Monday: {startHour: 'Start', startMin: '00', startAm: 'AM', endHour: 'End', endMin: '00', endAm: 'AM'},
+      Tuesday: {startHour: 'Start', startMin: '00', startAm: 'AM', endHour: 'End', endMin: '00', endAm: 'AM'},
+      Wednesday: {startHour: 'Start', startMin: '00', startAm: 'AM', endHour: 'End', endMin: '00', endAm: 'AM'},
+      Thursday: {startHour: 'Start', startMin: '00', startAm: 'AM', endHour: 'End', endMin: '00', endAm: 'AM'},
+      Friday: {startHour: 'Start', startMin: '00', startAm: 'AM', endHour: 'End', endMin: '00', endAm: 'AM'},
+      Saturday: {startHour: 'Start', startMin: '00', startAm: 'AM', endHour: 'End', endMin: '00', endAm: 'AM'}
     }
 
-    this.handleDatStartHour = this.handleDayStartHour.bind(this)
+    this.handleDayStartHour = this.handleDayStartHour.bind(this)
     this.handleStartMin = this.handleStartMin.bind(this)
+    this.handleStartAm = this.handleStartAm.bind(this)
+    this.handleDayEndHour = this.handleDayEndHour.bind(this)
+    this.handleEndMin = this.handleEndMin.bind(this)
+    this.handleEndAm = this.handleEndAm.bind(this)
   }
 
   handleDayStartHour(e, obj) {
+    var currentDay = Object.assign(this.state[obj.day])
+    currentDay.startHour = obj.hour
     this.setState({
-      [obj.day]: obj.hour
+      [obj.day]: currentDay
     })
   }
 
   handleStartMin(e, obj) {
-    console.log('hitting')
-    console.log(e.target.text)
-    console.log(obj)
-    // let spliced = this.state[obj.day].splice
+    var currentDay = Object.assign(this.state[obj.day])
+    currentDay.startMin = e.target.text
+    this.setState({
+      [obj.day]: currentDay
+    })
   }
+
+  handleStartAm(e, obj) {
+    var currentDay = Object.assign(this.state[obj.day])
+    currentDay.startAm = e.target.text
+    this.setState({
+      [obj.day]: currentDay
+    })
+  }
+
+  handleDayEndHour(e, obj) {
+    var currentDay = Object.assign(this.state[obj.day])
+    currentDay.endHour = obj.hour
+    this.setState({
+      [obj.day]: currentDay
+    })
+  }
+
+  handleEndMin(e, obj) {
+    var currentDay = Object.assign(this.state[obj.day])
+    currentDay.endMin = e.target.text
+    this.setState({
+      [obj.day]: currentDay
+    })
+  }
+
+  handleEndAm(e, obj) {
+    var currentDay = Object.assign(this.state[obj.day])
+    currentDay.endAm = e.target.text
+    this.setState({
+      [obj.day]: currentDay
+    })
+  }
+
 
   render() {
     return (
@@ -68,42 +108,42 @@ export default class SitterSetSchedule extends React.Component {
 
                       <ButtonToolbar>
                         <Col xs={3}>
-                          <DropdownButton title={this.state[day][0]} id="dropdown-size-small">
+                          <DropdownButton title={this.state[day]['startHour']} id="dropdown-size-small">
                             {hours.map((hour) => {
                               return(
-                                <MenuItem key={(day, hour)} value={hour} onClick={(e) => this.handleDayStartHour(e, {day, hour})}>{hour}</MenuItem>
+                                <MenuItem key={(day, hour)} onClick={(e) => this.handleDayStartHour(e, {day, hour})}>{hour}</MenuItem>
                               )
                             })}
                           </DropdownButton>
 
-                          <DropdownButton title="00" id="dropdown-size-small">
+                          <DropdownButton title={this.state[day]['startMin']} id="dropdown-size-small">
                             <MenuItem value="00" onClick={(e) => this.handleStartMin(e, {day})}>00</MenuItem>
-                            <MenuItem value="30">30</MenuItem>
+                            <MenuItem value="30" onClick={(e) => this.handleStartMin(e, {day})}>30</MenuItem>
                           </DropdownButton>
                 
-                          <DropdownButton title="AM" id="dropdown-size-small">
-                            <MenuItem value="AM">AM</MenuItem>
-                            <MenuItem value="PM">PM</MenuItem>
+                          <DropdownButton title={this.state[day]['startAm']} id="dropdown-size-small">
+                            <MenuItem value="AM" onClick={(e) => this.handleStartAm(e, {day})}>AM</MenuItem>
+                            <MenuItem value="PM" onClick={(e) => this.handleStartAm(e, {day})}>PM</MenuItem>
                           </DropdownButton>
                         </Col>
 
                         <Col xs={3}>
-                          <DropdownButton title="End" id="dropdown-size-small">
+                          <DropdownButton title={this.state[day]['endHour']} id="dropdown-size-small">
                             {hours.map((hour) => {
                               return(
-                                <MenuItem key={hour} value={hour}>{hour}</MenuItem>
+                                <MenuItem key={(day, hour)} onClick={(e) => this.handleDayEndHour(e, {day, hour})}>{hour}</MenuItem>
                               )
                             })}
                           </DropdownButton>
                 
-                          <DropdownButton title="00" id="dropdown-size-small">
-                            <MenuItem value="00">00</MenuItem>
-                            <MenuItem value="30">30</MenuItem>
+                          <DropdownButton title={this.state[day]['endMin']} id="dropdown-size-small">
+                            <MenuItem value="00" onClick={(e) => this.handleEndMin(e, {day})}>00</MenuItem>
+                            <MenuItem value="30" onClick={(e) => this.handleEndMin(e, {day})}>30</MenuItem>
                           </DropdownButton>
                 
-                          <DropdownButton title="AM" id="dropdown-size-small">
-                            <MenuItem value="AM">AM</MenuItem>
-                            <MenuItem value="PM">PM</MenuItem>
+                          <DropdownButton title={this.state[day]['endAm']}  id="dropdown-size-small">
+                            <MenuItem value="AM" onClick={(e) => this.handleEndAm(e, {day})}>AM</MenuItem>
+                            <MenuItem value="PM" onClick={(e) => this.handleEndAm(e, {day})}>PM</MenuItem>
                           </DropdownButton>
                         </Col>
                       </ButtonToolbar>
