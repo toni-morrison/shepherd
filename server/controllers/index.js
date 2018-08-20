@@ -3,7 +3,7 @@ const { GraphQLServer } = require('graphql-yoga');
 const { Prisma } = require('prisma-binding');
 
 const options = {
-  port: 3000,
+  port: 8080,
   endpoint: '/graphql',
   subscriptions: '/subscriptions',
   playground: '/playground'
@@ -30,10 +30,10 @@ const resolvers = {
             email: args.email,
             first_name: args.first_name,
             last_name: args.last_name,
-            street_address: args.street_address || undefined,
-            city: args.city || undefined,
-            state: args.state || undefined,
-            zip_code: args.zip_code || undefined
+            street_address: args.street_address,
+            city: args.city,
+            state: args.state,
+            zip_code: args.zip_code
           }
         },
         info

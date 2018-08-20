@@ -12,7 +12,6 @@ const SIGNUP = gql`
     $city: String
     $state: String
     $zip_code: String
-    $sitter: Boolean!
   ) {
     signup(
       email: $email
@@ -22,7 +21,6 @@ const SIGNUP = gql`
       city: $city
       state: $state
       zip_code: $zip_code
-      sitter: $sitter
     ) {
       id
       email
@@ -78,8 +76,7 @@ export default class Signup extends React.Component {
             street_address: this.state.street,
             city: this.state.city,
             state: this.state.state,
-            zip_code: `zip ${this.state.zipcode}`,
-            sitter: false
+            zip_code: this.state.zipcode
           }
         });
         this.props.handleToggleSignup();
@@ -105,7 +102,7 @@ export default class Signup extends React.Component {
             if (error) return <p>Error :(</p>;
 
             return (
-              <form onSubmit={(e) => this.handleSignupSubmit(e, signup)}>
+              <form onSubmit={e => this.handleSignupSubmit(e, signup)}>
                 <input
                   type="email"
                   value={this.state.email}

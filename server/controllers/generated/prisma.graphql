@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Mon Aug 20 2018 10:36:31 GMT-0500 (GMT-05:00)
+# timestamp: Mon Aug 20 2018 14:59:18 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -31,6 +31,8 @@ type Appointment implements Node {
   user(where: UserWhereInput): User!
   sitter(where: SitterWhereInput): Sitter!
   comment: String!
+  todoList(where: TodoListWhereInput): TodoList
+  pending: Boolean
   userRating: Int
   sitterRating: Int
   userReview: String
@@ -50,12 +52,14 @@ type AppointmentConnection {
 input AppointmentCreateInput {
   time: String!
   comment: String!
+  pending: Boolean
   userRating: Int
   sitterRating: Int
   userReview: String
   sitterReview: String
   user: UserCreateOneInput!
   sitter: SitterCreateOneInput!
+  todoList: TodoListCreateOneInput
 }
 
 """An edge in a connection."""
@@ -74,6 +78,8 @@ enum AppointmentOrderByInput {
   time_DESC
   comment_ASC
   comment_DESC
+  pending_ASC
+  pending_DESC
   userRating_ASC
   userRating_DESC
   sitterRating_ASC
@@ -92,6 +98,7 @@ type AppointmentPreviousValues {
   id: ID!
   time: String!
   comment: String!
+  pending: Boolean
   userRating: Int
   sitterRating: Int
   userReview: String
@@ -140,12 +147,14 @@ input AppointmentSubscriptionWhereInput {
 input AppointmentUpdateInput {
   time: String
   comment: String
+  pending: Boolean
   userRating: Int
   sitterRating: Int
   userReview: String
   sitterReview: String
   user: UserUpdateOneInput
   sitter: SitterUpdateOneInput
+  todoList: TodoListUpdateOneInput
 }
 
 input AppointmentWhereInput {
@@ -277,6 +286,10 @@ input AppointmentWhereInput {
 
   """All values not ending with the given string."""
   comment_not_ends_with: String
+  pending: Boolean
+
+  """All values that are not equal to given value."""
+  pending_not: Boolean
   userRating: Int
 
   """All values that are not equal to given value."""
@@ -403,6 +416,7 @@ input AppointmentWhereInput {
   sitterReview_not_ends_with: String
   user: UserWhereInput
   sitter: SitterWhereInput
+  todoList: TodoListWhereInput
 }
 
 input AppointmentWhereUniqueInput {
@@ -414,11 +428,15 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 type Instruction implements Node {
   id: ID!
   time: String!
   desc: String!
   list_id(where: TodoListWhereInput): TodoList!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -453,16 +471,18 @@ enum InstructionOrderByInput {
   time_DESC
   desc_ASC
   desc_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type InstructionPreviousValues {
   id: ID!
   time: String!
   desc: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type InstructionSubscriptionPayload {
@@ -639,6 +659,50 @@ input InstructionWhereInput {
 
   """All values not ending with the given string."""
   desc_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
   list_id: TodoListWhereInput
 }
 
@@ -753,6 +817,7 @@ type Sitter implements Node {
   fri: String
   sat: String
   gCalID: String
+  user(where: UserWhereInput): User!
 }
 
 """A connection to a list of items."""
@@ -776,11 +841,30 @@ input SitterCreateInput {
   sat: String
   gCalID: String
   rates: SitterRateCreateOneInput!
+  user: UserCreateOneWithoutSitterInput!
 }
 
 input SitterCreateOneInput {
   create: SitterCreateInput
   connect: SitterWhereUniqueInput
+}
+
+input SitterCreateOneWithoutUserInput {
+  create: SitterCreateWithoutUserInput
+  connect: SitterWhereUniqueInput
+}
+
+input SitterCreateWithoutUserInput {
+  bio: String!
+  sun: String
+  mon: String
+  tues: String
+  wed: String
+  thurs: String
+  fri: String
+  sat: String
+  gCalID: String
+  rates: SitterRateCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -1165,6 +1249,7 @@ input SitterUpdateDataInput {
   sat: String
   gCalID: String
   rates: SitterRateUpdateOneInput
+  user: UserUpdateOneWithoutSitterInput
 }
 
 input SitterUpdateInput {
@@ -1178,20 +1263,47 @@ input SitterUpdateInput {
   sat: String
   gCalID: String
   rates: SitterRateUpdateOneInput
+  user: UserUpdateOneWithoutSitterInput
 }
 
 input SitterUpdateOneInput {
   create: SitterCreateInput
   connect: SitterWhereUniqueInput
-  disconnect: Boolean
   delete: Boolean
   update: SitterUpdateDataInput
   upsert: SitterUpsertNestedInput
 }
 
+input SitterUpdateOneWithoutUserInput {
+  create: SitterCreateWithoutUserInput
+  connect: SitterWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: SitterUpdateWithoutUserDataInput
+  upsert: SitterUpsertWithoutUserInput
+}
+
+input SitterUpdateWithoutUserDataInput {
+  bio: String
+  sun: String
+  mon: String
+  tues: String
+  wed: String
+  thurs: String
+  fri: String
+  sat: String
+  gCalID: String
+  rates: SitterRateUpdateOneInput
+}
+
 input SitterUpsertNestedInput {
   update: SitterUpdateDataInput!
   create: SitterCreateInput!
+}
+
+input SitterUpsertWithoutUserInput {
+  update: SitterUpdateWithoutUserDataInput!
+  create: SitterCreateWithoutUserInput!
 }
 
 input SitterWhereInput {
@@ -1604,6 +1716,7 @@ input SitterWhereInput {
   """All values not ending with the given string."""
   gCalID_not_ends_with: String
   rates: SitterRateWhereInput
+  user: UserWhereInput
 }
 
 input SitterWhereUniqueInput {
@@ -1623,6 +1736,8 @@ type TodoList implements Node {
   id: ID!
   user(where: UserWhereInput): User!
   name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -1659,15 +1774,17 @@ enum TodoListOrderByInput {
   id_DESC
   name_ASC
   name_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type TodoListPreviousValues {
   id: ID!
   name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type TodoListSubscriptionPayload {
@@ -1821,6 +1938,50 @@ input TodoListWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
   user: UserWhereInput
 }
 
@@ -1860,12 +2021,28 @@ input UserCreateInput {
   state: String
   zip_code: String
   gCalID: String
-  sitter: SitterCreateOneInput
+  sitter: SitterCreateOneWithoutUserInput
 }
 
 input UserCreateOneInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutSitterInput {
+  create: UserCreateWithoutSitterInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutSitterInput {
+  email: String!
+  first_name: String!
+  last_name: String!
+  street_address: String
+  city: String
+  state: String
+  zip_code: String
+  gCalID: String
 }
 
 """An edge in a connection."""
@@ -1962,7 +2139,7 @@ input UserUpdateDataInput {
   state: String
   zip_code: String
   gCalID: String
-  sitter: SitterUpdateOneInput
+  sitter: SitterUpdateOneWithoutUserInput
 }
 
 input UserUpdateInput {
@@ -1974,7 +2151,7 @@ input UserUpdateInput {
   state: String
   zip_code: String
   gCalID: String
-  sitter: SitterUpdateOneInput
+  sitter: SitterUpdateOneWithoutUserInput
 }
 
 input UserUpdateOneInput {
@@ -1985,9 +2162,33 @@ input UserUpdateOneInput {
   upsert: UserUpsertNestedInput
 }
 
+input UserUpdateOneWithoutSitterInput {
+  create: UserCreateWithoutSitterInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateWithoutSitterDataInput
+  upsert: UserUpsertWithoutSitterInput
+}
+
+input UserUpdateWithoutSitterDataInput {
+  email: String
+  first_name: String
+  last_name: String
+  street_address: String
+  city: String
+  state: String
+  zip_code: String
+  gCalID: String
+}
+
 input UserUpsertNestedInput {
   update: UserUpdateDataInput!
   create: UserCreateInput!
+}
+
+input UserUpsertWithoutSitterInput {
+  update: UserUpdateWithoutSitterDataInput!
+  create: UserCreateWithoutSitterInput!
 }
 
 input UserWhereInput {
