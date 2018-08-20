@@ -1,13 +1,13 @@
 type User {
   id: ID! @unique
-  email: String!
+  email: String! @unique
   first_name: String!
   last_name: String!
   street_address: String
   city: String
   state: String
   zip_code: String
-  sitter: Boolean!
+  sitter: Sitter
 }
 
 type SitterRate {
@@ -19,27 +19,17 @@ type SitterRate {
   home_addl: Float
 }
 
-enum DayOfWeek {
-  SUNDAY
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-}
-
-type TimeInterval {
-  start_time: Int!
-  end_time: Int!
-  day_of_week: DayOfWeek
-}
-
 type Sitter {
   id: ID! @unique
   bio: String!
   rates: SitterRate!
-  hours: [TimeInterval!]!
+  sun: String
+  mon: String
+  tues: String
+  wed: String
+  thurs: String
+  fri: String
+  sat: String
 }
 
 type TodoList {
@@ -50,14 +40,14 @@ type TodoList {
 
 type Instruction {
   id: ID! @unique
-  list: TodoList!
-  time: TimeInterval!
+  time: String!
   desc: String!
+  list_id: TodoList!
 }
 
 type Appointment {
   id: ID! @unique
-  time: TimeInterval!
+  time: String!
   user: User!
   sitter: Sitter!
   comment: String!

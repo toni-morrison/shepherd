@@ -33,8 +33,22 @@ const resolvers = {
             street_address: args.street_address || undefined,
             city: args.city || undefined,
             state: args.state || undefined,
-            zip_code: args.zip_code || undefined,
-            sitter: false
+            zip_code: args.zip_code || undefined
+          }
+        },
+        info
+      );
+    },
+    createList: (_, args, context, info) => {
+      return context.prisma.mutation.createTodoList(
+        {
+          data: {
+            user: {
+              connect: {
+                email: args.email
+              }
+            },
+            name: args.name
           }
         },
         info

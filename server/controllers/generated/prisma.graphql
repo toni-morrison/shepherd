@@ -1,5 +1,5 @@
-# source: http://localhost:4466
-# timestamp: Thu Aug 16 2018 18:58:28 GMT-0500 (GMT-05:00)
+# source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
+# timestamp: Sat Aug 18 2018 11:52:07 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -17,10 +17,6 @@ type AggregateSitterRate {
   count: Int!
 }
 
-type AggregateTimeInterval {
-  count: Int!
-}
-
 type AggregateTodoList {
   count: Int!
 }
@@ -31,7 +27,7 @@ type AggregateUser {
 
 type Appointment implements Node {
   id: ID!
-  time(where: TimeIntervalWhereInput): TimeInterval!
+  time: String!
   user(where: UserWhereInput): User!
   sitter(where: SitterWhereInput): Sitter!
   comment: String!
@@ -50,10 +46,10 @@ type AppointmentConnection {
 }
 
 input AppointmentCreateInput {
+  time: String!
   comment: String!
   rating: Int
   pending: Boolean!
-  time: TimeIntervalCreateOneInput!
   user: UserCreateOneInput!
   sitter: SitterCreateOneInput!
 }
@@ -70,6 +66,8 @@ type AppointmentEdge {
 enum AppointmentOrderByInput {
   id_ASC
   id_DESC
+  time_ASC
+  time_DESC
   comment_ASC
   comment_DESC
   rating_ASC
@@ -84,6 +82,7 @@ enum AppointmentOrderByInput {
 
 type AppointmentPreviousValues {
   id: ID!
+  time: String!
   comment: String!
   rating: Int
   pending: Boolean!
@@ -129,10 +128,10 @@ input AppointmentSubscriptionWhereInput {
 }
 
 input AppointmentUpdateInput {
+  time: String
   comment: String
   rating: Int
   pending: Boolean
-  time: TimeIntervalUpdateOneInput
   user: UserUpdateOneInput
   sitter: SitterUpdateOneInput
 }
@@ -186,6 +185,46 @@ input AppointmentWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  time: String
+
+  """All values that are not equal to given value."""
+  time_not: String
+
+  """All values that are contained in given list."""
+  time_in: [String!]
+
+  """All values that are not contained in given list."""
+  time_not_in: [String!]
+
+  """All values less than the given value."""
+  time_lt: String
+
+  """All values less than or equal the given value."""
+  time_lte: String
+
+  """All values greater than the given value."""
+  time_gt: String
+
+  """All values greater than or equal the given value."""
+  time_gte: String
+
+  """All values containing the given string."""
+  time_contains: String
+
+  """All values not containing the given string."""
+  time_not_contains: String
+
+  """All values starting with the given string."""
+  time_starts_with: String
+
+  """All values not starting with the given string."""
+  time_not_starts_with: String
+
+  """All values ending with the given string."""
+  time_ends_with: String
+
+  """All values not ending with the given string."""
+  time_not_ends_with: String
   comment: String
 
   """All values that are not equal to given value."""
@@ -252,7 +291,6 @@ input AppointmentWhereInput {
 
   """All values that are not equal to given value."""
   pending_not: Boolean
-  time: TimeIntervalWhereInput
   user: UserWhereInput
   sitter: SitterWhereInput
 }
@@ -266,21 +304,11 @@ type BatchPayload {
   count: Long!
 }
 
-enum DayOfWeek {
-  SUNDAY
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-}
-
 type Instruction implements Node {
   id: ID!
-  list(where: TodoListWhereInput): TodoList!
-  time(where: TimeIntervalWhereInput): TimeInterval!
+  time: String!
   desc: String!
+  list_id(where: TodoListWhereInput): TodoList!
 }
 
 """A connection to a list of items."""
@@ -294,9 +322,9 @@ type InstructionConnection {
 }
 
 input InstructionCreateInput {
+  time: String!
   desc: String!
-  list: TodoListCreateOneInput!
-  time: TimeIntervalCreateOneInput!
+  list_id: TodoListCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -311,6 +339,8 @@ type InstructionEdge {
 enum InstructionOrderByInput {
   id_ASC
   id_DESC
+  time_ASC
+  time_DESC
   desc_ASC
   desc_DESC
   updatedAt_ASC
@@ -321,6 +351,7 @@ enum InstructionOrderByInput {
 
 type InstructionPreviousValues {
   id: ID!
+  time: String!
   desc: String!
 }
 
@@ -364,9 +395,9 @@ input InstructionSubscriptionWhereInput {
 }
 
 input InstructionUpdateInput {
+  time: String
   desc: String
-  list: TodoListUpdateOneInput
-  time: TimeIntervalUpdateOneInput
+  list_id: TodoListUpdateOneInput
 }
 
 input InstructionWhereInput {
@@ -418,6 +449,46 @@ input InstructionWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  time: String
+
+  """All values that are not equal to given value."""
+  time_not: String
+
+  """All values that are contained in given list."""
+  time_in: [String!]
+
+  """All values that are not contained in given list."""
+  time_not_in: [String!]
+
+  """All values less than the given value."""
+  time_lt: String
+
+  """All values less than or equal the given value."""
+  time_lte: String
+
+  """All values greater than the given value."""
+  time_gt: String
+
+  """All values greater than or equal the given value."""
+  time_gte: String
+
+  """All values containing the given string."""
+  time_contains: String
+
+  """All values not containing the given string."""
+  time_not_contains: String
+
+  """All values starting with the given string."""
+  time_starts_with: String
+
+  """All values not starting with the given string."""
+  time_not_starts_with: String
+
+  """All values ending with the given string."""
+  time_ends_with: String
+
+  """All values not ending with the given string."""
+  time_not_ends_with: String
   desc: String
 
   """All values that are not equal to given value."""
@@ -458,8 +529,7 @@ input InstructionWhereInput {
 
   """All values not ending with the given string."""
   desc_not_ends_with: String
-  list: TodoListWhereInput
-  time: TimeIntervalWhereInput
+  list_id: TodoListWhereInput
 }
 
 input InstructionWhereUniqueInput {
@@ -479,7 +549,6 @@ type Mutation {
   createSitter(data: SitterCreateInput!): Sitter!
   createUser(data: UserCreateInput!): User!
   createSitterRate(data: SitterRateCreateInput!): SitterRate!
-  createTimeInterval(data: TimeIntervalCreateInput!): TimeInterval!
   updateInstruction(data: InstructionUpdateInput!, where: InstructionWhereUniqueInput!): Instruction
   updateAppointment(data: AppointmentUpdateInput!, where: AppointmentWhereUniqueInput!): Appointment
   updateTodoList(data: TodoListUpdateInput!, where: TodoListWhereUniqueInput!): TodoList
@@ -501,14 +570,12 @@ type Mutation {
   updateManySitters(data: SitterUpdateInput!, where: SitterWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManySitterRates(data: SitterRateUpdateInput!, where: SitterRateWhereInput): BatchPayload!
-  updateManyTimeIntervals(data: TimeIntervalUpdateInput!, where: TimeIntervalWhereInput): BatchPayload!
   deleteManyInstructions(where: InstructionWhereInput): BatchPayload!
   deleteManyAppointments(where: AppointmentWhereInput): BatchPayload!
   deleteManyTodoLists(where: TodoListWhereInput): BatchPayload!
   deleteManySitters(where: SitterWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManySitterRates(where: SitterRateWhereInput): BatchPayload!
-  deleteManyTimeIntervals(where: TimeIntervalWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -545,7 +612,6 @@ type Query {
   sitters(where: SitterWhereInput, orderBy: SitterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sitter]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   sitterRates(where: SitterRateWhereInput, orderBy: SitterRateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SitterRate]!
-  timeIntervals(where: TimeIntervalWhereInput, orderBy: TimeIntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TimeInterval]!
   instruction(where: InstructionWhereUniqueInput!): Instruction
   appointment(where: AppointmentWhereUniqueInput!): Appointment
   todoList(where: TodoListWhereUniqueInput!): TodoList
@@ -557,7 +623,6 @@ type Query {
   sittersConnection(where: SitterWhereInput, orderBy: SitterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitterConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   sitterRatesConnection(where: SitterRateWhereInput, orderBy: SitterRateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitterRateConnection!
-  timeIntervalsConnection(where: TimeIntervalWhereInput, orderBy: TimeIntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TimeIntervalConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -570,7 +635,13 @@ type Sitter implements Node {
   id: ID!
   bio: String!
   rates(where: SitterRateWhereInput): SitterRate!
-  hours(where: TimeIntervalWhereInput, orderBy: TimeIntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TimeInterval!]
+  sun: String
+  mon: String
+  tues: String
+  wed: String
+  thurs: String
+  fri: String
+  sat: String
 }
 
 """A connection to a list of items."""
@@ -585,8 +656,14 @@ type SitterConnection {
 
 input SitterCreateInput {
   bio: String!
+  sun: String
+  mon: String
+  tues: String
+  wed: String
+  thurs: String
+  fri: String
+  sat: String
   rates: SitterRateCreateOneInput!
-  hours: TimeIntervalCreateManyInput
 }
 
 input SitterCreateOneInput {
@@ -608,6 +685,20 @@ enum SitterOrderByInput {
   id_DESC
   bio_ASC
   bio_DESC
+  sun_ASC
+  sun_DESC
+  mon_ASC
+  mon_DESC
+  tues_ASC
+  tues_DESC
+  wed_ASC
+  wed_DESC
+  thurs_ASC
+  thurs_DESC
+  fri_ASC
+  fri_DESC
+  sat_ASC
+  sat_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -617,6 +708,13 @@ enum SitterOrderByInput {
 type SitterPreviousValues {
   id: ID!
   bio: String!
+  sun: String
+  mon: String
+  tues: String
+  wed: String
+  thurs: String
+  fri: String
+  sat: String
 }
 
 type SitterRate {
@@ -943,19 +1041,32 @@ input SitterSubscriptionWhereInput {
 
 input SitterUpdateDataInput {
   bio: String
+  sun: String
+  mon: String
+  tues: String
+  wed: String
+  thurs: String
+  fri: String
+  sat: String
   rates: SitterRateUpdateOneInput
-  hours: TimeIntervalUpdateManyInput
 }
 
 input SitterUpdateInput {
   bio: String
+  sun: String
+  mon: String
+  tues: String
+  wed: String
+  thurs: String
+  fri: String
+  sat: String
   rates: SitterRateUpdateOneInput
-  hours: TimeIntervalUpdateManyInput
 }
 
 input SitterUpdateOneInput {
   create: SitterCreateInput
   connect: SitterWhereUniqueInput
+  disconnect: Boolean
   delete: Boolean
   update: SitterUpdateDataInput
   upsert: SitterUpsertNestedInput
@@ -1055,10 +1166,287 @@ input SitterWhereInput {
 
   """All values not ending with the given string."""
   bio_not_ends_with: String
+  sun: String
+
+  """All values that are not equal to given value."""
+  sun_not: String
+
+  """All values that are contained in given list."""
+  sun_in: [String!]
+
+  """All values that are not contained in given list."""
+  sun_not_in: [String!]
+
+  """All values less than the given value."""
+  sun_lt: String
+
+  """All values less than or equal the given value."""
+  sun_lte: String
+
+  """All values greater than the given value."""
+  sun_gt: String
+
+  """All values greater than or equal the given value."""
+  sun_gte: String
+
+  """All values containing the given string."""
+  sun_contains: String
+
+  """All values not containing the given string."""
+  sun_not_contains: String
+
+  """All values starting with the given string."""
+  sun_starts_with: String
+
+  """All values not starting with the given string."""
+  sun_not_starts_with: String
+
+  """All values ending with the given string."""
+  sun_ends_with: String
+
+  """All values not ending with the given string."""
+  sun_not_ends_with: String
+  mon: String
+
+  """All values that are not equal to given value."""
+  mon_not: String
+
+  """All values that are contained in given list."""
+  mon_in: [String!]
+
+  """All values that are not contained in given list."""
+  mon_not_in: [String!]
+
+  """All values less than the given value."""
+  mon_lt: String
+
+  """All values less than or equal the given value."""
+  mon_lte: String
+
+  """All values greater than the given value."""
+  mon_gt: String
+
+  """All values greater than or equal the given value."""
+  mon_gte: String
+
+  """All values containing the given string."""
+  mon_contains: String
+
+  """All values not containing the given string."""
+  mon_not_contains: String
+
+  """All values starting with the given string."""
+  mon_starts_with: String
+
+  """All values not starting with the given string."""
+  mon_not_starts_with: String
+
+  """All values ending with the given string."""
+  mon_ends_with: String
+
+  """All values not ending with the given string."""
+  mon_not_ends_with: String
+  tues: String
+
+  """All values that are not equal to given value."""
+  tues_not: String
+
+  """All values that are contained in given list."""
+  tues_in: [String!]
+
+  """All values that are not contained in given list."""
+  tues_not_in: [String!]
+
+  """All values less than the given value."""
+  tues_lt: String
+
+  """All values less than or equal the given value."""
+  tues_lte: String
+
+  """All values greater than the given value."""
+  tues_gt: String
+
+  """All values greater than or equal the given value."""
+  tues_gte: String
+
+  """All values containing the given string."""
+  tues_contains: String
+
+  """All values not containing the given string."""
+  tues_not_contains: String
+
+  """All values starting with the given string."""
+  tues_starts_with: String
+
+  """All values not starting with the given string."""
+  tues_not_starts_with: String
+
+  """All values ending with the given string."""
+  tues_ends_with: String
+
+  """All values not ending with the given string."""
+  tues_not_ends_with: String
+  wed: String
+
+  """All values that are not equal to given value."""
+  wed_not: String
+
+  """All values that are contained in given list."""
+  wed_in: [String!]
+
+  """All values that are not contained in given list."""
+  wed_not_in: [String!]
+
+  """All values less than the given value."""
+  wed_lt: String
+
+  """All values less than or equal the given value."""
+  wed_lte: String
+
+  """All values greater than the given value."""
+  wed_gt: String
+
+  """All values greater than or equal the given value."""
+  wed_gte: String
+
+  """All values containing the given string."""
+  wed_contains: String
+
+  """All values not containing the given string."""
+  wed_not_contains: String
+
+  """All values starting with the given string."""
+  wed_starts_with: String
+
+  """All values not starting with the given string."""
+  wed_not_starts_with: String
+
+  """All values ending with the given string."""
+  wed_ends_with: String
+
+  """All values not ending with the given string."""
+  wed_not_ends_with: String
+  thurs: String
+
+  """All values that are not equal to given value."""
+  thurs_not: String
+
+  """All values that are contained in given list."""
+  thurs_in: [String!]
+
+  """All values that are not contained in given list."""
+  thurs_not_in: [String!]
+
+  """All values less than the given value."""
+  thurs_lt: String
+
+  """All values less than or equal the given value."""
+  thurs_lte: String
+
+  """All values greater than the given value."""
+  thurs_gt: String
+
+  """All values greater than or equal the given value."""
+  thurs_gte: String
+
+  """All values containing the given string."""
+  thurs_contains: String
+
+  """All values not containing the given string."""
+  thurs_not_contains: String
+
+  """All values starting with the given string."""
+  thurs_starts_with: String
+
+  """All values not starting with the given string."""
+  thurs_not_starts_with: String
+
+  """All values ending with the given string."""
+  thurs_ends_with: String
+
+  """All values not ending with the given string."""
+  thurs_not_ends_with: String
+  fri: String
+
+  """All values that are not equal to given value."""
+  fri_not: String
+
+  """All values that are contained in given list."""
+  fri_in: [String!]
+
+  """All values that are not contained in given list."""
+  fri_not_in: [String!]
+
+  """All values less than the given value."""
+  fri_lt: String
+
+  """All values less than or equal the given value."""
+  fri_lte: String
+
+  """All values greater than the given value."""
+  fri_gt: String
+
+  """All values greater than or equal the given value."""
+  fri_gte: String
+
+  """All values containing the given string."""
+  fri_contains: String
+
+  """All values not containing the given string."""
+  fri_not_contains: String
+
+  """All values starting with the given string."""
+  fri_starts_with: String
+
+  """All values not starting with the given string."""
+  fri_not_starts_with: String
+
+  """All values ending with the given string."""
+  fri_ends_with: String
+
+  """All values not ending with the given string."""
+  fri_not_ends_with: String
+  sat: String
+
+  """All values that are not equal to given value."""
+  sat_not: String
+
+  """All values that are contained in given list."""
+  sat_in: [String!]
+
+  """All values that are not contained in given list."""
+  sat_not_in: [String!]
+
+  """All values less than the given value."""
+  sat_lt: String
+
+  """All values less than or equal the given value."""
+  sat_lte: String
+
+  """All values greater than the given value."""
+  sat_gt: String
+
+  """All values greater than or equal the given value."""
+  sat_gte: String
+
+  """All values containing the given string."""
+  sat_contains: String
+
+  """All values not containing the given string."""
+  sat_not_contains: String
+
+  """All values starting with the given string."""
+  sat_starts_with: String
+
+  """All values not starting with the given string."""
+  sat_not_starts_with: String
+
+  """All values ending with the given string."""
+  sat_ends_with: String
+
+  """All values not ending with the given string."""
+  sat_not_ends_with: String
   rates: SitterRateWhereInput
-  hours_every: TimeIntervalWhereInput
-  hours_some: TimeIntervalWhereInput
-  hours_none: TimeIntervalWhereInput
 }
 
 input SitterWhereUniqueInput {
@@ -1072,199 +1460,6 @@ type Subscription {
   sitter(where: SitterSubscriptionWhereInput): SitterSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   sitterRate(where: SitterRateSubscriptionWhereInput): SitterRateSubscriptionPayload
-  timeInterval(where: TimeIntervalSubscriptionWhereInput): TimeIntervalSubscriptionPayload
-}
-
-type TimeInterval {
-  start_time: Int!
-  end_time: Int!
-  day_of_week: DayOfWeek
-}
-
-"""A connection to a list of items."""
-type TimeIntervalConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [TimeIntervalEdge]!
-  aggregate: AggregateTimeInterval!
-}
-
-input TimeIntervalCreateInput {
-  start_time: Int!
-  end_time: Int!
-  day_of_week: DayOfWeek
-}
-
-input TimeIntervalCreateManyInput {
-  create: [TimeIntervalCreateInput!]
-}
-
-input TimeIntervalCreateOneInput {
-  create: TimeIntervalCreateInput
-}
-
-"""An edge in a connection."""
-type TimeIntervalEdge {
-  """The item at the end of the edge."""
-  node: TimeInterval!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum TimeIntervalOrderByInput {
-  start_time_ASC
-  start_time_DESC
-  end_time_ASC
-  end_time_DESC
-  day_of_week_ASC
-  day_of_week_DESC
-  id_ASC
-  id_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-}
-
-type TimeIntervalPreviousValues {
-  start_time: Int!
-  end_time: Int!
-  day_of_week: DayOfWeek
-}
-
-type TimeIntervalSubscriptionPayload {
-  mutation: MutationType!
-  node: TimeInterval
-  updatedFields: [String!]
-  previousValues: TimeIntervalPreviousValues
-}
-
-input TimeIntervalSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [TimeIntervalSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [TimeIntervalSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [TimeIntervalSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: TimeIntervalWhereInput
-}
-
-input TimeIntervalUpdateDataInput {
-  start_time: Int
-  end_time: Int
-  day_of_week: DayOfWeek
-}
-
-input TimeIntervalUpdateInput {
-  start_time: Int
-  end_time: Int
-  day_of_week: DayOfWeek
-}
-
-input TimeIntervalUpdateManyInput {
-  create: [TimeIntervalCreateInput!]
-}
-
-input TimeIntervalUpdateOneInput {
-  create: TimeIntervalCreateInput
-  delete: Boolean
-  update: TimeIntervalUpdateDataInput
-  upsert: TimeIntervalUpsertNestedInput
-}
-
-input TimeIntervalUpsertNestedInput {
-  update: TimeIntervalUpdateDataInput!
-  create: TimeIntervalCreateInput!
-}
-
-input TimeIntervalWhereInput {
-  """Logical AND on all given filters."""
-  AND: [TimeIntervalWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [TimeIntervalWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [TimeIntervalWhereInput!]
-  start_time: Int
-
-  """All values that are not equal to given value."""
-  start_time_not: Int
-
-  """All values that are contained in given list."""
-  start_time_in: [Int!]
-
-  """All values that are not contained in given list."""
-  start_time_not_in: [Int!]
-
-  """All values less than the given value."""
-  start_time_lt: Int
-
-  """All values less than or equal the given value."""
-  start_time_lte: Int
-
-  """All values greater than the given value."""
-  start_time_gt: Int
-
-  """All values greater than or equal the given value."""
-  start_time_gte: Int
-  end_time: Int
-
-  """All values that are not equal to given value."""
-  end_time_not: Int
-
-  """All values that are contained in given list."""
-  end_time_in: [Int!]
-
-  """All values that are not contained in given list."""
-  end_time_not_in: [Int!]
-
-  """All values less than the given value."""
-  end_time_lt: Int
-
-  """All values less than or equal the given value."""
-  end_time_lte: Int
-
-  """All values greater than the given value."""
-  end_time_gt: Int
-
-  """All values greater than or equal the given value."""
-  end_time_gte: Int
-  day_of_week: DayOfWeek
-
-  """All values that are not equal to given value."""
-  day_of_week_not: DayOfWeek
-
-  """All values that are contained in given list."""
-  day_of_week_in: [DayOfWeek!]
-
-  """All values that are not contained in given list."""
-  day_of_week_not_in: [DayOfWeek!]
 }
 
 type TodoList implements Node {
@@ -1485,7 +1680,7 @@ type User implements Node {
   city: String
   state: String
   zip_code: String
-  sitter: Boolean!
+  sitter(where: SitterWhereInput): Sitter
 }
 
 """A connection to a list of items."""
@@ -1506,7 +1701,7 @@ input UserCreateInput {
   city: String
   state: String
   zip_code: String
-  sitter: Boolean!
+  sitter: SitterCreateOneInput
 }
 
 input UserCreateOneInput {
@@ -1540,8 +1735,6 @@ enum UserOrderByInput {
   state_DESC
   zip_code_ASC
   zip_code_DESC
-  sitter_ASC
-  sitter_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -1557,7 +1750,6 @@ type UserPreviousValues {
   city: String
   state: String
   zip_code: String
-  sitter: Boolean!
 }
 
 type UserSubscriptionPayload {
@@ -1607,7 +1799,7 @@ input UserUpdateDataInput {
   city: String
   state: String
   zip_code: String
-  sitter: Boolean
+  sitter: SitterUpdateOneInput
 }
 
 input UserUpdateInput {
@@ -1618,7 +1810,7 @@ input UserUpdateInput {
   city: String
   state: String
   zip_code: String
-  sitter: Boolean
+  sitter: SitterUpdateOneInput
 }
 
 input UserUpdateOneInput {
@@ -1926,31 +2118,47 @@ input UserWhereInput {
   zip_code: String
 
   """All values that are not equal to given value."""
-  zip_code_not: Int
+  zip_code_not: String
 
   """All values that are contained in given list."""
-  zip_code_in: [Int!]
+  zip_code_in: [String!]
 
   """All values that are not contained in given list."""
-  zip_code_not_in: [Int!]
+  zip_code_not_in: [String!]
 
   """All values less than the given value."""
-  zip_code_lt: Int
+  zip_code_lt: String
 
   """All values less than or equal the given value."""
-  zip_code_lte: Int
+  zip_code_lte: String
 
   """All values greater than the given value."""
-  zip_code_gt: Int
+  zip_code_gt: String
 
   """All values greater than or equal the given value."""
-  zip_code_gte: Int
-  sitter: Boolean
+  zip_code_gte: String
 
-  """All values that are not equal to given value."""
-  sitter_not: Boolean
+  """All values containing the given string."""
+  zip_code_contains: String
+
+  """All values not containing the given string."""
+  zip_code_not_contains: String
+
+  """All values starting with the given string."""
+  zip_code_starts_with: String
+
+  """All values not starting with the given string."""
+  zip_code_not_starts_with: String
+
+  """All values ending with the given string."""
+  zip_code_ends_with: String
+
+  """All values not ending with the given string."""
+  zip_code_not_ends_with: String
+  sitter: SitterWhereInput
 }
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }
