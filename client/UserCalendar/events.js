@@ -1,7 +1,6 @@
 export default [
   {
     id: 0,
-    title: 'John, HouseSitting',
     allDay: true,
     start: new Date('2018-08-15T14:20:00'),
     end: new Date('2018-08-15T16:24:00'),
@@ -17,7 +16,6 @@ export default [
   },
   {
     id: 1,
-    title: 'Jane, PetSitting',
     allDay: false,
     start: new Date('2018-08-14T11:10:00'),
     end: new Date('2018-08-14T12:12:00'),
@@ -35,5 +33,8 @@ export default [
     title: 'Today',
     start: new Date(new Date().setHours(new Date().getHours() - 3)),
     end: new Date(new Date().setHours(new Date().getHours() + 3)),
+    status: 'TODAY',
+    username: '',
+    sittername: ''
   },
 ]
