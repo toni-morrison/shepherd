@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Mon Aug 20 2018 14:59:18 GMT-0500 (GMT-05:00)
+# timestamp: Mon Aug 20 2018 18:22:23 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -1999,6 +1999,7 @@ type User implements Node {
   state: String
   zip_code: String
   gCalID: String
+  rating: Int
   sitter(where: SitterWhereInput): Sitter
 }
 
@@ -2021,6 +2022,7 @@ input UserCreateInput {
   state: String
   zip_code: String
   gCalID: String
+  rating: Int
   sitter: SitterCreateOneWithoutUserInput
 }
 
@@ -2043,6 +2045,7 @@ input UserCreateWithoutSitterInput {
   state: String
   zip_code: String
   gCalID: String
+  rating: Int
 }
 
 """An edge in a connection."""
@@ -2073,6 +2076,8 @@ enum UserOrderByInput {
   zip_code_DESC
   gCalID_ASC
   gCalID_DESC
+  rating_ASC
+  rating_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -2089,6 +2094,7 @@ type UserPreviousValues {
   state: String
   zip_code: String
   gCalID: String
+  rating: Int
 }
 
 type UserSubscriptionPayload {
@@ -2139,6 +2145,7 @@ input UserUpdateDataInput {
   state: String
   zip_code: String
   gCalID: String
+  rating: Int
   sitter: SitterUpdateOneWithoutUserInput
 }
 
@@ -2151,6 +2158,7 @@ input UserUpdateInput {
   state: String
   zip_code: String
   gCalID: String
+  rating: Int
   sitter: SitterUpdateOneWithoutUserInput
 }
 
@@ -2179,6 +2187,7 @@ input UserUpdateWithoutSitterDataInput {
   state: String
   zip_code: String
   gCalID: String
+  rating: Int
 }
 
 input UserUpsertNestedInput {
@@ -2560,6 +2569,28 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   gCalID_not_ends_with: String
+  rating: Int
+
+  """All values that are not equal to given value."""
+  rating_not: Int
+
+  """All values that are contained in given list."""
+  rating_in: [Int!]
+
+  """All values that are not contained in given list."""
+  rating_not_in: [Int!]
+
+  """All values less than the given value."""
+  rating_lt: Int
+
+  """All values less than or equal the given value."""
+  rating_lte: Int
+
+  """All values greater than the given value."""
+  rating_gt: Int
+
+  """All values greater than or equal the given value."""
+  rating_gte: Int
   sitter: SitterWhereInput
 }
 

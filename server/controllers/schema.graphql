@@ -19,7 +19,9 @@ type Mutation {
     city: String
     state: String
     zip_code: String
+    rating: Int
   ): User!
+
   createList(email: String!, name: String!): TodoList!
   updateListName(id: ID!, name: String!): TodoList!
   createInstruction(
@@ -28,4 +30,14 @@ type Mutation {
     desc: String!
     list_id: ID!
   ): Instruction!
+
+  updateUser(
+    email: String!
+    first_name: String
+    last_name: String
+    street_address: String
+    city: String
+    state: String
+    zip_code: String
+  ): User!
 }

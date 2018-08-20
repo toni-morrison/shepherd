@@ -33,7 +33,8 @@ const resolvers = {
             street_address: args.street_address,
             city: args.city,
             state: args.state,
-            zip_code: args.zip_code
+            zip_code: args.zip_code,
+            rating: 0
           }
         },
         info
@@ -67,7 +68,6 @@ const resolvers = {
         info
       );
     },
-
     createInstruction: (_, args, context, info) => {
       return context.prisma.mutation.upsertInstruction(
         {
@@ -86,6 +86,25 @@ const resolvers = {
           },
           update: {
             desc: args.desc
+          }
+        },
+        info
+      );
+    },
+
+    updateUser: (_, args, context, info) => {
+      return context.prisma.mutation.updateUser(
+        {
+          data: {
+            first_name: args.first_name,
+            last_name: args.last_name,
+            street_address: args.street_address,
+            city: args.city,
+            state: args.state,
+            zip_code: args.zip_code
+          },
+          where: {
+            email: args.email
           }
         },
         info
