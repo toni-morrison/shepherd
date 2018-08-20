@@ -73,7 +73,11 @@ const resolvers = {
           data: {
             time: args.time,
             desc: args.desc,
-            list_id: args.id
+            list_id: {
+              connect: {
+                id: args.list_id
+              }
+            }
           }
         },
         info
@@ -81,6 +85,20 @@ const resolvers = {
     }
   }
 };
+
+// mutation {
+//   createInstruction(data:{
+//     time: "08:00"
+//     desc: "HELLO WORLD"
+//     list_id:{
+//       connect: {
+//         id: "cjl2r0l7f00ar0784p55ja73f"
+//       }
+//     }
+//   }){
+//     id
+//   }
+// }
 
 const server = new GraphQLServer({
   typeDefs: './server/controllers/schema.graphql',

@@ -85,7 +85,8 @@ export default class InstructionMaker extends React.Component {
     });
   }
 
-  addItem() {
+  addItem(createInstruction) {
+    console.log('addItemStillFires:', this.props.currentListId);
     var ddt = this.state.dropDownTime;
     var idx;
     for (var i = 0; i < this.state.time.length; i++) {
@@ -94,6 +95,16 @@ export default class InstructionMaker extends React.Component {
         idx = i;
       }
     }
+
+    createInstruction({
+      variables: {
+        time: ddt,
+        desc: this.state.instruction,
+        list_id: this.props.currentListId
+      }
+    }).then(({ data }) => {
+      console.log('dataFromCreateInstruction:', data);
+    });
     var newTup = [ddt, this.state.instruction];
     var clone = Array.from(this.state.time);
     clone.splice(idx, 1, newTup);
@@ -238,10 +249,25 @@ export default class InstructionMaker extends React.Component {
                       {dropTimes}
                     </FormControl>
                   </FormGroup>
+                  <Mutation mutation={CREATE_INSTRUCTION}>
+                    {(createInstruction, { loading, error, data }) => {
+                      if (loading) {
+                        return <p>Loading...</p>;
+                      }
+                      if (error) {
+                        return <p>Error :(</p>;
+                      }
+                      return (
+                        <Button
+                          type="button"
+                          onClick={() => this.addItem(createInstruction)}
+                        >
+                          Add Instruction
+                        </Button>
+                      );
+                    }}
+                  </Mutation>
 
-                  <Button type="button" onClick={() => this.addItem()}>
-                    Add Instruction
-                  </Button>
                   <Button type="button" onClick={() => this.onClear()}>
                     Clear
                   </Button>
