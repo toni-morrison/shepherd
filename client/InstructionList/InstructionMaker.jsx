@@ -20,8 +20,13 @@ const UPDATE_TODO_LIST_NAME = gql`
 `;
 
 const CREATE_INSTRUCTION = gql`
-  mutation createInstruction($time: String!, $desc: String!, $list_id: ID!) {
-    createInstruction(time: $time, desc: $desc, list_id: $list_id) {
+  mutation createInstruction(
+    $id: ID!
+    $time: String!
+    $desc: String!
+    $list_id: ID!
+  ) {
+    createInstruction(id: $id, time: $time, desc: $desc, list_id: $list_id) {
       id
     }
   }
@@ -86,31 +91,37 @@ export default class InstructionMaker extends React.Component {
   }
 
   addItem(createInstruction) {
-    console.log('addItemStillFires:', this.props.currentListId);
     var ddt = this.state.dropDownTime;
     var idx;
+    var dbId;
     for (var i = 0; i < this.state.time.length; i++) {
       var timeTup = this.state.time[i];
       if (timeTup.indexOf(ddt) >= 0) {
         idx = i;
+        if (timeTup.length > 2) {
+          dbId = timeTup[2];
+        } else {
+          dbId = '123456789';
+        }
       }
     }
 
     createInstruction({
       variables: {
+        id: dbId,
         time: ddt,
         desc: this.state.instruction,
         list_id: this.props.currentListId
       }
     }).then(({ data }) => {
-      console.log('dataFromCreateInstruction:', data);
-    });
-    var newTup = [ddt, this.state.instruction];
-    var clone = Array.from(this.state.time);
-    clone.splice(idx, 1, newTup);
-    this.setState({
-      time: clone,
-      instruction: ''
+      var id = data.createInstruction.id;
+      var newTup = [ddt, this.state.instruction, id];
+      var clone = Array.from(this.state.time);
+      clone.splice(idx, 1, newTup);
+      this.setState({
+        time: clone,
+        instruction: ''
+      });
     });
   }
 

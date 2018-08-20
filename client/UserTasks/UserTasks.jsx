@@ -74,7 +74,7 @@ export default class UserTasks extends React.Component {
   handleCreateInstructions(createList) {
     createList({
       variables: {
-        email: 'daniel.guan.bca@gmail.com',
+        email: 'debbie@hr.com',
         name: this.state.name
       }
     }).then(({ data }) => {
