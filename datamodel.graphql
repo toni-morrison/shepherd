@@ -8,7 +8,7 @@ type User {
   state: String
   zip_code: String
   gCalID: String
-  rating: Int
+  rating: Float
   sitter: Sitter
 }
 
@@ -33,6 +33,7 @@ type Sitter {
   fri: String
   sat: String
   gCalID: String
+  rating: Float
   user: User!
 }
 
@@ -61,8 +62,8 @@ type Appointment {
   comment: String!
   todoList: TodoList
   pending: Boolean
-  userRating: Int
-  sitterRating: Int
+  userRating: Float
+  sitterRating: Float
   userReview: String
   sitterReview: String
 }
