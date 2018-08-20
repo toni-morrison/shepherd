@@ -1,5 +1,6 @@
 import React from 'react';
 import firebase from '../../server/firebase/firebase.js';
+import { FormGroup, FormControl } from 'react-bootstrap';
 
 export default class EmailLogin extends React.Component {
   constructor(props) {
@@ -23,7 +24,8 @@ export default class EmailLogin extends React.Component {
     });
   }
 
-  handleEmailLogin() {
+  handleEmailLogin(e) {
+    e.preventDefault();
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -42,30 +44,29 @@ export default class EmailLogin extends React.Component {
     } else {
       return (
         <div className="auth-form">
-          <form>
-            <input
-              id="email"
-              type="email"
-              value={this.state.email}
-              placeholder="Enter Your Email"
-              onChange={this.handleChange}
-            />
-            <br />
-            <input
-              id="password"
-              type="password"
-              value={this.state.password}
-              placeholder="Enter Your Password"
-              onChange={this.handleChange}
-            />
-            <br />
-            <button
-              type="button"
-              onClick={() => this.handleEmailLogin()}
-              disabled={!this.validateForm()}
-            >
-              Submit
-            </button>
+          <form onSubmit={this.handleEmailLogin}>
+            <FormGroup>
+              <FormControl
+                id="email"
+                type="email"
+                value={this.state.email}
+                placeholder="Enter Your Email"
+                onChange={this.handleChange}
+              />
+              <FormControl
+                id="password"
+                type="password"
+                value={this.state.password}
+                placeholder="Enter Your Password"
+                onChange={this.handleChange}
+              />
+              <button
+                type="submit"
+                disabled={!this.validateForm()}
+              >
+                Submit
+              </button>
+            </FormGroup>
           </form>
         </div>
       );
