@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Grid, Row, Col, Well } from 'react-bootstrap';
 import UserProfileUpdate from '../UserProfile/UserProfileUpdate.jsx';
 import SitterSetSchedule from './SitterSetSchedule.jsx';
+import SitterSetPrices from './SitterSetPrices.jsx';
 
 export default class SitterProfile extends React.Component {
   constructor (props) {
@@ -31,16 +32,16 @@ export default class SitterProfile extends React.Component {
                 <Well bsSize="large" style={{ width:'100%' }}>
                   {/* PULL ALL SITTER INFO FROM USER PROFILE */}
                   {/* PHOTO OF USER */}
-                  Name: <br/>
-                  Email: <br/>
-                  Address: <br/><br/>
+                  <h4>Name: Debbie</h4><br/>
+                  <h4>Email: debbie@sitter.com</h4><br/>
+                  <h4>Address: 369 Lexington Ave, New York, New York</h4><br/>
                   <Button onClick={this.handleInfoUpdate}>Click to Update</Button>
                 </Well>
               </Col>
             </Row>
 
             <SitterSetSchedule/>
-
+            <SitterSetPrices/>
           </Grid>
         </div>
       )

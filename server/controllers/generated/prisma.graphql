@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Sat Aug 18 2018 11:52:07 GMT-0500 (GMT-05:00)
+# timestamp: Mon Aug 20 2018 10:36:31 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -31,8 +31,10 @@ type Appointment implements Node {
   user(where: UserWhereInput): User!
   sitter(where: SitterWhereInput): Sitter!
   comment: String!
-  rating: Int
-  pending: Boolean!
+  userRating: Int
+  sitterRating: Int
+  userReview: String
+  sitterReview: String
 }
 
 """A connection to a list of items."""
@@ -48,8 +50,10 @@ type AppointmentConnection {
 input AppointmentCreateInput {
   time: String!
   comment: String!
-  rating: Int
-  pending: Boolean!
+  userRating: Int
+  sitterRating: Int
+  userReview: String
+  sitterReview: String
   user: UserCreateOneInput!
   sitter: SitterCreateOneInput!
 }
@@ -70,10 +74,14 @@ enum AppointmentOrderByInput {
   time_DESC
   comment_ASC
   comment_DESC
-  rating_ASC
-  rating_DESC
-  pending_ASC
-  pending_DESC
+  userRating_ASC
+  userRating_DESC
+  sitterRating_ASC
+  sitterRating_DESC
+  userReview_ASC
+  userReview_DESC
+  sitterReview_ASC
+  sitterReview_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -84,8 +92,10 @@ type AppointmentPreviousValues {
   id: ID!
   time: String!
   comment: String!
-  rating: Int
-  pending: Boolean!
+  userRating: Int
+  sitterRating: Int
+  userReview: String
+  sitterReview: String
 }
 
 type AppointmentSubscriptionPayload {
@@ -130,8 +140,10 @@ input AppointmentSubscriptionWhereInput {
 input AppointmentUpdateInput {
   time: String
   comment: String
-  rating: Int
-  pending: Boolean
+  userRating: Int
+  sitterRating: Int
+  userReview: String
+  sitterReview: String
   user: UserUpdateOneInput
   sitter: SitterUpdateOneInput
 }
@@ -265,32 +277,130 @@ input AppointmentWhereInput {
 
   """All values not ending with the given string."""
   comment_not_ends_with: String
-  rating: Int
+  userRating: Int
 
   """All values that are not equal to given value."""
-  rating_not: Int
+  userRating_not: Int
 
   """All values that are contained in given list."""
-  rating_in: [Int!]
+  userRating_in: [Int!]
 
   """All values that are not contained in given list."""
-  rating_not_in: [Int!]
+  userRating_not_in: [Int!]
 
   """All values less than the given value."""
-  rating_lt: Int
+  userRating_lt: Int
 
   """All values less than or equal the given value."""
-  rating_lte: Int
+  userRating_lte: Int
 
   """All values greater than the given value."""
-  rating_gt: Int
+  userRating_gt: Int
 
   """All values greater than or equal the given value."""
-  rating_gte: Int
-  pending: Boolean
+  userRating_gte: Int
+  sitterRating: Int
 
   """All values that are not equal to given value."""
-  pending_not: Boolean
+  sitterRating_not: Int
+
+  """All values that are contained in given list."""
+  sitterRating_in: [Int!]
+
+  """All values that are not contained in given list."""
+  sitterRating_not_in: [Int!]
+
+  """All values less than the given value."""
+  sitterRating_lt: Int
+
+  """All values less than or equal the given value."""
+  sitterRating_lte: Int
+
+  """All values greater than the given value."""
+  sitterRating_gt: Int
+
+  """All values greater than or equal the given value."""
+  sitterRating_gte: Int
+  userReview: String
+
+  """All values that are not equal to given value."""
+  userReview_not: String
+
+  """All values that are contained in given list."""
+  userReview_in: [String!]
+
+  """All values that are not contained in given list."""
+  userReview_not_in: [String!]
+
+  """All values less than the given value."""
+  userReview_lt: String
+
+  """All values less than or equal the given value."""
+  userReview_lte: String
+
+  """All values greater than the given value."""
+  userReview_gt: String
+
+  """All values greater than or equal the given value."""
+  userReview_gte: String
+
+  """All values containing the given string."""
+  userReview_contains: String
+
+  """All values not containing the given string."""
+  userReview_not_contains: String
+
+  """All values starting with the given string."""
+  userReview_starts_with: String
+
+  """All values not starting with the given string."""
+  userReview_not_starts_with: String
+
+  """All values ending with the given string."""
+  userReview_ends_with: String
+
+  """All values not ending with the given string."""
+  userReview_not_ends_with: String
+  sitterReview: String
+
+  """All values that are not equal to given value."""
+  sitterReview_not: String
+
+  """All values that are contained in given list."""
+  sitterReview_in: [String!]
+
+  """All values that are not contained in given list."""
+  sitterReview_not_in: [String!]
+
+  """All values less than the given value."""
+  sitterReview_lt: String
+
+  """All values less than or equal the given value."""
+  sitterReview_lte: String
+
+  """All values greater than the given value."""
+  sitterReview_gt: String
+
+  """All values greater than or equal the given value."""
+  sitterReview_gte: String
+
+  """All values containing the given string."""
+  sitterReview_contains: String
+
+  """All values not containing the given string."""
+  sitterReview_not_contains: String
+
+  """All values starting with the given string."""
+  sitterReview_starts_with: String
+
+  """All values not starting with the given string."""
+  sitterReview_not_starts_with: String
+
+  """All values ending with the given string."""
+  sitterReview_ends_with: String
+
+  """All values not ending with the given string."""
+  sitterReview_not_ends_with: String
   user: UserWhereInput
   sitter: SitterWhereInput
 }
@@ -642,6 +752,7 @@ type Sitter implements Node {
   thurs: String
   fri: String
   sat: String
+  gCalID: String
 }
 
 """A connection to a list of items."""
@@ -663,6 +774,7 @@ input SitterCreateInput {
   thurs: String
   fri: String
   sat: String
+  gCalID: String
   rates: SitterRateCreateOneInput!
 }
 
@@ -699,6 +811,8 @@ enum SitterOrderByInput {
   fri_DESC
   sat_ASC
   sat_DESC
+  gCalID_ASC
+  gCalID_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -715,6 +829,7 @@ type SitterPreviousValues {
   thurs: String
   fri: String
   sat: String
+  gCalID: String
 }
 
 type SitterRate {
@@ -1048,6 +1163,7 @@ input SitterUpdateDataInput {
   thurs: String
   fri: String
   sat: String
+  gCalID: String
   rates: SitterRateUpdateOneInput
 }
 
@@ -1060,6 +1176,7 @@ input SitterUpdateInput {
   thurs: String
   fri: String
   sat: String
+  gCalID: String
   rates: SitterRateUpdateOneInput
 }
 
@@ -1446,6 +1563,46 @@ input SitterWhereInput {
 
   """All values not ending with the given string."""
   sat_not_ends_with: String
+  gCalID: String
+
+  """All values that are not equal to given value."""
+  gCalID_not: String
+
+  """All values that are contained in given list."""
+  gCalID_in: [String!]
+
+  """All values that are not contained in given list."""
+  gCalID_not_in: [String!]
+
+  """All values less than the given value."""
+  gCalID_lt: String
+
+  """All values less than or equal the given value."""
+  gCalID_lte: String
+
+  """All values greater than the given value."""
+  gCalID_gt: String
+
+  """All values greater than or equal the given value."""
+  gCalID_gte: String
+
+  """All values containing the given string."""
+  gCalID_contains: String
+
+  """All values not containing the given string."""
+  gCalID_not_contains: String
+
+  """All values starting with the given string."""
+  gCalID_starts_with: String
+
+  """All values not starting with the given string."""
+  gCalID_not_starts_with: String
+
+  """All values ending with the given string."""
+  gCalID_ends_with: String
+
+  """All values not ending with the given string."""
+  gCalID_not_ends_with: String
   rates: SitterRateWhereInput
 }
 
@@ -1680,6 +1837,7 @@ type User implements Node {
   city: String
   state: String
   zip_code: String
+  gCalID: String
   sitter(where: SitterWhereInput): Sitter
 }
 
@@ -1701,6 +1859,7 @@ input UserCreateInput {
   city: String
   state: String
   zip_code: String
+  gCalID: String
   sitter: SitterCreateOneInput
 }
 
@@ -1735,6 +1894,8 @@ enum UserOrderByInput {
   state_DESC
   zip_code_ASC
   zip_code_DESC
+  gCalID_ASC
+  gCalID_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -1750,6 +1911,7 @@ type UserPreviousValues {
   city: String
   state: String
   zip_code: String
+  gCalID: String
 }
 
 type UserSubscriptionPayload {
@@ -1799,6 +1961,7 @@ input UserUpdateDataInput {
   city: String
   state: String
   zip_code: String
+  gCalID: String
   sitter: SitterUpdateOneInput
 }
 
@@ -1810,6 +1973,7 @@ input UserUpdateInput {
   city: String
   state: String
   zip_code: String
+  gCalID: String
   sitter: SitterUpdateOneInput
 }
 
@@ -2155,6 +2319,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   zip_code_not_ends_with: String
+  gCalID: String
+
+  """All values that are not equal to given value."""
+  gCalID_not: String
+
+  """All values that are contained in given list."""
+  gCalID_in: [String!]
+
+  """All values that are not contained in given list."""
+  gCalID_not_in: [String!]
+
+  """All values less than the given value."""
+  gCalID_lt: String
+
+  """All values less than or equal the given value."""
+  gCalID_lte: String
+
+  """All values greater than the given value."""
+  gCalID_gt: String
+
+  """All values greater than or equal the given value."""
+  gCalID_gte: String
+
+  """All values containing the given string."""
+  gCalID_contains: String
+
+  """All values not containing the given string."""
+  gCalID_not_contains: String
+
+  """All values starting with the given string."""
+  gCalID_starts_with: String
+
+  """All values not starting with the given string."""
+  gCalID_not_starts_with: String
+
+  """All values ending with the given string."""
+  gCalID_ends_with: String
+
+  """All values not ending with the given string."""
+  gCalID_not_ends_with: String
   sitter: SitterWhereInput
 }
 

@@ -38,6 +38,21 @@ const resolvers = {
         },
         info
       );
+    },
+    createList: (_, args, context, info) => {
+      return context.prisma.mutation.createTodoList(
+        {
+          data: {
+            user: {
+              connect: {
+                email: args.email
+              }
+            },
+            name: args.name
+          }
+        },
+        info
+      );
     }
   }
 };

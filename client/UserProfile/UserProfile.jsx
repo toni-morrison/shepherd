@@ -47,9 +47,9 @@ handleSubmit() {
               <Col xs={12}>
                 <Well bsSize="large" style={{ width:'100%' }}>
                   {/* PHOTO OF USER */}
-                  Name: <br/>
-                  Email: <br/>
-                  Address: <br/><br/>
+                  <h4>Name: Debbie</h4><br/>
+                  <h4>Email: debbie@gmail.com</h4><br/>
+                  <h4>Address: 369 Lexington Ave, New York, New York</h4><br/><br/>
 
                   <Button onClick={this.handleSubmit}>Click to Update</Button>
                 </Well>
