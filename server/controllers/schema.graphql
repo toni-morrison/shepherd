@@ -20,5 +20,16 @@ type Mutation {
     state: String
     zip_code: String
   ): User!
+
   createList(email: String!, name: String!): TodoList!
+
+  updateUser(
+    email: String!
+    first_name: String
+    last_name: String
+    street_address: String
+    city: String
+    state: String
+    zip_code: String
+  ): User!
 }

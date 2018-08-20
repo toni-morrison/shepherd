@@ -19,19 +19,10 @@ export default class SitterReviewCard extends React.Component {
                           rating model?`,
                   img: 'https://i.imgur.com/QT0uEU6.jpg'
                 }
-                // {
-                //   name: 'Debbie',
-                //   date: '08/17/2018',
-                //   stars: '5',
-                //   review: `My kids loved Dan! They are already asking when we will go
-                //           on another vacation so that they can see him again. Apparently
-                //           he taught them something called GraphQL??? because my kids won't
-                //           stop talking about it. Thanks for being awesome Dan!`,
-                //   img: 'https://i.imgur.com/FWUmfQ8.jpg'
-                // }
               ]
     }
   }
+
 
 
   render() {
@@ -40,7 +31,7 @@ export default class SitterReviewCard extends React.Component {
         {
           this.state.reviews.map((review) => {
             return(
-              <div>
+              <div key={review}>
               <Well bsSize="large" style={{width: '100%'}}>
                 {/* <Col xs={3}> */}
                   <Image src={review.img} responsive />

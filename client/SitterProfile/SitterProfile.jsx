@@ -19,6 +19,7 @@ export default class SitterProfile extends React.Component {
     this.setState({
       info: !this.state.info
     })
+    
   }
 
   render () {
