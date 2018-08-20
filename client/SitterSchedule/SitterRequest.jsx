@@ -11,10 +11,13 @@ export default class SitterRequest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false
+      show: false,
+      startDate: new Date (props.currentEvent.start),
+      endDate: new Date (props.currentEvent.end)
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
+
   }
 
   handleClose() {
@@ -28,6 +31,8 @@ export default class SitterRequest extends React.Component {
     });
   }
 
+
+  
   render() {
     //all information will passed to this component, for now dummy data
     const sitterPic = (
@@ -49,10 +54,10 @@ export default class SitterRequest extends React.Component {
       <Popover id="modal-popover" title="Instructions List">
         <div>
           <ul>
-              <li>Take out the garbage</li>
-              <li>Mow the lawn</li>
-              <li>Dust the bookshelf</li>
-
+              {
+                this.props.currentEvent.instructions.map (
+                  (instruction) => <li>{instruction}</li>)
+              }
           </ul>
         </div>
       </Popover>
@@ -70,17 +75,17 @@ export default class SitterRequest extends React.Component {
     return (
       <div className="request-modal">
           <Modal.Header closeButton>
-            <Modal.Title>Pending Request</Modal.Title>
+            <Modal.Title>{this.props.currentEvent.status} Request</Modal.Title>
           </Modal.Header>
 
           <h3>
             Name:{' '}
             <OverlayTrigger overlay={namePopover}>
-              <a href="#popover">Debbie Childparent</a>
+              <a href="#popover">{this.props.currentEvent.username}</a>
             </OverlayTrigger>
           </h3>
-          <h3>Date: August, 21st 2018</h3>
-          <h3>Time: 5:30pm to 10:00pm</h3>
+          <h3>Date: {new Date (this.props.currentEvent.start).toDateString()}</h3>
+          <h3>Time: {new Date (this.props.currentEvent.start).toLocaleTimeString('en-US')} to {new Date (this.props.currentEvent.end).toLocaleTimeString('en-US')}</h3>
           <h3>Total Price: $175 </h3>
 
           <h3>
@@ -95,12 +100,12 @@ export default class SitterRequest extends React.Component {
               <a href="#popover">Thank you!</a>
             </OverlayTrigger>
           </h3>
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
+          {this.props.currentEvent.status === 'PENDING' ? <div><Button bsStyle="primary" bsSize="large" onClick={this.props.handleAccept}>
             Accept
           </Button>
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
+            <Button bsStyle="primary" bsSize="large" onClick={this.props.handleReject}>
             Decline
-          </Button>
+          </Button></div> : <Button>Cancel Appointment</Button>}
       </div>
     );
   }

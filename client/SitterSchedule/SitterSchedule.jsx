@@ -4,7 +4,6 @@ import SitterRequest from './SitterRequest.jsx';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment'
 import events from './events.js'
-
 export default class SitterSchedule extends React.Component {
   constructor (props) {
     super(props)
@@ -25,11 +24,27 @@ export default class SitterSchedule extends React.Component {
   }
   
   handleAccept () {
-    
+    this.state.currentEvent.status = 'ACCEPTED';
+    this.state.currentEvent.title = this.state.currentEvent.status + ': ' + this.state.currentEvent.username
+    this.setState ({currentEvent: this.state.currentEvent})
+//        var newCurrentEvent = Object.assign ({}, this.state.currentEvent);
+//    newCurrentEvent.status = 'ACCEPTED'
+//    this.setState ({currentEvent: newCurrentEvent})
   }
   
   handleReject () {
-    
+    for (var i = 0; i < events.length; i++) {
+      if (events[i].id === this.state.currentEvent.id) {
+        events.splice (i, 1)
+        break;
+      }
+    }
+    this.setState ({
+      currentEvent: {
+        instructions: []
+      },
+      show: false
+    })
   }
 
   handleClose() {
@@ -54,7 +69,7 @@ export default class SitterSchedule extends React.Component {
           onSelectEvent = {this.handleShow}/>
         <Button onClick={this.handleShow}>SITTER REQUEST</Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
-          <SitterRequest currentEvent = {this.state.currentEvent}/>
+          <SitterRequest currentEvent = {this.state.currentEvent} handleAccept = {this.handleAccept} handleReject = {this.handleReject}/>
         </Modal>
       </div>
     )
