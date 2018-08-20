@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Mon Aug 20 2018 18:22:23 GMT-0500 (GMT-05:00)
+# timestamp: Mon Aug 20 2018 18:53:57 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -33,8 +33,8 @@ type Appointment implements Node {
   comment: String!
   todoList(where: TodoListWhereInput): TodoList
   pending: Boolean
-  userRating: Int
-  sitterRating: Int
+  userRating: Float
+  sitterRating: Float
   userReview: String
   sitterReview: String
 }
@@ -53,8 +53,8 @@ input AppointmentCreateInput {
   time: String!
   comment: String!
   pending: Boolean
-  userRating: Int
-  sitterRating: Int
+  userRating: Float
+  sitterRating: Float
   userReview: String
   sitterReview: String
   user: UserCreateOneInput!
@@ -99,8 +99,8 @@ type AppointmentPreviousValues {
   time: String!
   comment: String!
   pending: Boolean
-  userRating: Int
-  sitterRating: Int
+  userRating: Float
+  sitterRating: Float
   userReview: String
   sitterReview: String
 }
@@ -148,8 +148,8 @@ input AppointmentUpdateInput {
   time: String
   comment: String
   pending: Boolean
-  userRating: Int
-  sitterRating: Int
+  userRating: Float
+  sitterRating: Float
   userReview: String
   sitterReview: String
   user: UserUpdateOneInput
@@ -290,50 +290,50 @@ input AppointmentWhereInput {
 
   """All values that are not equal to given value."""
   pending_not: Boolean
-  userRating: Int
+  userRating: Float
 
   """All values that are not equal to given value."""
-  userRating_not: Int
+  userRating_not: Float
 
   """All values that are contained in given list."""
-  userRating_in: [Int!]
+  userRating_in: [Float!]
 
   """All values that are not contained in given list."""
-  userRating_not_in: [Int!]
+  userRating_not_in: [Float!]
 
   """All values less than the given value."""
-  userRating_lt: Int
+  userRating_lt: Float
 
   """All values less than or equal the given value."""
-  userRating_lte: Int
+  userRating_lte: Float
 
   """All values greater than the given value."""
-  userRating_gt: Int
+  userRating_gt: Float
 
   """All values greater than or equal the given value."""
-  userRating_gte: Int
-  sitterRating: Int
+  userRating_gte: Float
+  sitterRating: Float
 
   """All values that are not equal to given value."""
-  sitterRating_not: Int
+  sitterRating_not: Float
 
   """All values that are contained in given list."""
-  sitterRating_in: [Int!]
+  sitterRating_in: [Float!]
 
   """All values that are not contained in given list."""
-  sitterRating_not_in: [Int!]
+  sitterRating_not_in: [Float!]
 
   """All values less than the given value."""
-  sitterRating_lt: Int
+  sitterRating_lt: Float
 
   """All values less than or equal the given value."""
-  sitterRating_lte: Int
+  sitterRating_lte: Float
 
   """All values greater than the given value."""
-  sitterRating_gt: Int
+  sitterRating_gt: Float
 
   """All values greater than or equal the given value."""
-  sitterRating_gte: Int
+  sitterRating_gte: Float
   userReview: String
 
   """All values that are not equal to given value."""
@@ -817,6 +817,7 @@ type Sitter implements Node {
   fri: String
   sat: String
   gCalID: String
+  rating: Float
   user(where: UserWhereInput): User!
 }
 
@@ -840,6 +841,7 @@ input SitterCreateInput {
   fri: String
   sat: String
   gCalID: String
+  rating: Float
   rates: SitterRateCreateOneInput!
   user: UserCreateOneWithoutSitterInput!
 }
@@ -864,6 +866,7 @@ input SitterCreateWithoutUserInput {
   fri: String
   sat: String
   gCalID: String
+  rating: Float
   rates: SitterRateCreateOneInput!
 }
 
@@ -897,6 +900,8 @@ enum SitterOrderByInput {
   sat_DESC
   gCalID_ASC
   gCalID_DESC
+  rating_ASC
+  rating_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -914,6 +919,7 @@ type SitterPreviousValues {
   fri: String
   sat: String
   gCalID: String
+  rating: Float
 }
 
 type SitterRate {
@@ -1248,6 +1254,7 @@ input SitterUpdateDataInput {
   fri: String
   sat: String
   gCalID: String
+  rating: Float
   rates: SitterRateUpdateOneInput
   user: UserUpdateOneWithoutSitterInput
 }
@@ -1262,6 +1269,7 @@ input SitterUpdateInput {
   fri: String
   sat: String
   gCalID: String
+  rating: Float
   rates: SitterRateUpdateOneInput
   user: UserUpdateOneWithoutSitterInput
 }
@@ -1293,6 +1301,7 @@ input SitterUpdateWithoutUserDataInput {
   fri: String
   sat: String
   gCalID: String
+  rating: Float
   rates: SitterRateUpdateOneInput
 }
 
@@ -1715,6 +1724,28 @@ input SitterWhereInput {
 
   """All values not ending with the given string."""
   gCalID_not_ends_with: String
+  rating: Float
+
+  """All values that are not equal to given value."""
+  rating_not: Float
+
+  """All values that are contained in given list."""
+  rating_in: [Float!]
+
+  """All values that are not contained in given list."""
+  rating_not_in: [Float!]
+
+  """All values less than the given value."""
+  rating_lt: Float
+
+  """All values less than or equal the given value."""
+  rating_lte: Float
+
+  """All values greater than the given value."""
+  rating_gt: Float
+
+  """All values greater than or equal the given value."""
+  rating_gte: Float
   rates: SitterRateWhereInput
   user: UserWhereInput
 }
@@ -1999,7 +2030,7 @@ type User implements Node {
   state: String
   zip_code: String
   gCalID: String
-  rating: Int
+  rating: Float
   sitter(where: SitterWhereInput): Sitter
 }
 
@@ -2022,7 +2053,7 @@ input UserCreateInput {
   state: String
   zip_code: String
   gCalID: String
-  rating: Int
+  rating: Float
   sitter: SitterCreateOneWithoutUserInput
 }
 
@@ -2045,7 +2076,7 @@ input UserCreateWithoutSitterInput {
   state: String
   zip_code: String
   gCalID: String
-  rating: Int
+  rating: Float
 }
 
 """An edge in a connection."""
@@ -2094,7 +2125,7 @@ type UserPreviousValues {
   state: String
   zip_code: String
   gCalID: String
-  rating: Int
+  rating: Float
 }
 
 type UserSubscriptionPayload {
@@ -2145,7 +2176,7 @@ input UserUpdateDataInput {
   state: String
   zip_code: String
   gCalID: String
-  rating: Int
+  rating: Float
   sitter: SitterUpdateOneWithoutUserInput
 }
 
@@ -2158,7 +2189,7 @@ input UserUpdateInput {
   state: String
   zip_code: String
   gCalID: String
-  rating: Int
+  rating: Float
   sitter: SitterUpdateOneWithoutUserInput
 }
 
@@ -2187,7 +2218,7 @@ input UserUpdateWithoutSitterDataInput {
   state: String
   zip_code: String
   gCalID: String
-  rating: Int
+  rating: Float
 }
 
 input UserUpsertNestedInput {
@@ -2569,28 +2600,28 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   gCalID_not_ends_with: String
-  rating: Int
+  rating: Float
 
   """All values that are not equal to given value."""
-  rating_not: Int
+  rating_not: Float
 
   """All values that are contained in given list."""
-  rating_in: [Int!]
+  rating_in: [Float!]
 
   """All values that are not contained in given list."""
-  rating_not_in: [Int!]
+  rating_not_in: [Float!]
 
   """All values less than the given value."""
-  rating_lt: Int
+  rating_lt: Float
 
   """All values less than or equal the given value."""
-  rating_lte: Int
+  rating_lte: Float
 
   """All values greater than the given value."""
-  rating_gt: Int
+  rating_gt: Float
 
   """All values greater than or equal the given value."""
-  rating_gte: Int
+  rating_gte: Float
   sitter: SitterWhereInput
 }
 
