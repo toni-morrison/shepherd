@@ -68,7 +68,7 @@ export default class UserProfileUpdate extends React.Component {
           return <p>Loading...</p>;
         }
         if (error) {
-          return <p>Error :(</p>;
+          return <p>Error</p>;
         }
         return (
         <div>
@@ -90,7 +90,6 @@ export default class UserProfileUpdate extends React.Component {
                 </Col>
               </Form>
             </Row>
-
             <br/>
             
             <Row>
