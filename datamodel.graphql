@@ -7,6 +7,7 @@ type User {
   city: String
   state: String
   zip_code: String
+  gCalID: String
   sitter: Sitter
 }
 
@@ -30,6 +31,7 @@ type Sitter {
   thurs: String
   fri: String
   sat: String
+  gCalID: String
 }
 
 type TodoList {
@@ -51,6 +53,8 @@ type Appointment {
   user: User!
   sitter: Sitter!
   comment: String!
-  rating: Int
-  pending: Boolean!
+  userRating: Int
+  sitterRating: Int
+  userReview: String
+  sitterReview: String
 }
