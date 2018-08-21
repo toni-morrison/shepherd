@@ -1,6 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import {
+  UPDATE_TODO_LIST_NAME,
+  CREATE_INSTRUCTION,
+  DELETE_INSTRUCTIONS
+} from './ApolloHelper.jsx';
+import {
   Table,
   Button,
   FormControl,
@@ -10,27 +15,6 @@ import {
 } from 'react-bootstrap';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-
-const UPDATE_TODO_LIST_NAME = gql`
-  mutation updateListName($id: ID!, $name: String!) {
-    updateListName(id: $id, name: $name) {
-      id
-    }
-  }
-`;
-
-const CREATE_INSTRUCTION = gql`
-  mutation createInstruction(
-    $id: ID!
-    $time: String!
-    $desc: String!
-    $list_id: ID!
-  ) {
-    createInstruction(id: $id, time: $time, desc: $desc, list_id: $list_id) {
-      id
-    }
-  }
-`;
 
 export default class InstructionMaker extends React.Component {
   constructor(props) {
@@ -154,9 +138,30 @@ export default class InstructionMaker extends React.Component {
     });
   }
 
-  onClear() {
-    this.setState({
-      time: this.state.orgTimes
+  onClear(deleteInstructions) {
+    console.log('onclear fired');
+    deleteInstructions({
+      variables: {
+        id: this.props.currentListId
+      }
+    }).then(({ data }) => {
+      this.setTimes(
+        this.props.currentInstruction[0][0],
+        this.props.currentInstruction[
+          this.props.currentInstruction.length - 1
+        ][0]
+      );
+      console.log('deleted!', data);
+      this.setState(
+        {
+          time: this.state.orgTimes,
+          renderSave: false
+        },
+        () => {
+          this.props.closeModal();
+          // this.props.closeInstructions();
+        }
+      );
     });
   }
 
@@ -289,10 +294,25 @@ export default class InstructionMaker extends React.Component {
                       );
                     }}
                   </Mutation>
+                  <Mutation mutation={DELETE_INSTRUCTIONS}>
+                    {(deleteInstructions, { loading, error, data }) => {
+                      if (loading) {
+                        return <p>Loading...</p>;
+                      }
+                      if (error) {
+                        return <p>Error :(</p>;
+                      }
+                      return (
+                        <Button
+                          type="button"
+                          onClick={() => this.onClear(deleteInstructions)}
+                        >
+                          Clear
+                        </Button>
+                      );
+                    }}
+                  </Mutation>
 
-                  <Button type="button" onClick={() => this.onClear()}>
-                    Clear
-                  </Button>
                   <Button type="button" onClick={() => this.onHandleSave()}>
                     Save
                   </Button>

@@ -125,6 +125,28 @@ const resolvers = {
         info
       );
     },
+    deleteInstructions: (_, args, context, info) => {
+      return context.prisma.mutation.deleteManyInstructions(
+        {
+          where: {
+            list_id: {
+              id: args.id
+            }
+          }
+        },
+        info
+      );
+    },
+    deleteTodo: (_, args, context, info) => {
+      return context.prisma.mutation.deleteTodoList(
+        {
+          where: {
+            id: args.id
+          }
+        },
+        info
+      );
+    },
 
     updateUser: (_, args, context, info) => {
       return context.prisma.mutation.updateUser(

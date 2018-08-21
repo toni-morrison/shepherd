@@ -41,12 +41,13 @@ class UserTabs extends React.Component {
     });
   }
   render() {
+    // console.log('user:', this.props.user);
     return (
       <div>
         <Query
           query={FIND_TODOLIST}
           pollInterval={500}
-          variables={{ email: 'debbie@hr.com' }}
+          variables={{ email: this.props.user }}
         >
           {({ loading, error, data, startPolling, stopPolling }) => {
             if (loading) {
@@ -55,6 +56,7 @@ class UserTabs extends React.Component {
             if (error) {
               return <p>error</p>;
             }
+            console.log('todolistquery:', data);
 
             return (
               <Tab.Container id="user-tabs" defaultActiveKey="first">

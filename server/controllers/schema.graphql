@@ -33,6 +33,9 @@ type Mutation {
     desc: String!
     list_id: ID!
   ): Instruction!
+  deleteInstructions(id: ID!): BatchPayload!
+  deleteTodo(id: ID!): TodoList!
+  # deleteTodoList(id: ID!): Todolist!
 
   updateUser(
     email: String!

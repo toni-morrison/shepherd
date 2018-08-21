@@ -11,26 +11,9 @@ import {
 } from 'react-bootstrap';
 import instructions from './instructions.js';
 import TasksModal from './TasksModal.jsx';
+import { FIND_INSTRUCTIONS, CREATE_LIST } from './ApolloHelper.jsx';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
-
-const CREATE_LIST = gql`
-  mutation createList($email: String!, $name: String!) {
-    createList(email: $email, name: $name) {
-      id
-    }
-  }
-`;
-
-const FIND_INSTRUCTIONS = gql`
-  query findInstructions($id: ID!) {
-    findInstructions(id: $id) {
-      id
-      time
-      desc
-    }
-  }
-`;
 
 export default class UserTasks extends React.Component {
   constructor(props) {
@@ -92,8 +75,10 @@ export default class UserTasks extends React.Component {
   handleCreateInstructions(createList) {
     createList({
       variables: {
-        email: 'debbie@hr.com',
-        name: this.state.name
+        email: this.props.user,
+        name: this.state.name,
+        startTime: '06:00 pm',
+        endTime: '10:00 pm'
       }
     }).then(({ data }) => {
       this.setState(
@@ -171,7 +156,12 @@ export default class UserTasks extends React.Component {
                   <Col md={4}>
                     <Button
                       type="button"
-                      onClick={() => this.handleCreateInstructions(createList)}
+                      onClick={() =>
+                        this.handleCreateInstructions(
+                          createList,
+                          this.props.email
+                        )
+                      }
                       bsSize="large"
                       block
                     >
@@ -182,6 +172,7 @@ export default class UserTasks extends React.Component {
               </Grid>
 
               <TasksModal
+                closeModal={this.handleModalClose}
                 instructions={this.state.currentInstruction}
                 handleClose={this.handleModalClose}
                 show={this.state.modalShow}
