@@ -59,10 +59,12 @@ export default class InstructionMaker extends React.Component {
     if (this.props.currentInstruction.length > 0) {
       this.setState({
         start: this.props.currentInstruction[0][0],
+        dropDownTime: this.props.currentInstruction[0][0],
         end: this.props.currentInstruction[
           this.props.currentInstruction.length - 1
         ][0],
-        time: this.props.currentInstruction
+        time: this.props.currentInstruction,
+        name: this.props.name
       });
     }
   }
@@ -117,6 +119,7 @@ export default class InstructionMaker extends React.Component {
       var id = data.createInstruction.id;
       var newTup = [ddt, this.state.instruction, id];
       var clone = Array.from(this.state.time);
+
       clone.splice(idx, 1, newTup);
       this.setState({
         time: clone,
@@ -164,7 +167,15 @@ export default class InstructionMaker extends React.Component {
         name: this.state.newName
       }
     }).then(({ data }) => {
-      console.log('dataFromNameChange:', data);
+      this.setState(
+        {
+          renderSave: false
+        },
+        () => {
+          this.props.closeModal();
+          this.props.closeInstructions();
+        }
+      );
     });
   }
 
