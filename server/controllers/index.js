@@ -55,6 +55,43 @@ const resolvers = {
         info
       );
     },
+    updateListName: (_, args, context, info) => {
+      return context.prisma.mutation.updateTodoList(
+        {
+          data: {
+            name: args.name
+          },
+          where: {
+            id: args.id
+          }
+        },
+        info
+      );
+    },
+    createInstruction: (_, args, context, info) => {
+      return context.prisma.mutation.upsertInstruction(
+        {
+          where: {
+            id: args.id
+          },
+
+          create: {
+            time: args.time,
+            desc: args.desc,
+            list_id: {
+              connect: {
+                id: args.list_id
+              }
+            }
+          },
+          update: {
+            desc: args.desc
+          }
+        },
+        info
+      );
+    },
+
     updateUser: (_, args, context, info) => {
       return context.prisma.mutation.updateUser(
         {
@@ -71,7 +108,7 @@ const resolvers = {
           }
         },
         info
-      )
+      );
     }
   }
 };
