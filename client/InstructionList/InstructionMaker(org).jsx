@@ -59,12 +59,10 @@ export default class InstructionMaker extends React.Component {
     if (this.props.currentInstruction.length > 0) {
       this.setState({
         start: this.props.currentInstruction[0][0],
-        dropDownTime: this.props.currentInstruction[0][0],
         end: this.props.currentInstruction[
           this.props.currentInstruction.length - 1
         ][0],
-        time: this.props.currentInstruction,
-        name: this.props.name
+        time: this.props.currentInstruction
       });
     }
   }
@@ -167,15 +165,7 @@ export default class InstructionMaker extends React.Component {
         name: this.state.newName
       }
     }).then(({ data }) => {
-      this.setState(
-        {
-          renderSave: false
-        },
-        () => {
-          this.props.closeModal();
-          this.props.closeInstructions();
-        }
-      );
+      console.log('dataFromNameChange:', data);
     });
   }
 

@@ -20,6 +20,30 @@ const resolvers = {
         },
         info
       );
+    },
+    findTodoLists: (_, args, context, info) => {
+      return context.prisma.query.todoLists(
+        {
+          where: {
+            user: {
+              email: args.email
+            }
+          }
+        },
+        info
+      );
+    },
+    findInstructions: (_, args, context, info) => {
+      return context.prisma.query.instructions(
+        {
+          where: {
+            list_id: {
+              id: args.id
+            }
+          }
+        },
+        info
+      );
     }
   },
   Mutation: {

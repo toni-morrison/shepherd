@@ -8,6 +8,8 @@
 
 type Query {
   findUsers(email: String!): [User!]!
+  findTodoLists(email: String!): [TodoList!]!
+  findInstructions(id: ID!): [Instruction!]!
 }
 
 type Mutation {

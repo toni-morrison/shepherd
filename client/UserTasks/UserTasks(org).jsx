@@ -22,12 +22,11 @@ const CREATE_LIST = gql`
   }
 `;
 
-const FIND_INSTRUCTIONS = gql`
-  query findInstructions($id: ID!) {
-    findInstructions(id: $id) {
+const FIND_TODOLIST = gql`
+  query findTodoLists($email: String!) {
+    findTodoLists(email: $email) {
       id
-      time
-      desc
+      name
     }
   }
 `;
@@ -40,8 +39,7 @@ export default class UserTasks extends React.Component {
       currentListId: '',
       modalShow: false,
       showInstructions: false,
-      name: 'Untitled',
-      data: []
+      name: 'Untitled'
     };
     this.handleModalClose = this.handleModalClose.bind(this);
     this.handleTasksSelect = this.handleTasksSelect.bind(this);
@@ -51,18 +49,11 @@ export default class UserTasks extends React.Component {
     this.changeName = this.changeName.bind(this);
   }
 
-  handleTasksSelect(data, id, name) {
-    var result = [];
-    for (var i = 0; i < data.findInstructions.length; i++) {
-      var item = data.findInstructions[i];
-      result.push([item.time, item.desc, item.id]);
-    }
-
+  handleTasksSelect(instructions, ID) {
     this.setState({
       modalShow: true,
-      currentInstruction: result,
-      currentListId: id,
-      name: name,
+      currentInstruction: instructions,
+      currentListId: ID,
       showInstructions: false
     });
   }
@@ -98,8 +89,7 @@ export default class UserTasks extends React.Component {
     }).then(({ data }) => {
       this.setState(
         {
-          currentListId: data.createList.id,
-          name: 'Untitled'
+          currentListId: data.createList.id
         },
         () => {
           this.handleOpenInstructions();
@@ -124,48 +114,24 @@ export default class UserTasks extends React.Component {
           if (error) {
             return <p>Error :(</p>;
           }
-          console.log('consoledata:', this.props.data.findTodoLists);
           return (
             <div>
               <Grid>
                 <Row>
-                  {this.props.data.findTodoLists.map(instructionSet => (
-                    <Col key={instructionSet.id} md={4}>
-                      <Query
-                        query={FIND_INSTRUCTIONS}
-                        variables={{ id: instructionSet.id }}
-                        pollInterval={500}
-                      >
-                        {({
-                          loading,
-                          error,
-                          data,
-                          startPolling,
-                          stopPolling
-                        }) => {
-                          if (loading) {
-                            return <p>loading</p>;
-                          }
-                          if (error) {
-                            return <p>error</p>;
-                          }
-                          return (
-                            <Button
-                              bsSize="large"
-                              block
-                              onClick={() =>
-                                this.handleTasksSelect(
-                                  data,
-                                  instructionSet.id,
-                                  instructionSet.name
-                                )
-                              }
-                            >
-                              {instructionSet.name}
-                            </Button>
+                  {instructions.map(instructionSet => (
+                    <Col key={instructionSet.title} md={4}>
+                      <Button
+                        bsSize="large"
+                        block
+                        onClick={function() {
+                          this.handleTasksSelect(
+                            instructionSet.instructions,
+                            instructionSet.instructionID
                           );
-                        }}
-                      </Query>
+                        }.bind(this)}
+                      >
+                        {instructionSet.title}
+                      </Button>
                     </Col>
                   ))}
                   <Col md={4}>
@@ -180,7 +146,6 @@ export default class UserTasks extends React.Component {
                   </Col>
                 </Row>
               </Grid>
-
               <TasksModal
                 instructions={this.state.currentInstruction}
                 handleClose={this.handleModalClose}
@@ -197,8 +162,6 @@ export default class UserTasks extends React.Component {
                 </Modal.Header>
                 <div>
                   <InstructionMaker
-                    closeInstructions={this.handleCloseInstructions}
-                    closeModal={this.handleModalClose}
                     changeName={this.changeName}
                     currentInstruction={this.state.currentInstruction}
                     currentListId={this.state.currentListId}
