@@ -28,14 +28,14 @@ class App extends React.Component {
         this.setState({ user: user.email, loaded: false }, () => {
           setTimeout(() => {
             this.setState({ loaded: true });
-          }, 2000);
+          }, 500);
         });
       } else {
         console.log('not signed in!');
         this.setState({ user: undefined, loaded: false }, () => {
           setTimeout(() => {
             this.setState({ loaded: true });
-          }, 2000);
+          }, 500);
         });
       }
     });
