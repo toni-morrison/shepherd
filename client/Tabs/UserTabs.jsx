@@ -7,6 +7,12 @@ import UserProfile from '../UserProfile/UserProfile.jsx';
 import firebase from '../../server/firebase/firebase.js';
 
 class UserTabs extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.logOut = this.logOut.bind(this)
+  }
+
   logOut() {
     firebase
       .auth()
@@ -33,16 +39,16 @@ class UserTabs extends React.Component {
           <Col sm={8}>
             <Tab.Content>
               <Tab.Pane eventKey="first">
-                <UserSearch />
+                <UserSearch user={this.props.user}/>
               </Tab.Pane>
               <Tab.Pane eventKey="second">
-                <UserCalendar />
+                <UserCalendar user={this.props.user}/>
               </Tab.Pane>
               <Tab.Pane eventKey="third">
-                <UserTasks />
+                <UserTasks user={this.props.user}/>
               </Tab.Pane>
               <Tab.Pane eventKey="fourth">
-                <UserProfile />
+                <UserProfile user={this.props.user}/>
               </Tab.Pane>
             </Tab.Content>
           </Col>

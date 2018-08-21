@@ -20,6 +20,16 @@ const resolvers = {
         },
         info
       );
+    },
+    getUserInfo: (_, args, context, info) => {
+      return context.prisma.query.user(
+        {
+          where: {
+            email: args.email
+          }
+        },
+        info
+      );
     }
   },
   Mutation: {

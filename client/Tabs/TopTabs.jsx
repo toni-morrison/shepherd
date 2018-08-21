@@ -37,12 +37,12 @@ export default class TopTabs extends React.Component {
                   <Tab.Pane eventKey="first">
                     <br />
                     <br />
-                    <UserTabs />
+                    <UserTabs user={this.props.user}/>
                   </Tab.Pane>
                   <Tab.Pane eventKey="second">
                     <br />
                     <br />
-                    <SitterTabs />
+                    <SitterTabs user={this.props.user}/>
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
