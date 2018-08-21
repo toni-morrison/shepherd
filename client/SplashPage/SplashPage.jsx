@@ -14,8 +14,7 @@ import Signup from '../Signup/Signup.jsx';
 
 let fullpageOptions = {
   licenseKey: 'OPEN-SOURCE-GPLV3-LICENSE',
-  autoScrolling: true,
-  scrollHorizontally: true
+  autoScrolling: true
 };
 
 export default class SplashPage extends React.Component {

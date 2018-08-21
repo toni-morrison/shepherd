@@ -32,6 +32,7 @@ export default class EmailLogin extends React.Component {
       .then(result => {
         this.props.handleToggleLogin();
         console.log('result:', result);
+        window.location.reload();
       })
       .catch(err => {
         console.log('ERROR: ', err);
