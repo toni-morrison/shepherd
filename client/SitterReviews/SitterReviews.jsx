@@ -15,7 +15,13 @@ export default class SitterReviews extends React.Component {
   render() {
     if (this.state.anyReviews === false) {
       return(
-        <div><i>You don't have any reviews yet!!!</i></div>
+        <div>
+          <Row>
+            <Col xs={5} xsOffset={4}>
+              <h3><i>You don't have any reviews yet!!!</i></h3>
+            </Col>
+          </Row>
+        </div>
       )
     } else {
       return(
@@ -36,7 +42,7 @@ export default class SitterReviews extends React.Component {
               </center>
               </Col>
             </Row>
-
+            <br/>
             <Row>
               <Col xs={12}>
                 <SitterReviewCard/>
