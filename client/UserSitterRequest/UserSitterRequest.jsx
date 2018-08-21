@@ -13,13 +13,21 @@ export default class UserSitterRequest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
+      show: true,
       showAddList: false,
       showAddMessage: false
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleShowList = this.handleShowList.bind(this);
+  }
+
+  componentDidMount(){
+    if (this.props.showUserSitterRequest) {
+      this.setState({
+        show: true
+      })
+    }
   }
 
   handleClose() {
@@ -143,49 +151,53 @@ export default class UserSitterRequest extends React.Component {
       </Popover>
     );
 
-    return (
-      <div className="request-modal">
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-          Send Request
-        </Button>
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Pending Request</Modal.Title>
-          </Modal.Header>
-
-          <h3>
-            Name:{' '}
-            <OverlayTrigger overlay={namePopover}>
-              <a href="#popover">Joana BabbyCarer</a>
-            </OverlayTrigger>
-          </h3>
-          <h3>Date: August, 21st 2018</h3>
-          <h3>Time: 5:30pm to 10:00pm</h3>
-          <h3>Total Price: $175 </h3>
-          <h3>
-            List:{' '}
-            <a href="#addList" onClick={this.handleShowList}>
-              Add List
-            </a>
-            {addList}
-          </h3>
-          <h3>
-            Add Message:{' '}
-            <FormGroup controlId="formControlsTextarea">
-              <FormControl
-                componentClass="textarea"
-                placeholder="Enter Message"
-              />
-            </FormGroup>
-          </h3>
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
-            Confirm
-          </Button>
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
-            Go Back
-          </Button>
-        </Modal>
-      </div>
-    );
+    if (this.props.show) {
+      return (
+        <div className="request-modal">
+          {/* <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+            Send Request
+          </Button> */}
+          <Modal show={this.props.show} onHide={this.props.toggleShow}>
+            <Modal.Header closeButton>
+              <Modal.Title>Pending Request</Modal.Title>
+            </Modal.Header>
+  
+            <h3>
+              Name:{' '}
+              <OverlayTrigger overlay={namePopover}>
+                <a href="#popover">Joana BabbyCarer</a>
+              </OverlayTrigger>
+            </h3>
+            <h3>Date: August, 21st 2018</h3>
+            <h3>Time: 5:30pm to 10:00pm</h3>
+            <h3>Total Price: $175 </h3>
+            <h3>
+              List:{' '}
+              <a href="#addList" onClick={this.handleShowList}>
+                Add List
+              </a>
+              {addList}
+            </h3>
+            <h3>
+              Add Message:{' '}
+              <FormGroup controlId="formControlsTextarea">
+                <FormControl
+                  componentClass="textarea"
+                  placeholder="Enter Message"
+                />
+              </FormGroup>
+            </h3>
+            <Button bsStyle="primary" bsSize="large" onClick={this.props.showOff}>
+              Confirm
+            </Button>
+            <Button bsStyle="primary" bsSize="large" onClick={this.props.showOff}>
+              Go Back
+            </Button>
+          </Modal>
+        </div>
+      );
+    } else {
+      return null
+    }
   }
 }
