@@ -17,6 +17,7 @@ export default class GoogleLogin extends React.Component {
       .signInWithPopup(provider)
       .then(result => {
         this.props.handleToggleLogin();
+        window.location.reload();
       })
       .catch(err => {
         console.log(err);

@@ -25,10 +25,18 @@ class App extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.setState({ user: user.email, loaded: true });
+        this.setState({ user: user.email, loaded: false }, () => {
+          setTimeout(() => {
+            this.setState({ loaded: true });
+          }, 2000);
+        });
       } else {
         console.log('not signed in!');
-        this.setState({ user: undefined, loaded: true });
+        this.setState({ user: undefined, loaded: false }, () => {
+          setTimeout(() => {
+            this.setState({ loaded: true });
+          }, 2000);
+        });
       }
     });
   }
@@ -48,10 +56,8 @@ class App extends React.Component {
     } else {
       return (
         <ApolloProvider client={client}>
-          <div id="fullpage">
-            <TopTabs user={this.state.user} />
-            <SplashPage user={this.state.user} />
-          </div>
+          <TopTabs user={this.state.user} />
+          <SplashPage user={this.state.user} />
         </ApolloProvider>
       );
     }
