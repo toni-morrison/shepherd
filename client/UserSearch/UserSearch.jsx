@@ -2,6 +2,16 @@ import React from 'react';
 import { Button, Grid, Row, Col, ToggleButtonGroup, ToggleButton, FormGroup, FormControl } from 'react-bootstrap';
 import UserSearchResults from './UserSearchResults.jsx';
 import Datetime from 'react-datetime'
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+
+const FIND_SITTERS = gql `
+  query findSitters {
+    findSitters {
+      id
+    }
+  }
+`;
 
 export default class UserSearch extends React.Component {
   constructor(props) {
@@ -36,9 +46,24 @@ export default class UserSearch extends React.Component {
   }
 
   render() {
+
     if (this.state.searchResults === false) {
       return (
+
         <div>
+      <Query query = {FIND_SITTERS}>
+      {({ loading, error, data }) => {
+        if (loading) {
+          return <p>...Loading</p>
+        }
+        if (error) {
+          return <p>Error: </p>
+        }
+        console.log ('data: ', data)
+        return <p>Data: </p>
+      }
+    }
+    </Query>
           <Grid>
             <Row>
               <Col xs={6} xsOffset={3}>

@@ -20,6 +20,11 @@ const resolvers = {
         },
         info
       );
+    },
+    findSitters: (_, args, context, info) => {
+      return context.prisma.query.sitters (
+        info
+      );
     }
   },
   Mutation: {

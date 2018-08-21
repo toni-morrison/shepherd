@@ -8,6 +8,7 @@
 
 type Query {
   findUsers(email: String!): [User!]!
+  findSitters: [Sitter!]!
 }
 
 type Mutation {
