@@ -36,7 +36,6 @@ class UserTabs extends React.Component {
       });
   }
   findTodos(data) {
-    console.log('findtodoData:', data);
     this.setState({
       data: data
     });
@@ -74,16 +73,16 @@ class UserTabs extends React.Component {
                   <Col sm={8}>
                     <Tab.Content>
                       <Tab.Pane eventKey="first">
-                        <UserSearch />
+                        <UserSearch user={this.props.user} />
                       </Tab.Pane>
                       <Tab.Pane eventKey="second">
-                        <UserCalendar />
+                        <UserCalendar user={this.props.user} />
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">
-                        <UserTasks data={data} />
+                        <UserTasks data={data} user={this.props.user} />
                       </Tab.Pane>
                       <Tab.Pane eventKey="fourth">
-                        <UserProfile />
+                        <UserProfile user={this.props.user} />
                       </Tab.Pane>
                     </Tab.Content>
                   </Col>

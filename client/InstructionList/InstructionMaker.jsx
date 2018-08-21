@@ -119,7 +119,7 @@ export default class InstructionMaker extends React.Component {
       var id = data.createInstruction.id;
       var newTup = [ddt, this.state.instruction, id];
       var clone = Array.from(this.state.time);
-      console.log('clone:', clone);
+
       clone.splice(idx, 1, newTup);
       this.setState({
         time: clone,

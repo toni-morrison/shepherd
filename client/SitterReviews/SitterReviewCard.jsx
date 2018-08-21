@@ -33,16 +33,18 @@ export default class SitterReviewCard extends React.Component {
             return(
               <div key={review}>
               <Well bsSize="large" style={{width: '100%'}}>
-                {/* <Col xs={3}> */}
+                <Row>
+                <Col xs={3}>
                   <Image src={review.img} responsive />
-                {/* </Col> */}
-                {/* <Col xs={9}> */}
+                </Col>
+                <Col xs={9}>
                 <h4>
-                  <b>Name:</b> {review.name}<br/>
-                  <b>Date:</b> {review.date}<br/>
-                  <b>Review:</b> {review.review}<br/>
+                  <b>Name:</b> {review.name}<br/><br/>
+                  <b>Date:</b> {review.date}<br/><br/>
+                  <b>Review:</b> {review.review}<br/><br/>
                   </h4>
-                {/* </Col> */}
+                </Col>
+                </Row>
               </Well><br/>
               </div>
           )

@@ -19,7 +19,7 @@ export default class SitterProfile extends React.Component {
     this.setState({
       info: !this.state.info
     })
-    
+
   }
 
   render () {
@@ -31,18 +31,35 @@ export default class SitterProfile extends React.Component {
               <Col xs={12}>
               <center><h3>Personal Information</h3></center>
                 <Well bsSize="large" style={{ width:'100%' }}>
-                  {/* PULL ALL SITTER INFO FROM USER PROFILE */}
                   {/* PHOTO OF USER */}
-                  <h4>Name: Debbie</h4><br/>
-                  <h4>Email: debbie@sitter.com</h4><br/>
-                  <h4>Address: 369 Lexington Ave, New York, New York</h4><br/>
+                  <Row>
+                    <Col xs={12}>
+                      <h4><strong>Name: </strong>Debbie</h4>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12}>
+                      <h4><strong>Email:  </strong>debbie@sitter.com</h4>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12}>
+                      <h4><strong>Address: </strong>369 Lexington Ave, New York, New York</h4>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12}>
+                      <h4><strong>Bio: </strong>hi</h4>
+                    </Col>
+                  </Row>
+                  <br/>
                   <Button onClick={this.handleInfoUpdate}>Click to Update</Button>
                 </Well>
               </Col>
             </Row>
 
-            <SitterSetSchedule/>
             <SitterSetPrices/>
+            <SitterSetSchedule/>
           </Grid>
         </div>
       )

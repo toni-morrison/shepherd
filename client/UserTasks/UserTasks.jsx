@@ -124,7 +124,7 @@ export default class UserTasks extends React.Component {
           if (error) {
             return <p>Error :(</p>;
           }
-          console.log('consoledata:', this.props.data.findTodoLists);
+
           return (
             <div>
               <Grid>
