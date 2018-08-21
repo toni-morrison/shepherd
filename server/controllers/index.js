@@ -25,8 +25,8 @@ const resolvers = {
       return context.prisma.query.sitters (
         info
       );
-    }
-  },
+    },
+
     findTodoLists: (_, args, context, info) => {
       return context.prisma.query.todoLists(
         {

@@ -8,7 +8,15 @@ import { Query } from 'react-apollo';
 const FIND_SITTERS = gql `
   query findSitters {
     findSitters {
-      id
+      id,
+      sun,
+      mon,
+      tues,
+      wed,
+      thurs,
+      fri,
+      sat,
+      gCalID
     }
   }
 `;
@@ -20,13 +28,46 @@ export default class UserSearch extends React.Component {
     this.state = {
       searchResults: false,
       findValues: [],
-      currentDate : ''
+      currentStart : '',
+      currendEnd: ''
     }
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleStartChange = this.handleStartChange.bind(this);
+    this.handleEndChange = this.handleEndChange.bind(this);
+    this.searchSitters = this.searchSitters.bind(this);
+    this.dateObj = {
+      0: 'sun',
+      1: 'mon',
+      2: 'tues',
+      3: 'wed',
+      4: 'thurs',
+      5: 'fri',
+      6: 'sat'
+    }
   }
 
+  
+  searchSitters () {
+      return (
+        <Query query = {FIND_SITTERS}>
+          {
+            ({ loading, error, data }) => {
+              if (loading) {
+                return <p>...Loading</p>
+              }
+              if (error) {
+                return <p>Error: </p>
+              }
+              console.log ('data: ', data)
+
+
+              return <p>Data: </p>
+            }
+          }
+        </Query>)
+  }
+  
   // changes searchResults to true/false for conditional render
   handleSearchClick() {
     this.setState({
@@ -34,10 +75,14 @@ export default class UserSearch extends React.Component {
     });
   }
 
-  handleDateChange (newDate) {
-    console.log (newDate._d);
+  handleStartChange (newDate) {
     this.setState({
-      currentDate: newDate._d
+      currentStart: newDate._d
+    })
+  }
+  handleEndChange (newDate) {
+    this.setState({
+      currentEnd: newDate._d
     })
   }
   
@@ -46,24 +91,11 @@ export default class UserSearch extends React.Component {
   }
 
   render() {
-
+    
     if (this.state.searchResults === false) {
       return (
-
       <div>
-      <Query query = {FIND_SITTERS}>
-      {({ loading, error, data }) => {
-        if (loading) {
-          return <p>...Loading</p>
-        }
-        if (error) {
-          return <p>Error: </p>
-        }
-        console.log ('data: ', data)
-        return <p>Data: </p>
-      }
-    }
-    </Query>
+        {this.searchSitters()}
           <Grid>
             <Row>
               <Col xs={6} xsOffset={3}>
@@ -83,7 +115,7 @@ export default class UserSearch extends React.Component {
               <Col xs={6} xsOffset={3}>
               <center>
                 <h2>DATES</h2>
-                <div><Datetime onChange = {this.handleDateChange}/></div>
+                <div><Datetime onChange = {this.handleStartChange}/></div>     <div><Datetime onChange = {this.handleEndChange}/></div>
               </center>
               </Col>
             </Row>
@@ -115,7 +147,7 @@ export default class UserSearch extends React.Component {
         </div>
       );
     } else {
-      return <UserSearchResults handleSearchClick={this.handleSearchClick} />;
+      return <UserSearchResults handleSearchClick={this.handleSearchClick} users = {this.state.searchResults} />;
     }
   }
 }

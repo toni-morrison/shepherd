@@ -41,6 +41,8 @@ type TodoList {
   id: ID! @unique
   user: User!
   name: String!
+  startTime: String!
+  endTime: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }

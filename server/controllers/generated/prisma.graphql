@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Mon Aug 20 2018 18:53:57 GMT-0500 (GMT-05:00)
+# timestamp: Tue Aug 21 2018 18:26:09 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -1767,6 +1767,8 @@ type TodoList implements Node {
   id: ID!
   user(where: UserWhereInput): User!
   name: String!
+  startTime: String!
+  endTime: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1783,6 +1785,8 @@ type TodoListConnection {
 
 input TodoListCreateInput {
   name: String!
+  startTime: String!
+  endTime: String!
   user: UserCreateOneInput!
 }
 
@@ -1805,6 +1809,10 @@ enum TodoListOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  startTime_ASC
+  startTime_DESC
+  endTime_ASC
+  endTime_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -1814,6 +1822,8 @@ enum TodoListOrderByInput {
 type TodoListPreviousValues {
   id: ID!
   name: String!
+  startTime: String!
+  endTime: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1859,11 +1869,15 @@ input TodoListSubscriptionWhereInput {
 
 input TodoListUpdateDataInput {
   name: String
+  startTime: String
+  endTime: String
   user: UserUpdateOneInput
 }
 
 input TodoListUpdateInput {
   name: String
+  startTime: String
+  endTime: String
   user: UserUpdateOneInput
 }
 
@@ -1969,6 +1983,86 @@ input TodoListWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  startTime: String
+
+  """All values that are not equal to given value."""
+  startTime_not: String
+
+  """All values that are contained in given list."""
+  startTime_in: [String!]
+
+  """All values that are not contained in given list."""
+  startTime_not_in: [String!]
+
+  """All values less than the given value."""
+  startTime_lt: String
+
+  """All values less than or equal the given value."""
+  startTime_lte: String
+
+  """All values greater than the given value."""
+  startTime_gt: String
+
+  """All values greater than or equal the given value."""
+  startTime_gte: String
+
+  """All values containing the given string."""
+  startTime_contains: String
+
+  """All values not containing the given string."""
+  startTime_not_contains: String
+
+  """All values starting with the given string."""
+  startTime_starts_with: String
+
+  """All values not starting with the given string."""
+  startTime_not_starts_with: String
+
+  """All values ending with the given string."""
+  startTime_ends_with: String
+
+  """All values not ending with the given string."""
+  startTime_not_ends_with: String
+  endTime: String
+
+  """All values that are not equal to given value."""
+  endTime_not: String
+
+  """All values that are contained in given list."""
+  endTime_in: [String!]
+
+  """All values that are not contained in given list."""
+  endTime_not_in: [String!]
+
+  """All values less than the given value."""
+  endTime_lt: String
+
+  """All values less than or equal the given value."""
+  endTime_lte: String
+
+  """All values greater than the given value."""
+  endTime_gt: String
+
+  """All values greater than or equal the given value."""
+  endTime_gte: String
+
+  """All values containing the given string."""
+  endTime_contains: String
+
+  """All values not containing the given string."""
+  endTime_not_contains: String
+
+  """All values starting with the given string."""
+  endTime_starts_with: String
+
+  """All values not starting with the given string."""
+  endTime_not_starts_with: String
+
+  """All values ending with the given string."""
+  endTime_ends_with: String
+
+  """All values not ending with the given string."""
+  endTime_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
