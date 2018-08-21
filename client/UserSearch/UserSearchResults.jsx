@@ -1,4 +1,5 @@
 import React from 'react';
+import UserSitterRequest from '../UserSitterRequest/UserSitterRequest.jsx'
 import { Button, Well, Image, Row, Col } from 'react-bootstrap';
 import StarRatings from 'react-star-ratings';
 
@@ -8,6 +9,7 @@ export default class UserSearchResults extends React.Component {
     super(props);
 
     this.state = {
+      showUserSitterRequest: false,
       reviews: [
                 {
                   name: 'Kiernan',
@@ -29,9 +31,27 @@ export default class UserSearchResults extends React.Component {
                 }
               ]
     }
+
+    this.showUserSitterRequest = this.showUserSitterRequest.bind(this)
+    this.hideUserSitterRequest = this.hideUserSitterRequest.bind(this)
+    this.consoleLog = this.consoleLog.bind(this)
   }
 
+  showUserSitterRequest(){
+    this.setState({
+      showUserSitterRequest: true
+    }, this.consoleLog())
+  }
 
+  hideUserSitterRequest(){
+    this.setState({
+      showUserSitterRequest: false
+    })
+  }
+
+  consoleLog(){
+    console.log(this.state)
+  }
 
   render() {
     return(
@@ -39,7 +59,7 @@ export default class UserSearchResults extends React.Component {
         {
           this.state.reviews.map((review) => {
             return(
-              <div key={review}>
+              <div key={review.bio}>
               <Well bsSize="large" style={{width: '100%'}}>
                 <Row>
                   <Col xs={4} >
@@ -73,6 +93,11 @@ export default class UserSearchResults extends React.Component {
                       </h4>
                     </Row>
                   </Col>
+                  <Button onClick={this.showUserSitterRequest}>Request Sitter</Button>
+                  <UserSitterRequest
+                    show={this.state.showUserSitterRequest}
+                    showTrue={this.showUserSitterRequest}
+                    showOff={this.hideUserSitterRequest}/>
                 </Row>
               </Well><br/>
               </div>
