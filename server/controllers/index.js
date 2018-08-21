@@ -83,7 +83,9 @@ const resolvers = {
                 email: args.email
               }
             },
-            name: args.name
+            name: args.name,
+            startTime: args.startTime,
+            endTime: args.endTime
           }
         },
         info

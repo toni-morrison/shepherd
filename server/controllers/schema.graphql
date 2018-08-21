@@ -7,6 +7,7 @@
 # import User from './generated/prisma.graphql'
 
 type Query {
+  findUsers(email: String!): [User!]!
   findTodoLists(email: String!): [TodoList!]!
   findInstructions(id: ID!): [Instruction!]!
   getUserInfo(email: String!): User!
@@ -24,7 +25,12 @@ type Mutation {
     rating: Int
   ): User!
 
-  createList(email: String!, name: String!): TodoList!
+  createList(
+    email: String!
+    name: String!
+    startTime: String!
+    endTime: String!
+  ): TodoList!
   updateListName(id: ID!, name: String!): TodoList!
   createInstruction(
     id: ID!

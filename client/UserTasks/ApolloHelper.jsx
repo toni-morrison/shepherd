@@ -9,8 +9,18 @@ const DELETE_INSTRUCTIONS = gql`
 `;
 
 const CREATE_LIST = gql`
-  mutation createList($email: String!, $name: String!) {
-    createList(email: $email, name: $name) {
+  mutation createList(
+    $email: String!
+    $name: String!
+    $startTime: String!
+    $endTime: String!
+  ) {
+    createList(
+      email: $email
+      name: $name
+      startTime: $startTime
+      endTime: $endTime
+    ) {
       id
     }
   }
