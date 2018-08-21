@@ -74,67 +74,66 @@ export default class UserProfileUpdate extends React.Component {
         <div>
           <Grid>
             <Row>
-              <Form inline>
+              <Form >
                 <Col xs={3} >
                   <FormGroup controlId="formInlineFirstName">
                     <ControlLabel>First Name</ControlLabel>{' '}
-                    <FormControl type="text" />
+                    <FormControl type="text" defaultValue={this.props.first_name}/>
                   </FormGroup>{' '}
                 </Col>
 
                 <Col xs={3}>
                   <FormGroup controlId="formInlineLastName">
                     <ControlLabel>Last Name</ControlLabel>{' '}
-                    <FormControl type="text" />
+                    <FormControl type="text" defaultValue={this.props.last_name} />
                   </FormGroup>{' '}
                 </Col>
               </Form>
             </Row>
             <br/>
-            
             <Row>
-              <Form inline>
+              <Form >
                 <Col xs={3} >
                   <FormGroup controlId="formInlineAddress">
                     <ControlLabel>Address</ControlLabel>{' '}
-                    <FormControl type="text" />
+                    <FormControl type="text" defaultValue={this.props.address}/>
                   </FormGroup>{' '}
                 </Col>
 
                 <Col xs={3}>
                   <FormGroup controlId="formInlineCity">
                     <ControlLabel>City</ControlLabel>{' '}
-                    <FormControl type="text" />
+                    <FormControl type="text" defaultValue={this.props.city}/>
                   </FormGroup>{' '}
                 </Col>
 
                 <Col xs={2}>
                   <FormGroup controlId="formInlineState">
                     <ControlLabel>State</ControlLabel>{' '}
-                    <FormControl type="text" style={{ width:'50%' }}/>
+                    <FormControl type="text" style={{ width:'50%' }} defaultValue={this.props.state}/>
                   </FormGroup>{' '}
                 </Col>
 
                 <Col xs={2}>
                   <FormGroup controlId="formInlineZip">
                     <ControlLabel>Zip Code</ControlLabel>{' '}
-                    <FormControl type="text" style={{ width:'50%' }}/>
+                    <FormControl type="text" style={{ width:'50%' }} defaultValue={this.props.zip}/>
                   </FormGroup>{' '}
                 </Col>
               </Form>
             </Row>
-            
             <br/>
-
-            <Row inline>
+            <Row >
               <Col xs={3}>
                 <h5>Upload Photo</h5><input id="image-file" type="file" />
               </Col>
+            </Row>
+            <br/>
+            <Row>
               <Col xs={3}>
-                <Button onClick={() => this.handleSubmit(updateUser)} style={{marginTop: '5%'}}>Submit/Update</Button>
+                  <Button onClick={() => this.handleSubmit(updateUser)} style={{marginTop: '5%'}}>Submit/Update</Button>
               </Col>
             </Row>
-
           </Grid>
         </div>
         )

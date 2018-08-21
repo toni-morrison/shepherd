@@ -9,7 +9,7 @@
 type Query {
   findUsers(email: String!): [User!]!
 
-  getUserInfo(email: String!): [User!]!
+  getUserInfo(email: String!): User!
 }
 
 type Mutation {

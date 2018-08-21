@@ -29,19 +29,11 @@ export default class UserProfile extends React.Component {
     super(props)
 
     this.state = {
-      update: false,
-      first_name: '',
-      last_name: '',
-      street_address: '',
-      city: '',
-      state: '',
-      zip_code: '',
-      rating: undefined
+      update: false
     }
 
     this.handleUpdate = this.handleUpdate.bind(this)
   }
-
 
   handleUpdate() {
     this.setState({
@@ -50,10 +42,9 @@ export default class UserProfile extends React.Component {
   }
 
   render () {
-    if (this.state.update === false) {
-      return(
-        <Query query={GET_USER_INFO}
-        variables={{email: this.props.user}}>
+    return(
+      <Query query={GET_USER_INFO}
+      variables={{email: this.props.user}}>
         {({ loading, error, data }) => {
           if (loading) {
             return <p>Loading...</p>;
@@ -61,15 +52,7 @@ export default class UserProfile extends React.Component {
           if (error) {
             return <p>Error</p>;
           }
-          this.setState({
-            first_name: data.getUserInfo.first_name,
-            last_name: data.getUserInfo.last_name,
-            street_address: data.getUserInfo.street_address,
-            city: data.getUserInfo.city,
-            state: data.getUserInfo.state,
-            zip_code: data.getUserInfo.zip_code,
-            rating: data.getUserInfo.rating
-          })
+        if (this.state.update === false) {
           return(
           <div>
             <Grid>
@@ -79,7 +62,7 @@ export default class UserProfile extends React.Component {
                   <strong>Your Rating</strong><br/>
                   <StarRatings
                     numberOfStars={5}
-                    rating={this.state.rating} // pull current user rating from DB
+                    rating={data.getUserInfo.rating} // pull current user rating from DB
                     starDimension="30px"
                     starSpacing="1px"
                     starRatedColor="gold"
@@ -88,15 +71,26 @@ export default class UserProfile extends React.Component {
                 </center>
                 </Col>
               </Row>
-
             <br/>
               <Row>
                 <Col xs={12}>
                   <Well bsSize="large" style={{ width:'100%' }}>
                     {/* PHOTO OF USER */}
-                    <h4>Name: </h4>{this.state.first_name} {this.state.last_name}<br/>
-                    <h4>Email: </h4>{this.state.email}<br/>
-                    <h4>Address: </h4>{this.state.street_address} {this.state.city} {this.state.state} {this.state.zip_code}
+                    <Row>
+                      <Col xs={12}>
+                        <h4><strong>Name:</strong> {data.getUserInfo.first_name} {data.getUserInfo.last_name}</h4>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}>
+                        <h4><strong>Email:</strong> {data.getUserInfo.email}</h4>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}>
+                        <h4><strong>Address:</strong> {data.getUserInfo.street_address}, {data.getUserInfo.city}, {data.getUserInfo.state} {data.getUserInfo.zip_code}</h4>
+                      </Col>
+                    </Row>
                     <br/><br/>
 
                     <Button onClick={this.handleUpdate}>Click to Update</Button>
@@ -106,15 +100,23 @@ export default class UserProfile extends React.Component {
           </Grid>
           </div>
           )
-        }}
-        </Query>
-      )
-    } else {
-      return (
-        <div>
-          <UserProfileUpdate handleUpdate={this.handleUpdate}/>
-        </div>
-      )
-    }
+        } else {
+          return (
+            <div>
+              <UserProfileUpdate
+                handleUpdate={this.handleUpdate}
+                first_name={data.getUserInfo.first_name}
+                last_name={data.getUserInfo.last_name}
+                address={data.getUserInfo.street_address}
+                city={data.getUserInfo.city}
+                state={data.getUserInfo.state}
+                zip={data.getUserInfo.zip_code}/>
+            </div>
+          )
+        }
+      }}
+    </Query>
+    )
   }
+
 }
