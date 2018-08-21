@@ -80,6 +80,7 @@ export default class Signup extends React.Component {
           }
         });
         this.props.handleToggleSignup();
+        window.location.reload();
       })
       .catch(err => {
         console.log('ERROR:', err);
