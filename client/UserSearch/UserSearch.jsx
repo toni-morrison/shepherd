@@ -50,7 +50,7 @@ export default class UserSearch extends React.Component {
     if (this.state.searchResults === false) {
       return (
 
-        <div>
+      <div>
       <Query query = {FIND_SITTERS}>
       {({ loading, error, data }) => {
         if (loading) {

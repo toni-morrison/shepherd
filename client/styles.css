@@ -60,3 +60,6 @@ input#instructions {
   min-height: 100vh;
   border-color: red;
 }
+body {
+  overflow-x: hidden;
+}
