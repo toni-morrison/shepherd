@@ -3,6 +3,28 @@ import { Button, Grid, Row, Col, Well } from 'react-bootstrap';
 import UserProfileUpdate from '../UserProfile/UserProfileUpdate.jsx';
 import SitterSetSchedule from './SitterSetSchedule.jsx';
 import SitterSetPrices from './SitterSetPrices.jsx';
+import SitterBio from './SitterBio.jsx';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+
+const GET_USER_INFO = gql`
+  query getUserInfo(
+    $email: String!
+  ) {
+    getUserInfo(
+      email: $email
+    ) {
+      email
+      first_name
+      last_name
+      street_address
+      city
+      state
+      zip_code
+      rating
+    }
+  }
+`
 
 export default class SitterProfile extends React.Component {
   constructor (props) {
@@ -19,56 +41,82 @@ export default class SitterProfile extends React.Component {
     this.setState({
       info: !this.state.info
     })
-
   }
 
   render () {
-    if (this.state.info === false) {
-      return(
-        <div>
-          <Grid>
-            <Row>
-              <Col xs={12}>
-              <center><h3>Personal Information</h3></center>
-                <Well bsSize="large" style={{ width:'100%' }}>
-                  {/* PHOTO OF USER */}
-                  <Row>
-                    <Col xs={12}>
-                      <h4><strong>Name: </strong>Debbie</h4>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs={12}>
-                      <h4><strong>Email:  </strong>debbie@sitter.com</h4>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs={12}>
-                      <h4><strong>Address: </strong>369 Lexington Ave, New York, New York</h4>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs={12}>
-                      <h4><strong>Bio: </strong>hi</h4>
-                    </Col>
-                  </Row>
-                  <br/>
-                  <Button onClick={this.handleInfoUpdate}>Click to Update</Button>
-                </Well>
-              </Col>
-            </Row>
-
-            <SitterSetPrices/>
-            <SitterSetSchedule/>
-          </Grid>
-        </div>
-      )
-    } else if (this.state.info === true) {
-      return (
-        <div>
-          <UserProfileUpdate handleUpdate={this.handleInfoUpdate}/>
-        </div>
-      )
-    }
+    return(
+      <Query query={GET_USER_INFO}
+      variables={{email: this.props.user}}>
+        {({ loading, error, data }) => {
+          if (loading) {
+            return <p>Loading...</p>;
+          }
+          if (error) {
+            return <p>Error</p>;
+          }
+        if (this.state.info === false) {
+          return(
+            <div>
+              <Grid>
+                <Row>
+                  <Col xs={12}>
+                  <center><h3>Personal Information</h3></center>
+                    <Well bsSize="large" style={{ width:'100%' }}>
+                      {/* PHOTO OF USER */}
+                      <Row>
+                        <Col xs={12}>
+                          <h4><strong>Name: </strong>{data.getUserInfo.first_name} {data.getUserInfo.last_name}</h4>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col xs={12}>
+                          <h4><strong>Email:  </strong>{data.getUserInfo.email}</h4>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col xs={12}>
+                          <h4><strong>Address: </strong>{data.getUserInfo.street_address}, {data.getUserInfo.city}, {data.getUserInfo.state} {data.getUserInfo.zip_code}</h4>
+                        </Col>
+                      </Row>
+                      <br/>
+                      <Button onClick={this.handleInfoUpdate}>Click to Update</Button>
+                    </Well>
+                  </Col>
+                </Row>
+                <SitterBio user={this.props.user}/>
+                <SitterSetPrices/>
+                <SitterSetSchedule/>
+              </Grid>
+            </div>
+          )
+        } else if (this.state.info === true) {
+          return(
+            <div>
+              <Grid>
+                <Row>
+                  <Col xs={12}>
+                  <center><h3>Personal Information</h3></center>
+                    <Well bsSize="large" style={{ width:'100%' }}>
+                      <UserProfileUpdate
+                        handleUpdate={this.handleInfoUpdate}
+                        first_name={data.getUserInfo.first_name}
+                        last_name={data.getUserInfo.last_name}
+                        address={data.getUserInfo.street_address}
+                        city={data.getUserInfo.city}
+                        state={data.getUserInfo.state}
+                        zip={data.getUserInfo.zip_code}/>
+                    </Well>
+                  </Col>
+                </Row>
+  
+                <SitterSetPrices/>
+                <SitterSetSchedule/>
+              </Grid>
+            </div>
+          )
+        }
+      }}
+      </Query>
+    )
   }
 }
