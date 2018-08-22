@@ -31,7 +31,12 @@ type Mutation {
     startTime: String!
     endTime: String!
   ): TodoList!
-  updateListName(id: ID!, name: String!): TodoList!
+  updateListName(
+    id: ID!
+    name: String
+    startTime: String
+    endTime: String
+  ): TodoList!
   createInstruction(
     id: ID!
     time: String!

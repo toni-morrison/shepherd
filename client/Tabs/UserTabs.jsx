@@ -13,6 +13,8 @@ const FIND_TODOLIST = gql`
     findTodoLists(email: $email) {
       id
       name
+      startTime
+      endTime
     }
   }
 `;
@@ -20,11 +22,8 @@ const FIND_TODOLIST = gql`
 class UserTabs extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: []
-    };
+
     this.logOut = this.logOut.bind(this);
-    this.findTodos = this.findTodos.bind(this);
   }
 
   logOut() {
@@ -35,13 +34,8 @@ class UserTabs extends React.Component {
         console.log('ERROR!');
       });
   }
-  findTodos(data) {
-    this.setState({
-      data: data
-    });
-  }
+
   render() {
-    // console.log('user:', this.props.user);
     return (
       <div>
         <Query
@@ -56,7 +50,6 @@ class UserTabs extends React.Component {
             if (error) {
               return <p>error</p>;
             }
-            console.log('todolistquery:', data);
 
             return (
               <Tab.Container id="user-tabs" defaultActiveKey="first">

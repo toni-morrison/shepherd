@@ -31,7 +31,7 @@ export default class TasksModal extends React.Component {
       <Modal show={this.props.show} onHide={this.props.handleClose}>
         <Modal.Body>
           <ul>
-            {this.props.instructions.map(function(instruction) {
+            {this.props.instructions.map(instruction => {
               return (
                 <li>
                   {instruction[0]} : {instruction[1]}

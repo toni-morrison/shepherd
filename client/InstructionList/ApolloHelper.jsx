@@ -1,8 +1,18 @@
 import gql from 'graphql-tag';
 
-const UPDATE_TODO_LIST_NAME = gql`
-  mutation updateListName($id: ID!, $name: String!) {
-    updateListName(id: $id, name: $name) {
+const UPDATE_TODO_LIST = gql`
+  mutation updateListName(
+    $id: ID!
+    $name: String
+    $startTime: String
+    $endTime: String
+  ) {
+    updateListName(
+      id: $id
+      name: $name
+      startTime: $startTime
+      endTime: $endTime
+    ) {
       id
     }
   }
@@ -30,7 +40,7 @@ const DELETE_INSTRUCTIONS = gql`
 `;
 
 module.exports = {
-  UPDATE_TODO_LIST_NAME,
+  UPDATE_TODO_LIST,
   CREATE_INSTRUCTION,
   DELETE_INSTRUCTIONS
 };

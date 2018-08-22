@@ -95,7 +95,9 @@ const resolvers = {
       return context.prisma.mutation.updateTodoList(
         {
           data: {
-            name: args.name
+            name: args.name,
+            startTime: args.startTime,
+            endTime: args.endTime
           },
           where: {
             id: args.id

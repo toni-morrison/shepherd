@@ -24,7 +24,9 @@ export default class UserTasks extends React.Component {
       modalShow: false,
       showInstructions: false,
       name: 'Untitled',
-      data: []
+      data: [],
+      startTime: '',
+      endTime: ''
     };
     this.handleModalClose = this.handleModalClose.bind(this);
     this.handleTasksSelect = this.handleTasksSelect.bind(this);
@@ -34,7 +36,7 @@ export default class UserTasks extends React.Component {
     this.changeName = this.changeName.bind(this);
   }
 
-  handleTasksSelect(data, id, name) {
+  handleTasksSelect(data, id, name, startTime, endTime) {
     var result = [];
     for (var i = 0; i < data.findInstructions.length; i++) {
       var item = data.findInstructions[i];
@@ -46,7 +48,9 @@ export default class UserTasks extends React.Component {
       currentInstruction: result,
       currentListId: id,
       name: name,
-      showInstructions: false
+      showInstructions: false,
+      startTime: startTime,
+      endTime: endTime
     });
   }
 
@@ -56,7 +60,8 @@ export default class UserTasks extends React.Component {
 
   handleModalClose() {
     this.setState({
-      modalShow: false
+      modalShow: false,
+      currentInstruction: []
     });
   }
 
@@ -76,15 +81,18 @@ export default class UserTasks extends React.Component {
     createList({
       variables: {
         email: this.props.user,
-        name: this.state.name,
-        startTime: '06:00 pm',
-        endTime: '10:00 pm'
+        name: 'Untitled',
+        startTime: this.state.startTime,
+        endTime: this.state.endTime
       }
     }).then(({ data }) => {
+      console.log('plusbuttondata:', data);
       this.setState(
         {
           currentListId: data.createList.id,
-          name: 'Untitled'
+          name: 'Untitled',
+          startTime: '06:00 pm',
+          endTime: '11:45 pm'
         },
         () => {
           this.handleOpenInstructions();
@@ -114,11 +122,11 @@ export default class UserTasks extends React.Component {
             <div>
               <Grid>
                 <Row>
-                  {this.props.data.findTodoLists.map(instructionSet => (
-                    <Col key={instructionSet.id} md={4}>
+                  {this.props.data.findTodoLists.map(todo => (
+                    <Col key={todo.id} md={4}>
                       <Query
                         query={FIND_INSTRUCTIONS}
-                        variables={{ id: instructionSet.id }}
+                        variables={{ id: todo.id }}
                         pollInterval={500}
                       >
                         {({
@@ -141,12 +149,14 @@ export default class UserTasks extends React.Component {
                               onClick={() =>
                                 this.handleTasksSelect(
                                   data,
-                                  instructionSet.id,
-                                  instructionSet.name
+                                  todo.id,
+                                  todo.name,
+                                  todo.startTime,
+                                  todo.endTime
                                 )
                               }
                             >
-                              {instructionSet.name}
+                              {todo.name}
                             </Button>
                           );
                         }}
@@ -188,6 +198,8 @@ export default class UserTasks extends React.Component {
                 </Modal.Header>
                 <div>
                   <InstructionMaker
+                    startTime={this.state.startTime}
+                    endTime={this.state.endTime}
                     closeInstructions={this.handleCloseInstructions}
                     closeModal={this.handleModalClose}
                     changeName={this.changeName}
