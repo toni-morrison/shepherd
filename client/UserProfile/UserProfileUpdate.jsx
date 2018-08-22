@@ -11,7 +11,7 @@ const UPDATE_USER = gql`
     $street_address: String,
     $city: String,
     $state: String,
-    $zip_code: String,
+    $zip_code: String
     ) {
       updateUser(
         email: $email,
