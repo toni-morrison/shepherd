@@ -18,20 +18,19 @@ type SitterRate {
   pet_rate: Float
   pet_addl: Float
   home_rate: Float
-  home_addl: Float
 }
 
 type Sitter {
   id: ID! @unique
   bio: String!
   rates: SitterRate!
-  sun: String
-  mon: String
-  tues: String
-  wed: String
-  thurs: String
-  fri: String
-  sat: String
+  sun: [Int!]
+  mon: [Int!]
+  tues: [Int!]
+  wed: [Int!]
+  thurs: [Int!]
+  fri: [Int!]
+  sat: [Int!]
   gCalID: String
   rating: Float
   user: User!
@@ -58,7 +57,7 @@ type Instruction {
 
 type Appointment {
   id: ID! @unique
-  time: String!
+  time: [Int!]!
   user: User!
   sitter: Sitter!
   comment: String!

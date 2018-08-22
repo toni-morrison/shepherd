@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Tue Aug 21 2018 18:26:09 GMT-0500 (GMT-05:00)
+# timestamp: Wed Aug 22 2018 09:46:07 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -27,7 +27,7 @@ type AggregateUser {
 
 type Appointment implements Node {
   id: ID!
-  time: String!
+  time: [Int!]!
   user(where: UserWhereInput): User!
   sitter(where: SitterWhereInput): Sitter!
   comment: String!
@@ -50,16 +50,20 @@ type AppointmentConnection {
 }
 
 input AppointmentCreateInput {
-  time: String!
   comment: String!
   pending: Boolean
   userRating: Float
   sitterRating: Float
   userReview: String
   sitterReview: String
+  time: AppointmentCreatetimeInput
   user: UserCreateOneInput!
   sitter: SitterCreateOneInput!
   todoList: TodoListCreateOneInput
+}
+
+input AppointmentCreatetimeInput {
+  set: [Int!]
 }
 
 """An edge in a connection."""
@@ -74,8 +78,6 @@ type AppointmentEdge {
 enum AppointmentOrderByInput {
   id_ASC
   id_DESC
-  time_ASC
-  time_DESC
   comment_ASC
   comment_DESC
   pending_ASC
@@ -96,7 +98,7 @@ enum AppointmentOrderByInput {
 
 type AppointmentPreviousValues {
   id: ID!
-  time: String!
+  time: [Int!]!
   comment: String!
   pending: Boolean
   userRating: Float
@@ -145,16 +147,20 @@ input AppointmentSubscriptionWhereInput {
 }
 
 input AppointmentUpdateInput {
-  time: String
   comment: String
   pending: Boolean
   userRating: Float
   sitterRating: Float
   userReview: String
   sitterReview: String
+  time: AppointmentUpdatetimeInput
   user: UserUpdateOneInput
   sitter: SitterUpdateOneInput
   todoList: TodoListUpdateOneInput
+}
+
+input AppointmentUpdatetimeInput {
+  set: [Int!]
 }
 
 input AppointmentWhereInput {
@@ -206,46 +212,6 @@ input AppointmentWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  time: String
-
-  """All values that are not equal to given value."""
-  time_not: String
-
-  """All values that are contained in given list."""
-  time_in: [String!]
-
-  """All values that are not contained in given list."""
-  time_not_in: [String!]
-
-  """All values less than the given value."""
-  time_lt: String
-
-  """All values less than or equal the given value."""
-  time_lte: String
-
-  """All values greater than the given value."""
-  time_gt: String
-
-  """All values greater than or equal the given value."""
-  time_gte: String
-
-  """All values containing the given string."""
-  time_contains: String
-
-  """All values not containing the given string."""
-  time_not_contains: String
-
-  """All values starting with the given string."""
-  time_starts_with: String
-
-  """All values not starting with the given string."""
-  time_not_starts_with: String
-
-  """All values ending with the given string."""
-  time_ends_with: String
-
-  """All values not ending with the given string."""
-  time_not_ends_with: String
   comment: String
 
   """All values that are not equal to given value."""
@@ -809,13 +775,13 @@ type Sitter implements Node {
   id: ID!
   bio: String!
   rates(where: SitterRateWhereInput): SitterRate!
-  sun: String
-  mon: String
-  tues: String
-  wed: String
-  thurs: String
-  fri: String
-  sat: String
+  sun: [Int!]!
+  mon: [Int!]!
+  tues: [Int!]!
+  wed: [Int!]!
+  thurs: [Int!]!
+  fri: [Int!]!
+  sat: [Int!]!
   gCalID: String
   rating: Float
   user(where: UserWhereInput): User!
@@ -831,19 +797,27 @@ type SitterConnection {
   aggregate: AggregateSitter!
 }
 
+input SitterCreatefriInput {
+  set: [Int!]
+}
+
 input SitterCreateInput {
   bio: String!
-  sun: String
-  mon: String
-  tues: String
-  wed: String
-  thurs: String
-  fri: String
-  sat: String
   gCalID: String
   rating: Float
+  sun: SitterCreatesunInput
+  mon: SitterCreatemonInput
+  tues: SitterCreatetuesInput
+  wed: SitterCreatewedInput
+  thurs: SitterCreatethursInput
+  fri: SitterCreatefriInput
+  sat: SitterCreatesatInput
   rates: SitterRateCreateOneInput!
   user: UserCreateOneWithoutSitterInput!
+}
+
+input SitterCreatemonInput {
+  set: [Int!]
 }
 
 input SitterCreateOneInput {
@@ -856,17 +830,37 @@ input SitterCreateOneWithoutUserInput {
   connect: SitterWhereUniqueInput
 }
 
+input SitterCreatesatInput {
+  set: [Int!]
+}
+
+input SitterCreatesunInput {
+  set: [Int!]
+}
+
+input SitterCreatethursInput {
+  set: [Int!]
+}
+
+input SitterCreatetuesInput {
+  set: [Int!]
+}
+
+input SitterCreatewedInput {
+  set: [Int!]
+}
+
 input SitterCreateWithoutUserInput {
   bio: String!
-  sun: String
-  mon: String
-  tues: String
-  wed: String
-  thurs: String
-  fri: String
-  sat: String
   gCalID: String
   rating: Float
+  sun: SitterCreatesunInput
+  mon: SitterCreatemonInput
+  tues: SitterCreatetuesInput
+  wed: SitterCreatewedInput
+  thurs: SitterCreatethursInput
+  fri: SitterCreatefriInput
+  sat: SitterCreatesatInput
   rates: SitterRateCreateOneInput!
 }
 
@@ -884,20 +878,6 @@ enum SitterOrderByInput {
   id_DESC
   bio_ASC
   bio_DESC
-  sun_ASC
-  sun_DESC
-  mon_ASC
-  mon_DESC
-  tues_ASC
-  tues_DESC
-  wed_ASC
-  wed_DESC
-  thurs_ASC
-  thurs_DESC
-  fri_ASC
-  fri_DESC
-  sat_ASC
-  sat_DESC
   gCalID_ASC
   gCalID_DESC
   rating_ASC
@@ -911,13 +891,13 @@ enum SitterOrderByInput {
 type SitterPreviousValues {
   id: ID!
   bio: String!
-  sun: String
-  mon: String
-  tues: String
-  wed: String
-  thurs: String
-  fri: String
-  sat: String
+  sun: [Int!]!
+  mon: [Int!]!
+  tues: [Int!]!
+  wed: [Int!]!
+  thurs: [Int!]!
+  fri: [Int!]!
+  sat: [Int!]!
   gCalID: String
   rating: Float
 }
@@ -928,7 +908,6 @@ type SitterRate {
   pet_rate: Float
   pet_addl: Float
   home_rate: Float
-  home_addl: Float
 }
 
 """A connection to a list of items."""
@@ -947,7 +926,6 @@ input SitterRateCreateInput {
   pet_rate: Float
   pet_addl: Float
   home_rate: Float
-  home_addl: Float
 }
 
 input SitterRateCreateOneInput {
@@ -974,8 +952,6 @@ enum SitterRateOrderByInput {
   pet_addl_DESC
   home_rate_ASC
   home_rate_DESC
-  home_addl_ASC
-  home_addl_DESC
   id_ASC
   id_DESC
   updatedAt_ASC
@@ -990,7 +966,6 @@ type SitterRatePreviousValues {
   pet_rate: Float
   pet_addl: Float
   home_rate: Float
-  home_addl: Float
 }
 
 type SitterRateSubscriptionPayload {
@@ -1038,7 +1013,6 @@ input SitterRateUpdateDataInput {
   pet_rate: Float
   pet_addl: Float
   home_rate: Float
-  home_addl: Float
 }
 
 input SitterRateUpdateInput {
@@ -1047,7 +1021,6 @@ input SitterRateUpdateInput {
   pet_rate: Float
   pet_addl: Float
   home_rate: Float
-  home_addl: Float
 }
 
 input SitterRateUpdateOneInput {
@@ -1181,28 +1154,6 @@ input SitterRateWhereInput {
 
   """All values greater than or equal the given value."""
   home_rate_gte: Float
-  home_addl: Float
-
-  """All values that are not equal to given value."""
-  home_addl_not: Float
-
-  """All values that are contained in given list."""
-  home_addl_in: [Float!]
-
-  """All values that are not contained in given list."""
-  home_addl_not_in: [Float!]
-
-  """All values less than the given value."""
-  home_addl_lt: Float
-
-  """All values less than or equal the given value."""
-  home_addl_lte: Float
-
-  """All values greater than the given value."""
-  home_addl_gt: Float
-
-  """All values greater than or equal the given value."""
-  home_addl_gte: Float
 }
 
 type SitterSubscriptionPayload {
@@ -1246,32 +1197,40 @@ input SitterSubscriptionWhereInput {
 
 input SitterUpdateDataInput {
   bio: String
-  sun: String
-  mon: String
-  tues: String
-  wed: String
-  thurs: String
-  fri: String
-  sat: String
   gCalID: String
   rating: Float
+  sun: SitterUpdatesunInput
+  mon: SitterUpdatemonInput
+  tues: SitterUpdatetuesInput
+  wed: SitterUpdatewedInput
+  thurs: SitterUpdatethursInput
+  fri: SitterUpdatefriInput
+  sat: SitterUpdatesatInput
   rates: SitterRateUpdateOneInput
   user: UserUpdateOneWithoutSitterInput
 }
 
+input SitterUpdatefriInput {
+  set: [Int!]
+}
+
 input SitterUpdateInput {
   bio: String
-  sun: String
-  mon: String
-  tues: String
-  wed: String
-  thurs: String
-  fri: String
-  sat: String
   gCalID: String
   rating: Float
+  sun: SitterUpdatesunInput
+  mon: SitterUpdatemonInput
+  tues: SitterUpdatetuesInput
+  wed: SitterUpdatewedInput
+  thurs: SitterUpdatethursInput
+  fri: SitterUpdatefriInput
+  sat: SitterUpdatesatInput
   rates: SitterRateUpdateOneInput
   user: UserUpdateOneWithoutSitterInput
+}
+
+input SitterUpdatemonInput {
+  set: [Int!]
 }
 
 input SitterUpdateOneInput {
@@ -1291,17 +1250,37 @@ input SitterUpdateOneWithoutUserInput {
   upsert: SitterUpsertWithoutUserInput
 }
 
+input SitterUpdatesatInput {
+  set: [Int!]
+}
+
+input SitterUpdatesunInput {
+  set: [Int!]
+}
+
+input SitterUpdatethursInput {
+  set: [Int!]
+}
+
+input SitterUpdatetuesInput {
+  set: [Int!]
+}
+
+input SitterUpdatewedInput {
+  set: [Int!]
+}
+
 input SitterUpdateWithoutUserDataInput {
   bio: String
-  sun: String
-  mon: String
-  tues: String
-  wed: String
-  thurs: String
-  fri: String
-  sat: String
   gCalID: String
   rating: Float
+  sun: SitterUpdatesunInput
+  mon: SitterUpdatemonInput
+  tues: SitterUpdatetuesInput
+  wed: SitterUpdatewedInput
+  thurs: SitterUpdatethursInput
+  fri: SitterUpdatefriInput
+  sat: SitterUpdatesatInput
   rates: SitterRateUpdateOneInput
 }
 
@@ -1404,286 +1383,6 @@ input SitterWhereInput {
 
   """All values not ending with the given string."""
   bio_not_ends_with: String
-  sun: String
-
-  """All values that are not equal to given value."""
-  sun_not: String
-
-  """All values that are contained in given list."""
-  sun_in: [String!]
-
-  """All values that are not contained in given list."""
-  sun_not_in: [String!]
-
-  """All values less than the given value."""
-  sun_lt: String
-
-  """All values less than or equal the given value."""
-  sun_lte: String
-
-  """All values greater than the given value."""
-  sun_gt: String
-
-  """All values greater than or equal the given value."""
-  sun_gte: String
-
-  """All values containing the given string."""
-  sun_contains: String
-
-  """All values not containing the given string."""
-  sun_not_contains: String
-
-  """All values starting with the given string."""
-  sun_starts_with: String
-
-  """All values not starting with the given string."""
-  sun_not_starts_with: String
-
-  """All values ending with the given string."""
-  sun_ends_with: String
-
-  """All values not ending with the given string."""
-  sun_not_ends_with: String
-  mon: String
-
-  """All values that are not equal to given value."""
-  mon_not: String
-
-  """All values that are contained in given list."""
-  mon_in: [String!]
-
-  """All values that are not contained in given list."""
-  mon_not_in: [String!]
-
-  """All values less than the given value."""
-  mon_lt: String
-
-  """All values less than or equal the given value."""
-  mon_lte: String
-
-  """All values greater than the given value."""
-  mon_gt: String
-
-  """All values greater than or equal the given value."""
-  mon_gte: String
-
-  """All values containing the given string."""
-  mon_contains: String
-
-  """All values not containing the given string."""
-  mon_not_contains: String
-
-  """All values starting with the given string."""
-  mon_starts_with: String
-
-  """All values not starting with the given string."""
-  mon_not_starts_with: String
-
-  """All values ending with the given string."""
-  mon_ends_with: String
-
-  """All values not ending with the given string."""
-  mon_not_ends_with: String
-  tues: String
-
-  """All values that are not equal to given value."""
-  tues_not: String
-
-  """All values that are contained in given list."""
-  tues_in: [String!]
-
-  """All values that are not contained in given list."""
-  tues_not_in: [String!]
-
-  """All values less than the given value."""
-  tues_lt: String
-
-  """All values less than or equal the given value."""
-  tues_lte: String
-
-  """All values greater than the given value."""
-  tues_gt: String
-
-  """All values greater than or equal the given value."""
-  tues_gte: String
-
-  """All values containing the given string."""
-  tues_contains: String
-
-  """All values not containing the given string."""
-  tues_not_contains: String
-
-  """All values starting with the given string."""
-  tues_starts_with: String
-
-  """All values not starting with the given string."""
-  tues_not_starts_with: String
-
-  """All values ending with the given string."""
-  tues_ends_with: String
-
-  """All values not ending with the given string."""
-  tues_not_ends_with: String
-  wed: String
-
-  """All values that are not equal to given value."""
-  wed_not: String
-
-  """All values that are contained in given list."""
-  wed_in: [String!]
-
-  """All values that are not contained in given list."""
-  wed_not_in: [String!]
-
-  """All values less than the given value."""
-  wed_lt: String
-
-  """All values less than or equal the given value."""
-  wed_lte: String
-
-  """All values greater than the given value."""
-  wed_gt: String
-
-  """All values greater than or equal the given value."""
-  wed_gte: String
-
-  """All values containing the given string."""
-  wed_contains: String
-
-  """All values not containing the given string."""
-  wed_not_contains: String
-
-  """All values starting with the given string."""
-  wed_starts_with: String
-
-  """All values not starting with the given string."""
-  wed_not_starts_with: String
-
-  """All values ending with the given string."""
-  wed_ends_with: String
-
-  """All values not ending with the given string."""
-  wed_not_ends_with: String
-  thurs: String
-
-  """All values that are not equal to given value."""
-  thurs_not: String
-
-  """All values that are contained in given list."""
-  thurs_in: [String!]
-
-  """All values that are not contained in given list."""
-  thurs_not_in: [String!]
-
-  """All values less than the given value."""
-  thurs_lt: String
-
-  """All values less than or equal the given value."""
-  thurs_lte: String
-
-  """All values greater than the given value."""
-  thurs_gt: String
-
-  """All values greater than or equal the given value."""
-  thurs_gte: String
-
-  """All values containing the given string."""
-  thurs_contains: String
-
-  """All values not containing the given string."""
-  thurs_not_contains: String
-
-  """All values starting with the given string."""
-  thurs_starts_with: String
-
-  """All values not starting with the given string."""
-  thurs_not_starts_with: String
-
-  """All values ending with the given string."""
-  thurs_ends_with: String
-
-  """All values not ending with the given string."""
-  thurs_not_ends_with: String
-  fri: String
-
-  """All values that are not equal to given value."""
-  fri_not: String
-
-  """All values that are contained in given list."""
-  fri_in: [String!]
-
-  """All values that are not contained in given list."""
-  fri_not_in: [String!]
-
-  """All values less than the given value."""
-  fri_lt: String
-
-  """All values less than or equal the given value."""
-  fri_lte: String
-
-  """All values greater than the given value."""
-  fri_gt: String
-
-  """All values greater than or equal the given value."""
-  fri_gte: String
-
-  """All values containing the given string."""
-  fri_contains: String
-
-  """All values not containing the given string."""
-  fri_not_contains: String
-
-  """All values starting with the given string."""
-  fri_starts_with: String
-
-  """All values not starting with the given string."""
-  fri_not_starts_with: String
-
-  """All values ending with the given string."""
-  fri_ends_with: String
-
-  """All values not ending with the given string."""
-  fri_not_ends_with: String
-  sat: String
-
-  """All values that are not equal to given value."""
-  sat_not: String
-
-  """All values that are contained in given list."""
-  sat_in: [String!]
-
-  """All values that are not contained in given list."""
-  sat_not_in: [String!]
-
-  """All values less than the given value."""
-  sat_lt: String
-
-  """All values less than or equal the given value."""
-  sat_lte: String
-
-  """All values greater than the given value."""
-  sat_gt: String
-
-  """All values greater than or equal the given value."""
-  sat_gte: String
-
-  """All values containing the given string."""
-  sat_contains: String
-
-  """All values not containing the given string."""
-  sat_not_contains: String
-
-  """All values starting with the given string."""
-  sat_starts_with: String
-
-  """All values not starting with the given string."""
-  sat_not_starts_with: String
-
-  """All values ending with the given string."""
-  sat_ends_with: String
-
-  """All values not ending with the given string."""
-  sat_not_ends_with: String
   gCalID: String
 
   """All values that are not equal to given value."""
