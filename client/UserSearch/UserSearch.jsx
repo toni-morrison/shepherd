@@ -8,15 +8,18 @@ import { Query } from 'react-apollo';
 const FIND_SITTERS = gql `
   query findSitters {
     findSitters {
-      id,
-      sun,
-      mon,
-      tues,
-      wed,
-      thurs,
-      fri,
-      sat,
-      gCalID
+      id
+      sun
+      mon 
+      tues 
+      wed  
+      thurs 
+      fri 
+      sat
+      user {
+      first_name
+      last_name
+      }
     }
   }
 `;
@@ -49,7 +52,7 @@ export default class UserSearch extends React.Component {
 
   
   searchSitters () {
-      return (
+    return (
         <Query query = {FIND_SITTERS}>
           {
             ({ loading, error, data }) => {
@@ -57,6 +60,7 @@ export default class UserSearch extends React.Component {
                 return <p>...Loading</p>
               }
               if (error) {
+                
                 return <p>Error: </p>
               }
               console.log ('data: ', data)
@@ -73,6 +77,26 @@ export default class UserSearch extends React.Component {
     this.setState({
       searchResults: !this.state.searchResults
     });
+//    if (this.state.currentStart !== )
+//    return (
+//        <Query query = {FIND_SITTERS}>
+//          {
+//            ({ loading, error, data }) => {
+//              if (loading) {
+//                return <p>...Loading</p>
+//              }
+//              if (error) {
+//                return <p>Error: </p>
+//              }
+//              console.log ('data: ', data)
+//              let startDate = new Date (this.state.currentStart);
+//              let endDate = new Date (this.state.currentEnd);
+//              this.setState ({searchResults: data})
+//
+//              return <p>Data: </p>
+//            }
+//          }
+//        </Query>)
   }
 
   handleStartChange (newDate) {
@@ -95,7 +119,7 @@ export default class UserSearch extends React.Component {
     if (this.state.searchResults === false) {
       return (
       <div>
-        {this.searchSitters()}
+        {this.searchSitters() }
           <Grid>
             <Row>
               <Col xs={6} xsOffset={3}>

@@ -23,6 +23,7 @@ const resolvers = {
     },
     findSitters: (_, args, context, info) => {
       return context.prisma.query.sitters (
+        {},
         info
       );
     },
