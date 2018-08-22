@@ -6,19 +6,24 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const FIND_SITTERS = gql `
-  query findSitters {
-    findSitters {
-      id
-      sun
-      mon 
-      tues 
-      wed  
-      thurs 
-      fri 
-      sat
-      user {
-      first_name
-      last_name
+  query findSitters ($day: String!, $start: Int!, $end: Int!){
+    findSitters (day: $day, start: $start, end: $end) {
+      day
+      sitter {
+        id
+        bio
+        rating
+        rates {
+          child_rate
+          child_addl
+          pet_rate
+          pet_addl
+          home_rate
+        }
+        user {
+          first_name
+          last_name
+        }
       }
     }
   }
@@ -53,7 +58,8 @@ export default class UserSearch extends React.Component {
   
   searchSitters () {
     return (
-        <Query query = {FIND_SITTERS}>
+        <Query query = {FIND_SITTERS}
+          variables = {{day: "sun", start: 721, end: 722}}>
           {
             ({ loading, error, data }) => {
               if (loading) {

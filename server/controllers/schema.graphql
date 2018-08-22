@@ -8,7 +8,7 @@
 
 type Query {
   findUsers(email: String!): [User!]!
-  findSitters : [Sitter!]!
+  findSitters (day: String!, start: Int!, end: Int!) : [TimeInterval!]!
   findTodoLists(email: String!): [TodoList!]!
   findInstructions(id: ID!): [Instruction!]!
   getUserInfo(email: String!): User!

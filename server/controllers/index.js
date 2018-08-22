@@ -13,9 +13,19 @@ const resolvers = {
   Query: {
 
     findSitters: (_, args, context, info) => {
-      return context.prisma.query.sitters (
+      return context.prisma.query.timeIntervals (
         {
-
+          where: {
+            AND: [{
+              day: args.day
+            },
+            {
+              start_lte: args.start
+            },
+            {
+              end_gte: args.end
+            }]
+          }
         },
         info
       );
