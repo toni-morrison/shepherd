@@ -1,6 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import {
+  UPDATE_TODO_LIST,
+  CREATE_INSTRUCTION,
+  DELETE_INSTRUCTIONS
+} from './ApolloHelper.jsx';
+import {
   Table,
   Button,
   FormControl,
@@ -10,27 +15,11 @@ import {
 } from 'react-bootstrap';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-
-const UPDATE_TODO_LIST_NAME = gql`
-  mutation updateListName($id: ID!, $name: String!) {
-    updateListName(id: $id, name: $name) {
-      id
-    }
-  }
-`;
-
-const CREATE_INSTRUCTION = gql`
-  mutation createInstruction(
-    $id: ID!
-    $time: String!
-    $desc: String!
-    $list_id: ID!
-  ) {
-    createInstruction(id: $id, time: $time, desc: $desc, list_id: $list_id) {
-      id
-    }
-  }
-`;
+import {
+  intervals,
+  addExistingToList,
+  momentConversion
+} from './InstructionMakerHelper.jsx';
 
 export default class InstructionMaker extends React.Component {
   constructor(props) {
@@ -38,14 +27,14 @@ export default class InstructionMaker extends React.Component {
     this.state = {
       instruction: '',
       time: [],
+      orgTime: [],
       start: '',
       end: '',
       dropDownTime: '',
-      orgTimes: [],
       renderSave: false,
       newName: ''
     };
-    this.intervals = this.intervals.bind(this);
+
     this.handleChange = this.handleChange.bind(this);
     this.setTimes = this.setTimes.bind(this);
     this.addItem = this.addItem.bind(this);
@@ -55,32 +44,32 @@ export default class InstructionMaker extends React.Component {
     this.onSave = this.onSave.bind(this);
   }
   componentDidMount() {
-    this.setTimes();
+    // console.log(momentConversion('08:00 pm'));
     if (this.props.currentInstruction.length > 0) {
+      var timeSlot = intervals(this.props.startTime, this.props.endTime);
+      var todoList = addExistingToList(timeSlot, this.props.currentInstruction);
       this.setState({
-        start: this.props.currentInstruction[0][0],
-        dropDownTime: this.props.currentInstruction[0][0],
-        end: this.props.currentInstruction[
-          this.props.currentInstruction.length - 1
-        ][0],
-        time: this.props.currentInstruction,
+        start: this.props.startTime,
+        dropDownTime: this.props.startTime,
+        end: this.props.endTime,
+        time: todoList,
+        orgTime: todoList,
         name: this.props.name
       });
+    } else {
+      console.log('else fired');
+      this.setTimes();
     }
   }
 
-  setTimes() {
+  setTimes(start, end) {
     this.setState(
       {
-        time: this.intervals(
-          this.state.start || '6:00 PM',
-          this.state.end || '11:45 PM'
-        )
+        time: intervals(start || '6:00 PM', end || '11:45 PM')
       },
       () => {
         this.setState({
-          dropDownTime: this.state.start || '6:00 pm',
-          orgTimes: this.state.time
+          dropDownTime: this.state.start || '6:00 pm'
         });
       }
     );
@@ -128,20 +117,6 @@ export default class InstructionMaker extends React.Component {
     });
   }
 
-  intervals(startString, endString) {
-    var start = moment(startString, 'hh:mm a');
-    var end = moment(endString, 'hh:mm a');
-    start.minutes(Math.ceil(start.minutes() / 15) * 15);
-    var result = [];
-    var current = moment(start);
-    while (current <= end) {
-      var timeStr = current.format('h:mm a');
-      result.push([timeStr]);
-      // result.push(current.format('h:mm a'));
-      current.add(30, 'minutes');
-    }
-    return result;
-  }
   onHandleSave() {
     this.setState({
       renderSave: true
@@ -154,9 +129,22 @@ export default class InstructionMaker extends React.Component {
     });
   }
 
-  onClear() {
-    this.setState({
-      time: this.state.orgTimes
+  onClear(deleteInstructions) {
+    deleteInstructions({
+      variables: {
+        id: this.props.currentListId
+      }
+    }).then(({ data }) => {
+      this.setTimes(this.props.startTime, this.props.endTime);
+
+      this.setState(
+        {
+          renderSave: false
+        },
+        () => {
+          this.props.closeModal();
+        }
+      );
     });
   }
 
@@ -164,7 +152,9 @@ export default class InstructionMaker extends React.Component {
     updateListName({
       variables: {
         id: this.props.currentListId,
-        name: this.state.newName
+        name: this.state.newName,
+        startTime: this.state.start || '06:00 PM',
+        endTime: this.state.end || '10:00 PM'
       }
     }).then(({ data }) => {
       this.setState(
@@ -192,14 +182,14 @@ export default class InstructionMaker extends React.Component {
     const dropTimes = this.state.time.map((time, idx) => {
       return <option key={idx}>{time[0]}</option>;
     });
-    const startTimes = this.intervals('00:00', '23:45').map((time, idx) => {
+    const startTimes = intervals('00:00', '23:45').map((time, idx) => {
       return <option key={idx}>{time}</option>;
     });
-    const endTimes = this.intervals('00,00', '23:45').map((time, idx) => {
+    const endTimes = intervals('00,00', '23:45').map((time, idx) => {
       return <option key={idx}>{time}</option>;
     });
     return (
-      <Mutation mutation={UPDATE_TODO_LIST_NAME}>
+      <Mutation mutation={UPDATE_TODO_LIST}>
         {(updateListName, { loading, error, data }) => {
           if (loading) {
             return <p>Loading...</p>;
@@ -245,7 +235,13 @@ export default class InstructionMaker extends React.Component {
                     <option value="none">End Time</option>
                     {endTimes}
                   </FormControl>
-                  <Button type="button" onClick={this.setTimes}>
+
+                  <Button
+                    type="button"
+                    onClick={() =>
+                      this.setTimes(this.state.start, this.state.end)
+                    }
+                  >
                     Set
                   </Button>
                 </FormGroup>
@@ -268,6 +264,7 @@ export default class InstructionMaker extends React.Component {
                       componentClass="select"
                       placeholder="select"
                     >
+                      <option value="none">Enter Time</option>
                       {dropTimes}
                     </FormControl>
                   </FormGroup>
@@ -289,12 +286,38 @@ export default class InstructionMaker extends React.Component {
                       );
                     }}
                   </Mutation>
+                  <Mutation mutation={DELETE_INSTRUCTIONS}>
+                    {(deleteInstructions, { loading, error, data }) => {
+                      if (loading) {
+                        return <p>Loading...</p>;
+                      }
+                      if (error) {
+                        return <p>Error :(</p>;
+                      }
+                      return (
+                        <Button
+                          type="button"
+                          onClick={() => this.onClear(deleteInstructions)}
+                        >
+                          Clear
+                        </Button>
+                      );
+                    }}
+                  </Mutation>
 
-                  <Button type="button" onClick={() => this.onClear()}>
-                    Clear
-                  </Button>
                   <Button type="button" onClick={() => this.onHandleSave()}>
                     Save
+                  </Button>
+
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      this.setTimes('06:00 pm', '11:45 pm');
+                      this.props.closeModal();
+                      this.props.closeInstructions();
+                    }}
+                  >
+                    Cancel
                   </Button>
                 </form>
               </div>
@@ -315,6 +338,7 @@ export default class InstructionMaker extends React.Component {
                     placeholder={this.props.name}
                     onChange={this.handleChange}
                   />
+
                   <Button
                     type="button"
                     onClick={() => {

@@ -24,14 +24,27 @@ type Mutation {
     rating: Int
   ): User!
 
-  createList(email: String!, name: String!): TodoList!
-  updateListName(id: ID!, name: String!): TodoList!
+  createList(
+    email: String!
+    name: String!
+    startTime: String!
+    endTime: String!
+  ): TodoList!
+  updateListName(
+    id: ID!
+    name: String
+    startTime: String
+    endTime: String
+  ): TodoList!
   createInstruction(
     id: ID!
     time: String!
     desc: String!
     list_id: ID!
   ): Instruction!
+  deleteInstructions(id: ID!): BatchPayload!
+  deleteTodo(id: ID!): TodoList!
+  # deleteTodoList(id: ID!): Todolist!
 
   updateUser(
     email: String!

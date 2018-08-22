@@ -73,7 +73,9 @@ const resolvers = {
                 email: args.email
               }
             },
-            name: args.name
+            name: args.name,
+            startTime: args.startTime,
+            endTime: args.endTime
           }
         },
         info
@@ -83,7 +85,9 @@ const resolvers = {
       return context.prisma.mutation.updateTodoList(
         {
           data: {
-            name: args.name
+            name: args.name,
+            startTime: args.startTime,
+            endTime: args.endTime
           },
           where: {
             id: args.id
@@ -110,6 +114,28 @@ const resolvers = {
           },
           update: {
             desc: args.desc
+          }
+        },
+        info
+      );
+    },
+    deleteInstructions: (_, args, context, info) => {
+      return context.prisma.mutation.deleteManyInstructions(
+        {
+          where: {
+            list_id: {
+              id: args.id
+            }
+          }
+        },
+        info
+      );
+    },
+    deleteTodo: (_, args, context, info) => {
+      return context.prisma.mutation.deleteTodoList(
+        {
+          where: {
+            id: args.id
           }
         },
         info
