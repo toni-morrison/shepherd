@@ -18,24 +18,24 @@ export default class SitterSetPrices extends React.Component {
                   <h4>Child:</h4> 
                   </Col>
 
-                  <Col xs={2}>
+                  <Col xs={3}>
                     <FormControl
-                    type="text"
+                    type="number"
                     // value={}
                     // onChange={SUMFUNCTION}
-                    placeholder='Enter dollar amount' />
+                    placeholder='Enter dollar amount per hour' />
                   </Col>
 
                   <Col xs={2} xsOffset={2}>
                   <h4>Additional Child:</h4><br/>
                   </Col>
 
-                  <Col xs={2}>
+                  <Col xs={3}>
                     <FormControl
-                    type="text"
+                    type="number"
                     // value={}
                     // onChange={SUMFUNCTION}
-                    placeholder='Enter dollar amount' />
+                    placeholder='Enter dollar amount per hour' />
                   </Col>
                 </Row>
 
@@ -44,24 +44,24 @@ export default class SitterSetPrices extends React.Component {
                   <h4>Pet:</h4> 
                   </Col>
 
-                  <Col xs={2}>
+                  <Col xs={3}>
                     <FormControl
-                    type="text"
+                    type="number"
                     // value={}
                     // onChange={SUMFUNCTION}
-                    placeholder='Enter dollar amount' />
+                    placeholder='Enter dollar amount per day' />
                   </Col>
 
                   <Col xs={2} xsOffset={2}>
                   <h4>Additional Pet:</h4><br/>
                   </Col>
 
-                  <Col xs={2}>
+                  <Col xs={3}>
                     <FormControl
-                    type="text"
+                    type="number"
                     // value={}
                     // onChange={SUMFUNCTION}
-                    placeholder='Enter dollar amount' />
+                    placeholder='Enter dollar amount per day' />
                   </Col>
                 </Row>
 
@@ -71,12 +71,12 @@ export default class SitterSetPrices extends React.Component {
                   <h4>House:</h4> 
                   </Col>
 
-                  <Col xs={2}>
+                  <Col xs={3}>
                     <FormControl
-                    type="text"
+                    type="number"
                     // value={}
                     // onChange={SUMFUNCTION}
-                    placeholder='Enter dollar amount' />
+                    placeholder='Enter dollar amount per day' />
                   </Col>
                 </Row>
                 <br/>

@@ -14,7 +14,9 @@ export default class UserSearchResults extends React.Component {
                 {
                   name: 'Kiernan',
                   child: '$15.00/hour',
+                  childaddl: '$5.00/hour',
                   pet: '$30.00/day',
+                  petaddl: '$10.00/day',
                   house: '$50.00/day',
                   stars: 5,
                   img: 'https://i.imgur.com/QT0uEU6.jpg',
@@ -23,7 +25,9 @@ export default class UserSearchResults extends React.Component {
                 {
                   name: 'Kiernan',
                   child: '$15.00/hour',
+                  childaddl: '$5.00/hour',
                   pet: '$30.00/day',
+                  petaddl: '$10.00/day',
                   house: '$50.00/day',
                   stars: 5,
                   img: 'https://i.imgur.com/QT0uEU6.jpg',
@@ -34,13 +38,12 @@ export default class UserSearchResults extends React.Component {
 
     this.showUserSitterRequest = this.showUserSitterRequest.bind(this)
     this.hideUserSitterRequest = this.hideUserSitterRequest.bind(this)
-    this.consoleLog = this.consoleLog.bind(this)
   }
 
   showUserSitterRequest(){
     this.setState({
       showUserSitterRequest: true
-    }, this.consoleLog())
+    })
   }
 
   hideUserSitterRequest(){
@@ -49,9 +52,6 @@ export default class UserSearchResults extends React.Component {
     })
   }
 
-  consoleLog(){
-    console.log(this.state)
-  }
 
   render() {
     return(
@@ -87,7 +87,9 @@ export default class UserSearchResults extends React.Component {
                       <h4>
                       <b>Name:</b> {review.name}<br/><br/>
                       <b>Child:</b> {review.child}<br/><br/>
+                      <b>Child Additional:</b> {review.childaddl}<br/><br/>
                       <b>Pet:</b> {review.pet}<br/><br/>
+                      <b>Pet Additional:</b> {review.petaddl}<br/><br/>
                       <b>House:</b> {review.house}<br/><br/>
                       <b>Bio:</b> {review.bio}<br/><br/>
                       </h4>
@@ -103,7 +105,11 @@ export default class UserSearchResults extends React.Component {
               </div>
           )
         })}
-        <Button onClick={this.props.handleSearchClick}>SEARCH AGAIN</Button>
+        <Row>
+          <Col xs={3}>
+            <Button onClick={this.props.handleSearchClick}>SEARCH AGAIN</Button>
+          </Col>
+        </Row>
       </div>
     )
   }
