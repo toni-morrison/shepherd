@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Grid, Row, Col, Well } from 'react-bootstrap';
 import UserProfileUpdate from '../UserProfile/UserProfileUpdate.jsx';
 import SitterSetSchedule from './SitterSetSchedule.jsx';
-import SitterSetPrices from './SitterSetPrices.jsx';
+import SitterPrices from './SitterPrices.jsx';
 import SitterBio from './SitterBio.jsx';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -84,7 +84,7 @@ export default class SitterProfile extends React.Component {
                   </Col>
                 </Row>
                 <SitterBio user={this.props.user}/>
-                <SitterSetPrices/>
+                <SitterPrices user={this.props.user} sitterId={this.props.sitterId} />
                 <SitterSetSchedule/>
               </Grid>
             </div>
@@ -109,7 +109,7 @@ export default class SitterProfile extends React.Component {
                   </Col>
                 </Row>
   
-                <SitterSetPrices/>
+                <SitterPrices/>
                 <SitterSetSchedule/>
               </Grid>
             </div>
