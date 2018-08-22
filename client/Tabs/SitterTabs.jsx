@@ -40,19 +40,19 @@ export default class SitterTabs extends React.Component {
             <Col sm={8}>
               <Tab.Content>
                 <Tab.Pane eventKey="first">
-                  <SitterHome />
+                  <SitterHome user={this.props.user} />
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
-                  <SitterMetrics />
+                  <SitterMetrics user={this.props.user} />
                 </Tab.Pane>
                 <Tab.Pane eventKey="third">
-                  <SitterReviews />
+                  <SitterReviews user={this.props.user} />
                 </Tab.Pane>
                 <Tab.Pane eventKey="fourth">
-                  <SitterSchedule />
+                  <SitterSchedule user={this.props.user} />
                 </Tab.Pane>
                 <Tab.Pane eventKey="fifth">
-                  <SitterProfile />
+                  <SitterProfile user={this.props.user} />
                 </Tab.Pane>
               </Tab.Content>
             </Col>
