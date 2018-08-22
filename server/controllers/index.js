@@ -11,16 +11,6 @@ const options = {
 
 const resolvers = {
   Query: {
-    findUsers: (_, args, context, info) => {
-      return context.prisma.query.users(
-        {
-          where: {
-            email: args.email
-          }
-        },
-        info
-      );
-    },
     findTodoLists: (_, args, context, info) => {
       return context.prisma.query.todoLists(
         {
@@ -135,7 +125,7 @@ const resolvers = {
             street_address: args.street_address,
             city: args.city,
             state: args.state,
-            zip_code: args.zip_code
+            zip_code: args.zip_code,
           },
           where: {
             email: args.email
@@ -143,6 +133,27 @@ const resolvers = {
         },
         info
       );
+    },
+    updateSitter: (_, args, context, info) => {
+      return context.prisma.mutation.updateSitter(
+        {
+          data: {
+            bio: args.bio,
+            rating: args.rating,
+            rates: {
+                child_rate: args.child,
+                child_addl: args.child_addl,
+                pet_rate: args.pet,
+                pet_addl: args.pet_addl,
+                home_rate: args.home
+            }
+          },
+          where: {
+            id: args.id
+          }
+        },
+        info
+      )
     }
   }
 };

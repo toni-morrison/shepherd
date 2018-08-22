@@ -42,4 +42,17 @@ type Mutation {
     state: String
     zip_code: String
   ): User!
+
+  updateSitter(
+    id: ID!
+    bio: String!
+    rating: Float
+    rates: {
+      child_rate: Float
+      child_addl: Float
+      pet_rate: Float
+      pet_addl: Float
+      home_rate: Float
+    }
+  ): Sitter!
 }
