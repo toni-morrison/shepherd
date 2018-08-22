@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Wed Aug 22 2018 09:46:07 GMT-0500 (GMT-05:00)
+# timestamp: Wed Aug 22 2018 15:44:25 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -17,6 +17,10 @@ type AggregateSitterRate {
   count: Int!
 }
 
+type AggregateTimeInterval {
+  count: Int!
+}
+
 type AggregateTodoList {
   count: Int!
 }
@@ -27,7 +31,6 @@ type AggregateUser {
 
 type Appointment implements Node {
   id: ID!
-  time: [Int!]!
   user(where: UserWhereInput): User!
   sitter(where: SitterWhereInput): Sitter!
   comment: String!
@@ -56,14 +59,14 @@ input AppointmentCreateInput {
   sitterRating: Float
   userReview: String
   sitterReview: String
-  time: AppointmentCreatetimeInput
   user: UserCreateOneInput!
   sitter: SitterCreateOneInput!
   todoList: TodoListCreateOneInput
 }
 
-input AppointmentCreatetimeInput {
-  set: [Int!]
+input AppointmentCreateOneInput {
+  create: AppointmentCreateInput
+  connect: AppointmentWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -98,7 +101,6 @@ enum AppointmentOrderByInput {
 
 type AppointmentPreviousValues {
   id: ID!
-  time: [Int!]!
   comment: String!
   pending: Boolean
   userRating: Float
@@ -146,6 +148,18 @@ input AppointmentSubscriptionWhereInput {
   node: AppointmentWhereInput
 }
 
+input AppointmentUpdateDataInput {
+  comment: String
+  pending: Boolean
+  userRating: Float
+  sitterRating: Float
+  userReview: String
+  sitterReview: String
+  user: UserUpdateOneInput
+  sitter: SitterUpdateOneInput
+  todoList: TodoListUpdateOneInput
+}
+
 input AppointmentUpdateInput {
   comment: String
   pending: Boolean
@@ -153,14 +167,23 @@ input AppointmentUpdateInput {
   sitterRating: Float
   userReview: String
   sitterReview: String
-  time: AppointmentUpdatetimeInput
   user: UserUpdateOneInput
   sitter: SitterUpdateOneInput
   todoList: TodoListUpdateOneInput
 }
 
-input AppointmentUpdatetimeInput {
-  set: [Int!]
+input AppointmentUpdateOneInput {
+  create: AppointmentCreateInput
+  connect: AppointmentWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: AppointmentUpdateDataInput
+  upsert: AppointmentUpsertNestedInput
+}
+
+input AppointmentUpsertNestedInput {
+  update: AppointmentUpdateDataInput!
+  create: AppointmentCreateInput!
 }
 
 input AppointmentWhereInput {
@@ -683,39 +706,42 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
+  createTimeInterval(data: TimeIntervalCreateInput!): TimeInterval!
   createInstruction(data: InstructionCreateInput!): Instruction!
-  createAppointment(data: AppointmentCreateInput!): Appointment!
   createTodoList(data: TodoListCreateInput!): TodoList!
-  createSitter(data: SitterCreateInput!): Sitter!
+  createAppointment(data: AppointmentCreateInput!): Appointment!
   createUser(data: UserCreateInput!): User!
   createSitterRate(data: SitterRateCreateInput!): SitterRate!
+  createSitter(data: SitterCreateInput!): Sitter!
   updateInstruction(data: InstructionUpdateInput!, where: InstructionWhereUniqueInput!): Instruction
-  updateAppointment(data: AppointmentUpdateInput!, where: AppointmentWhereUniqueInput!): Appointment
   updateTodoList(data: TodoListUpdateInput!, where: TodoListWhereUniqueInput!): TodoList
-  updateSitter(data: SitterUpdateInput!, where: SitterWhereUniqueInput!): Sitter
+  updateAppointment(data: AppointmentUpdateInput!, where: AppointmentWhereUniqueInput!): Appointment
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateSitter(data: SitterUpdateInput!, where: SitterWhereUniqueInput!): Sitter
   deleteInstruction(where: InstructionWhereUniqueInput!): Instruction
-  deleteAppointment(where: AppointmentWhereUniqueInput!): Appointment
   deleteTodoList(where: TodoListWhereUniqueInput!): TodoList
-  deleteSitter(where: SitterWhereUniqueInput!): Sitter
+  deleteAppointment(where: AppointmentWhereUniqueInput!): Appointment
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteSitter(where: SitterWhereUniqueInput!): Sitter
   upsertInstruction(where: InstructionWhereUniqueInput!, create: InstructionCreateInput!, update: InstructionUpdateInput!): Instruction!
-  upsertAppointment(where: AppointmentWhereUniqueInput!, create: AppointmentCreateInput!, update: AppointmentUpdateInput!): Appointment!
   upsertTodoList(where: TodoListWhereUniqueInput!, create: TodoListCreateInput!, update: TodoListUpdateInput!): TodoList!
-  upsertSitter(where: SitterWhereUniqueInput!, create: SitterCreateInput!, update: SitterUpdateInput!): Sitter!
+  upsertAppointment(where: AppointmentWhereUniqueInput!, create: AppointmentCreateInput!, update: AppointmentUpdateInput!): Appointment!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertSitter(where: SitterWhereUniqueInput!, create: SitterCreateInput!, update: SitterUpdateInput!): Sitter!
+  updateManyTimeIntervals(data: TimeIntervalUpdateInput!, where: TimeIntervalWhereInput): BatchPayload!
   updateManyInstructions(data: InstructionUpdateInput!, where: InstructionWhereInput): BatchPayload!
-  updateManyAppointments(data: AppointmentUpdateInput!, where: AppointmentWhereInput): BatchPayload!
   updateManyTodoLists(data: TodoListUpdateInput!, where: TodoListWhereInput): BatchPayload!
-  updateManySitters(data: SitterUpdateInput!, where: SitterWhereInput): BatchPayload!
+  updateManyAppointments(data: AppointmentUpdateInput!, where: AppointmentWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManySitterRates(data: SitterRateUpdateInput!, where: SitterRateWhereInput): BatchPayload!
+  updateManySitters(data: SitterUpdateInput!, where: SitterWhereInput): BatchPayload!
+  deleteManyTimeIntervals(where: TimeIntervalWhereInput): BatchPayload!
   deleteManyInstructions(where: InstructionWhereInput): BatchPayload!
-  deleteManyAppointments(where: AppointmentWhereInput): BatchPayload!
   deleteManyTodoLists(where: TodoListWhereInput): BatchPayload!
-  deleteManySitters(where: SitterWhereInput): BatchPayload!
+  deleteManyAppointments(where: AppointmentWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManySitterRates(where: SitterRateWhereInput): BatchPayload!
+  deleteManySitters(where: SitterWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -746,23 +772,25 @@ type PageInfo {
 }
 
 type Query {
+  timeIntervals(where: TimeIntervalWhereInput, orderBy: TimeIntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TimeInterval]!
   instructions(where: InstructionWhereInput, orderBy: InstructionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Instruction]!
-  appointments(where: AppointmentWhereInput, orderBy: AppointmentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Appointment]!
   todoLists(where: TodoListWhereInput, orderBy: TodoListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TodoList]!
-  sitters(where: SitterWhereInput, orderBy: SitterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sitter]!
+  appointments(where: AppointmentWhereInput, orderBy: AppointmentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Appointment]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   sitterRates(where: SitterRateWhereInput, orderBy: SitterRateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SitterRate]!
+  sitters(where: SitterWhereInput, orderBy: SitterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sitter]!
   instruction(where: InstructionWhereUniqueInput!): Instruction
-  appointment(where: AppointmentWhereUniqueInput!): Appointment
   todoList(where: TodoListWhereUniqueInput!): TodoList
-  sitter(where: SitterWhereUniqueInput!): Sitter
+  appointment(where: AppointmentWhereUniqueInput!): Appointment
   user(where: UserWhereUniqueInput!): User
+  sitter(where: SitterWhereUniqueInput!): Sitter
+  timeIntervalsConnection(where: TimeIntervalWhereInput, orderBy: TimeIntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TimeIntervalConnection!
   instructionsConnection(where: InstructionWhereInput, orderBy: InstructionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): InstructionConnection!
-  appointmentsConnection(where: AppointmentWhereInput, orderBy: AppointmentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AppointmentConnection!
   todoListsConnection(where: TodoListWhereInput, orderBy: TodoListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TodoListConnection!
-  sittersConnection(where: SitterWhereInput, orderBy: SitterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitterConnection!
+  appointmentsConnection(where: AppointmentWhereInput, orderBy: AppointmentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AppointmentConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   sitterRatesConnection(where: SitterRateWhereInput, orderBy: SitterRateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitterRateConnection!
+  sittersConnection(where: SitterWhereInput, orderBy: SitterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitterConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -775,13 +803,6 @@ type Sitter implements Node {
   id: ID!
   bio: String!
   rates(where: SitterRateWhereInput): SitterRate!
-  sun: [Int!]!
-  mon: [Int!]!
-  tues: [Int!]!
-  wed: [Int!]!
-  thurs: [Int!]!
-  fri: [Int!]!
-  sat: [Int!]!
   gCalID: String
   rating: Float
   user(where: UserWhereInput): User!
@@ -797,27 +818,12 @@ type SitterConnection {
   aggregate: AggregateSitter!
 }
 
-input SitterCreatefriInput {
-  set: [Int!]
-}
-
 input SitterCreateInput {
   bio: String!
   gCalID: String
   rating: Float
-  sun: SitterCreatesunInput
-  mon: SitterCreatemonInput
-  tues: SitterCreatetuesInput
-  wed: SitterCreatewedInput
-  thurs: SitterCreatethursInput
-  fri: SitterCreatefriInput
-  sat: SitterCreatesatInput
   rates: SitterRateCreateOneInput!
   user: UserCreateOneWithoutSitterInput!
-}
-
-input SitterCreatemonInput {
-  set: [Int!]
 }
 
 input SitterCreateOneInput {
@@ -830,37 +836,10 @@ input SitterCreateOneWithoutUserInput {
   connect: SitterWhereUniqueInput
 }
 
-input SitterCreatesatInput {
-  set: [Int!]
-}
-
-input SitterCreatesunInput {
-  set: [Int!]
-}
-
-input SitterCreatethursInput {
-  set: [Int!]
-}
-
-input SitterCreatetuesInput {
-  set: [Int!]
-}
-
-input SitterCreatewedInput {
-  set: [Int!]
-}
-
 input SitterCreateWithoutUserInput {
   bio: String!
   gCalID: String
   rating: Float
-  sun: SitterCreatesunInput
-  mon: SitterCreatemonInput
-  tues: SitterCreatetuesInput
-  wed: SitterCreatewedInput
-  thurs: SitterCreatethursInput
-  fri: SitterCreatefriInput
-  sat: SitterCreatesatInput
   rates: SitterRateCreateOneInput!
 }
 
@@ -891,13 +870,6 @@ enum SitterOrderByInput {
 type SitterPreviousValues {
   id: ID!
   bio: String!
-  sun: [Int!]!
-  mon: [Int!]!
-  tues: [Int!]!
-  wed: [Int!]!
-  thurs: [Int!]!
-  fri: [Int!]!
-  sat: [Int!]!
   gCalID: String
   rating: Float
 }
@@ -1199,38 +1171,16 @@ input SitterUpdateDataInput {
   bio: String
   gCalID: String
   rating: Float
-  sun: SitterUpdatesunInput
-  mon: SitterUpdatemonInput
-  tues: SitterUpdatetuesInput
-  wed: SitterUpdatewedInput
-  thurs: SitterUpdatethursInput
-  fri: SitterUpdatefriInput
-  sat: SitterUpdatesatInput
   rates: SitterRateUpdateOneInput
   user: UserUpdateOneWithoutSitterInput
-}
-
-input SitterUpdatefriInput {
-  set: [Int!]
 }
 
 input SitterUpdateInput {
   bio: String
   gCalID: String
   rating: Float
-  sun: SitterUpdatesunInput
-  mon: SitterUpdatemonInput
-  tues: SitterUpdatetuesInput
-  wed: SitterUpdatewedInput
-  thurs: SitterUpdatethursInput
-  fri: SitterUpdatefriInput
-  sat: SitterUpdatesatInput
   rates: SitterRateUpdateOneInput
   user: UserUpdateOneWithoutSitterInput
-}
-
-input SitterUpdatemonInput {
-  set: [Int!]
 }
 
 input SitterUpdateOneInput {
@@ -1250,37 +1200,10 @@ input SitterUpdateOneWithoutUserInput {
   upsert: SitterUpsertWithoutUserInput
 }
 
-input SitterUpdatesatInput {
-  set: [Int!]
-}
-
-input SitterUpdatesunInput {
-  set: [Int!]
-}
-
-input SitterUpdatethursInput {
-  set: [Int!]
-}
-
-input SitterUpdatetuesInput {
-  set: [Int!]
-}
-
-input SitterUpdatewedInput {
-  set: [Int!]
-}
-
 input SitterUpdateWithoutUserDataInput {
   bio: String
   gCalID: String
   rating: Float
-  sun: SitterUpdatesunInput
-  mon: SitterUpdatemonInput
-  tues: SitterUpdatetuesInput
-  wed: SitterUpdatewedInput
-  thurs: SitterUpdatethursInput
-  fri: SitterUpdatefriInput
-  sat: SitterUpdatesatInput
   rates: SitterRateUpdateOneInput
 }
 
@@ -1454,12 +1377,213 @@ input SitterWhereUniqueInput {
 }
 
 type Subscription {
+  timeInterval(where: TimeIntervalSubscriptionWhereInput): TimeIntervalSubscriptionPayload
   instruction(where: InstructionSubscriptionWhereInput): InstructionSubscriptionPayload
-  appointment(where: AppointmentSubscriptionWhereInput): AppointmentSubscriptionPayload
   todoList(where: TodoListSubscriptionWhereInput): TodoListSubscriptionPayload
-  sitter(where: SitterSubscriptionWhereInput): SitterSubscriptionPayload
+  appointment(where: AppointmentSubscriptionWhereInput): AppointmentSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   sitterRate(where: SitterRateSubscriptionWhereInput): SitterRateSubscriptionPayload
+  sitter(where: SitterSubscriptionWhereInput): SitterSubscriptionPayload
+}
+
+type TimeInterval {
+  appointment(where: AppointmentWhereInput): Appointment
+  sitter(where: SitterWhereInput): Sitter
+  day: String
+  start: Int!
+  end: Int!
+}
+
+"""A connection to a list of items."""
+type TimeIntervalConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TimeIntervalEdge]!
+  aggregate: AggregateTimeInterval!
+}
+
+input TimeIntervalCreateInput {
+  day: String
+  start: Int!
+  end: Int!
+  appointment: AppointmentCreateOneInput
+  sitter: SitterCreateOneInput
+}
+
+"""An edge in a connection."""
+type TimeIntervalEdge {
+  """The item at the end of the edge."""
+  node: TimeInterval!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TimeIntervalOrderByInput {
+  day_ASC
+  day_DESC
+  start_ASC
+  start_DESC
+  end_ASC
+  end_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type TimeIntervalPreviousValues {
+  day: String
+  start: Int!
+  end: Int!
+}
+
+type TimeIntervalSubscriptionPayload {
+  mutation: MutationType!
+  node: TimeInterval
+  updatedFields: [String!]
+  previousValues: TimeIntervalPreviousValues
+}
+
+input TimeIntervalSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TimeIntervalSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TimeIntervalSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TimeIntervalSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TimeIntervalWhereInput
+}
+
+input TimeIntervalUpdateInput {
+  day: String
+  start: Int
+  end: Int
+  appointment: AppointmentUpdateOneInput
+  sitter: SitterUpdateOneInput
+}
+
+input TimeIntervalWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TimeIntervalWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TimeIntervalWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TimeIntervalWhereInput!]
+  day: String
+
+  """All values that are not equal to given value."""
+  day_not: String
+
+  """All values that are contained in given list."""
+  day_in: [String!]
+
+  """All values that are not contained in given list."""
+  day_not_in: [String!]
+
+  """All values less than the given value."""
+  day_lt: String
+
+  """All values less than or equal the given value."""
+  day_lte: String
+
+  """All values greater than the given value."""
+  day_gt: String
+
+  """All values greater than or equal the given value."""
+  day_gte: String
+
+  """All values containing the given string."""
+  day_contains: String
+
+  """All values not containing the given string."""
+  day_not_contains: String
+
+  """All values starting with the given string."""
+  day_starts_with: String
+
+  """All values not starting with the given string."""
+  day_not_starts_with: String
+
+  """All values ending with the given string."""
+  day_ends_with: String
+
+  """All values not ending with the given string."""
+  day_not_ends_with: String
+  start: Int
+
+  """All values that are not equal to given value."""
+  start_not: Int
+
+  """All values that are contained in given list."""
+  start_in: [Int!]
+
+  """All values that are not contained in given list."""
+  start_not_in: [Int!]
+
+  """All values less than the given value."""
+  start_lt: Int
+
+  """All values less than or equal the given value."""
+  start_lte: Int
+
+  """All values greater than the given value."""
+  start_gt: Int
+
+  """All values greater than or equal the given value."""
+  start_gte: Int
+  end: Int
+
+  """All values that are not equal to given value."""
+  end_not: Int
+
+  """All values that are contained in given list."""
+  end_in: [Int!]
+
+  """All values that are not contained in given list."""
+  end_not_in: [Int!]
+
+  """All values less than the given value."""
+  end_lt: Int
+
+  """All values less than or equal the given value."""
+  end_lte: Int
+
+  """All values greater than the given value."""
+  end_gt: Int
+
+  """All values greater than or equal the given value."""
+  end_gte: Int
+  appointment: AppointmentWhereInput
+  sitter: SitterWhereInput
 }
 
 type TodoList implements Node {

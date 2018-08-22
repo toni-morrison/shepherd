@@ -20,17 +20,18 @@ type SitterRate {
   home_rate: Float
 }
 
+type TimeInterval {
+  appointment: Appointment
+  sitter: Sitter
+  day: String
+  start: Int!
+  end: Int!
+}
+
 type Sitter {
   id: ID! @unique
   bio: String!
   rates: SitterRate!
-  sun: [Int!]
-  mon: [Int!]
-  tues: [Int!]
-  wed: [Int!]
-  thurs: [Int!]
-  fri: [Int!]
-  sat: [Int!]
   gCalID: String
   rating: Float
   user: User!
@@ -57,7 +58,6 @@ type Instruction {
 
 type Appointment {
   id: ID! @unique
-  time: [Int!]!
   user: User!
   sitter: Sitter!
   comment: String!
