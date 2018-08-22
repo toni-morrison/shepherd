@@ -9,7 +9,7 @@ const UPDATE_TODO_LIST = gql`
   ) {
     updateListName(
       id: $id
-      name: $name
+      name: $namegit
       startTime: $startTime
       endTime: $endTime
     ) {
