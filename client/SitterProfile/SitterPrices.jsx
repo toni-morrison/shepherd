@@ -12,6 +12,7 @@ const GET_USER_INFO = gql`
       email: $email
     ) {
       sitter {
+        id
         rates {
           child_rate
           child_addl
@@ -40,7 +41,8 @@ export default class SitterPrices extends React.Component {
   render() {
     return(
       <Query query={GET_USER_INFO}
-      variables={{email: this.props.user}}>
+      variables={{email: this.props.user}}
+      pollInterval={500}>
         {({ loading, error, data }) => {
           if (loading) {
             return <p>Loading...</p>;
@@ -117,7 +119,8 @@ export default class SitterPrices extends React.Component {
                 pet={sitter.pet_rate}
                 pet_addl={sitter.pet_addl}
                 home={sitter.home_rate}
-                handleSetPrices={this.handleSetPrices} />
+                handleSetPrices={this.handleSetPrices} 
+                sitterId={this.props.sitterId} />
             )
           }
         }}

@@ -84,7 +84,7 @@ export default class SitterProfile extends React.Component {
                   </Col>
                 </Row>
                 <SitterBio user={this.props.user}/>
-                <SitterPrices user={this.props.user}/>
+                <SitterPrices user={this.props.user} sitterId={this.props.sitterId} />
                 <SitterSetSchedule/>
               </Grid>
             </div>

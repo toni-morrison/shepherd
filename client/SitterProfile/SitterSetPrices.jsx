@@ -1,11 +1,13 @@
 import React from 'react';
 import { Button, Grid, Row, Col, Well, FormControl } from 'react-bootstrap';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 const UPDATE_SITTER = gql`
   mutation updateSitter(
     $id: ID!,
+    $bio: String,
+    $rating: Float,
     $child_rate: Float,
     $child_addl: Float,
     $pet_rate: Float,
@@ -13,22 +15,22 @@ const UPDATE_SITTER = gql`
     $home_rate: Float,
     ) {
       updateSitter(
-        id: $id
-        sitter: {
-          rates: {
-            child_rate: $child_rate,
-            child_addl: $child_addl,
-            pet_rate: $pet_rate,
-            pet_addl: $pet_addl,
-            home_rate: $home_rate
-          }
-        }
+        id: $id,
+        bio: $bio,
+        rating: $rating,
+        child_rate: $child_rate,
+        child_addl: $child_addl,
+        pet_rate: $pet_rate,
+        pet_addl: $pet_addl,
+        home_rate: $home_rate
       ) {
+        rates {
         child_rate
         child_addl
         pet_rate
         pet_addl
         home_rate
+        }
       }
     }
 `
@@ -38,11 +40,11 @@ export default class SitterSetPrices extends React.Component {
     super(props)
 
     this.state = {
-      child: this.props.child || 0,
-      child_addl: this.props.child_addl || 0,
-      pet: this.props.pet || 0,
-      pet_addl: this.props.pet_addl || 0,
-      home: this.props.home || 0
+      child_rate: this.props.child,
+      child_addl: this.props.child_addl,
+      pet_rate: this.props.pet,
+      pet_addl: this.props.pet_addl,
+      home_rate: this.props.home
     }
 
     this.handleChangeInput = this.handleChangeInput.bind(this)
@@ -59,19 +61,25 @@ export default class SitterSetPrices extends React.Component {
   handlePriceChange(updateSitter) {
     updateSitter({
       variables: {
-        id: this.props.id,
-        sitter: {
-          rates: {
-            child_rate: this.state.child,
-            child_addl: this.state.child_addl,
-            pet_rate: this.state.pet,
-            pet_addl: this.state.pet_addl,
-            home_rate: this.state.home
-          }
-        }
+        id: this.props.sitterId,        
+        child_rate: this.state.child_rate,
+        child_addl: this.state.child_addl,
+        pet_rate: this.state.pet_rate,
+        pet_addl: this.state.pet_addl,
+        home_rate: this.state.home_rate
+        
       }
     }).then(({ data }) => {
-      console.log(data)
+      let newRates = data.updateSitter.rates
+      this.setState({
+        child_rate: newRates.child,
+        child_addl: newRates.child_addl,
+        pet_rate: newRates.pet,
+        pet_addl: newRates.pet_addl,
+        home_rate: newRates.home
+      })
+    }).then(() => {
+      this.props.handleSetPrices();
     })
   }
 
@@ -100,8 +108,8 @@ export default class SitterSetPrices extends React.Component {
                       <FormControl
                       type="number"
                       placeholder='Enter price per hour'
-                      value={this.state.child}
-                      id='child'
+                      value={this.state.child_rate}
+                      id='child_rate'
                       onChange={this.handleChangeInput} />
                     </Col>
 
@@ -128,8 +136,8 @@ export default class SitterSetPrices extends React.Component {
                       <FormControl
                       type="number"
                       placeholder='Enter price per day'
-                      value={this.state.pet}
-                      id='pet'
+                      value={this.state.pet_rate}
+                      id='pet_rate'
                       onChange={this.handleChangeInput} />
                     </Col>
 
@@ -157,13 +165,13 @@ export default class SitterSetPrices extends React.Component {
                       <FormControl
                       type="number"
                       placeholder='Enter price per day'
-                      value={this.state.home}
-                      id='home'
+                      value={this.state.home_rate}
+                      id='home_rate'
                       onChange={this.handleChangeInput} />
                     </Col>
                   </Row>
                   <br/>
-                  <Button onClick={this.handlePriceChange(updateUser)}>Click to Update</Button>
+                  <Button onClick={() => this.handlePriceChange(updateSitter)}>Click to Update</Button>
                 </Well>
             </Col>
           </Row>

@@ -141,11 +141,22 @@ const resolvers = {
             bio: args.bio,
             rating: args.rating,
             rates: {
-                child_rate: args.child,
-                child_addl: args.child_addl,
-                pet_rate: args.pet,
-                pet_addl: args.pet_addl,
-                home_rate: args.home
+              upsert: {
+                update: {
+                  child_rate: args.child_rate,
+                  child_addl: args.child_addl,
+                  pet_rate: args.pet_rate,
+                  pet_addl: args.pet_addl,
+                  home_rate: args.home_rate
+                },
+                create:{
+                  child_rate: args.child_rate,
+                  child_addl: args.child_addl,
+                  pet_rate: args.pet_rate,
+                  pet_addl: args.pet_addl,
+                  home_rate: args.home_rate
+                }
+              }
             }
           },
           where: {
