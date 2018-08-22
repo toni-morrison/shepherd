@@ -15,7 +15,11 @@ import {
 } from 'react-bootstrap';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { intervals, addExistingToList } from './InstructionMakerHelper.jsx';
+import {
+  intervals,
+  addExistingToList,
+  momentConversion
+} from './InstructionMakerHelper.jsx';
 
 export default class InstructionMaker extends React.Component {
   constructor(props) {
@@ -23,6 +27,7 @@ export default class InstructionMaker extends React.Component {
     this.state = {
       instruction: '',
       time: [],
+      orgTime: [],
       start: '',
       end: '',
       dropDownTime: '',
@@ -39,6 +44,7 @@ export default class InstructionMaker extends React.Component {
     this.onSave = this.onSave.bind(this);
   }
   componentDidMount() {
+    // console.log(momentConversion('08:00 pm'));
     if (this.props.currentInstruction.length > 0) {
       var timeSlot = intervals(this.props.startTime, this.props.endTime);
       var todoList = addExistingToList(timeSlot, this.props.currentInstruction);
@@ -47,9 +53,11 @@ export default class InstructionMaker extends React.Component {
         dropDownTime: this.props.startTime,
         end: this.props.endTime,
         time: todoList,
+        orgTime: todoList,
         name: this.props.name
       });
     } else {
+      console.log('else fired');
       this.setTimes();
     }
   }

@@ -29,7 +29,19 @@ const addExistingToList = (timeSlot, currentInstruction) => {
   return timeSlot;
 };
 
+const momentConversion = time => {
+  // // var now = '12:00 am';
+  // // var then = '01:00 am';
+  // // var result = moment
+  // //   .utc(moment(now, 'HH:mm a').diff(moment(then, 'HH:mm a')))
+  // //   .format('HH:mm');
+  // var a = moment('08:00');
+  // var b = moment('10:00');
+  // var result = b.diff(a, 'minutes');
+  // return result;
+};
 module.exports = {
   intervals,
-  addExistingToList
+  addExistingToList,
+  momentConversion
 };

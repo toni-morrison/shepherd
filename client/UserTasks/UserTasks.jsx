@@ -37,6 +37,7 @@ export default class UserTasks extends React.Component {
   }
 
   handleTasksSelect(data, id, name, startTime, endTime) {
+    console.log('taskselect start:', startTime);
     var result = [];
     for (var i = 0; i < data.findInstructions.length; i++) {
       var item = data.findInstructions[i];
@@ -82,17 +83,16 @@ export default class UserTasks extends React.Component {
       variables: {
         email: this.props.user,
         name: 'Untitled',
-        startTime: this.state.startTime,
-        endTime: this.state.endTime
+        startTime: '06:00 pm',
+        endTime: '11:45 pm'
       }
     }).then(({ data }) => {
-      console.log('plusbuttondata:', data);
       this.setState(
         {
           currentListId: data.createList.id,
           name: 'Untitled',
-          startTime: '06:00 pm',
-          endTime: '11:45 pm'
+          startTime: this.state.startTime,
+          endTime: this.state.endTime
         },
         () => {
           this.handleOpenInstructions();
@@ -142,6 +142,7 @@ export default class UserTasks extends React.Component {
                           if (error) {
                             return <p>error</p>;
                           }
+
                           return (
                             <Button
                               bsSize="large"

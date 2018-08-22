@@ -15,14 +15,12 @@ export default class TasksModal extends React.Component {
         id: this.props.currentListId
       }
     }).then(({ data }) => {
-      console.log(data);
       deleteTodo({
         variables: {
           id: this.props.currentListId
         }
       }).then(({ data }) => {
         this.props.closeModal();
-        console.log(data);
       });
     });
   }
