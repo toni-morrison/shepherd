@@ -145,7 +145,7 @@ export default class UserSearch extends React.Component {
               <Col xs={6} xsOffset={3}>
               <center>
                 <h2>DATES</h2>
-                <div><Datetime onChange = {this.handleStartChange}/></div>     <div><Datetime onChange = {this.handleEndChange}/></div>
+                <div><div>Start Date/Time</div><Datetime onChange = {this.handleStartChange} viewMode = 'time'/></div>     <div><div>End Date/Time</div><Datetime onChange = {this.handleEndChange} viewMode = 'time'/></div>
               </center>
               </Col>
             </Row>
