@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Grid, Row, Col, Well, FormControl } from 'react-bootstrap';
 
-export default class SitterSetPrices extends React.Component {
+export default class SitterJoinPrices extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -18,24 +18,24 @@ export default class SitterSetPrices extends React.Component {
                   <h4>Child:</h4> 
                   </Col>
 
-                  <Col xs={3}>
+                  <Col xs={2}>
                     <FormControl
-                    type="number"
+                    type="text"
                     // value={}
                     // onChange={SUMFUNCTION}
-                    placeholder='Enter dollar amount per hour' />
+                    placeholder='Enter dollar amount' />
                   </Col>
 
                   <Col xs={2} xsOffset={2}>
                   <h4>Additional Child:</h4><br/>
                   </Col>
 
-                  <Col xs={3}>
+                  <Col xs={2}>
                     <FormControl
-                    type="number"
+                    type="text"
                     // value={}
                     // onChange={SUMFUNCTION}
-                    placeholder='Enter dollar amount per hour' />
+                    placeholder='Enter dollar amount' />
                   </Col>
                 </Row>
 
@@ -44,24 +44,24 @@ export default class SitterSetPrices extends React.Component {
                   <h4>Pet:</h4> 
                   </Col>
 
-                  <Col xs={3}>
+                  <Col xs={2}>
                     <FormControl
-                    type="number"
+                    type="text"
                     // value={}
                     // onChange={SUMFUNCTION}
-                    placeholder='Enter dollar amount per day' />
+                    placeholder='Enter dollar amount' />
                   </Col>
 
                   <Col xs={2} xsOffset={2}>
                   <h4>Additional Pet:</h4><br/>
                   </Col>
 
-                  <Col xs={3}>
+                  <Col xs={2}>
                     <FormControl
-                    type="number"
+                    type="text"
                     // value={}
                     // onChange={SUMFUNCTION}
-                    placeholder='Enter dollar amount per day' />
+                    placeholder='Enter dollar amount' />
                   </Col>
                 </Row>
 
@@ -71,12 +71,12 @@ export default class SitterSetPrices extends React.Component {
                   <h4>House:</h4> 
                   </Col>
 
-                  <Col xs={3}>
+                  <Col xs={2}>
                     <FormControl
-                    type="number"
+                    type="text"
                     // value={}
                     // onChange={SUMFUNCTION}
-                    placeholder='Enter dollar amount per day' />
+                    placeholder='Enter dollar amount' />
                   </Col>
                 </Row>
                 <br/>

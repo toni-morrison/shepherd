@@ -11,16 +11,7 @@ const options = {
 
 const resolvers = {
   Query: {
-    findUsers: (_, args, context, info) => {
-      return context.prisma.query.users(
-        {
-          where: {
-            email: args.email
-          }
-        },
-        info
-      );
-    },
+
     findSitters: (_, args, context, info) => {
       return context.prisma.query.sitters (
         {
@@ -29,7 +20,6 @@ const resolvers = {
         info
       );
     },
-
     findTodoLists: (_, args, context, info) => {
       return context.prisma.query.todoLists(
         {
