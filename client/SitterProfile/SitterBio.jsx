@@ -4,18 +4,15 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const GET_USER_INFO = gql`
-  query getUserInfo(
-    $email: String!
-  ) {
-    getUserInfo(
-      email: $email
-    ) {
+  query getUserInfo($email: String!) {
+    getUserInfo(email: $email) {
       sitter {
+        id
         bio
       }
     }
   }
-`
+`;
 
 export default class SitterBio extends React.Component {
   constructor (props) {

@@ -92,7 +92,9 @@ const resolvers = {
                 email: args.email
               }
             },
-            name: args.name
+            name: args.name,
+            startTime: args.startTime,
+            endTime: args.endTime
           }
         },
         info
@@ -102,7 +104,9 @@ const resolvers = {
       return context.prisma.mutation.updateTodoList(
         {
           data: {
-            name: args.name
+            name: args.name,
+            startTime: args.startTime,
+            endTime: args.endTime
           },
           where: {
             id: args.id
@@ -134,6 +138,28 @@ const resolvers = {
         info
       );
     },
+    deleteInstructions: (_, args, context, info) => {
+      return context.prisma.mutation.deleteManyInstructions(
+        {
+          where: {
+            list_id: {
+              id: args.id
+            }
+          }
+        },
+        info
+      );
+    },
+    deleteTodo: (_, args, context, info) => {
+      return context.prisma.mutation.deleteTodoList(
+        {
+          where: {
+            id: args.id
+          }
+        },
+        info
+      );
+    },
 
     updateUser: (_, args, context, info) => {
       return context.prisma.mutation.updateUser(
@@ -144,7 +170,7 @@ const resolvers = {
             street_address: args.street_address,
             city: args.city,
             state: args.state,
-            zip_code: args.zip_code
+            zip_code: args.zip_code,
           },
           where: {
             email: args.email
@@ -152,6 +178,38 @@ const resolvers = {
         },
         info
       );
+    },
+    updateSitter: (_, args, context, info) => {
+      return context.prisma.mutation.updateSitter(
+        {
+          data: {
+            bio: args.bio,
+            rating: args.rating,
+            rates: {
+              upsert: {
+                update: {
+                  child_rate: args.child_rate,
+                  child_addl: args.child_addl,
+                  pet_rate: args.pet_rate,
+                  pet_addl: args.pet_addl,
+                  home_rate: args.home_rate
+                },
+                create:{
+                  child_rate: args.child_rate,
+                  child_addl: args.child_addl,
+                  pet_rate: args.pet_rate,
+                  pet_addl: args.pet_addl,
+                  home_rate: args.home_rate
+                }
+              }
+            }
+          },
+          where: {
+            id: args.id
+          }
+        },
+        info
+      )
     }
   }
 };
