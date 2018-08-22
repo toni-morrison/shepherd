@@ -157,7 +157,7 @@ export default class UserSitterRequest extends React.Component {
           {/* <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
             Send Request
           </Button> */}
-          <Modal show={this.props.show} onHide={this.props.toggleShow}>
+          <Modal show={this.props.show} onHide={this.props.showOff}>
             <Modal.Header closeButton>
               <Modal.Title>Pending Request</Modal.Title>
             </Modal.Header>

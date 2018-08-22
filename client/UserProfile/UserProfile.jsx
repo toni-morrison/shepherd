@@ -101,22 +101,46 @@ export default class UserProfile extends React.Component {
           </div>
           )
         } else {
-          return (
+          return(
             <div>
-              <UserProfileUpdate
-                handleUpdate={this.handleUpdate}
-                first_name={data.getUserInfo.first_name}
-                last_name={data.getUserInfo.last_name}
-                address={data.getUserInfo.street_address}
-                city={data.getUserInfo.city}
-                state={data.getUserInfo.state}
-                zip={data.getUserInfo.zip_code}/>
+              <Grid>
+                <Row>
+                  <Col xs={3} xsOffset={4}>
+                  <center>
+                    <strong>Your Rating</strong><br/>
+                    <StarRatings
+                      numberOfStars={5}
+                      rating={data.getUserInfo.rating} // pull current user rating from DB
+                      starDimension="30px"
+                      starSpacing="1px"
+                      starRatedColor="gold"
+                      starEmptyColor="grey"
+                    />
+                  </center>
+                  </Col>
+                </Row>
+              <br/>
+                <Row>
+                  <Col xs={12}>
+                    <Well bsSize="large" style={{ width:'100%' }}>
+                      {/* PHOTO OF USER */}
+                      <UserProfileUpdate
+                        handleUpdate={this.handleUpdate}
+                        first_name={data.getUserInfo.first_name}
+                        last_name={data.getUserInfo.last_name}
+                        address={data.getUserInfo.street_address}
+                        city={data.getUserInfo.city}
+                        state={data.getUserInfo.state}
+                        zip={data.getUserInfo.zip_code}/>
+                    </Well>
+                  </Col>
+                </Row>
+            </Grid>
             </div>
-          )
+            )
         }
       }}
     </Query>
     )
-  }
-
+  } 
 }
