@@ -7,7 +7,6 @@
 # import User from './generated/prisma.graphql'
 
 type Query {
-  findUsers(email: String!): [User!]!
   findSitters (day: String!, start: Int!, end: Int!) : [TimeInterval!]!
   findTodoLists(email: String!): [TodoList!]!
   findInstructions(id: ID!): [Instruction!]!
