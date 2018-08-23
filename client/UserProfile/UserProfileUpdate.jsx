@@ -11,7 +11,7 @@ const UPDATE_USER = gql`
     $street_address: String,
     $city: String,
     $state: String,
-    $zip_code: String
+    $zip_code: String,
     ) {
       updateUser(
         email: $email,
@@ -32,31 +32,37 @@ export default class UserProfileUpdate extends React.Component {
     super(props)
 
     this.state = {
-      first_name: '',
-      last_name: '',
-      street_address: '',
-      city: '',
-      state: '',
-      zip_code: ''
+      first_name: this.props.first_name,
+      last_name: this.props.last_name,
+      street_address: this.props.address,
+      city: this.props.city,
+      state: this.props.state,
+      zip_code: this.props.zip
 
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleSubmit(updateUser) {
-    this.props.handleUpdate();
     updateUser({
       variables: {
-        email: 'daniel.guan.bca@gmail.com',
-        first_name: 'daniel',
-        last_name: 'guan',
+        email: this.props.user,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
         street_address: this.state.street_address,
         city: this.state.city,
         state: this.state.state,
         zip_code: this.state.zip_code
       }
     }).then(({ data }) => {
-      console.log(data)
+      this.props.handleUpdate();
+    })
+  }
+
+
+  handleChangeInput(e) {
+    this.setState({
+      [e.target.id]: e.target.value
     })
   }
   
@@ -76,16 +82,24 @@ export default class UserProfileUpdate extends React.Component {
             <Row>
               <Form >
                 <Col xs={3} >
-                  <FormGroup controlId="formInlineFirstName">
+                  <FormGroup>
                     <ControlLabel>First Name</ControlLabel>{' '}
-                    <FormControl type="text" defaultValue={this.props.first_name}/>
+                    <FormControl
+                    type="text"
+                    defaultValue={this.state.first_name}
+                    id='first_name'
+                    onChange={this.handleChangeInput}/>
                   </FormGroup>{' '}
                 </Col>
 
                 <Col xs={3}>
-                  <FormGroup controlId="formInlineLastName">
+                  <FormGroup>
                     <ControlLabel>Last Name</ControlLabel>{' '}
-                    <FormControl type="text" defaultValue={this.props.last_name} />
+                    <FormControl
+                    type="text"
+                    defaultValue={this.state.last_name}
+                    id='last_name'
+                    onChange={this.handleChangeInput}/>
                   </FormGroup>{' '}
                 </Col>
               </Form>
@@ -94,30 +108,48 @@ export default class UserProfileUpdate extends React.Component {
             <Row>
               <Form >
                 <Col xs={3} >
-                  <FormGroup controlId="formInlineAddress">
+                  <FormGroup>
                     <ControlLabel>Address</ControlLabel>{' '}
-                    <FormControl type="text" defaultValue={this.props.address}/>
+                    <FormControl
+                    type="text"
+                    defaultValue={this.state.street_address}
+                    id='street_address'
+                    onChange={this.handleChangeInput}/>
                   </FormGroup>{' '}
                 </Col>
 
                 <Col xs={3}>
-                  <FormGroup controlId="formInlineCity">
+                  <FormGroup>
                     <ControlLabel>City</ControlLabel>{' '}
-                    <FormControl type="text" defaultValue={this.props.city}/>
+                    <FormControl
+                    type="text"
+                    defaultValue={this.state.city}
+                    id='city'
+                    onChange={this.handleChangeInput}/>
                   </FormGroup>{' '}
                 </Col>
 
                 <Col xs={2}>
-                  <FormGroup controlId="formInlineState">
+                  <FormGroup>
                     <ControlLabel>State</ControlLabel>{' '}
-                    <FormControl type="text" style={{ width:'50%' }} defaultValue={this.props.state}/>
+                    <FormControl
+                    type="text"
+                    style={{ width:'50%' }}
+                    defaultValue={this.state.state}
+                    id='state'
+                    onChange={this.handleChangeInput}/>
                   </FormGroup>{' '}
                 </Col>
 
                 <Col xs={2}>
-                  <FormGroup controlId="formInlineZip">
+                  <FormGroup>
                     <ControlLabel>Zip Code</ControlLabel>{' '}
-                    <FormControl type="text" style={{ width:'50%' }} defaultValue={this.props.zip}/>
+                    <FormControl
+                    type="text"
+                    style={{ width:'50%' }}
+                    defaultValue={this.state.zip}
+                    id='zip_code'
+                    onChange={this.handleChangeInput}/>
                   </FormGroup>{' '}
                 </Col>
               </Form>
