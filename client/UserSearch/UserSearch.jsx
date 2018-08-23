@@ -2,6 +2,32 @@ import React from 'react';
 import { Button, Grid, Row, Col, ToggleButtonGroup, ToggleButton, FormGroup, FormControl } from 'react-bootstrap';
 import UserSearchResults from './UserSearchResults.jsx';
 import Datetime from 'react-datetime'
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+
+const FIND_SITTERS = gql `
+  query findSitters ($day: String!, $start: Int!, $end: Int!){
+    findSitters (day: $day, start: $start, end: $end) {
+      day
+      sitter {
+        id
+        bio
+        rating
+        rates {
+          child_rate
+          child_addl
+          pet_rate
+          pet_addl
+          home_rate
+        }
+        user {
+          first_name
+          last_name
+        }
+      }
+    }
+  }
+`;
 
 export default class UserSearch extends React.Component {
   constructor(props) {
@@ -10,24 +36,83 @@ export default class UserSearch extends React.Component {
     this.state = {
       searchResults: false,
       findValues: [],
-      currentDate : ''
+      currentStart : '',
+      currendEnd: ''
     }
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleStartChange = this.handleStartChange.bind(this);
+    this.handleEndChange = this.handleEndChange.bind(this);
+    this.searchSitters = this.searchSitters.bind(this);
+    this.dateObj = {
+      0: 'sun',
+      1: 'mon',
+      2: 'tues',
+      3: 'wed',
+      4: 'thurs',
+      5: 'fri',
+      6: 'sat'
+    }
   }
 
+  
+  searchSitters () {
+    return (
+        <Query query = {FIND_SITTERS}
+          variables = {{day: "sun", start: 721, end: 722}}>
+          {
+            ({ loading, error, data }) => {
+              if (loading) {
+                return <p>...Loading</p>
+              }
+              if (error) {
+                
+                return <p>Error: </p>
+              }
+              console.log ('data: ', data)
+
+
+              return <p>Data: </p>
+            }
+          }
+        </Query>)
+  }
+  
   // changes searchResults to true/false for conditional render
   handleSearchClick() {
     this.setState({
       searchResults: !this.state.searchResults
     });
+//    if (this.state.currentStart !== )
+//    return (
+//        <Query query = {FIND_SITTERS}>
+//          {
+//            ({ loading, error, data }) => {
+//              if (loading) {
+//                return <p>...Loading</p>
+//              }
+//              if (error) {
+//                return <p>Error: </p>
+//              }
+//              console.log ('data: ', data)
+//              let startDate = new Date (this.state.currentStart);
+//              let endDate = new Date (this.state.currentEnd);
+//              this.setState ({searchResults: data})
+//
+//              return <p>Data: </p>
+//            }
+//          }
+//        </Query>)
   }
 
-  handleDateChange (newDate) {
-    console.log (newDate._d);
+  handleStartChange (newDate) {
     this.setState({
-      currentDate: newDate._d
+      currentStart: newDate._d
+    })
+  }
+  handleEndChange (newDate) {
+    this.setState({
+      currentEnd: newDate._d
     })
   }
   
@@ -36,9 +121,11 @@ export default class UserSearch extends React.Component {
   }
 
   render() {
+    
     if (this.state.searchResults === false) {
       return (
-        <div>
+      <div>
+        {this.searchSitters() }
           <Grid>
             <Row>
               <Col xs={6} xsOffset={3}>
@@ -58,7 +145,7 @@ export default class UserSearch extends React.Component {
               <Col xs={6} xsOffset={3}>
               <center>
                 <h2>DATES</h2>
-                <div><Datetime onChange = {this.handleDateChange}/></div>
+                <div><div>Start Date/Time</div><Datetime onChange = {this.handleStartChange} viewMode = 'time'/></div>     <div><div>End Date/Time</div><Datetime onChange = {this.handleEndChange} viewMode = 'time'/></div>
               </center>
               </Col>
             </Row>
@@ -90,7 +177,7 @@ export default class UserSearch extends React.Component {
         </div>
       );
     } else {
-      return <UserSearchResults handleSearchClick={this.handleSearchClick} />;
+      return <UserSearchResults handleSearchClick={this.handleSearchClick} users = {this.state.searchResults} />;
     }
   }
 }

@@ -11,6 +11,25 @@ const options = {
 
 const resolvers = {
   Query: {
+
+    findSitters: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals (
+        {
+          where: {
+            AND: [{
+              day: args.day
+            },
+            {
+              start_lte: args.start
+            },
+            {
+              end_gte: args.end
+            }]
+          }
+        },
+        info
+      );
+    },
     findTodoLists: (_, args, context, info) => {
       return context.prisma.query.todoLists(
         {
@@ -73,7 +92,9 @@ const resolvers = {
                 email: args.email
               }
             },
-            name: args.name
+            name: args.name,
+            startTime: args.startTime,
+            endTime: args.endTime
           }
         },
         info
@@ -83,7 +104,9 @@ const resolvers = {
       return context.prisma.mutation.updateTodoList(
         {
           data: {
-            name: args.name
+            name: args.name,
+            startTime: args.startTime,
+            endTime: args.endTime
           },
           where: {
             id: args.id
@@ -110,6 +133,28 @@ const resolvers = {
           },
           update: {
             desc: args.desc
+          }
+        },
+        info
+      );
+    },
+    deleteInstructions: (_, args, context, info) => {
+      return context.prisma.mutation.deleteManyInstructions(
+        {
+          where: {
+            list_id: {
+              id: args.id
+            }
+          }
+        },
+        info
+      );
+    },
+    deleteTodo: (_, args, context, info) => {
+      return context.prisma.mutation.deleteTodoList(
+        {
+          where: {
+            id: args.id
           }
         },
         info
