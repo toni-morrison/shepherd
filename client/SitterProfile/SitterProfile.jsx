@@ -83,7 +83,7 @@ export default class SitterProfile extends React.Component {
                     </Well>
                   </Col>
                 </Row>
-                <SitterBio user={this.props.user}/>
+                <SitterBio user={this.props.user} sitterId={this.props.sitterId}/>
                 <SitterPrices user={this.props.user} sitterId={this.props.sitterId} />
                 <SitterSetSchedule/>
               </Grid>
@@ -104,12 +104,13 @@ export default class SitterProfile extends React.Component {
                         address={data.getUserInfo.street_address}
                         city={data.getUserInfo.city}
                         state={data.getUserInfo.state}
-                        zip={data.getUserInfo.zip_code}/>
+                        zip={data.getUserInfo.zip_code}
+                        user={this.props.user}/>
                     </Well>
                   </Col>
                 </Row>
-  
-                <SitterPrices/>
+                <SitterBio user={this.props.user} sitterId={this.props.sitterId}/>
+                <SitterPrices user={this.props.user} sitterId={this.props.sitterId} />
                 <SitterSetSchedule/>
               </Grid>
             </div>
