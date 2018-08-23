@@ -69,3 +69,7 @@ body {
   display: flex;
   justify-content: center;
 }
+
+.sitterJoinSchedule select {
+  display: inline
+}

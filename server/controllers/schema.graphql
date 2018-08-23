@@ -23,7 +23,23 @@ type Mutation {
     zip_code: String
     rating: Int
   ): User!
-
+  createSitter(
+    email: String!
+    bio: String!
+    sun: Int
+    mon: Int
+    tues: Int
+    wed: Int
+    thurs: Int
+    fri: Int
+    sat: Int
+  ): Sitter!
+  createSchedule(
+    id: ID!
+    day: String!
+    start: Int!
+    end: Int!
+  ): TimeInterval!
   createList(
     email: String!
     name: String!

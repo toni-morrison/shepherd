@@ -1,161 +1,63 @@
 import React from 'react';
 import {
-  ButtonToolbar,
-  Grid,
+  FormGroup,
+  FormControl,
   Row,
   Col,
   Well,
-  DropdownButton,
-  MenuItem,
   Button
 } from 'react-bootstrap';
-
-let days = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday'
-];
-let hours = [
-  '01',
-  '02',
-  '03',
-  '04',
-  '05',
-  '06',
-  '07',
-  '08',
-  '09',
-  '10',
-  '11',
-  '12'
-];
+import { days } from './Days.js';
 
 export default class SitterJoinSchedule extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      Sunday: {
-        startHour: 'Start',
-        startMin: '00',
-        startAm: 'AM',
-        endHour: 'End',
-        endMin: '00',
-        endAm: 'AM'
-      },
-      Monday: {
-        startHour: 'Start',
-        startMin: '00',
-        startAm: 'AM',
-        endHour: 'End',
-        endMin: '00',
-        endAm: 'AM'
-      },
-      Tuesday: {
-        startHour: 'Start',
-        startMin: '00',
-        startAm: 'AM',
-        endHour: 'End',
-        endMin: '00',
-        endAm: 'AM'
-      },
-      Wednesday: {
-        startHour: 'Start',
-        startMin: '00',
-        startAm: 'AM',
-        endHour: 'End',
-        endMin: '00',
-        endAm: 'AM'
-      },
-      Thursday: {
-        startHour: 'Start',
-        startMin: '00',
-        startAm: 'AM',
-        endHour: 'End',
-        endMin: '00',
-        endAm: 'AM'
-      },
-      Friday: {
-        startHour: 'Start',
-        startMin: '00',
-        startAm: 'AM',
-        endHour: 'End',
-        endMin: '00',
-        endAm: 'AM'
-      },
-      Saturday: {
-        startHour: 'Start',
-        startMin: '00',
-        startAm: 'AM',
-        endHour: 'End',
-        endMin: '00',
-        endAm: 'AM'
-      }
+      showErr: false
     };
 
-    this.handleDayStartHour = this.handleDayStartHour.bind(this);
-    this.handleStartMin = this.handleStartMin.bind(this);
-    this.handleStartAm = this.handleStartAm.bind(this);
-    this.handleDayEndHour = this.handleDayEndHour.bind(this);
-    this.handleEndMin = this.handleEndMin.bind(this);
-    this.handleEndAm = this.handleEndAm.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.checkValid = this.checkValid.bind(this);
   }
 
-  handleDayStartHour(e, obj) {
-    var currentDay = Object.assign(this.state[obj.day]);
-    currentDay.startHour = obj.hour;
-    this.setState({
-      [obj.day]: currentDay
-    });
+  handleChange(e, day, start, end) {
+    e.target.name = day;
+    var currentDay = this.props[e.target.name];
+    currentDay =
+      currentDay.substring(0, start) +
+      e.target.value +
+      currentDay.substring(end);
+    this.props.handleInput(e, currentDay);
   }
 
-  handleStartMin(e, obj) {
-    var currentDay = Object.assign(this.state[obj.day]);
-    currentDay.startMin = e.target.text;
-    this.setState({
-      [obj.day]: currentDay
+  checkValid(e) {
+    var valid = true;
+    days.forEach(day => {
+      // Convert string to numerical representation in minutes
+      var start =
+        (parseInt(this.props[day].substring(0, 2)) % 12) * 60 +
+        parseInt(this.props[day].substring(3, 5)) +
+        (this.props[day].substring(5, 7) === 'PM') * 720;
+      var end =
+        (parseInt(this.props[day].substring(8, 10)) % 12) * 60 +
+        parseInt(this.props[day].substring(11, 13)) +
+        (this.props[day].substring(13, 15) === 'PM') * 720;
+      if (end < start) {
+        valid = false;
+      }
     });
-  }
-
-  handleStartAm(e, obj) {
-    var currentDay = Object.assign(this.state[obj.day]);
-    currentDay.startAm = e.target.text;
-    this.setState({
-      [obj.day]: currentDay
-    });
-  }
-
-  handleDayEndHour(e, obj) {
-    var currentDay = Object.assign(this.state[obj.day]);
-    currentDay.endHour = obj.hour;
-    this.setState({
-      [obj.day]: currentDay
-    });
-  }
-
-  handleEndMin(e, obj) {
-    var currentDay = Object.assign(this.state[obj.day]);
-    currentDay.endMin = e.target.text;
-    this.setState({
-      [obj.day]: currentDay
-    });
-  }
-
-  handleEndAm(e, obj) {
-    var currentDay = Object.assign(this.state[obj.day]);
-    currentDay.endAm = e.target.text;
-    this.setState({
-      [obj.day]: currentDay
-    });
+    if (!valid) {
+      this.setState({ showErr: true });
+    } else {
+      this.setState({ showErr: false });
+      this.props.handleNavNext(e);
+    }
   }
 
   render() {
     return (
-      <div>
+      <div className="sitterJoinSchedule">
         <Row>
           <Col xs={12}>
             <center>
@@ -164,130 +66,178 @@ export default class SitterJoinSchedule extends React.Component {
             <Well bsSize="large" style={{ width: '100%' }}>
               {days.map(day => {
                 return (
-                  <div key={day}>
+                  <Row key={day}>
                     <Col xs={2}>
                       <h4>{day}</h4>
                     </Col>
+                    <Col xs={8}>
+                      <Col xs={6}>
+                        <FormGroup controlId="formControlsSelect">
+                          <FormControl
+                            componentClass="select"
+                            placeholder="Hour"
+                            defaultValue="Hour"
+                            onChange={e => this.handleChange(e, day, 0, 2)}
+                          >
+                            {[...Array(12).keys()].map(hour => {
+                              return (
+                                <option
+                                  key={hour}
+                                  value={
+                                    parseInt(hour) === 0
+                                      ? '12'
+                                      : parseInt(hour) < 10
+                                        ? '0' + hour
+                                        : hour
+                                  }
+                                >
+                                  {parseInt(hour) === 0
+                                    ? '12'
+                                    : parseInt(hour) < 10
+                                      ? '0' + hour
+                                      : hour}
+                                </option>
+                              );
+                            })}
+                          </FormControl>
 
-                    <ButtonToolbar>
-                      <Col xs={3}>
-                        <DropdownButton
-                          title={this.state[day]['startHour']}
-                          id="dropdown-size-small"
-                        >
-                          {hours.map(hour => {
-                            return (
-                              <MenuItem
-                                key={(day, hour)}
-                                onClick={e =>
-                                  this.handleDayStartHour(e, { day, hour })
-                                }
-                              >
-                                {hour}
-                              </MenuItem>
-                            );
-                          })}
-                        </DropdownButton>
+                          <FormControl
+                            componentClass="select"
+                            placeholder="Min"
+                            onChange={e => this.handleChange(e, day, 3, 5)}
+                          >
+                            {[...Array(4).keys()].map(min => {
+                              return (
+                                <option
+                                  key={min}
+                                  value={
+                                    parseInt(min * 15) < 10
+                                      ? '0' + min
+                                      : min * 15
+                                  }
+                                >
+                                  {parseInt(min * 15) < 10
+                                    ? '0' + min
+                                    : min * 15}
+                                </option>
+                              );
+                            })}
+                          </FormControl>
 
-                        <DropdownButton
-                          title={this.state[day]['startMin']}
-                          id="dropdown-size-small"
-                        >
-                          <MenuItem
-                            value="00"
-                            onClick={e => this.handleStartMin(e, { day })}
+                          <FormControl
+                            componentClass="select"
+                            placeholder="Hour"
+                            onChange={e => this.handleChange(e, day, 5, 7)}
                           >
-                            00
-                          </MenuItem>
-                          <MenuItem
-                            value="30"
-                            onClick={e => this.handleStartMin(e, { day })}
-                          >
-                            30
-                          </MenuItem>
-                        </DropdownButton>
-
-                        <DropdownButton
-                          title={this.state[day]['startAm']}
-                          id="dropdown-size-small"
-                        >
-                          <MenuItem
-                            value="AM"
-                            onClick={e => this.handleStartAm(e, { day })}
-                          >
-                            AM
-                          </MenuItem>
-                          <MenuItem
-                            value="PM"
-                            onClick={e => this.handleStartAm(e, { day })}
-                          >
-                            PM
-                          </MenuItem>
-                        </DropdownButton>
+                            <option
+                              value="AM"
+                              onClick={e => this.handleStartAm(e, { day })}
+                            >
+                              AM
+                            </option>
+                            <option
+                              value="PM"
+                              onClick={e => this.handleStartAm(e, { day })}
+                            >
+                              PM
+                            </option>
+                          </FormControl>
+                        </FormGroup>
                       </Col>
 
-                      <Col xs={3}>
-                        <DropdownButton
-                          title={this.state[day]['endHour']}
-                          id="dropdown-size-small"
-                        >
-                          {hours.map(hour => {
-                            return (
-                              <MenuItem
-                                key={(day, hour)}
-                                onClick={e =>
-                                  this.handleDayEndHour(e, { day, hour })
-                                }
-                              >
-                                {hour}
-                              </MenuItem>
-                            );
-                          })}
-                        </DropdownButton>
+                      <Col xs={6}>
+                        <FormGroup controlId="formControlsSelect">
+                          <FormControl
+                            componentClass="select"
+                            placeholder="Hour"
+                            onChange={e => this.handleChange(e, day, 8, 10)}
+                          >
+                            {[...Array(12).keys()].map(hour => {
+                              return (
+                                <option
+                                  key={hour}
+                                  value={
+                                    parseInt(hour) === 0
+                                      ? '12'
+                                      : parseInt(hour) < 10
+                                        ? '0' + hour
+                                        : hour
+                                  }
+                                >
+                                  {parseInt(hour) === 0
+                                    ? '12'
+                                    : parseInt(hour) < 10
+                                      ? '0' + hour
+                                      : hour}
+                                </option>
+                              );
+                            })}
+                          </FormControl>
 
-                        <DropdownButton
-                          title={this.state[day]['endMin']}
-                          id="dropdown-size-small"
-                        >
-                          <MenuItem
-                            value="00"
-                            onClick={e => this.handleEndMin(e, { day })}
+                          <FormControl
+                            componentClass="select"
+                            placeholder="Min"
+                            onChange={e => this.handleChange(e, day, 11, 13)}
                           >
-                            00
-                          </MenuItem>
-                          <MenuItem
-                            value="30"
-                            onClick={e => this.handleEndMin(e, { day })}
-                          >
-                            30
-                          </MenuItem>
-                        </DropdownButton>
+                            {[...Array(4).keys()].map(min => {
+                              return (
+                                <option
+                                  key={min}
+                                  value={
+                                    parseInt(min * 15) < 10
+                                      ? '0' + min
+                                      : min * 15
+                                  }
+                                >
+                                  {parseInt(min * 15) < 10
+                                    ? '0' + min
+                                    : min * 15}
+                                </option>
+                              );
+                            })}
+                          </FormControl>
 
-                        <DropdownButton
-                          title={this.state[day]['endAm']}
-                          id="dropdown-size-small"
-                        >
-                          <MenuItem
-                            value="AM"
-                            onClick={e => this.handleEndAm(e, { day })}
+                          <FormControl
+                            componentClass="select"
+                            placeholder="Hour"
+                            onChange={e => this.handleChange(e, day, 13, 15)}
                           >
-                            AM
-                          </MenuItem>
-                          <MenuItem
-                            value="PM"
-                            onClick={e => this.handleEndAm(e, { day })}
-                          >
-                            PM
-                          </MenuItem>
-                        </DropdownButton>
+                            <option
+                              value="AM"
+                              onClick={e => this.handleStartAm(e, { day })}
+                            >
+                              AM
+                            </option>
+                            <option
+                              value="PM"
+                              onClick={e => this.handleStartAm(e, { day })}
+                            >
+                              PM
+                            </option>
+                          </FormControl>
+                        </FormGroup>
                       </Col>
-                    </ButtonToolbar>
-                  </div>
+                    </Col>
+                  </Row>
                 );
               })}
-              <br />
-              <Button>Click to Update</Button>
-              <br />
+              <Button
+                name="schedule"
+                bsStyle="default"
+                type="button"
+                onClick={this.props.handleNavPrev}
+              >
+                Prev
+              </Button>
+              <Button
+                name="schedule"
+                bsStyle="primary"
+                type="button"
+                onClick={this.checkValid}
+                style={{ float: 'right' }}
+              >
+                Next
+              </Button>
             </Well>
           </Col>
         </Row>

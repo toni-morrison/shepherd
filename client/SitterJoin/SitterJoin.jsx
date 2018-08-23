@@ -1,8 +1,38 @@
 import React from 'react';
-import { Row, Col, Tab, Nav, NavItem } from 'react-bootstrap';
+import { Col, Tab, Nav, NavItem } from 'react-bootstrap';
 import SitterJoinBio from './SitterJoinBio.jsx';
 import SitterJoinPrices from './SitterJoinPrices.jsx';
 import SitterJoinSchedule from './SitterJoinSchedule.jsx';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
+
+const CREATE_SITTER = gql`
+  mutation createSitter(
+    $email: String!
+    $bio: String!
+    $sun: Int
+    $mon: Int
+    $tues: Int
+    $wed: Int
+    $thurs: Int
+    $fri: Int
+    $sat: Int
+  ) {
+    createSitter(
+      email: $email
+      bio: $bio
+      sun: $sun
+      mon: $mon
+      tues: $tues
+      wed: $wed
+      thurs: $thurs
+      fri: $fri
+      sat: $sat
+    ) {
+      id
+    }
+  }
+`;
 
 export default class SitterJoin extends React.Component {
   constructor(props) {
@@ -15,21 +45,32 @@ export default class SitterJoin extends React.Component {
       pet: '',
       petAddl: '',
       house: '',
-      sun: '',
-      mon: '',
-      tues: '',
-      wed: '',
-      thurs: '',
-      fri: '',
-      sat: ''
+      Sunday: '12:00AM|12:00AM',
+      Monday: '12:00AM|12:00AM',
+      Tuesday: '12:00AM|12:00AM',
+      Wednesday: '12:00AM|12:00AM',
+      Thursday: '12:00AM|12:00AM',
+      Friday: '12:00AM|12:00AM',
+      Saturday: '12:00AM|12:00AM'
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleNavPrev = this.handleNavPrev.bind(this);
     this.handleNavNext = this.handleNavNext.bind(this);
   }
 
-  handleInput(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  handleInput(e, val) {
+    if (val) {
+      this.setState(
+        {
+          [e.target.name]: val
+        },
+        () => {
+          console.log(this.state);
+        }
+      );
+    } else {
+      this.setState({ [e.target.name]: e.target.value });
+    }
   }
 
   handleNavPrev(e) {
@@ -63,7 +104,7 @@ export default class SitterJoin extends React.Component {
           </center>
           <Tab.Container
             id="signupContainer"
-            activeKey={this.state.currItem}
+            activeKey="schedule" // Change back to {this.state.currItem}
             onSelect={key => this.setState({ currItem: key })}
           >
             <div>
@@ -110,13 +151,13 @@ export default class SitterJoin extends React.Component {
                   </Tab.Pane>
                   <Tab.Pane eventKey="schedule">
                     <SitterJoinSchedule
-                      sun={this.state.sun}
-                      mon={this.state.mon}
-                      tues={this.state.tues}
-                      wed={this.state.wed}
-                      thurs={this.state.thurs}
-                      fri={this.state.fri}
-                      sat={this.state.sat}
+                      Sunday={this.state.Sunday}
+                      Monday={this.state.Monday}
+                      Tuesday={this.state.Tuesday}
+                      Wednesday={this.state.Wednesday}
+                      Thursday={this.state.Thursday}
+                      Friday={this.state.Friday}
+                      Saturday={this.state.Saturday}
                       handleNavPrev={this.handleNavPrev}
                       handleNavNext={this.handleNavNext}
                       handleInput={this.handleInput}
