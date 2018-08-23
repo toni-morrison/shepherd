@@ -19,6 +19,7 @@ let days = [
   'Friday',
   'Saturday'
 ];
+
 let hours = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
 export default class SitterSetSchedule extends React.Component {
@@ -41,7 +42,37 @@ export default class SitterSetSchedule extends React.Component {
     this.handleDayEndHour = this.handleDayEndHour.bind(this)
     this.handleEndMin = this.handleEndMin.bind(this)
     this.handleEndAm = this.handleEndAm.bind(this)
+    this.cLog = this.cLog.bind(this)
   }
+
+  componentDidMount() {
+    let startHour, startMin, startAm, endHour, endMin, endAm;
+    this.props.schedule.map((day) => {
+      (Math.floor(day.start/60) % 12 === 0) ? startHour = 12 : startHour = Math.floor(day.start/60) % 12;
+      startMin = day.start % 60;
+      (startMin === 0) ? startMin = '00' : startMin = '30';
+      (day.start <= 719) ? startAm = 'AM' : startAm = 'PM';
+
+      (Math.floor(day.end/60) % 12 === 0) ? endHour = 12 : endHour = Math.floor(day.end/60) % 12;
+      endMin = day.end % 60;
+      (endMin === 0) ? endMin = '00' : endMin = '30';
+      (day.end <= 719) ? endAm = 'AM' : endAm = 'PM';
+      
+      this.setState({
+        [day.day]: {startHour: startHour,
+                startMin: startMin,
+                startAm: startAm,
+                endHour: endHour,
+                endMin: endMin,
+                endAm: endAm}
+      })
+    })
+  }
+
+  cLog() {
+    console.log(this.state)
+  }
+
 
   handleDayStartHour(e, obj) {
     var currentDay = Object.assign(this.state[obj.day])
