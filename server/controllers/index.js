@@ -68,15 +68,21 @@ const resolvers = {
       return context.prisma.mutation.createSitter(
         {
           data: {
-            email: args.email,
             bio: args.bio,
-            sun: args.sun,
-            mon: args.mon,
-            tues: args.tues,
-            wed: args.wed,
-            thurs: args.thurs,
-            fri: args.fri,
-            sat: args.sat
+            rates: {
+              create: {
+                child_rate: args.child_rate,
+                child_addl: args.child_addl,
+                pet_rate: args.pet_rate,
+                pet_addl: args.pet_addl,
+                home_rate: args.home_rate
+              }
+            },
+            user: {
+              connect: {
+                email: args.email
+              }
+            }
           }
         },
         info
@@ -86,7 +92,11 @@ const resolvers = {
       return context.prisma.mutation.createTimeInterval(
         {
           data: {
-            id: args.id,
+            sitter: {
+              connect: {
+                id: args.id
+              }
+            },
             day: args.day,
             start: args.start,
             end: args.end

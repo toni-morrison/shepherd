@@ -73,7 +73,7 @@ export default class TopTabs extends React.Component {
                           user={this.props.user}
                           sitterId={sitterId}
                         />
-                        <SitterJoin sitterId={sitterId} />
+                        <SitterJoin user={this.props.user} sitterId={sitterId} />
                       </Tab.Pane>
                     </Tab.Content>
                   </Col>

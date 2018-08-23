@@ -26,13 +26,11 @@ type Mutation {
   createSitter(
     email: String!
     bio: String!
-    sun: Int
-    mon: Int
-    tues: Int
-    wed: Int
-    thurs: Int
-    fri: Int
-    sat: Int
+    child_rate: Float,
+    child_addl: Float,
+    pet_rate: Float,
+    pet_addl: Float,
+    home_rate: Float
   ): Sitter!
   createSchedule(
     id: ID!

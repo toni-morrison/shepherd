@@ -25,14 +25,14 @@ export default class SitterJoinPrices extends React.Component {
   checkValid(e) {
     var decRegex = /^$|^\d+\.?\d{0,2}$/;
     if (
-      this.props.child.match(decRegex) &&
-      this.props.childAddl.match(decRegex) &&
-      this.props.pet.match(decRegex) &&
-      this.props.petAddl.match(decRegex) &&
-      this.props.house.match(decRegex) &&
-      (this.props.child || this.props.pet || this.props.house) &&
-      !(this.props.childAddl && !this.props.child) &&
-      !(this.props.petAddl && !this.props.pet)
+      this.props.child_rate.match(decRegex) &&
+      this.props.child_addl.match(decRegex) &&
+      this.props.pet_rate.match(decRegex) &&
+      this.props.pet_addl.match(decRegex) &&
+      this.props.home_rate.match(decRegex) &&
+      (this.props.child_rate || this.props.pet_rate || this.props.home_rate) &&
+      !(this.props.child_addl && !this.props.child_rate) &&
+      !(this.props.pet_addl && !this.props.pet_rate)
     ) {
       this.setState({ showErr: false });
       this.props.handleNavNext(e);
@@ -65,9 +65,9 @@ export default class SitterJoinPrices extends React.Component {
                     <InputGroup>
                       <InputGroup.Addon>$</InputGroup.Addon>
                       <FormControl
-                        name="child"
+                        name="child_rate"
                         type="text"
-                        value={this.props.child}
+                        value={this.props.child_rate}
                         placeholder="Enter rate for babysitting per Hour"
                         onChange={this.props.handleInput}
                       />
@@ -81,9 +81,9 @@ export default class SitterJoinPrices extends React.Component {
                     <InputGroup>
                       <InputGroup.Addon>$</InputGroup.Addon>
                       <FormControl
-                        name="childAddl"
+                        name="child_addl"
                         type="text"
-                        value={this.props.childAddl}
+                        value={this.props.child_addl}
                         placeholder="Enter rate for babysitting additional children per Hour"
                         onChange={this.props.handleInput}
                       />
@@ -99,9 +99,9 @@ export default class SitterJoinPrices extends React.Component {
                     <InputGroup>
                       <InputGroup.Addon>$</InputGroup.Addon>
                       <FormControl
-                        name="pet"
+                        name="pet_rate"
                         type="text"
-                        value={this.props.pet}
+                        value={this.props.pet_rate}
                         placeholder="Enter rate for petsitting per Hour"
                         onChange={this.props.handleInput}
                       />
@@ -115,9 +115,9 @@ export default class SitterJoinPrices extends React.Component {
                     <InputGroup>
                       <InputGroup.Addon>$</InputGroup.Addon>
                       <FormControl
-                        name="petAddl"
+                        name="pet_addl"
                         type="text"
-                        value={this.props.petAddl}
+                        value={this.props.pet_addl}
                         placeholder="Enter rate for petsitting additional pets per Hour"
                         onChange={this.props.handleInput}
                       />
@@ -133,9 +133,9 @@ export default class SitterJoinPrices extends React.Component {
                     <InputGroup>
                       <InputGroup.Addon>$</InputGroup.Addon>
                       <FormControl
-                        name="house"
+                        name="home_rate"
                         type="text"
-                        value={this.props.house}
+                        value={this.props.home_rate}
                         placeholder="Enter rate for housesitting per Hour"
                         onChange={this.props.handleInput}
                       />

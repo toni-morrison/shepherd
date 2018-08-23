@@ -51,7 +51,7 @@ export default class SitterJoinSchedule extends React.Component {
       this.setState({ showErr: true });
     } else {
       this.setState({ showErr: false });
-      this.props.handleNavNext(e);
+      this.props.handleSubmit();
     }
   }
 
@@ -236,7 +236,7 @@ export default class SitterJoinSchedule extends React.Component {
                 onClick={this.checkValid}
                 style={{ float: 'right' }}
               >
-                Next
+                Submit
               </Button>
             </Well>
           </Col>
