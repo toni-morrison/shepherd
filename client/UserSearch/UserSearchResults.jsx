@@ -56,8 +56,9 @@ export default class UserSearchResults extends React.Component {
   render() {
     return(
       <div>
-        {
-          this.state.reviews.map((review) => {
+        {console.log (this.props.reviews)}
+        {this.props.reviews.length !== 0 ?
+          this.props.reviews.map((review) => {
             return(
               <div key={review.bio}>
               <Well bsSize="large" style={{width: '100%'}}>
@@ -65,7 +66,7 @@ export default class UserSearchResults extends React.Component {
                   <Col xs={4} >
                   <StarRatings
                           numberOfStars={5}
-                          rating={review.stars || 0}
+                          rating={review.rating || 0}
                           starDimension="30px"
                           starSpacing="2px"
                           starRatedColor="gold"
@@ -80,17 +81,17 @@ export default class UserSearchResults extends React.Component {
                 </Row>
                 <Row>
                   <Col xs={3}>
-                    <Image src={review.img} responsive />
+                    <Image src={'https://i.imgur.com/QT0uEU6.jpg'} responsive />
                   </Col>
                   <Col xs={9}>
                     <Row>
                       <h4>
-                      <b>Name:</b> {review.name}<br/><br/>
-                      <b>Child:</b> {review.child}<br/><br/>
-                      <b>Child Additional:</b> {review.childaddl}<br/><br/>
-                      <b>Pet:</b> {review.pet}<br/><br/>
-                      <b>Pet Additional:</b> {review.petaddl}<br/><br/>
-                      <b>House:</b> {review.house}<br/><br/>
+                      <b>Name:</b> {review.user.first_name + ' ' + review.user.last_name}<br/><br/>
+                      <b>Child:</b> {'$' + review.rates.child_rate + '/hour'}<br/><br/>
+                      <b>Child Additional:</b> {'$' + review.rates.child_addl + '/hour'}<br/><br/>
+                      <b>Pet:</b> {'$' + review.rates.pet_rate + '/day'}<br/><br/>
+                      <b>Pet Additional:</b> {'$' + review.rates.ped_addl + '/day'}<br/><br/>
+                      <b>House:</b> {'$' + review.rates.home_rate + '/day'}<br/><br/>
                       <b>Bio:</b> {review.bio}<br/><br/>
                       </h4>
                     </Row>
@@ -104,7 +105,7 @@ export default class UserSearchResults extends React.Component {
               </Well><br/>
               </div>
           )
-        })}
+        }) : (<h4>No Sitters Found</h4>)}
         <Row>
           <Col xs={3}>
             <Button onClick={this.props.handleSearchClick}>SEARCH AGAIN</Button>
