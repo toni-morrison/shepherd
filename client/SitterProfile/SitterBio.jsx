@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Row, Col, Well } from 'react-bootstrap';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import SitterSetBio from './SitterSetBio.jsx';
 
 const GET_USER_INFO = gql`
   query getUserInfo($email: String!) {
@@ -22,10 +23,10 @@ export default class SitterBio extends React.Component {
       update: false
     }
 
-    this.handleBioUpdate = this.handleBioUpdate.bind(this)
+    this.handleSetBio = this.handleSetBio.bind(this)
   }
 
-  handleBioUpdate() {
+  handleSetBio() {
     this.setState({
       update: !this.state.update
     })
@@ -34,7 +35,8 @@ export default class SitterBio extends React.Component {
   render() {
     return (
       <Query query={GET_USER_INFO}
-        variables={{email: this.props.user}}>
+        variables={{email: this.props.user}}
+        pollInterval={500}>
           {({ loading, error, data }) => {
             if (loading) {
               return <p>Loading...</p>;
@@ -54,10 +56,17 @@ export default class SitterBio extends React.Component {
                       </Col>
                     </Row>
                     <br/>
-                    <Button onClick={this.handleInfoUpdate}>Click to Update</Button>
+                    <Button onClick={this.handleSetBio}>Click to Update</Button>
                   </Well>
                 </Col>
               </Row>
+            )
+          } else {
+            return (
+              <SitterSetBio
+              handleSetBio={this.handleSetBio}
+              bio={data.getUserInfo.sitter.bio}
+              sitterId={this.props.sitterId}/>
             )
           }
         }}
