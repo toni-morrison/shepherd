@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Row,
-  Col,
-  Tab,
-  Nav,
-  NavItem
-} from 'react-bootstrap';
+import { Row, Col, Tab, Nav, NavItem } from 'react-bootstrap';
 import SitterJoinBio from './SitterJoinBio.jsx';
 import SitterJoinPrices from './SitterJoinPrices.jsx';
 import SitterJoinSchedule from './SitterJoinSchedule.jsx';
@@ -16,11 +10,11 @@ export default class SitterJoin extends React.Component {
     this.state = {
       currItem: 'bio',
       bio: '',
-      child: undefined,
-      childAddl: undefined,
-      pet: undefined,
-      petAddl: undefined,
-      house: undefined,
+      child: '',
+      childAddl: '',
+      pet: '',
+      petAddl: '',
+      house: '',
       sun: '',
       mon: '',
       tues: '',
@@ -53,6 +47,8 @@ export default class SitterJoin extends React.Component {
       this.setState({ currItem: 'pricing' });
     } else if (e.target.name === 'pricing') {
       this.setState({ currItem: 'schedule' });
+    } else if (e.target.name === 'schedule') {
+      console.log('submitted');
     }
   }
 
@@ -61,7 +57,7 @@ export default class SitterJoin extends React.Component {
       return null;
     } else {
       return (
-        <div>
+        <div className="sitterJoin">
           <center>
             <h3>Sitter Application</h3>
           </center>
@@ -70,12 +66,25 @@ export default class SitterJoin extends React.Component {
             activeKey={this.state.currItem}
             onSelect={key => this.setState({ currItem: key })}
           >
-            <Row>
+            <div>
               <Col sm={12}>
                 <Nav bsStyle="pills" justified>
                   <NavItem eventKey="bio">Bio</NavItem>
-                  <NavItem eventKey="pricing">Pricing</NavItem>
-                  <NavItem eventKey="schedule">Schedule</NavItem>
+                  <NavItem
+                    eventKey="pricing"
+                    disabled={this.state.currItem === 'bio'}
+                  >
+                    Pricing
+                  </NavItem>
+                  <NavItem
+                    eventKey="schedule"
+                    disabled={
+                      this.state.currItem === 'bio' ||
+                      this.state.currItem === 'pricing'
+                    }
+                  >
+                    Schedule
+                  </NavItem>
                 </Nav>
               </Col>
               <Col sm={12}>
@@ -94,6 +103,9 @@ export default class SitterJoin extends React.Component {
                       pet={this.state.pet}
                       petAddl={this.state.petAddl}
                       house={this.state.house}
+                      handleInput={this.handleInput}
+                      handleNavPrev={this.handleNavPrev}
+                      handleNavNext={this.handleNavNext}
                     />
                   </Tab.Pane>
                   <Tab.Pane eventKey="schedule">
@@ -105,11 +117,14 @@ export default class SitterJoin extends React.Component {
                       thurs={this.state.thurs}
                       fri={this.state.fri}
                       sat={this.state.sat}
+                      handleNavPrev={this.handleNavPrev}
+                      handleNavNext={this.handleNavNext}
+                      handleInput={this.handleInput}
                     />
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
-            </Row>
+            </div>
           </Tab.Container>
         </div>
       );
