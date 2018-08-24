@@ -221,6 +221,25 @@ const resolvers = {
         },
         info
       )
+    },
+    updateSchedule: (_, args, context, info) => {
+      return context.prisma.mutation.updateManyTimeIntervals(
+        {
+          data: {
+            start: args.start,
+            end: args.end,
+          },
+          where: {
+            AND: {
+              day: args.day,
+              sitter: {
+                id: args.id
+              }
+            }
+          }
+        },
+        info
+      )
     }
   }
 };
