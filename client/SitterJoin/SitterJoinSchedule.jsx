@@ -50,7 +50,6 @@ export default class SitterJoinSchedule extends React.Component {
     if (!valid) {
       this.setState({ showErr: true });
     } else {
-      this.setState({ showErr: false });
       this.props.handleSubmit();
     }
   }

@@ -3,7 +3,6 @@ import { Col, Tab, Nav, NavItem } from 'react-bootstrap';
 import SitterJoinBio from './SitterJoinBio.jsx';
 import SitterJoinPrices from './SitterJoinPrices.jsx';
 import SitterJoinSchedule from './SitterJoinSchedule.jsx';
-import { days } from './Days.js';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -93,37 +92,12 @@ export default class SitterJoin extends React.Component {
   }
 
   handleSubmit(createSitter, createSchedule) {
-    createSitter({
-      variables: {
-        email: this.props.user,
-        bio: this.state.bio,
-        child_rate: this.state.child_rate || undefined,
-        child_rate_addl: this.state.child_addl || undefined,
-        pet_rate: this.state.pet_rate || undefined,
-        pet_rate_addl: this.state.pet_addl || undefined,
-        home_rate: this.state.home_rate || undefined
-      }
-    }).then(({ data }) => {
-      console.log(data);
-      days.forEach(day => {
-        var startTime =
-          (parseInt(this.state[day].substring(0, 2)) % 12) * 60 +
-          parseInt(this.state[day].substring(3, 5)) +
-          (this.state[day].substring(5, 7) === 'PM') * 720;
-        var endTime =
-          (parseInt(this.state[day].substring(8, 10)) % 12) * 60 +
-          parseInt(this.state[day].substring(11, 13)) +
-          (this.state[day].substring(13, 15) === 'PM') * 720;
-        createSchedule({
-          variables: {
-            id: data.createSitter.id,
-            day: day,
-            start: startTime,
-            end: endTime
-          }
-        });
-      });
-    });
+    this.props.handleSubmit(
+      createSitter,
+      createSchedule,
+      this.state,
+      this.props.refetch
+    );
   }
 
   render() {

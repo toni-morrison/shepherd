@@ -24,6 +24,7 @@ type TimeInterval {
   appointment: Appointment
   sitter: Sitter
   day: String
+  date: DateTime
   start: Int!
   end: Int!
 }
