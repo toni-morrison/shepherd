@@ -102,7 +102,7 @@ export default class SitterJoinPrices extends React.Component {
                         name="pet_rate"
                         type="text"
                         value={this.props.pet_rate}
-                        placeholder="Enter rate for petsitting per Hour"
+                        placeholder="Enter rate for petsitting per Day"
                         onChange={this.props.handleInput}
                       />
                     </InputGroup>
@@ -118,7 +118,7 @@ export default class SitterJoinPrices extends React.Component {
                         name="pet_addl"
                         type="text"
                         value={this.props.pet_addl}
-                        placeholder="Enter rate for petsitting additional pets per Hour"
+                        placeholder="Enter rate for petsitting additional pets per Day"
                         onChange={this.props.handleInput}
                       />
                     </InputGroup>
@@ -136,7 +136,7 @@ export default class SitterJoinPrices extends React.Component {
                         name="home_rate"
                         type="text"
                         value={this.props.home_rate}
-                        placeholder="Enter rate for housesitting per Hour"
+                        placeholder="Enter rate for housesitting per Day"
                         onChange={this.props.handleInput}
                       />
                     </InputGroup>
