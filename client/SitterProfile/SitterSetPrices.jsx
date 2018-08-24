@@ -70,15 +70,6 @@ export default class SitterSetPrices extends React.Component {
         
       }
     }).then(({ data }) => {
-      let newRates = data.updateSitter.rates
-      this.setState({
-        child_rate: newRates.child,
-        child_addl: newRates.child_addl,
-        pet_rate: newRates.pet,
-        pet_addl: newRates.pet_addl,
-        home_rate: newRates.home
-      })
-    }).then(() => {
       this.props.handleSetPrices();
     })
   }
