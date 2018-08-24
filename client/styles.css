@@ -14,7 +14,7 @@
     opacity: 1;
   }
 }
-.active img {
+.active .splashImage {
   animation-duration: 2s;
   animation-name: fadeIn;
 }
