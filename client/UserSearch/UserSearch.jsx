@@ -58,13 +58,9 @@ export default class UserSearch extends React.Component {
       6: 'Saturday'
     }
   }
-
-  componentDidMount () {
-    console.log (this.state)
-  }
+  
   // changes searchResults to true/false for conditional render
   handleSearchClick(data) {
-    console.log (this.state.skipped)
     this.setState({
       skipped: !this.state.skipped,
       searchResults: !this.state.searchResults
@@ -76,7 +72,6 @@ export default class UserSearch extends React.Component {
   handleStartChange (newDate) {
     let newMinutes = (newDate._d.getHours () * 60) + (newDate._d.getMinutes())
     let newDay = newDate._d.getDay();
-    console.log (newMinutes)
     this.setState({
       currentStart: newMinutes,
       currentDay: this.dateObj[newDay]
@@ -84,7 +79,6 @@ export default class UserSearch extends React.Component {
   }
   handleEndChange (newDate) {
     let newMinutes = (newDate._d.getHours () * 60) + (newDate._d.getMinutes())
-    console.log (newMinutes)
     this.setState({
       currentEnd: newMinutes
     })
@@ -110,7 +104,6 @@ export default class UserSearch extends React.Component {
                     console.log ('error: ', error)
                     return <span></span>
                   }
-                  console.log ('data: ', data)
                   let sitterData = [];
                   data.findSitters.map ((interval) => sitterData.push(interval.sitter))
                   this.state.currentResults = sitterData
@@ -147,8 +140,6 @@ export default class UserSearch extends React.Component {
                   <FormGroup>
                     <FormControl
                     type="text"
-                    // value={}
-                    // onChange={SUMFUNCTION}
                     placeholder='Enter your address to find Sitters near you' />
                   </FormGroup>
                 </center>
