@@ -68,4 +68,11 @@ type Mutation {
     pet_addl: Float
     home_rate: Float
   ): Sitter!
+
+  updateSchedule(
+    start: Float,
+    end: Float,
+    day: String,
+    id: String
+  ): BatchPayload!
 }
