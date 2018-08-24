@@ -11,7 +11,6 @@ const options = {
 
 const resolvers = {
   Query: {
-
     findSitters: (_, args, context, info) => {
       return context.prisma.query.timeIntervals (
         {
@@ -59,6 +58,18 @@ const resolvers = {
         {
           where: {
             email: args.email
+          }
+        },
+        info
+      );
+    },
+    getSitterSchedule: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            sitter: {
+              id: args.id
+            }
           }
         },
         info

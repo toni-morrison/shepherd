@@ -11,6 +11,7 @@ type Query {
   findTodoLists(email: String!): [TodoList!]!
   findInstructions(id: ID!): [Instruction!]!
   getUserInfo(email: String!): User!
+  getSitterSchedule(id: String!): [TimeInterval!]!
 }
 
 type Mutation {
