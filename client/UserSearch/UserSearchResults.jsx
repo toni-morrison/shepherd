@@ -56,9 +56,9 @@ export default class UserSearchResults extends React.Component {
   render() {
     return(
       <div>
-        {console.log (this.props.reviews)}
         {this.props.reviews.length !== 0 ?
           this.props.reviews.map((review) => {
+            console.log ('petaddl: ', review.rates.pet_addl)
             return(
               <div key={review.bio}>
               <Well bsSize="large" style={{width: '100%'}}>
@@ -87,11 +87,11 @@ export default class UserSearchResults extends React.Component {
                     <Row>
                       <h4>
                       <b>Name:</b> {review.user.first_name + ' ' + review.user.last_name}<br/><br/>
-                      <b>Child:</b> {'$' + review.rates.child_rate + '/hour'}<br/><br/>
-                      <b>Child Additional:</b> {'$' + review.rates.child_addl + '/hour'}<br/><br/>
-                      <b>Pet:</b> {'$' + review.rates.pet_rate + '/day'}<br/><br/>
-                      <b>Pet Additional:</b> {'$' + review.rates.ped_addl + '/day'}<br/><br/>
-                      <b>House:</b> {'$' + review.rates.home_rate + '/day'}<br/><br/>
+                      <b>Child:</b> {review.rates.child_rate ? '$' + review.rates.child_rate + '/hour' : 'N/A'}<br/><br/>
+                      <b>Child Additional:</b> {review.rates.child_addl ? '$' + review.rates.child_addl + '/hour' : 'N/A'}<br/><br/>
+                      <b>Pet:</b> {review.rates.pet_rate ? '$' + review.rates.pet_rate + '/day' : 'N/A'}<br/><br/>
+                      <b>Pet Additional:</b> {review.rates.pet_addl ? '$' + review.rates.pet_addl + '/day' : 'N/A'}<br/><br/>
+                      <b>House:</b> {review.rates.home_rate ? '$' + review.rates.home_rate + '/day' : 'N/A'}<br/><br/>
                       <b>Bio:</b> {review.bio}<br/><br/>
                       </h4>
                     </Row>
