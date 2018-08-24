@@ -96,7 +96,7 @@ export default class SitterSetSchedule extends React.Component {
           day: day
         }
       }).then(({ data }) => {
-        console.log(data)
+        this.props.handleSetSchedule();
       })
     }
   }
