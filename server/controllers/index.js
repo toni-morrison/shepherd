@@ -11,7 +11,6 @@ const options = {
 
 const resolvers = {
   Query: {
-
     findSitters: (_, args, context, info) => {
       return context.prisma.query.timeIntervals (
         {
@@ -59,6 +58,18 @@ const resolvers = {
         {
           where: {
             email: args.email
+          }
+        },
+        info
+      );
+    },
+    getSitterSchedule: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            sitter: {
+              id: args.id
+            }
           }
         },
         info
@@ -206,6 +217,25 @@ const resolvers = {
           },
           where: {
             id: args.id
+          }
+        },
+        info
+      )
+    },
+    updateSchedule: (_, args, context, info) => {
+      return context.prisma.mutation.updateManyTimeIntervals(
+        {
+          data: {
+            start: args.start,
+            end: args.end,
+          },
+          where: {
+            AND: {
+              day: args.day,
+              sitter: {
+                id: args.id
+              }
+            }
           }
         },
         info
