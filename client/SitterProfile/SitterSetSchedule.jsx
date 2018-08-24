@@ -101,7 +101,6 @@ export default class SitterSetSchedule extends React.Component {
     }
   }
 
-
   handleDayStartHour(e, obj) {
     var currentDay = Object.assign(this.state[obj.day])
     currentDay.startHour = obj.hour
