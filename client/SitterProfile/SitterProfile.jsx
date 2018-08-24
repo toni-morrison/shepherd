@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Grid, Row, Col, Well } from 'react-bootstrap';
 import UserProfileUpdate from '../UserProfile/UserProfileUpdate.jsx';
-import SitterSetSchedule from './SitterSetSchedule.jsx';
+import SitterViewSchedule from './SitterViewSchedule.jsx';
 import SitterPrices from './SitterPrices.jsx';
 import SitterBio from './SitterBio.jsx';
 import { Query } from 'react-apollo';
@@ -83,9 +83,9 @@ export default class SitterProfile extends React.Component {
                     </Well>
                   </Col>
                 </Row>
-                <SitterBio user={this.props.user}/>
+                <SitterBio user={this.props.user} sitterId={this.props.sitterId}/>
                 <SitterPrices user={this.props.user} sitterId={this.props.sitterId} />
-                <SitterSetSchedule/>
+                <SitterViewSchedule id={this.props.sitterId}/>
               </Grid>
             </div>
           )
@@ -104,13 +104,14 @@ export default class SitterProfile extends React.Component {
                         address={data.getUserInfo.street_address}
                         city={data.getUserInfo.city}
                         state={data.getUserInfo.state}
-                        zip={data.getUserInfo.zip_code}/>
+                        zip={data.getUserInfo.zip_code}
+                        user={this.props.user}/>
                     </Well>
                   </Col>
                 </Row>
-  
-                <SitterPrices/>
-                <SitterSetSchedule/>
+                <SitterBio user={this.props.user} sitterId={this.props.sitterId}/>
+                <SitterPrices user={this.props.user} sitterId={this.props.sitterId} />
+                <SitterViewSchedule id={this.props.sitterId}/>
               </Grid>
             </div>
           )

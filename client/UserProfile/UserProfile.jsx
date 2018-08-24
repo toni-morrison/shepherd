@@ -131,7 +131,8 @@ export default class UserProfile extends React.Component {
                         address={data.getUserInfo.street_address}
                         city={data.getUserInfo.city}
                         state={data.getUserInfo.state}
-                        zip={data.getUserInfo.zip_code}/>
+                        zip={data.getUserInfo.zip_code}
+                        user={this.props.user}/>
                     </Well>
                   </Col>
                 </Row>
