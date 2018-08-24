@@ -60,6 +60,24 @@ input#instructions {
   min-height: 100vh;
   border-color: red;
 }
+
 body {
   overflow-x: hidden;
+}
+
+.sitterJoin .row {
+  display: flex;
+  justify-content: center;
+}
+
+.sitterJoinSchedule select {
+  display: inline;
+}
+
+#top-tabs .modal-container {
+  position: relative;
+}
+#top-tabs .modal-container .modal,
+.modal-container .modal-backdrop {
+  position: absolute;
 }
