@@ -4,6 +4,7 @@ import {
   ControlLabel,
   FormControl,
   Row,
+  Col,
   Well,
   Button
 } from 'react-bootstrap';
@@ -22,23 +23,20 @@ export default class SitterJoinBio extends React.Component {
         <Well bsSize="large" style={{ width: '100%' }}>
           <form>
             <Row>
-              <FormGroup controlId="formBasicText">
-                <ControlLabel>Bio*</ControlLabel>
-                <FormControl
-                  name="bio"
-                  type="text"
-                  value={this.props.bio}
-                  placeholder="Enter bio here"
-                  onChange={this.props.handleInput}
-                />
-              </FormGroup>
+              <Col xs={12}>
+                <FormGroup controlId="formBasicText">
+                  <ControlLabel>Bio*</ControlLabel>
+                  <FormControl
+                    name="bio"
+                    componentClass="textarea"
+                    value={this.props.bio}
+                    placeholder="Enter bio here"
+                    onChange={this.props.handleInput}
+                  />
+                </FormGroup>
+              </Col>
             </Row>
-            <Button
-              name="bio"
-              bsStyle="default"
-              type="button"
-              disabled
-            >
+            <Button name="bio" bsStyle="default" type="button" disabled>
               Prev
             </Button>
             <Button
@@ -47,6 +45,7 @@ export default class SitterJoinBio extends React.Component {
               type="button"
               disabled={this.props.bio.length === 0}
               onClick={this.props.handleNavNext}
+              style={{ float: 'right' }}
             >
               Next
             </Button>
