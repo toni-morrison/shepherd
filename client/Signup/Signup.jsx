@@ -2,7 +2,15 @@ import React from 'react';
 import firebase from '../../server/firebase/firebase.js';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Button, FormControl, FormGroup, Col, Row } from 'react-bootstrap'
+import {
+  Button,
+  Form,
+  FormControl,
+  FormGroup,
+  Col,
+  Row,
+  HelpBlock
+} from 'react-bootstrap';
 
 const SIGNUP = gql`
   mutation SignUp(
@@ -43,10 +51,12 @@ export default class Signup extends React.Component {
       street: '',
       city: '',
       state: '',
-      zipcode: ''
+      zipcode: '',
+      badFile: false
     };
     this.validateForm = this.validateForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleSignupSubmit = this.handleSignupSubmit.bind(this);
   }
 
@@ -56,6 +66,21 @@ export default class Signup extends React.Component {
       this.state.password.length > 0 &&
       this.state.password === this.state.confirmPassword
     );
+  }
+
+  handleFileUpload() {
+    const file = document.getElementById('signupPropic');
+    const ext = ['.jpg', '.png', '.gif'];
+    if (
+      file.value.length > 4 &&
+      ext.includes(file.value.substring(file.value.length - 4))
+    ) {
+    } else {
+      document.getElementById('signupPropic').value = '';
+      this.setState({
+        badFile: true
+      });
+    }
   }
 
   handleSignupSubmit(e, signup) {
@@ -97,126 +122,145 @@ export default class Signup extends React.Component {
   render() {
     return (
       <div className="auth-form">
-        Signup
         <Mutation mutation={SIGNUP}>
           {(signup, { loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error :(</p>;
 
             return (
-              <form onSubmit={e => this.handleSignupSubmit(e, signup)}>
-                <FormGroup>
-                <Row>
-                <Col xs={6}>
-                  <FormControl
-                    type="email"
-                    value={this.state.email}
-                    id="email"
-                    placeholder="Enter your email"
-                    onChange={this.handleChange}
-                  />
-                </Col>
-                </Row>
-                <Row>
-                <Col xs={6}>
-                  <FormControl
-                    type="password"
-                    value={this.state.password}
-                    id="password"
-                    placeholder="Enter your password"
-                    onChange={this.handleChange}
-                  />
-                </Col>
-                </Row>
-                <Row>
-                <Col xs={6}>
-                  <FormControl
-                    type="password"
-                    value={this.state.confirmPassword}
-                    id="confirmPassword"
-                    placeholder="Confirm your password"
-                    onChange={this.handleChange}
-                  />
-                </Col>
-                </Row>
-                <Row>
-                <Col xs={6}>
-                  <FormControl
-                    type="text"
-                    value={this.state.firstname}
-                    id="firstname"
-                    placeholder="First name"
-                    onChange={this.handleChange}
-                  />
-                </Col>
-                </Row>
-                <Row>
-                <Col xs={6}>
-                  <FormControl
-                    type="text"
-                    value={this.state.lastname}
-                    id="lastname"
-                    placeholder="Last name"
-                    onChange={this.handleChange}
-                  />
-                </Col>
-                </Row>
-                  <br />
-                  Enter Your Address
-                  <br />
-                <Row>
-                <Col xs={6}>
-                  <FormControl
-                    type="text"
-                    value={this.state.street}
-                    id="street"
-                    placeholder="Enter your street"
-                    onChange={this.handleChange}
-                  />
-                </Col>
-                </Row>
-                <Row>
-                <Col xs={6}>
-                  <FormControl
-                    type="text"
-                    value={this.state.city}
-                    id="city"
-                    placeholder="Enter your city"
-                    onChange={this.handleChange}
-                  />
-                </Col>
-                </Row>
-                <Row>
-                <Col xs={6}>
-                  <FormControl
-                    type="text"
-                    value={this.state.state}
-                    id="state"
-                    placeholder="Enter your state"
-                    onChange={this.handleChange}
-                  />
-                </Col>
-                </Row>
-                <Row>
-                <Col xs={6}>
-                  <FormControl
-                    type="text"
-                    value={this.state.zipcode}
-                    id="zipcode"
-                    placeholder="Enter your zipcode"
-                    onChange={this.handleChange}
-                  />
-                </Col>
-                </Row>
-                  <Button
-                    disabled={!this.validateForm()}
-                    type="submit"
-                    value="submit"
-                  >
-                    Submit
-                  </Button>
-                </FormGroup>
-              </form>
+              <div className="signup">
+                <Row>Signup</Row>
+                <Form
+                  horizontal
+                  onSubmit={e => this.handleSignupSubmit(e, signup)}
+                >
+                  <FormGroup>
+                    <Col xs={6} xsOffset={3}>
+                      <FormControl
+                        type="email"
+                        value={this.state.email}
+                        id="email"
+                        placeholder="Enter your email"
+                        onChange={this.handleChange}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <FormGroup>
+                    <Col xs={5} xsOffset={1}>
+                      <FormControl
+                        type="password"
+                        value={this.state.password}
+                        id="password"
+                        placeholder="Enter your password"
+                        onChange={this.handleChange}
+                      />
+                    </Col>
+                    <Col xs={5}>
+                      <FormControl
+                        type="password"
+                        value={this.state.confirmPassword}
+                        id="confirmPassword"
+                        placeholder="Confirm your password"
+                        onChange={this.handleChange}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <FormGroup>
+                    <Col xs={5} xsOffset={1}>
+                      <FormControl
+                        type="text"
+                        value={this.state.firstname}
+                        id="firstname"
+                        placeholder="First name"
+                        onChange={this.handleChange}
+                      />
+                    </Col>
+                    <Col xs={5}>
+                      <FormControl
+                        type="text"
+                        value={this.state.lastname}
+                        id="lastname"
+                        placeholder="Last name"
+                        onChange={this.handleChange}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <Row>Enter Your Address</Row>
+                  <FormGroup>
+                    <Col xs={6} xsOffset={3}>
+                      <FormControl
+                        type="text"
+                        value={this.state.street}
+                        id="street"
+                        placeholder="Enter your street"
+                        onChange={this.handleChange}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <FormGroup>
+                    <Col xs={6} xsOffset={3}>
+                      <FormControl
+                        type="text"
+                        value={this.state.city}
+                        id="city"
+                        placeholder="Enter your city"
+                        onChange={this.handleChange}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <FormGroup>
+                    <Col xs={6} xsOffset={3}>
+                      <FormControl
+                        type="text"
+                        value={this.state.state}
+                        id="state"
+                        placeholder="Enter your state"
+                        onChange={this.handleChange}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <FormGroup>
+                    <Col xs={6} xsOffset={3}>
+                      <FormControl
+                        type="text"
+                        value={this.state.zipcode}
+                        id="zipcode"
+                        placeholder="Enter your zip code"
+                        onChange={this.handleChange}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <FormGroup>
+                    <Col xs={10} xsOffset={1}>
+                      <FormControl
+                        type="file"
+                        value={this.state.proPic}
+                        id="signupPropic"
+                        label="Profile Picture"
+                        onChange={this.handleFileUpload}
+                      />
+                      <HelpBlock>
+                        Valid file types: .jpg, .png, .gif, files must be less
+                        than 1 MB in size
+                      </HelpBlock>
+                      {this.state.badFile && <HelpBlock>Invalid file upload!</HelpBlock>}
+                    </Col>
+                  </FormGroup>
+                  <FormGroup>
+                    <Col xs={10} xsOffset={1}>
+                      <Button
+                        bsStyle="primary"
+                        style={{ float: 'right' }}
+                        disabled={!this.validateForm()}
+                        type="submit"
+                        value="submit"
+                      >
+                        Submit
+                      </Button>
+                    </Col>
+                  </FormGroup>
+                </Form>
+              </div>
             );
           }}
         </Mutation>
