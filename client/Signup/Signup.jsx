@@ -2,6 +2,7 @@ import React from 'react';
 import firebase from '../../server/firebase/firebase.js';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Button, FormControl, FormGroup, Col, Row } from 'react-bootstrap'
 
 const SIGNUP = gql`
   mutation SignUp(
@@ -104,87 +105,117 @@ export default class Signup extends React.Component {
 
             return (
               <form onSubmit={e => this.handleSignupSubmit(e, signup)}>
-                <input
-                  type="email"
-                  value={this.state.email}
-                  id="email"
-                  placeholder="Enter your email"
-                  onChange={this.handleChange}
-                />
-                <br />
-                <input
-                  type="password"
-                  value={this.state.password}
-                  id="password"
-                  placeholder="Enter your password"
-                  onChange={this.handleChange}
-                />
-                <br />
-                <input
-                  type="password"
-                  value={this.state.confirmPassword}
-                  id="confirmPassword"
-                  placeholder="Confirm your password"
-                  onChange={this.handleChange}
-                />
-                <br />
-                <input
-                  type="text"
-                  value={this.state.firstname}
-                  id="firstname"
-                  placeholder="First name"
-                  onChange={this.handleChange}
-                />
-                <br />
-                <input
-                  type="text"
-                  value={this.state.lastname}
-                  id="lastname"
-                  placeholder="Last name"
-                  onChange={this.handleChange}
-                />
-                <br />
-                Enter Your Address
-                <br />
-                <input
-                  type="text"
-                  value={this.state.street}
-                  id="street"
-                  placeholder="Enter your street"
-                  onChange={this.handleChange}
-                />
-                <br />
-                <input
-                  type="text"
-                  value={this.state.city}
-                  id="city"
-                  placeholder="Enter your city"
-                  onChange={this.handleChange}
-                />
-                <br />
-                <input
-                  type="text"
-                  value={this.state.state}
-                  id="state"
-                  placeholder="Enter your state"
-                  onChange={this.handleChange}
-                />
-                <br />
-                <input
-                  type="text"
-                  value={this.state.zipcode}
-                  id="zipcode"
-                  placeholder="Enter your zipcode"
-                  onChange={this.handleChange}
-                />
-                <br />
-                <button
-                  disabled={!this.validateForm()}
-                  type="submit"
-                  value="submit"
-                >
-                  Submit
-                </button>
+                <FormGroup>
+                <Row>
+                <Col xs={6}>
+                  <FormControl
+                    type="email"
+                    value={this.state.email}
+                    id="email"
+                    placeholder="Enter your email"
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                </Row>
+                <Row>
+                <Col xs={6}>
+                  <FormControl
+                    type="password"
+                    value={this.state.password}
+                    id="password"
+                    placeholder="Enter your password"
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                </Row>
+                <Row>
+                <Col xs={6}>
+                  <FormControl
+                    type="password"
+                    value={this.state.confirmPassword}
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                </Row>
+                <Row>
+                <Col xs={6}>
+                  <FormControl
+                    type="text"
+                    value={this.state.firstname}
+                    id="firstname"
+                    placeholder="First name"
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                </Row>
+                <Row>
+                <Col xs={6}>
+                  <FormControl
+                    type="text"
+                    value={this.state.lastname}
+                    id="lastname"
+                    placeholder="Last name"
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                </Row>
+                  <br />
+                  Enter Your Address
+                  <br />
+                <Row>
+                <Col xs={6}>
+                  <FormControl
+                    type="text"
+                    value={this.state.street}
+                    id="street"
+                    placeholder="Enter your street"
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                </Row>
+                <Row>
+                <Col xs={6}>
+                  <FormControl
+                    type="text"
+                    value={this.state.city}
+                    id="city"
+                    placeholder="Enter your city"
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                </Row>
+                <Row>
+                <Col xs={6}>
+                  <FormControl
+                    type="text"
+                    value={this.state.state}
+                    id="state"
+                    placeholder="Enter your state"
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                </Row>
+                <Row>
+                <Col xs={6}>
+                  <FormControl
+                    type="text"
+                    value={this.state.zipcode}
+                    id="zipcode"
+                    placeholder="Enter your zipcode"
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                </Row>
+                  <Button
+                    disabled={!this.validateForm()}
+                    type="submit"
+                    value="submit"
+                  >
+                    Submit
+                  </Button>
+                </FormGroup>
               </form>
             );
           }}

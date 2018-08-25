@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase from '../../server/firebase/firebase.js';
-import { FormGroup, FormControl } from 'react-bootstrap';
+import { FormGroup, FormControl, Button, Row, Col } from 'react-bootstrap';
 
 export default class EmailLogin extends React.Component {
   constructor(props) {
@@ -47,26 +47,34 @@ export default class EmailLogin extends React.Component {
         <div className="auth-form">
           <form onSubmit={this.handleEmailLogin}>
             <FormGroup>
-              <FormControl
-                id="email"
-                type="email"
-                value={this.state.email}
-                placeholder="Enter Your Email"
-                onChange={this.handleChange}
-              />
-              <FormControl
-                id="password"
-                type="password"
-                value={this.state.password}
-                placeholder="Enter Your Password"
-                onChange={this.handleChange}
-              />
-              <button
-                type="submit"
-                disabled={!this.validateForm()}
-              >
-                Submit
-              </button>
+              <Row>
+                <Col xs={6}>
+                  <FormControl
+                    id="email"
+                    type="email"
+                    value={this.state.email}
+                    placeholder="Enter Your Email"
+                    onChange={this.handleChange}
+                  />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={6}>
+                  <FormControl
+                    id="password"
+                    type="password"
+                    value={this.state.password}
+                    placeholder="Enter Your Password"
+                    onChange={this.handleChange}
+                  />
+                  </Col>
+                </Row>
+                  <Button
+                    type="submit"
+                    disabled={!this.validateForm()}
+                  >
+                    Submit
+                  </Button>
             </FormGroup>
           </form>
         </div>

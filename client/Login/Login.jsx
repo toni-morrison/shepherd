@@ -1,6 +1,7 @@
 import React from 'react';
 import GoogleLogin from './GoogleLogin.jsx';
 import EmailLogin from './EmailLogin.jsx';
+import {Button} from 'react-bootstrap';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -30,9 +31,9 @@ export default class Login extends React.Component {
       <div className="auth-form">
         Login
         <br />
-        <button type="button" onClick={this.renderEmail}>
+        <Button type="button" onClick={this.renderEmail}>
           Login With Email
-        </button>
+        </Button>
         <EmailLogin
           renderEmailField={this.state.renderEmailField}
           handleToggleLogin={this.props.handleToggleLogin}
