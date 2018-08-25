@@ -5,8 +5,11 @@ import Datetime from 'react-datetime'
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
+
 const FIND_SITTERS = gql `
-  query findSitters ($day: String!, $start: Int!, $end: Int!){
+  query findSitters (
+    $day: String!, $start: Int!, $end: Int!
+  ) {
     findSitters (day: $day, start: $start, end: $end) {
       day
       sitter {
@@ -28,91 +31,56 @@ const FIND_SITTERS = gql `
     }
   }
 `;
-
 export default class UserSearch extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       searchResults: false,
+      currentResults: [],
       findValues: [],
-      currentStart : '',
-      currendEnd: ''
+      currentDay: 'NonDay',
+      currentStart : 0,
+      currendEnd: 0,
+      skipped: true
     }
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
-    this.searchSitters = this.searchSitters.bind(this);
     this.dateObj = {
-      0: 'sun',
-      1: 'mon',
-      2: 'tues',
-      3: 'wed',
-      4: 'thurs',
-      5: 'fri',
-      6: 'sat'
+      0: 'Sunday',
+      1: 'Monday',
+      2: 'Tuesday',
+      3: 'Wednesday',
+      4: 'Thursday',
+      5: 'Friday',
+      6: 'Saturday'
     }
-  }
-
-  
-  searchSitters () {
-    return (
-        <Query query = {FIND_SITTERS}
-          variables = {{day: "sun", start: 721, end: 722}}>
-          {
-            ({ loading, error, data }) => {
-              if (loading) {
-                return <p>...Loading</p>
-              }
-              if (error) {
-                
-                return <p>Error: </p>
-              }
-              console.log ('data: ', data)
-
-
-              return <p>Data: </p>
-            }
-          }
-        </Query>)
   }
   
   // changes searchResults to true/false for conditional render
-  handleSearchClick() {
+  handleSearchClick(data) {
     this.setState({
+      skipped: !this.state.skipped,
       searchResults: !this.state.searchResults
-    });
-//    if (this.state.currentStart !== )
-//    return (
-//        <Query query = {FIND_SITTERS}>
-//          {
-//            ({ loading, error, data }) => {
-//              if (loading) {
-//                return <p>...Loading</p>
-//              }
-//              if (error) {
-//                return <p>Error: </p>
-//              }
-//              console.log ('data: ', data)
-//              let startDate = new Date (this.state.currentStart);
-//              let endDate = new Date (this.state.currentEnd);
-//              this.setState ({searchResults: data})
-//
-//              return <p>Data: </p>
-//            }
-//          }
-//        </Query>)
-  }
 
+    });
+  }
+  
+  
   handleStartChange (newDate) {
+    let newMinutes = (newDate._d.getHours () * 60) + (newDate._d.getMinutes())
+    let newDay = newDate._d.getDay();
     this.setState({
-      currentStart: newDate._d
+      currentStart: newMinutes,
+      currentDay: this.dateObj[newDay]
     })
   }
   handleEndChange (newDate) {
+    let newMinutes = (newDate._d.getHours () * 60) + (newDate._d.getMinutes())
     this.setState({
-      currentEnd: newDate._d
+      currentEnd: newMinutes
     })
   }
   
@@ -124,60 +92,75 @@ export default class UserSearch extends React.Component {
     
     if (this.state.searchResults === false) {
       return (
-      <div>
-        {this.searchSitters() }
-          <Grid>
-            <Row>
-              <Col xs={6} xsOffset={3}>
-              <center>
-                <h2>FIND A</h2>
-                <p><i>select all that apply</i></p>
-                <ToggleButtonGroup type="checkbox" value={this.state.value} onChange={this.handleChange}>
-                  <ToggleButton value={'baby'}>Baby Sitter</ToggleButton>
-                  <ToggleButton value={'pet'}>Pet Sitter</ToggleButton>
-                  <ToggleButton value={'house'}>House Sitter</ToggleButton>
-                </ToggleButtonGroup>
-              </center>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={6} xsOffset={3}>
-              <center>
-                <h2>DATES</h2>
-                <div><div>Start Date/Time</div><Datetime onChange = {this.handleStartChange} viewMode = 'time'/></div>     <div><div>End Date/Time</div><Datetime onChange = {this.handleEndChange} viewMode = 'time'/></div>
-              </center>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={6} xsOffset={3}>
-              <center>
-                <h2>LOCATION</h2>
-                <FormGroup>
-                  <FormControl
-                  type="text"
-                  // value={}
-                  // onChange={SUMFUNCTION}
-                  placeholder='Enter your address to find Sitters near you' />
-                </FormGroup>
-              </center>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={6} xsOffset={3}>
-              <center>
-              <Button onClick={this.handleSearchClick}>SEARCH</Button>
-              </center>
-              </Col>
-            </Row>
-
+          <div>
+            <Query query = {FIND_SITTERS} skipped = {this.state.skipped}
+              variables = {{day: this.state.currentDay, start: this.state.currentStart, end: this.state.currendEnd}}>
+              {
+                ({ loading, error, data }) => {
+                  if (loading) {
+                    return <span></span>
+                  }
+                  if (error) {
+                    console.log ('error: ', error)
+                    return <span></span>
+                  }
+                  let sitterData = [];
+                  data.findSitters.map ((interval) => sitterData.push(interval.sitter))
+                  this.state.currentResults = sitterData
+                  return <span></span>
+                }   
+              }
+            </Query>
+            <Grid>
+              <Row>
+                <Col xs={6} xsOffset={3}>
+                <center>
+                  <h2>FIND A</h2>
+                  <p><i>select all that apply</i></p>
+                  <ToggleButtonGroup type="checkbox" value={this.state.value} onChange={this.handleChange}>
+                    <ToggleButton value={'baby'}>Baby Sitter</ToggleButton>
+                    <ToggleButton value={'pet'}>Pet Sitter</ToggleButton>
+                    <ToggleButton value={'house'}>House Sitter</ToggleButton>
+                  </ToggleButtonGroup>
+                </center>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={6} xsOffset={3}>
+                <center>
+                  <h2>DATES</h2>
+                  <div><div>Start Date/Time</div><Datetime onChange = {this.handleStartChange} viewMode = 'time'/></div>     <div><div>End Date/Time</div><Datetime onChange = {this.handleEndChange} viewMode = 'time'/></div>
+                </center>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={6} xsOffset={3}>
+                <center>
+                  <h2>LOCATION</h2>
+                  <FormGroup>
+                    <FormControl
+                    type="text"
+                    placeholder='Enter your address to find Sitters near you' />
+                  </FormGroup>
+                </center>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={6} xsOffset={3}>
+                <center>
+                <Button onClick={this.handleSearchClick}>SEARCH</Button>
+                </center>
+                </Col>
+              </Row>
           </Grid>
         </div>
-      );
+      )
     } else {
-      return <UserSearchResults handleSearchClick={this.handleSearchClick} users = {this.state.searchResults} />;
+      return <UserSearchResults 
+               handleSearchClick={this.handleSearchClick} 
+               reviews = {this.state.currentResults} 
+               skipped = {this.state.skipped}
+             />;
     }
   }
 }

@@ -25,7 +25,16 @@ type Mutation {
     zip_code: String
     rating: Int
   ): User!
-
+  createSitter(
+    email: String!
+    bio: String!
+    child_rate: Float
+    child_addl: Float
+    pet_rate: Float
+    pet_addl: Float
+    home_rate: Float
+  ): Sitter!
+  createSchedule(id: ID!, day: String!, start: Int!, end: Int!): TimeInterval!
   createList(
     email: String!
     name: String!
@@ -78,4 +87,10 @@ type Mutation {
     userReview: String
     sitterReview: String
   ): Appointment!
+  updateSchedule(
+    start: Float
+    end: Float
+    day: String
+    id: String
+  ): BatchPayload!
 }

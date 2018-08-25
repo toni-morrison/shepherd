@@ -14,7 +14,7 @@
     opacity: 1;
   }
 }
-.active img {
+.active .splashImage {
   animation-duration: 2s;
   animation-name: fadeIn;
 }
@@ -60,6 +60,7 @@ input#instructions {
   min-height: 100vh;
   border-color: red;
 }
+
 body {
   overflow-x: hidden;
 }
@@ -98,4 +99,19 @@ button#review-button-submit {
   width: 31%;
   left: 30%;
   position: relative;
+}
+.sitterJoin .row {
+  display: flex;
+  justify-content: center;
+}
+.sitterJoinSchedule select {
+  display: inline;
+}
+
+#top-tabs .modal-container {
+  position: relative;
+}
+#top-tabs .modal-container .modal,
+.modal-container .modal-backdrop {
+  position: absolute;
 }

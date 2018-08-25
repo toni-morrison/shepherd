@@ -105,6 +105,7 @@ export default class SplashPage extends React.Component {
                         </Col>
                         <Col md={3}>
                           <Image
+                            className="splashImage"
                             src="https://i.imgur.com/S1hQpzk.png"
                             responsive
                             id="splashImg0"

@@ -96,6 +96,47 @@ const resolvers = {
         info
       );
     },
+    createSitter: (_, args, context, info) => {
+      return context.prisma.mutation.createSitter(
+        {
+          data: {
+            bio: args.bio,
+            rates: {
+              create: {
+                child_rate: args.child_rate,
+                child_addl: args.child_addl,
+                pet_rate: args.pet_rate,
+                pet_addl: args.pet_addl,
+                home_rate: args.home_rate
+              }
+            },
+            user: {
+              connect: {
+                email: args.email
+              }
+            }
+          }
+        },
+        info
+      );
+    },
+    createSchedule: (_, args, context, info) => {
+      return context.prisma.mutation.createTimeInterval(
+        {
+          data: {
+            sitter: {
+              connect: {
+                id: args.id
+              }
+            },
+            day: args.day,
+            start: args.start,
+            end: args.end
+          }
+        },
+        info
+      );
+    },
     createList: (_, args, context, info) => {
       return context.prisma.mutation.createTodoList(
         {
@@ -237,6 +278,25 @@ const resolvers = {
           },
           where: {
             id: args.id
+          }
+        },
+        info
+      );
+    },
+    updateSchedule: (_, args, context, info) => {
+      return context.prisma.mutation.updateManyTimeIntervals(
+        {
+          data: {
+            start: args.start,
+            end: args.end
+          },
+          where: {
+            AND: {
+              day: args.day,
+              sitter: {
+                id: args.id
+              }
+            }
           }
         },
         info
