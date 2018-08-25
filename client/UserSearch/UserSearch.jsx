@@ -8,9 +8,8 @@ import { Query } from 'react-apollo';
 
 const FIND_SITTERS = gql `
   query findSitters (
-    $day: String!, $start: Int!, $end: Int!
-  ) {
-    findSitters (day: $day, start: $start, end: $end) {
+    $day: String!, $start: Int!, $end: Int!, $baby: Boolean!, $pet: Boolean!, $home: Boolean!) {
+    findSitters (day: $day, start: $start, end: $end, baby: $baby, pet: $pet, home: $home) {
       day
       sitter {
         id
@@ -42,12 +41,14 @@ export default class UserSearch extends React.Component {
       currentDay: 'NonDay',
       currentStart : 0,
       currendEnd: 0,
-      skipped: true
+      skipped: true,
+      value: []
     }
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
+    this.handleChange = this.handleChange.bind(this)
     this.dateObj = {
       0: 'Sunday',
       1: 'Monday',
@@ -62,12 +63,15 @@ export default class UserSearch extends React.Component {
   // changes searchResults to true/false for conditional render
   handleSearchClick(data) {
     this.setState({
-      skipped: !this.state.skipped,
+//      skipped: !this.state.skipped,
       searchResults: !this.state.searchResults
 
     });
   }
   
+  handleChange (e) {
+    this.setState ({value: e})
+  }
   
   handleStartChange (newDate) {
     let newMinutes = (newDate._d.getHours () * 60) + (newDate._d.getMinutes())
@@ -94,7 +98,7 @@ export default class UserSearch extends React.Component {
       return (
           <div>
             <Query query = {FIND_SITTERS} skipped = {this.state.skipped}
-              variables = {{day: this.state.currentDay, start: this.state.currentStart, end: this.state.currendEnd}}>
+              variables = {{day: this.state.currentDay, start: this.state.currentStart, end: this.state.currendEnd, baby: this.state.value.includes ('baby'), pet: this.state.value.includes('pet'), home: this.state.value.includes('house')}}>
               {
                 ({ loading, error, data }) => {
                   if (loading) {

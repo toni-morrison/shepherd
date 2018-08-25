@@ -12,10 +12,7 @@ const options = {
 const resolvers = {
   Query: {
     findSitters: (_, args, context, info) => {
-      return context.prisma.query.timeIntervals (
-        {
-          where: {
-            AND: [{
+      let ANDConditions = [{
               day: args.day
             },
             {
@@ -24,6 +21,38 @@ const resolvers = {
             {
               end_gte: args.end
             }]
+      
+      if (args.user) {
+        ANDConditions.push ({
+          sitter: {
+            rates: {
+              child_rate_not: null
+            }
+          }
+        })
+      }
+      if (args.pet) {
+        ANDConditions.push ({
+          sitter: {
+            rates: {
+              pet_rate_not: null
+            }
+          }
+        })
+      }
+      if (args.home) {
+        ANDConditions.push ({
+          sitter: {
+            rates: {
+              home_rate_not: null
+            }
+          }
+        })
+      }
+      return context.prisma.query.timeIntervals (
+        {  
+          where: {
+            AND: ANDConditions
           }
         },
         info
