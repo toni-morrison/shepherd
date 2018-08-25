@@ -7,7 +7,7 @@
 # import User from './generated/prisma.graphql'
 
 type Query {
-  findSitters (day: String!, start: Int!, end: Int!) : [TimeInterval!]!
+  findSitters(day: String!, start: Int!, end: Int!): [TimeInterval!]!
   findTodoLists(email: String!): [TodoList!]!
   findInstructions(id: ID!): [Instruction!]!
   getUserInfo(email: String!): User!
@@ -68,4 +68,14 @@ type Mutation {
     pet_addl: Float
     home_rate: Float
   ): Sitter!
+
+  updateAppointment(
+    id: ID!
+    todoList: ID
+    pending: Boolean
+    userRating: Float
+    sitterRating: Float
+    userReview: String
+    sitterReview: String
+  ): Appointment!
 }

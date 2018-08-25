@@ -12,18 +12,20 @@ const options = {
 const resolvers = {
   Query: {
     findSitters: (_, args, context, info) => {
-      return context.prisma.query.timeIntervals (
+      return context.prisma.query.timeIntervals(
         {
           where: {
-            AND: [{
-              day: args.day
-            },
-            {
-              start_lte: args.start
-            },
-            {
-              end_gte: args.end
-            }]
+            AND: [
+              {
+                day: args.day
+              },
+              {
+                start_lte: args.start
+              },
+              {
+                end_gte: args.end
+              }
+            ]
           }
         },
         info
@@ -181,7 +183,7 @@ const resolvers = {
             street_address: args.street_address,
             city: args.city,
             state: args.state,
-            zip_code: args.zip_code,
+            zip_code: args.zip_code
           },
           where: {
             email: args.email
@@ -205,7 +207,7 @@ const resolvers = {
                   pet_addl: args.pet_addl,
                   home_rate: args.home_rate
                 },
-                create:{
+                create: {
                   child_rate: args.child_rate,
                   child_addl: args.child_addl,
                   pet_rate: args.pet_rate,
@@ -220,7 +222,25 @@ const resolvers = {
           }
         },
         info
-      )
+      );
+    },
+    updateAppointment: (_, args, context, info) => {
+      return context.prisma.mutation.updateAppointment(
+        {
+          data: {
+            todoList: args.todoList,
+            pending: args.pending,
+            userRating: args.userRating,
+            sitterRating: args.sitterRating,
+            userReview: args.userReview,
+            sitterReview: args.sitterReview
+          },
+          where: {
+            id: args.id
+          }
+        },
+        info
+      );
     }
   }
 };
