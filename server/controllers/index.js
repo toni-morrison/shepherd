@@ -12,45 +12,47 @@ const options = {
 const resolvers = {
   Query: {
     findSitters: (_, args, context, info) => {
-      let ANDConditions = [{
-              day: args.day
-            },
-            {
-              start_lte: args.start
-            },
-            {
-              end_gte: args.end
-            }]
-      
-      if (args.user) {
-        ANDConditions.push ({
+      let ANDConditions = [
+        {
+          day: args.day
+        },
+        {
+          start_lte: args.start
+        },
+        {
+          end_gte: args.end
+        }
+      ];
+
+      if (args.baby) {
+        ANDConditions.push({
           sitter: {
             rates: {
               child_rate_not: null
             }
           }
-        })
+        });
       }
       if (args.pet) {
-        ANDConditions.push ({
+        ANDConditions.push({
           sitter: {
             rates: {
               pet_rate_not: null
             }
           }
-        })
+        });
       }
       if (args.home) {
-        ANDConditions.push ({
+        ANDConditions.push({
           sitter: {
             rates: {
               home_rate_not: null
             }
           }
-        })
+        });
       }
-      return context.prisma.query.timeIntervals (
-        {  
+      return context.prisma.query.timeIntervals(
+        {
           where: {
             AND: ANDConditions
           }
@@ -290,14 +292,14 @@ const resolvers = {
           }
         },
         info
-      )
+      );
     },
     updateSchedule: (_, args, context, info) => {
       return context.prisma.mutation.updateManyTimeIntervals(
         {
           data: {
             start: args.start,
-            end: args.end,
+            end: args.end
           },
           where: {
             AND: {
@@ -309,7 +311,7 @@ const resolvers = {
           }
         },
         info
-      )
+      );
     }
   }
 };
