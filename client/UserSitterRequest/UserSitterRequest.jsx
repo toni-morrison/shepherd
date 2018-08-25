@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  Button,
-  ButtonToolbar,
-  Modal,
-  Popover,
-  OverlayTrigger,
-  FormGroup,
-  FormControl
-} from 'react-bootstrap';
+import { Button, Modal, Popover, OverlayTrigger, FormGroup, FormControl } from 'react-bootstrap';
+
 
 export default class UserSitterRequest extends React.Component {
   constructor(props) {
@@ -28,6 +21,8 @@ export default class UserSitterRequest extends React.Component {
         show: true
       })
     }
+    console.log(this.props.day)
+    // is an array of objects
   }
 
   handleClose() {
@@ -152,50 +147,55 @@ export default class UserSitterRequest extends React.Component {
     );
 
     if (this.props.show) {
-      return (
-        <div className="request-modal">
-          {/* <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-            Send Request
-          </Button> */}
-          <Modal show={this.props.show} onHide={this.props.showOff}>
-            <Modal.Header closeButton>
-              <Modal.Title>Pending Request</Modal.Title>
-            </Modal.Header>
-  
-            <h3>
-              Name:{' '}
-              <OverlayTrigger overlay={namePopover}>
-                <a href="#popover">Joana BabbyCarer</a>
-              </OverlayTrigger>
-            </h3>
-            <h3>Date: August, 21st 2018</h3>
-            <h3>Time: 5:30pm to 10:00pm</h3>
-            <h3>Total Price: $175 </h3>
-            <h3>
-              List:{' '}
-              <a href="#addList" onClick={this.handleShowList}>
-                Add List
-              </a>
-              {addList}
-            </h3>
-            <h3>
-              Add Message:{' '}
-              <FormGroup controlId="formControlsTextarea">
-                <FormControl
-                  componentClass="textarea"
-                  placeholder="Enter Message"
-                />
-              </FormGroup>
-            </h3>
-            <Button bsStyle="primary" bsSize="large" onClick={this.props.showOff}>
-              Confirm
-            </Button>
-            <Button bsStyle="primary" bsSize="large" onClick={this.props.showOff}>
-              Go Back
-            </Button>
-          </Modal>
-        </div>
-      );
+      var currentDay = this.props.day
+      var currentStart = this.props.start
+      var currentEnd = this.props.end
+      return this.props.reviews.map((review, index) => {
+        return (
+          <div className="request-modal" key={index}>
+            {/* <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+              Send Request
+            </Button> */}
+            <Modal show={this.props.show} onHide={this.props.showOff}>
+              <Modal.Header closeButton>
+                <Modal.Title>Pending Request</Modal.Title>
+              </Modal.Header>
+    
+              <h3>
+                Name:{' '}
+                <OverlayTrigger overlay={namePopover}>
+                  <a href="#popover">{review.user.first_name} {review.user.last_name}</a>
+                </OverlayTrigger>
+              </h3>
+              <h3>Date: {currentDay}</h3>
+              <h3>Time: {currentStart} to {currentEnd}</h3>
+              <h3>Total Price: $175 </h3>
+              <h3>
+                List:{' '}
+                <a href="#addList" onClick={this.handleShowList}>
+                  Add List
+                </a>
+                {addList}
+              </h3>
+              <h3>
+                Add Message:{' '}
+                <FormGroup controlId="formControlsTextarea">
+                  <FormControl
+                    componentClass="textarea"
+                    placeholder="Enter Message"
+                  />
+                </FormGroup>
+              </h3>
+              <Button bsStyle="primary" bsSize="large" onClick={this.props.showOff}>
+                Confirm
+              </Button>
+              <Button bsStyle="primary" bsSize="large" onClick={this.props.showOff}>
+                Go Back
+              </Button>
+            </Modal>
+          </div>
+        )
+      })
     } else {
       return null
     }

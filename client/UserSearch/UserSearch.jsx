@@ -207,6 +207,9 @@ export default class UserSearch extends React.Component {
         <UserSearchResults
           handleSearchClick={this.handleSearchClick}
           reviews={this.state.currentResults}
+          day={this.state.currentDay}
+          start={this.state.currentStart}
+          end={this.state.currentEnd}
         />
       );
     }

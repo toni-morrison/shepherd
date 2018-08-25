@@ -8,31 +8,7 @@ export default class UserSearchResults extends React.Component {
     super(props);
 
     this.state = {
-      showUserSitterRequest: false,
-      reviews: [
-        {
-          name: 'Kiernan',
-          child: '$15.00/hour',
-          childaddl: '$5.00/hour',
-          pet: '$30.00/day',
-          petaddl: '$10.00/day',
-          house: '$50.00/day',
-          stars: 5,
-          img: 'https://i.imgur.com/QT0uEU6.jpg',
-          bio: 'I LOVE CHILDREN'
-        },
-        {
-          name: 'Kiernan',
-          child: '$15.00/hour',
-          childaddl: '$5.00/hour',
-          pet: '$30.00/day',
-          petaddl: '$10.00/day',
-          house: '$50.00/day',
-          stars: 5,
-          img: 'https://i.imgur.com/QT0uEU6.jpg',
-          bio: 'So nice they addded me twice'
-        }
-      ]
+      showUserSitterRequest: false
     };
 
     this.showUserSitterRequest = this.showUserSitterRequest.bind(this);
@@ -56,7 +32,6 @@ export default class UserSearchResults extends React.Component {
       <div>
         {this.props.reviews.length !== 0 ? (
           this.props.reviews.map(review => {
-            console.log('petaddl: ', review.rates.pet_addl);
             return (
               <div key={review.bio}>
                 <Well bsSize="large" style={{ width: '100%' }}>
@@ -134,6 +109,10 @@ export default class UserSearchResults extends React.Component {
                       show={this.state.showUserSitterRequest}
                       showTrue={this.showUserSitterRequest}
                       showOff={this.hideUserSitterRequest}
+                      reviews={this.props.reviews}
+                      day={this.props.day}
+                      start={this.props.start}
+                      end={this.props.end}
                     />
                   </Row>
                 </Well>
