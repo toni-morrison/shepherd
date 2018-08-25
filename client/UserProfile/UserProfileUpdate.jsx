@@ -147,7 +147,7 @@ export default class UserProfileUpdate extends React.Component {
                     <FormControl
                     type="text"
                     style={{ width:'50%' }}
-                    defaultValue={this.state.zip}
+                    defaultValue={this.state.zip_code}
                     id='zip_code'
                     onChange={this.handleChangeInput}/>
                   </FormGroup>{' '}
