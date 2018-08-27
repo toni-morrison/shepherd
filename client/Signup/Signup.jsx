@@ -1,7 +1,9 @@
 import React from 'react';
 import firebase from '../../server/firebase/firebase.js';
+import { getSignedUploadUrl, getSignedDownloadUrl } from '../../server/s3/s3';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import axios from 'axios';
 import {
   Button,
   Form,
@@ -21,6 +23,7 @@ const SIGNUP = gql`
     $city: String
     $state: String
     $zip_code: String
+    $pic_url: String
   ) {
     signup(
       email: $email
@@ -30,6 +33,7 @@ const SIGNUP = gql`
       city: $city
       state: $state
       zip_code: $zip_code
+      pic_url: $pic_url
     ) {
       id
       email
@@ -72,10 +76,11 @@ export default class Signup extends React.Component {
     const file = document.getElementById('signupPropic');
     const ext = ['.jpg', '.png', '.gif'];
     if (
-      file.value.length > 4 &&
-      ext.includes(file.value.substring(file.value.length - 4))
+      !(
+        file.value.length > 4 &&
+        ext.includes(file.value.substring(file.value.length - 4))
+      )
     ) {
-    } else {
       document.getElementById('signupPropic').value = '';
       this.setState({
         badFile: true
@@ -83,14 +88,45 @@ export default class Signup extends React.Component {
     }
   }
 
-  handleSignupSubmit(e, signup) {
+  async handleSignupSubmit(e, signup) {
     e.preventDefault();
     //pass email and password to firebase auth
     //grab the User uid from firebase and add it to info being passed to db
     //pass all information to db USER and save
     //redirect to dashboard
+    var picUrl;
+    if (document.getElementById('signupPropic').files[0]) {
+      await getSignedUploadUrl(
+        document.getElementById('signupPropic').files[0].name,
+        (err, url) => {
+          if (err) {
+            console.log(err);
+          } else {
+            axios
+              .put(url, document.getElementById('signupPropic').files[0], {
+                headers: {
+                  'Content-Type': 'binary/octet-stream'
+                }
+              })
+              .catch(err => {
+                console.log('err: ', err);
+              });
+          }
+        }
+      );
+      await getSignedDownloadUrl(
+        document.getElementById('signupPropic').files[0].name,
+        (err, url) => {
+          if (err) {
+            console.log(err);
+          } else {
+            picUrl = url;
+          }
+        }
+      );
+    }
 
-    firebase
+    await firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(result => {
@@ -102,11 +138,17 @@ export default class Signup extends React.Component {
             street_address: this.state.street,
             city: this.state.city,
             state: this.state.state,
-            zip_code: this.state.zipcode
+            zip_code: this.state.zipcode,
+            pic_url: picUrl
           }
-        });
-        this.props.handleToggleSignup();
-        window.location.reload();
+        })
+          .then(() => {
+            this.props.handleToggleSignup();
+            window.location.reload();
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(err => {
         console.log('ERROR:', err);
@@ -243,7 +285,9 @@ export default class Signup extends React.Component {
                         Valid file types: .jpg, .png, .gif, files must be less
                         than 1 MB in size
                       </HelpBlock>
-                      {this.state.badFile && <HelpBlock>Invalid file upload!</HelpBlock>}
+                      {this.state.badFile && (
+                        <HelpBlock>Invalid file upload!</HelpBlock>
+                      )}
                     </Col>
                   </FormGroup>
                   <FormGroup>

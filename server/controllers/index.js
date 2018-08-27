@@ -1,6 +1,7 @@
 const express = require('express');
 const { GraphQLServer } = require('graphql-yoga');
 const { Prisma } = require('prisma-binding');
+const { getSignedUrl, uploadFile } = require('../s3/s3.js');
 
 const options = {
   port: 8080,
