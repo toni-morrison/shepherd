@@ -7,11 +7,19 @@
 # import User from './generated/prisma.graphql'
 
 type Query {
-  findSitters (day: String!, start: Int!, end: Int!, baby: Boolean!, pet: Boolean!, home: Boolean!) : [TimeInterval!]!
+  findSitters(
+    day: String!
+    start: Int!
+    end: Int!
+    baby: Boolean!
+    pet: Boolean!
+    home: Boolean!
+  ): [TimeInterval!]!
   findTodoLists(email: String!): [TodoList!]!
   findInstructions(id: ID!): [Instruction!]!
   getUserInfo(email: String!): User!
   getSitterSchedule(id: String!): [TimeInterval!]!
+  reviewModal(email: String!): [TimeInterval!]!
 }
 
 type Mutation {

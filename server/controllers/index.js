@@ -105,6 +105,20 @@ const resolvers = {
         },
         info
       );
+    },
+    reviewModal: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            appointment: {
+              user: {
+                email: args.email
+              }
+            }
+          }
+        },
+        info
+      );
     }
   },
   Mutation: {

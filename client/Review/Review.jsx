@@ -24,7 +24,7 @@ export default class Review extends React.Component {
       user: '',
       sitter: '',
       //hardcoded appt id for testing
-      id: 'cjl9gl6hrqesx07849oag4k6u'
+      id: this.props.id
     };
     this.onChangeRating = this.onChangeRating.bind(this);
     this.onHandleClick = this.onHandleClick.bind(this);
@@ -54,7 +54,12 @@ export default class Review extends React.Component {
     });
   }
   handleSave() {
-    this.setState({ rating: 3, renderWords: [], value: [], textarea: '' });
+    this.setState(
+      { rating: 3, renderWords: [], value: [], textarea: '' },
+      () => {
+        this.props.closeReviewModal();
+      }
+    );
   }
 
   render() {
