@@ -69,7 +69,6 @@ export default class UserProfile extends React.Component {
                           starRatedColor="gold"
                           starEmptyColor="grey"
                         />{' '}
-                        // pull current user rating from DB
                       </center>
                     </Col>
                   </Row>
@@ -82,7 +81,9 @@ export default class UserProfile extends React.Component {
                             <Image
                               style={{ width: '20vh', maxHeight: '20vh' }}
                               src={
-                                data.getUserInfo.pic_url || this.props.userPic
+                                data.getUserInfo.pic_url ||
+                                this.props.userPic ||
+                                'https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_1280.png'
                               }
                             />
                           </Col>
@@ -149,7 +150,6 @@ export default class UserProfile extends React.Component {
                   <Row>
                     <Col xs={12}>
                       <Well bsSize="large" style={{ width: '100%' }}>
-                        {/* PHOTO OF USER */}
                         <UserProfileUpdate
                           handleUpdate={this.handleUpdate}
                           first_name={data.getUserInfo.first_name}

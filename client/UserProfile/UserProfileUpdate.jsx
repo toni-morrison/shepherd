@@ -52,6 +52,7 @@ export default class UserProfileUpdate extends React.Component {
       zip_code: this.props.zip
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeInput = this.handleChangeInput.bind(this);
   }
 
   async handleSubmit(updateUser) {
@@ -68,7 +69,7 @@ export default class UserProfileUpdate extends React.Component {
             city: this.state.city,
             state: this.state.state,
             zip_code: this.state.zip_code,
-            pic_url: url
+            pic_url: url || undefined
           }
         }).then(({ data }) => {
           this.props.handleUpdate();
@@ -103,7 +104,7 @@ export default class UserProfileUpdate extends React.Component {
                         <ControlLabel>First Name</ControlLabel>{' '}
                         <FormControl
                           type="text"
-                          defaultValue={this.state.first_name}
+                          defaultValue={this.props.first_name}
                           id="first_name"
                           onChange={this.handleChangeInput}
                         />
@@ -115,7 +116,7 @@ export default class UserProfileUpdate extends React.Component {
                         <ControlLabel>Last Name</ControlLabel>{' '}
                         <FormControl
                           type="text"
-                          defaultValue={this.state.last_name}
+                          defaultValue={this.props.last_name}
                           id="last_name"
                           onChange={this.handleChangeInput}
                         />
@@ -131,7 +132,7 @@ export default class UserProfileUpdate extends React.Component {
                         <ControlLabel>Address</ControlLabel>{' '}
                         <FormControl
                           type="text"
-                          defaultValue={this.state.street_address}
+                          defaultValue={this.props.address}
                           id="street_address"
                           onChange={this.handleChangeInput}
                         />
@@ -143,7 +144,7 @@ export default class UserProfileUpdate extends React.Component {
                         <ControlLabel>City</ControlLabel>{' '}
                         <FormControl
                           type="text"
-                          defaultValue={this.state.city}
+                          defaultValue={this.props.city}
                           id="city"
                           onChange={this.handleChangeInput}
                         />
@@ -156,7 +157,7 @@ export default class UserProfileUpdate extends React.Component {
                         <FormControl
                           type="text"
                           style={{ width: '50%' }}
-                          defaultValue={this.state.state}
+                          defaultValue={this.props.state}
                           id="state"
                           onChange={this.handleChangeInput}
                         />
@@ -169,7 +170,7 @@ export default class UserProfileUpdate extends React.Component {
                         <FormControl
                           type="text"
                           style={{ width: '50%' }}
-                          defaultValue={this.state.zip_code}
+                          defaultValue={this.props.zip}
                           id="zip_code"
                           onChange={this.handleChangeInput}
                         />

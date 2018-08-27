@@ -56,6 +56,8 @@ var getSignedUrls = async (document, elId, cb) => {
       }
     });
     await getSignedDownloadUrl(file.name, cb);
+  } else {
+    cb(null, '');
   }
 };
 
