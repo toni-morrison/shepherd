@@ -62,6 +62,7 @@ type Appointment {
   user: User!
   sitter: Sitter!
   comment: String!
+  app_types: [String!]!
   todoList: TodoList
   pending: Boolean
   userRating: Float
