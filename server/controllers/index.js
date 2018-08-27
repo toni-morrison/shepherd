@@ -11,6 +11,21 @@ const options = {
 
 const resolvers = {
   Query: {
+    findAppointments: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            appointment: {
+              user : {
+                id: args.userID
+              }
+            }
+          }
+        },
+        info
+      );
+    },
+    
     findSitters: (_, args, context, info) => {
       let ANDConditions = [{
               day: args.day

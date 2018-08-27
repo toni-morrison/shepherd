@@ -6,6 +6,40 @@ import dates from './dates.js'
 import events from './events.js'
 import AppointmentModal from './AppointmentModal.jsx'
 import CancelModal from './CancelModal.jsx'
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+const FIND_APPOINTMENTS = gql `
+  query findAppointments ($userID: String!) {
+    findAppointments (userID: $userID) {
+      start  
+      end
+      appointment {
+        id,
+        todoList {
+          id
+        }
+        sitterRating,
+        sitter {
+          id
+          rates {
+            child_rate
+            pet_rate
+            home_rate
+          }
+          user {
+            first_name
+            last_name
+          }
+        }
+        user {
+          id
+        }
+      }
+    }
+  }
+`;
+
+
 export default class UserCalendar extends React.Component {
   constructor (props) {
       super(props)
@@ -13,7 +47,9 @@ export default class UserCalendar extends React.Component {
       this.state = {
         modalShow: false,
         cancelShow: false,
-        currentEvent: {}
+        events: events,
+        currentEvent: {},
+        skipped: true
       }
     BigCalendar.setLocalizer(BigCalendar.momentLocalizer (moment))
     this.allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
@@ -52,8 +88,44 @@ export default class UserCalendar extends React.Component {
 
   render () {
     return (<div>
+      <Query query = {FIND_APPOINTMENTS} skipped = {this.state.skipped} variables = {{userID: "cjl5aqepp6jy80784fhlrlmjb"}}>
+        {
+          ({ loading, error, data }) => {
+            if (loading) {
+              return <span></span>
+            }
+            if (error) {
+              return <span></span>
+            }
+            console.log ('data: ', data)
+            let tempData = []
+            data.findAppointments.map (
+              function (timeInt) {
+                let startMin = timeInt.start % 60;
+                let endMin = timeInt.end % 60;
+                startMin = (startMin < 10 ? '0' + startMin : '' + startMin)
+                endMin = (endMin < 10 ? '0' + endMin : '' + endMin)
+                let startHour = Math.floor (timeInt.start / 60);
+                let endHour = Math.floor (timeInt.end / 60);
+                startHour = (startHour < 10 ? '0' + startHour : '' + startHour)
+                endHour = (endHour < 10 ? '0' + endHour : '' + endHour)
+                let startTime = 'T' + startHour + ':' + startMin + ':00'
+                let endTime = 'T' + endHour + ':' + endMin + ':00'
+                tempData.push ({
+                  allDay: false,
+                  id: timeInt.appointment.id,
+                  start: timeInt.day + startTime,
+                  end: timeInt.day + endTime,
+                  
+                })
+              }
+            )
+            return <span></span>
+          }
+        }
+      </Query>
       <BigCalendar
-        events={events}
+        events={this.state.events}
         views={this.allViews}
         step={60}
         showMultiDayTimes
