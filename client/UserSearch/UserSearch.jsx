@@ -206,12 +206,10 @@ export default class UserSearch extends React.Component {
       return (
         <UserSearchResults
           handleSearchClick={this.handleSearchClick}
-          reviews={this.state.currentResults},
-          day = {this.state.currentDay},
-          start = {this.state.currentStart},
-          end = {this.state.currentEnd},
-          values = {this.state.values}
-          
+          reviews={this.state.currentResults}
+          day={this.state.currentDay}
+          start={this.state.currentStart}
+          end={this.state.currentEnd}
         />
       );
     }
