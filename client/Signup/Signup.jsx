@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase from '../../server/firebase/firebase.js';
-import { getSignedUploadUrl, getSignedDownloadUrl } from '../../server/s3/s3';
+import { getSignedUrls } from '../../server/s3/s3';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import axios from 'axios';
@@ -94,65 +94,40 @@ export default class Signup extends React.Component {
     //grab the User uid from firebase and add it to info being passed to db
     //pass all information to db USER and save
     //redirect to dashboard
-    var picUrl;
-    if (document.getElementById('signupPropic').files[0]) {
-      await getSignedUploadUrl(
-        document.getElementById('signupPropic').files[0].name,
-        (err, url) => {
-          if (err) {
-            console.log(err);
-          } else {
-            axios
-              .put(url, document.getElementById('signupPropic').files[0], {
-                headers: {
-                  'Content-Type': 'binary/octet-stream'
-                }
+    await getSignedUrls(document, 'image-file', (err, url) => {
+      if (err) {
+        console.log(err);
+      } else {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.state.email, this.state.password)
+          .then(result => {
+            signup({
+              variables: {
+                email: this.state.email,
+                first_name: this.state.firstname,
+                last_name: this.state.lastname,
+                street_address: this.state.street,
+                city: this.state.city,
+                state: this.state.state,
+                zip_code: this.state.zipcode,
+                pic_url: url
+              }
+            })
+              .then(() => {
+                this.props.handleToggleSignup();
+                window.location.reload();
               })
               .catch(err => {
-                console.log('err: ', err);
+                console.log(err);
               });
-          }
-        }
-      );
-      await getSignedDownloadUrl(
-        document.getElementById('signupPropic').files[0].name,
-        (err, url) => {
-          if (err) {
-            console.log(err);
-          } else {
-            picUrl = url;
-          }
-        }
-      );
-    }
-
-    await firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(result => {
-        signup({
-          variables: {
-            email: this.state.email,
-            first_name: this.state.firstname,
-            last_name: this.state.lastname,
-            street_address: this.state.street,
-            city: this.state.city,
-            state: this.state.state,
-            zip_code: this.state.zipcode,
-            pic_url: picUrl
-          }
-        })
-          .then(() => {
-            this.props.handleToggleSignup();
-            window.location.reload();
           })
           .catch(err => {
-            console.log(err);
+            console.log('ERROR:', err);
           });
-      })
-      .catch(err => {
-        console.log('ERROR:', err);
-      });
+      }
+    });
+    
   }
 
   handleChange(e) {

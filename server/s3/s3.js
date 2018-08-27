@@ -37,6 +37,28 @@ var getSignedDownloadUrl = (fileName, cb) => {
   );
 };
 
+var getSignedUrls = async (document, elId, cb) => {
+  var file = await document.getElementById(elId).files[0];
+  if (file) {
+    await getSignedUploadUrl(file.name, (err, url) => {
+      if (err) {
+        console.log(err);
+      } else {
+        axios
+          .put(url, file, {
+            headers: {
+              'Content-Type': 'binary/octet-stream'
+            }
+          })
+          .catch(err => {
+            console.log('err: ', err);
+          });
+      }
+    });
+    await getSignedDownloadUrl(file.name, cb);
+  }
+};
+
 // Handle promise fulfilled/rejected states
 var uploadFile = () => {
   axios
@@ -53,7 +75,6 @@ var uploadFile = () => {
 };
 
 module.exports = {
-  getSignedUploadUrl,
-  getSignedDownloadUrl,
+  getSignedUrls,
   uploadFile
 };

@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Sat Aug 25 2018 14:21:37 GMT-0500 (GMT-05:00)
+# timestamp: Mon Aug 27 2018 15:51:51 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -33,7 +33,10 @@ type Appointment implements Node {
   id: ID!
   user(where: UserWhereInput): User!
   sitter(where: SitterWhereInput): Sitter!
+  children: Int
+  pets: Int
   comment: String!
+  app_types: [String!]!
   todoList(where: TodoListWhereInput): TodoList
   pending: Boolean
   userRating: Float
@@ -52,13 +55,20 @@ type AppointmentConnection {
   aggregate: AggregateAppointment!
 }
 
+input AppointmentCreateapp_typesInput {
+  set: [String!]
+}
+
 input AppointmentCreateInput {
+  children: Int
+  pets: Int
   comment: String!
   pending: Boolean
   userRating: Float
   sitterRating: Float
   userReview: String
   sitterReview: String
+  app_types: AppointmentCreateapp_typesInput
   user: UserCreateOneInput!
   sitter: SitterCreateOneInput!
   todoList: TodoListCreateOneInput
@@ -81,6 +91,10 @@ type AppointmentEdge {
 enum AppointmentOrderByInput {
   id_ASC
   id_DESC
+  children_ASC
+  children_DESC
+  pets_ASC
+  pets_DESC
   comment_ASC
   comment_DESC
   pending_ASC
@@ -101,7 +115,10 @@ enum AppointmentOrderByInput {
 
 type AppointmentPreviousValues {
   id: ID!
+  children: Int
+  pets: Int
   comment: String!
+  app_types: [String!]!
   pending: Boolean
   userRating: Float
   sitterRating: Float
@@ -148,25 +165,35 @@ input AppointmentSubscriptionWhereInput {
   node: AppointmentWhereInput
 }
 
+input AppointmentUpdateapp_typesInput {
+  set: [String!]
+}
+
 input AppointmentUpdateDataInput {
+  children: Int
+  pets: Int
   comment: String
   pending: Boolean
   userRating: Float
   sitterRating: Float
   userReview: String
   sitterReview: String
+  app_types: AppointmentUpdateapp_typesInput
   user: UserUpdateOneInput
   sitter: SitterUpdateOneInput
   todoList: TodoListUpdateOneInput
 }
 
 input AppointmentUpdateInput {
+  children: Int
+  pets: Int
   comment: String
   pending: Boolean
   userRating: Float
   sitterRating: Float
   userReview: String
   sitterReview: String
+  app_types: AppointmentUpdateapp_typesInput
   user: UserUpdateOneInput
   sitter: SitterUpdateOneInput
   todoList: TodoListUpdateOneInput
@@ -235,6 +262,50 @@ input AppointmentWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  children: Int
+
+  """All values that are not equal to given value."""
+  children_not: Int
+
+  """All values that are contained in given list."""
+  children_in: [Int!]
+
+  """All values that are not contained in given list."""
+  children_not_in: [Int!]
+
+  """All values less than the given value."""
+  children_lt: Int
+
+  """All values less than or equal the given value."""
+  children_lte: Int
+
+  """All values greater than the given value."""
+  children_gt: Int
+
+  """All values greater than or equal the given value."""
+  children_gte: Int
+  pets: Int
+
+  """All values that are not equal to given value."""
+  pets_not: Int
+
+  """All values that are contained in given list."""
+  pets_in: [Int!]
+
+  """All values that are not contained in given list."""
+  pets_not_in: [Int!]
+
+  """All values less than the given value."""
+  pets_lt: Int
+
+  """All values less than or equal the given value."""
+  pets_lte: Int
+
+  """All values greater than the given value."""
+  pets_gt: Int
+
+  """All values greater than or equal the given value."""
+  pets_gte: Int
   comment: String
 
   """All values that are not equal to given value."""

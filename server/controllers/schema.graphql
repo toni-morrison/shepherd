@@ -24,6 +24,7 @@ type Mutation {
     state: String
     zip_code: String
     rating: Int
+    pic_url: String
   ): User!
   createSitter(
     email: String!
@@ -70,6 +71,7 @@ type Mutation {
     city: String
     state: String
     zip_code: String
+    pic_url: String
   ): User!
 
   updateSitter(

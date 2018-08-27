@@ -52,7 +52,11 @@ export default class SitterTabs extends React.Component {
                   <SitterSchedule user={this.props.user} />
                 </Tab.Pane>
                 <Tab.Pane eventKey="fifth">
-                  <SitterProfile user={this.props.user} sitterId={this.props.sitterId} />
+                  <SitterProfile
+                    user={this.props.user}
+                    sitterId={this.props.sitterId}
+                    userPic={this.props.userPic}
+                  />
                 </Tab.Pane>
               </Tab.Content>
             </Col>

@@ -139,7 +139,10 @@ export default class TopTabs extends React.Component {
                       <Tab.Pane eventKey="first">
                         <br />
                         <br />
-                        <UserTabs user={this.props.user} />
+                        <UserTabs
+                          user={this.props.user}
+                          userPic={this.props.userPic}
+                        />
                       </Tab.Pane>
                       <Tab.Pane eventKey="second">
                         <br />
@@ -147,6 +150,7 @@ export default class TopTabs extends React.Component {
                         <SitterTabs
                           user={this.props.user}
                           sitterId={sitterId}
+                          userPic={this.props.userPic}
                         />
                         <SitterJoin
                           user={this.props.user}
