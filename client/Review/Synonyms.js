@@ -1,0 +1,121 @@
+const fiveStar = [
+  'amazing',
+  'impressive',
+  'fantastic',
+  'incredible',
+  'wonderful',
+  'marvelous',
+  'lovely',
+  'excellent',
+  'perfect',
+  'superb',
+  'tremendous',
+  'delightful',
+  'remarkable',
+  'groovy',
+  'nifty',
+  'exquisite',
+  'gifted',
+  'sensational',
+  'whizzer'
+];
+
+const fourStar = [
+  'good',
+  'nice',
+  'solid',
+  'pleasing',
+  'neat',
+  'kind',
+  'acceptable',
+  'dependable',
+  'suitable',
+  'adept',
+  'effective',
+  'practiced',
+  'sound',
+  'good-hearted',
+  'slap-up',
+  'pretty great',
+  'on time',
+  'clean',
+  'nice',
+  'very good',
+  'very nice',
+  'very clean'
+];
+
+const threeStar = [
+  'okay',
+  'alright',
+  'fine',
+  'all right',
+  'not bad',
+  'on time',
+  'did fine',
+  'clean',
+  'dependable',
+  'not great',
+  'not good',
+  'just fine',
+  'could be better',
+  'could be worse',
+  'on time',
+  'clean',
+  'nice',
+  'friendly',
+  'average',
+  'meh',
+  'aight'
+];
+
+const twoStar = [
+  'lesser',
+  'iffy',
+  'pretty bad',
+  'not good',
+  'sub par',
+  'not horrible',
+  'pretty bad',
+  'below average',
+  'questionable',
+  'arrived',
+  'late',
+  'messy',
+  'meh...',
+  'ehh',
+  'bleh',
+  'feh',
+  'not competent'
+];
+
+const oneStar = [
+  'horrendous',
+  'dreadful',
+  'awful',
+  'atrocious',
+  'bad',
+  'horrific',
+  'unspeakable',
+  'frightening',
+  'dire',
+  'alarming',
+  'horrible',
+  'not the person in the photo',
+  'weeb',
+  'furry',
+  'wretched',
+  'disgusting',
+  'wretched',
+  'European',
+  'catastrophic',
+  'hellish'
+];
+
+module.exports = {
+  fiveStar,
+  fourStar,
+  threeStar,
+  twoStar,
+  oneStar
+};
