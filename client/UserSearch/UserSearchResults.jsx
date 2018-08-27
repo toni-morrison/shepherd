@@ -2,22 +2,39 @@ import React from 'react';
 import UserSitterRequest from '../UserSitterRequest/UserSitterRequest.jsx';
 import { Button, Well, Image, Row, Col } from 'react-bootstrap';
 import StarRatings from 'react-star-ratings';
+import { renderToStringWithData } from '../../node_modules/react-apollo';
 
 export default class UserSearchResults extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      showUserSitterRequest: false
+      showUserSitterRequest: false,
+      currentId: '',
+      child_rate: undefined,
+      child_addl: undefined,
+      pet_rate: undefined,
+      pet_addl: undefined,
+      home: undefined,
+      first_name: '',
+      last_name: ''
     };
 
     this.showUserSitterRequest = this.showUserSitterRequest.bind(this);
     this.hideUserSitterRequest = this.hideUserSitterRequest.bind(this);
   }
 
-  showUserSitterRequest() {
+  showUserSitterRequest(e, id, first, last, child, childPlus, pet, petPlus, house) {
     this.setState({
-      showUserSitterRequest: true
+      showUserSitterRequest: true,
+      currentId: id,
+      child_rate: child,
+      child_addl: childPlus,
+      pet_rate: pet,
+      pet_addl: petPlus,
+      home: house,
+      first_name: first,
+      last_name: last
     });
   }
 
@@ -102,17 +119,28 @@ export default class UserSearchResults extends React.Component {
                         </h4>
                       </Row>
                     </Col>
-                    <Button onClick={this.showUserSitterRequest}>
+                    <Button onClick={(e) => this.showUserSitterRequest(
+                      e, review.id, review.user.first_name, review.user.last_name,
+                      review.rates.child_rate, review.rates.child_addl, review.rates.pet_rate,
+                      review.rates.pet_addl, review.rates.home_rate)}>
                       Request Sitter
                     </Button>
                     <UserSitterRequest
                       show={this.state.showUserSitterRequest}
                       showTrue={this.showUserSitterRequest}
                       showOff={this.hideUserSitterRequest}
-                      reviews={this.props.reviews}
+                      id={this.state.currentId}
+                      child={this.state.child_rate}
+                      child_addl={this.state.child_addl}
+                      pet={this.state.pet_rate}
+                      pet_addl={this.state.pet_addl}
+                      home={this.state.home}
                       day={this.props.day}
                       start={this.props.start}
                       end={this.props.end}
+                      first_name={this.state.first_name}
+                      last_name={this.state.last_name}
+                      review={review}
                     />
                   </Row>
                 </Well>
