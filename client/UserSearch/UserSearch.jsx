@@ -92,15 +92,30 @@ export default class UserSearch extends React.Component {
   }
 
   handleStartChange(newDate) {
-    let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
+    let newMonth = (newDate._d.getMonth() < 10 ? 
+                    '0' + newDate._d.getMonth() 
+                    : '' + newDate._d.getMonth())
+    let newYear = newDate._d.getFullYear();
+    let newDay = (newDate._d.getDate() < 10 ? 
+                  '0' + newDate._d.getDate()
+                  : '' + newDate._d.getDate())
+    let newDateString = newMonth + ' ' + newDay + ' ' + newYear
     this.setState({
-      currentStart: newDate._d,
+      currentStart: newDateString,
       currentDay: this.dateObj[newDay]
     });
   }
   handleEndChange(newDate) {
+    let newMonth = (newDate._d.getMonth() < 10 ? 
+                    '0' + newDate._d.getMonth() 
+                    : '' + newDate._d.getMonth())
+    let newYear = newDate._d.getFullYear();
+    let newDay = (newDate._d.getDate() < 10 ? 
+                  '0' + newDate._d.getDate()
+                  : '' + newDate._d.getDate())
+    let newDateString = newMonth + ' ' + newDay + ' ' + newYear
     this.setState({
-      currentEnd: newDate._d
+      currentEnd: newDateString
     });
   }
 
