@@ -7,7 +7,6 @@ import TopTabs from './Tabs/TopTabs.jsx';
 import SplashPage from './SplashPage/SplashPage.jsx';
 import { CircleLoader } from 'react-spinners';
 import firebase from '../server/firebase/firebase.js';
-import Review from './Review/Review.jsx';
 
 const client = new ApolloClient({
   uri: 'http://localhost:8080/graphql'
@@ -59,7 +58,6 @@ class App extends React.Component {
         <ApolloProvider client={client}>
           <TopTabs user={this.state.user} />
           <SplashPage user={this.state.user} />
-          <Review />
         </ApolloProvider>
       );
     }
