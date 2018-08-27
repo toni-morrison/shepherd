@@ -61,6 +61,8 @@ type Appointment {
   id: ID! @unique
   user: User!
   sitter: Sitter!
+  children: Int
+  pets: Int
   comment: String!
   app_types: [String!]!
   todoList: TodoList
