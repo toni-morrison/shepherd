@@ -4,7 +4,8 @@ import UserTabs from './UserTabs.jsx';
 import SitterTabs from './SitterTabs.jsx';
 import SitterJoin from '../SitterJoin/SitterJoin.jsx';
 import ReviewModal from './ReviewModal.js';
-import Review from '../Review/Review.jsx';
+import UserReview from '../Review/UserReview.jsx';
+import SitterReview from '../Review/SitterReview.jsx';
 import { days } from '../SitterJoin/Days.js';
 import { CircleLoader } from 'react-spinners';
 import { Query } from 'react-apollo';
@@ -28,6 +29,7 @@ export default class TopTabs extends React.Component {
       key: 'first',
       submitted: false,
       renderReviewModal: false,
+      renderSitterReviewModal: false,
       appointmentId: '',
       displayTime: ''
     };
@@ -83,18 +85,38 @@ export default class TopTabs extends React.Component {
   }
 
   handleReviewModal(obj) {
+    console.log('toptabs fired');
     if (this.state.appointmentId.length === 0) {
-      this.setState({
-        renderReviewModal: true,
-        appointmentId: obj.id,
-        displayTime: obj.display
-      });
+      if (obj.user === this.props.user) {
+        this.setState(
+          {
+            renderUserReviewModal: true,
+            appointmentId: obj.id,
+            displayTime: obj.display
+          },
+          () => {
+            console.log('toptabs state:', this.state);
+          }
+        );
+      } else if (obj.sitter === this.props.user) {
+        this.setState(
+          {
+            renderSitterReviewModal: true,
+            appointmentId: obj.id,
+            displayTime: obj.display
+          },
+          () => {
+            console.log('toptabs state:', this.state);
+          }
+        );
+      }
     }
   }
 
   closeReviewModal() {
     this.setState({
-      renderReviewModal: false
+      renderUserReviewModal: false,
+      renderSitterReviewModal: false
     });
   }
 
@@ -121,6 +143,8 @@ export default class TopTabs extends React.Component {
               const sitterId = data.getUserInfo.sitter
                 ? data.getUserInfo.sitter.id
                 : null;
+              console.log('sitter query:', sitterId, 'email:', this.props.user);
+
               return (
                 <Tab.Container
                   id="top-tabs"
@@ -182,26 +206,42 @@ export default class TopTabs extends React.Component {
                         </Tab.Pane>
                       </Tab.Content>
                     </Col>
+                    <ReviewModal
+                      handleReviewModal={this.handleReviewModal}
+                      user={this.props.user}
+                      sitterId={sitterId}
+                    />
+                    <Modal show={this.state.renderUserReviewModal}>
+                      <Modal.Header>
+                        <Modal.Title>
+                          Review Appointment That Ended:{' '}
+                          {this.state.displayTime}
+                        </Modal.Title>
+                      </Modal.Header>
+                      <UserReview
+                        user={this.props.user}
+                        id={this.state.appointmentId}
+                        closeReviewModal={this.closeReviewModal}
+                      />
+                    </Modal>
+                    <Modal show={this.state.renderSitterReviewModal}>
+                      <Modal.Header>
+                        <Modal.Title>
+                          Review Appointment That Ended:{' '}
+                          {this.state.displayTime}
+                        </Modal.Title>
+                      </Modal.Header>
+                      <SitterReview
+                        user={this.props.user}
+                        id={this.state.appointmentId}
+                        closeReviewModal={this.closeReviewModal}
+                      />
+                    </Modal>
                   </Row>
                 </Tab.Container>
               );
             }}
           </Query>
-          <ReviewModal
-            handleReviewModal={this.handleReviewModal}
-            user={'debbie@hr.com'}
-          />
-          <Modal show={this.state.renderReviewModal}>
-            <Modal.Header>
-              <Modal.Title>
-                Review Appointment That Ended: {this.state.displayTime}
-              </Modal.Title>
-            </Modal.Header>
-            <Review
-              id={this.state.appointmentId}
-              closeReviewModal={this.closeReviewModal}
-            />
-          </Modal>
         </div>
       );
     }

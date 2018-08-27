@@ -13,7 +13,7 @@ const stars = {
   5: fiveStar
 };
 
-export default class Review extends React.Component {
+export default class UserReview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,9 +21,9 @@ export default class Review extends React.Component {
       renderWords: [],
       value: [],
       textarea: '',
-      user: '',
+      user: this.props.user,
       sitter: '',
-      //hardcoded appt id for testing
+
       id: this.props.id
     };
     this.onChangeRating = this.onChangeRating.bind(this);

@@ -110,11 +110,24 @@ const resolvers = {
       return context.prisma.query.timeIntervals(
         {
           where: {
-            appointment: {
-              user: {
-                email: args.email
+            OR: [
+              {
+                appointment: {
+                  user: {
+                    email: args.email
+                  }
+                }
+              },
+              {
+                appointment: {
+                  sitter: {
+                    user: {
+                      email: args.email
+                    }
+                  }
+                }
               }
-            }
+            ]
           }
         },
         info
