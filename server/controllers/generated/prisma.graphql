@@ -1,9 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-<<<<<<< HEAD
-# timestamp: Mon Aug 27 2018 15:51:51 GMT-0500 (GMT-05:00)
-=======
-# timestamp: Mon Aug 27 2018 18:14:04 GMT-0500 (GMT-05:00)
->>>>>>> dev
+# timestamp: Mon Aug 27 2018 18:56:51 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -39,10 +35,7 @@ type Appointment implements Node {
   sitter(where: SitterWhereInput): Sitter!
   children: Int
   pets: Int
-<<<<<<< HEAD
-=======
   price: Float!
->>>>>>> dev
   comment: String!
   app_types: [String!]!
   todoList(where: TodoListWhereInput): TodoList
@@ -70,10 +63,7 @@ input AppointmentCreateapp_typesInput {
 input AppointmentCreateInput {
   children: Int
   pets: Int
-<<<<<<< HEAD
-=======
   price: Float!
->>>>>>> dev
   comment: String!
   status: AppStatus!
   userRating: Float
@@ -107,11 +97,8 @@ enum AppointmentOrderByInput {
   children_DESC
   pets_ASC
   pets_DESC
-<<<<<<< HEAD
-=======
   price_ASC
   price_DESC
->>>>>>> dev
   comment_ASC
   comment_DESC
   status_ASC
@@ -134,16 +121,10 @@ type AppointmentPreviousValues {
   id: ID!
   children: Int
   pets: Int
-<<<<<<< HEAD
-  comment: String!
-  app_types: [String!]!
-  pending: Boolean
-=======
   price: Float!
   comment: String!
   app_types: [String!]!
   status: AppStatus!
->>>>>>> dev
   userRating: Float
   sitterRating: Float
   userReview: String
@@ -196,10 +177,7 @@ input AppointmentUpdateapp_typesInput {
 input AppointmentUpdateDataInput {
   children: Int
   pets: Int
-<<<<<<< HEAD
-=======
   price: Float
->>>>>>> dev
   comment: String
   status: AppStatus
   userRating: Float
@@ -215,10 +193,7 @@ input AppointmentUpdateDataInput {
 input AppointmentUpdateInput {
   children: Int
   pets: Int
-<<<<<<< HEAD
-=======
   price: Float
->>>>>>> dev
   comment: String
   status: AppStatus
   userRating: Float
@@ -338,8 +313,6 @@ input AppointmentWhereInput {
 
   """All values greater than or equal the given value."""
   pets_gte: Int
-<<<<<<< HEAD
-=======
   price: Float
 
   """All values that are not equal to given value."""
@@ -362,7 +335,6 @@ input AppointmentWhereInput {
 
   """All values greater than or equal the given value."""
   price_gte: Float
->>>>>>> dev
   comment: String
 
   """All values that are not equal to given value."""
