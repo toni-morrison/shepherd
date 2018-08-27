@@ -1,3 +1,4 @@
+import React from 'react'
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 const FIND_APPOINTMENTS = gql `
@@ -34,31 +35,55 @@ const FIND_APPOINTMENTS = gql `
   }
 `;
 function CalendarQuery (props) {
-  return (<Query
-            query={FIND_SITTERS}
-            variables={{
-              day: this.state.currentDay,
-              start: this.state.currentStart,
-              end: this.state.currentEnd,
-              baby: this.state.value.includes('baby'),
-              pet: this.state.value.includes('pet'),
-              home: this.state.value.includes('house')
-            }}
-          >
-            {({ loading, error, data }) => {
-              if (loading) {
-                return <span />;
+  return (<Query query = {FIND_APPOINTMENTS} variables = {{userID: "cjl5aqepp6jy80784fhlrlmjb"}} >
+        {
+          ({ loading, error, data }) => {
+            if (loading) {
+              return <span></span>
+            }
+            if (error) {
+              return <span></span>
+            }
+            console.log ('data: ', data)
+            let tempData = []
+            data.findAppointments.map (
+              function (timeInt) {
+                let startMin = timeInt.start % 60;
+                let endMin = timeInt.end % 60;
+                startMin = (startMin < 10 ? '0' + startMin : '' + startMin)
+                endMin = (endMin < 10 ? '0' + endMin : '' + endMin)
+                let startHour = Math.floor (timeInt.start / 60);
+                let endHour = Math.floor (timeInt.end / 60);
+                startHour = (startHour < 10 ? '0' + startHour : '' + startHour)
+                endHour = (endHour < 10 ? '0' + endHour : '' + endHour)
+                let startTime = timeInt.day + 'T' + startHour + ':' + startMin + ':00'
+                let endTime = timeInt.day + 'T' + endHour + ':' + endMin + ':00'
+                startTime = new Date (startTime)
+                endTime = new Date (endTime)
+                console.log ('startTime: ', startTime)
+                console.log ('endTime: ', endTime)
+                let cost = 0;
+                for (var i = 0; i < timeInt.application.app_types.length; i++) {
+                  cost += ((timeInt.start - timeInt.End) / 60) * timeInt.application.sitter.rates [timeInt.application.app_types[i] + '_rate']
+                }
+                tempData.push ({
+                  allDay: false,
+                  appointmentID: timeInt.appointment.id,
+                  start: startTime,
+                  end: endTime,
+                  userID: timeInt.appointment.user.id,
+                  sitterID: timeInt.appointment.sitter.id,
+                  status: timeInt.appointment.pending,
+                  username: timeInt.appointment.sitter.user.first_name + ' ' + timeInt.appointment.sitter.user.last_name,
+                  instructionID: (timeInt.appointment.todoList !== null ? timeInt.appointment.todoList.id : null)
+                })
               }
-              if (error) {
-                console.log('error: ', error);
-                return <span />;
-              }
-              let sitterData = [];
-              data.findSitters.map(interval =>
-                sitterData.push(interval.sitter)
-              );
-              this.state.currentResults = sitterData;
-              return <span />;
-            }}
-          </Query>)
+            )
+            console.log ('tempData: ', tempData)
+            props.handleQuery (tempData)
+            return <span></span>
+          }
+        }
+      </Query>)
 }
+export default CalendarQuery
