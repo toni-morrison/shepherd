@@ -114,33 +114,7 @@ export default class UserSearch extends React.Component {
     if (this.state.searchResults === false) {
       return (
         <div>
-          <Query
-            query={FIND_SITTERS}
-            variables={{
-              day: this.state.currentDay,
-              start: this.state.currentStart,
-              end: this.state.currentEnd,
-              baby: this.state.value.includes('baby'),
-              pet: this.state.value.includes('pet'),
-              home: this.state.value.includes('house')
-            }}
-          >
-            {({ loading, error, data }) => {
-              if (loading) {
-                return <span />;
-              }
-              if (error) {
-                console.log('error: ', error);
-                return <span />;
-              }
-              let sitterData = [];
-              data.findSitters.map(interval =>
-                sitterData.push(interval.sitter)
-              );
-              this.state.currentResults = sitterData;
-              return <span />;
-            }}
-          </Query>
+          
           <Grid>
             <Row>
               <Col xs={6} xsOffset={3}>

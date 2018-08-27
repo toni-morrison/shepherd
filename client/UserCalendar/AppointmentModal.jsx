@@ -18,7 +18,7 @@ function AppointmentModal (props) {
             {  
               (props.currentEvent.instructions) ?
                 props.currentEvent.instructions.map (function (instruction) {return (<li>{instruction}</li>)})
-                : <li>Instruction Here</li>
+                : <li>No Instructions</li>
             }
           </ul>
         </div>

@@ -13,12 +13,15 @@ const FIND_APPOINTMENTS = gql `
     findAppointments (userID: $userID) {
       start  
       end
+      day
       appointment {
-        id,
+        id
+        pending
+        app_types
         todoList {
           id
         }
-        sitterRating,
+        sitterRating
         sitter {
           id
           rates {
@@ -49,7 +52,7 @@ export default class UserCalendar extends React.Component {
         cancelShow: false,
         events: events,
         currentEvent: {},
-        skipped: true
+        skipped: false
       }
     BigCalendar.setLocalizer(BigCalendar.momentLocalizer (moment))
     this.allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
@@ -88,7 +91,7 @@ export default class UserCalendar extends React.Component {
 
   render () {
     return (<div>
-      <Query query = {FIND_APPOINTMENTS} skipped = {this.state.skipped} variables = {{userID: "cjl5aqepp6jy80784fhlrlmjb"}}>
+      <Query query = {FIND_APPOINTMENTS} skip = {this.state.skipped} variables = {{userID: "cjl5aqepp6jy80784fhlrlmjb"}} >
         {
           ({ loading, error, data }) => {
             if (loading) {
@@ -109,17 +112,30 @@ export default class UserCalendar extends React.Component {
                 let endHour = Math.floor (timeInt.end / 60);
                 startHour = (startHour < 10 ? '0' + startHour : '' + startHour)
                 endHour = (endHour < 10 ? '0' + endHour : '' + endHour)
-                let startTime = 'T' + startHour + ':' + startMin + ':00'
-                let endTime = 'T' + endHour + ':' + endMin + ':00'
+                let startTime = timeInt.day + 'T' + startHour + ':' + startMin + ':00'
+                let endTime = timeInt.day + 'T' + endHour + ':' + endMin + ':00'
+                startTime = new Date (startTime)
+                endTime = new Date (endTime)
+                console.log ('startTime: ', startTime)
+                console.log ('endTime: ', endTime)
                 tempData.push ({
                   allDay: false,
-                  id: timeInt.appointment.id,
-                  start: timeInt.day + startTime,
-                  end: timeInt.day + endTime,
-                  
+                  appointmentID: timeInt.appointment.id,
+                  start: startTime,
+                  end: endTime,
+                  userID: timeInt.appointment.user.id,
+                  sitterID: timeInt.appointment.sitter.id,
+                  status: timeInt.appointment.pending,
+                  username: timeInt.appointment.sitter.user.first_name + ' ' + timeInt.appointment.sitter.user.last_name,
+                  instructionID: (timeInt.appointment.todoList !== null ? timeInt.appointment.todoList.id : null)
                 })
               }
             )
+            console.log ('tempData: ', tempData)
+            console.log ('skipped: ', this.state.skipped)
+            this.setState ({
+              events: tempData    
+            })
             return <span></span>
           }
         }
