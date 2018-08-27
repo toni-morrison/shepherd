@@ -63,7 +63,7 @@ function CalendarQuery (props) {
                 console.log ('startTime: ', startTime)
                 console.log ('endTime: ', endTime)
                 let cost = 0;
-                for (var i = 0; i < timeInt.application.app_types.length; i++) {
+                for (var i = 0; i < timeInt.appointment.app_types.length; i++) {
                   cost += ((timeInt.start - timeInt.End) / 60) * timeInt.application.sitter.rates [timeInt.application.app_types[i] + '_rate']
                 }
                 tempData.push ({
