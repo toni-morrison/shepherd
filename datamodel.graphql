@@ -10,6 +10,7 @@ type User {
   gCalID: String
   rating: Float
   sitter: Sitter
+  pic_url: String
 }
 
 type SitterRate {
@@ -24,7 +25,6 @@ type TimeInterval {
   appointment: Appointment
   sitter: Sitter
   day: String
-  date: DateTime
   start: Int!
   end: Int!
 }
@@ -61,7 +61,10 @@ type Appointment {
   id: ID! @unique
   user: User!
   sitter: Sitter!
+  children: Int
+  pets: Int
   comment: String!
+  app_types: [String!]!
   todoList: TodoList
   pending: Boolean
   userRating: Float

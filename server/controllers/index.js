@@ -294,6 +294,24 @@ const resolvers = {
         info
       );
     },
+    updateAppointment: (_, args, context, info) => {
+      return context.prisma.mutation.updateAppointment(
+        {
+          data: {
+            todoList: args.todoList,
+            pending: args.pending,
+            userRating: args.userRating,
+            sitterRating: args.sitterRating,
+            userReview: args.userReview,
+            sitterReview: args.sitterReview
+          },
+          where: {
+            id: args.id
+          }
+        },
+        info
+      );
+    },
     updateSchedule: (_, args, context, info) => {
       return context.prisma.mutation.updateManyTimeIntervals(
         {
