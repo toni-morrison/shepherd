@@ -7,11 +7,19 @@
 # import User from './generated/prisma.graphql'
 
 type Query {
-  findSitters (day: String!, start: Int!, end: Int!, baby: Boolean!, pet: Boolean!, home: Boolean!) : [TimeInterval!]!
+  findSitters(
+    day: String!
+    start: Int!
+    end: Int!
+    baby: Boolean!
+    pet: Boolean!
+    home: Boolean!
+  ): [TimeInterval!]!
   findTodoLists(email: String!): [TodoList!]!
   findInstructions(id: ID!): [Instruction!]!
   getUserInfo(email: String!): User!
   getSitterSchedule(id: String!): [TimeInterval!]!
+  reviewModal(email: String!): [TimeInterval!]!
 }
 
 type Mutation {
@@ -29,18 +37,13 @@ type Mutation {
   createSitter(
     email: String!
     bio: String!
-    child_rate: Float,
-    child_addl: Float,
-    pet_rate: Float,
-    pet_addl: Float,
+    child_rate: Float
+    child_addl: Float
+    pet_rate: Float
+    pet_addl: Float
     home_rate: Float
   ): Sitter!
-  createSchedule(
-    id: ID!
-    day: String!
-    start: Int!
-    end: Int!
-  ): TimeInterval!
+  createSchedule(id: ID!, day: String!, start: Int!, end: Int!): TimeInterval!
   createList(
     email: String!
     name: String!
@@ -85,10 +88,19 @@ type Mutation {
     home_rate: Float
   ): Sitter!
 
+  updateAppointment(
+    id: ID!
+    todoList: ID
+    pending: Boolean
+    userRating: Float
+    sitterRating: Float
+    userReview: String
+    sitterReview: String
+  ): Appointment!
   updateSchedule(
-    start: Float,
-    end: Float,
-    day: String,
+    start: Float
+    end: Float
+    day: String
     id: String
   ): BatchPayload!
 }

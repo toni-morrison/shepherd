@@ -3,6 +3,9 @@ import { Row, Col, Tab, Nav, NavItem, Modal, Button } from 'react-bootstrap';
 import UserTabs from './UserTabs.jsx';
 import SitterTabs from './SitterTabs.jsx';
 import SitterJoin from '../SitterJoin/SitterJoin.jsx';
+import ReviewModal from './ReviewModal.js';
+import UserReview from '../Review/UserReview.jsx';
+import SitterReview from '../Review/SitterReview.jsx';
 import { days } from '../SitterJoin/Days.js';
 import { CircleLoader } from 'react-spinners';
 import { Query } from 'react-apollo';
@@ -24,10 +27,16 @@ export default class TopTabs extends React.Component {
 
     this.state = {
       key: 'first',
-      submitted: false
+      submitted: false,
+      renderReviewModal: false,
+      renderSitterReviewModal: false,
+      appointmentId: '',
+      displayTime: ''
     };
     this.toggleSubmitted = this.toggleSubmitted.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleReviewModal = this.handleReviewModal.bind(this);
+    this.closeReviewModal = this.closeReviewModal.bind(this);
   }
 
   toggleSubmitted() {
@@ -75,98 +84,169 @@ export default class TopTabs extends React.Component {
     });
   }
 
+  handleReviewModal(obj) {
+    console.log('toptabs fired');
+    if (this.state.appointmentId.length === 0) {
+      if (obj.user === this.props.user) {
+        this.setState(
+          {
+            renderUserReviewModal: true,
+            appointmentId: obj.id,
+            displayTime: obj.display
+          },
+          () => {
+            console.log('toptabs state:', this.state);
+          }
+        );
+      } else if (obj.sitter === this.props.user) {
+        this.setState(
+          {
+            renderSitterReviewModal: true,
+            appointmentId: obj.id,
+            displayTime: obj.display
+          },
+          () => {
+            console.log('toptabs state:', this.state);
+          }
+        );
+      }
+    }
+  }
+
+  closeReviewModal() {
+    this.setState({
+      renderUserReviewModal: false,
+      renderSitterReviewModal: false
+    });
+  }
+
   render() {
     if (!this.props.user) {
       return null;
     } else {
       return (
-        <Query query={GET_USER_INFO} variables={{ email: this.props.user }}>
-          {({ loading, error, data, refetch }) => {
-            if (loading)
+        <div>
+          <Query query={GET_USER_INFO} variables={{ email: this.props.user }}>
+            {({ loading, error, data, refetch }) => {
+              if (loading)
+                return (
+                  <div className="loader">
+                    <CircleLoader
+                      sizeUnit={'px'}
+                      size={150}
+                      color={'#123abc'}
+                      loading={loading}
+                    />
+                  </div>
+                );
+              if (error) return <p>Error :(</p>;
+              const sitterId = data.getUserInfo.sitter
+                ? data.getUserInfo.sitter.id
+                : null;
+              console.log('sitter query:', sitterId, 'email:', this.props.user);
+
               return (
-                <div className="loader">
-                  <CircleLoader
-                    sizeUnit={'px'}
-                    size={150}
-                    color={'#123abc'}
-                    loading={loading}
-                  />
-                </div>
-              );
-            if (error) return <p>Error :(</p>;
-            const sitterId = data.getUserInfo.sitter
-              ? data.getUserInfo.sitter.id
-              : null;
-            return (
-              <Tab.Container
-                id="top-tabs"
-                activeKey={this.state.key}
-                onSelect={e => this.setState({ key: e })}
-              >
-                <Row className="clearfix">
-                  {this.state.submitted && (
-                    <Modal
-                      show={this.state.submitted}
-                      onHide={this.toggleSubmitted}
-                      container={this}
-                      aria-labelledby="contained-modal-title"
-                    >
-                      <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title">
-                          Congratulations!
+                <Tab.Container
+                  id="top-tabs"
+                  activeKey={this.state.key}
+                  onSelect={e => this.setState({ key: e })}
+                >
+                  <Row className="clearfix">
+                    {this.state.submitted && (
+                      <Modal
+                        show={this.state.submitted}
+                        onHide={this.toggleSubmitted}
+                        container={this}
+                        aria-labelledby="contained-modal-title"
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title id="contained-modal-title">
+                            Congratulations!
+                          </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          You are now registered as a Sitter! Click on the
+                          Sitter tab to see your earnings and modify your
+                          availability and pricing.
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button onClick={this.toggleSubmitted}>Close</Button>
+                        </Modal.Footer>
+                      </Modal>
+                    )}
+                    <Col sm={12}>
+                      <Nav bsStyle="tabs" className="nav-justified">
+                        <NavItem eventKey="first">USER</NavItem>
+                        <NavItem eventKey="second">
+                          {sitterId ? 'SITTER' : 'BECOME A SITTER'}
+                        </NavItem>
+                      </Nav>
+                    </Col>
+                    <Col sm={12}>
+                      <Tab.Content animation={false}>
+                        <Tab.Pane eventKey="first">
+                          <br />
+                          <br />
+                          <UserTabs
+                            user={this.props.user}
+                            userPic={this.props.userPic}
+                          />
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="second">
+                          <br />
+                          <br />
+                          <SitterTabs
+                            user={this.props.user}
+                            sitterId={sitterId}
+                            userPic={this.props.userPic}
+                          />
+                          <SitterJoin
+                            user={this.props.user}
+                            sitterId={sitterId}
+                            toggleSubmitted={this.toggleSubmitted}
+                            handleSubmit={this.handleSubmit}
+                            refetch={refetch}
+                          />
+                        </Tab.Pane>
+                      </Tab.Content>
+                    </Col>
+                    <ReviewModal
+                      handleReviewModal={this.handleReviewModal}
+                      user={this.props.user}
+                      sitterId={sitterId}
+                    />
+                    <Modal show={this.state.renderUserReviewModal}>
+                      <Modal.Header>
+                        <Modal.Title>
+                          Review Appointment That Ended:{' '}
+                          {this.state.displayTime}
                         </Modal.Title>
                       </Modal.Header>
-                      <Modal.Body>
-                        You are now registered as a Sitter! Click on the Sitter
-                        tab to see your earnings and modify your availability
-                        and pricing.
-                      </Modal.Body>
-                      <Modal.Footer>
-                        <Button onClick={this.toggleSubmitted}>Close</Button>
-                      </Modal.Footer>
+                      <UserReview
+                        user={this.props.user}
+                        id={this.state.appointmentId}
+                        closeReviewModal={this.closeReviewModal}
+                      />
                     </Modal>
-                  )}
-                  <Col sm={12}>
-                    <Nav bsStyle="tabs" className="nav-justified">
-                      <NavItem eventKey="first">USER</NavItem>
-                      <NavItem eventKey="second">
-                        {sitterId ? 'SITTER' : 'BECOME A SITTER'}
-                      </NavItem>
-                    </Nav>
-                  </Col>
-                  <Col sm={12}>
-                    <Tab.Content animation={false}>
-                      <Tab.Pane eventKey="first">
-                        <br />
-                        <br />
-                        <UserTabs
-                          user={this.props.user}
-                          userPic={this.props.userPic}
-                        />
-                      </Tab.Pane>
-                      <Tab.Pane eventKey="second">
-                        <br />
-                        <br />
-                        <SitterTabs
-                          user={this.props.user}
-                          sitterId={sitterId}
-                          userPic={this.props.userPic}
-                        />
-                        <SitterJoin
-                          user={this.props.user}
-                          sitterId={sitterId}
-                          toggleSubmitted={this.toggleSubmitted}
-                          handleSubmit={this.handleSubmit}
-                          refetch={refetch}
-                        />
-                      </Tab.Pane>
-                    </Tab.Content>
-                  </Col>
-                </Row>
-              </Tab.Container>
-            );
-          }}
-        </Query>
+                    <Modal show={this.state.renderSitterReviewModal}>
+                      <Modal.Header>
+                        <Modal.Title>
+                          Review Appointment That Ended:{' '}
+                          {this.state.displayTime}
+                        </Modal.Title>
+                      </Modal.Header>
+                      <SitterReview
+                        user={this.props.user}
+                        id={this.state.appointmentId}
+                        closeReviewModal={this.closeReviewModal}
+                      />
+                    </Modal>
+                  </Row>
+                </Tab.Container>
+              );
+            }}
+          </Query>
+        </div>
       );
     }
   }

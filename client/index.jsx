@@ -26,17 +26,23 @@ class App extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.setState({ user: user.email, pic: user.photoURL, loaded: false }, () => {
-          setTimeout(() => {
-            this.setState({ loaded: true });
-          }, 500);
-        });
+        this.setState(
+          { user: user.email, pic: user.photoURL, loaded: false },
+          () => {
+            setTimeout(() => {
+              this.setState({ loaded: true });
+            }, 500);
+          }
+        );
       } else {
-        this.setState({ user: undefined, pic: undefined, loaded: false }, () => {
-          setTimeout(() => {
-            this.setState({ loaded: true });
-          }, 500);
-        });
+        this.setState(
+          { user: undefined, pic: undefined, loaded: false },
+          () => {
+            setTimeout(() => {
+              this.setState({ loaded: true });
+            }, 500);
+          }
+        );
       }
     });
   }

@@ -106,6 +106,33 @@ const resolvers = {
         },
         info
       );
+    },
+    reviewModal: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            OR: [
+              {
+                appointment: {
+                  user: {
+                    email: args.email
+                  }
+                }
+              },
+              {
+                appointment: {
+                  sitter: {
+                    user: {
+                      email: args.email
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        info
+      );
     }
   },
   Mutation: {
@@ -289,6 +316,24 @@ const resolvers = {
                 }
               }
             }
+          },
+          where: {
+            id: args.id
+          }
+        },
+        info
+      );
+    },
+    updateAppointment: (_, args, context, info) => {
+      return context.prisma.mutation.updateAppointment(
+        {
+          data: {
+            todoList: args.todoList,
+            pending: args.pending,
+            userRating: args.userRating,
+            sitterRating: args.sitterRating,
+            userReview: args.userReview,
+            sitterReview: args.sitterReview
           },
           where: {
             id: args.id
