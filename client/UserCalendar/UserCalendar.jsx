@@ -42,7 +42,6 @@ export default class UserCalendar extends React.Component {
     this.setState ({cancelShow: false})
   }
   handleOpenCancel () {
-    console.log ('cancelShow: ', this.state.cancelShow)
     this.setState ({cancelShow: true})
   }
   
@@ -58,55 +57,6 @@ export default class UserCalendar extends React.Component {
   handleCloseApnt () {
     this.setState({modalShow: false})
   }
-  
-//          <Query query = {FIND_APPOINTMENTS} skip = {this.state.skipped} variables = {{userID: "cjl5aqepp6jy80784fhlrlmjb"}} >
-//        {
-//          ({ loading, error, data }) => {
-//            if (loading) {
-//              return <span></span>
-//            }
-//            if (error) {
-//              return <span></span>
-//            }
-//            console.log ('data: ', data)
-//            let tempData = []
-//            data.findAppointments.map (
-//              function (timeInt) {
-//                let startMin = timeInt.start % 60;
-//                let endMin = timeInt.end % 60;
-//                startMin = (startMin < 10 ? '0' + startMin : '' + startMin)
-//                endMin = (endMin < 10 ? '0' + endMin : '' + endMin)
-//                let startHour = Math.floor (timeInt.start / 60);
-//                let endHour = Math.floor (timeInt.end / 60);
-//                startHour = (startHour < 10 ? '0' + startHour : '' + startHour)
-//                endHour = (endHour < 10 ? '0' + endHour : '' + endHour)
-//                let startTime = timeInt.day + 'T' + startHour + ':' + startMin + ':00'
-//                let endTime = timeInt.day + 'T' + endHour + ':' + endMin + ':00'
-//                startTime = new Date (startTime)
-//                endTime = new Date (endTime)
-//                console.log ('startTime: ', startTime)
-//                console.log ('endTime: ', endTime)
-//                tempData.push ({
-//                  allDay: false,
-//                  appointmentID: timeInt.appointment.id,
-//                  start: startTime,
-//                  end: endTime,
-//                  userID: timeInt.appointment.user.id,
-//                  sitterID: timeInt.appointment.sitter.id,
-//                  username: timeInt.appointment.sitter.user.first_name + ' ' + timeInt.appointment.sitter.user.last_name,
-//                  instructionID: (timeInt.appointment.todoList !== null ? timeInt.appointment.todoList.id : null)
-//                })
-//              }
-//            )
-//            console.log ('tempData: ', tempData)
-//            console.log ('skipped: ', this.state.skipped)
-//            this.setState ({
-//              events: tempData    
-//            })
-//            return <span></span>
-//          }
-//        }
-//      </Query>
 
   render () {
     return (<div>
