@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Mon Aug 27 2018 13:29:50 GMT-0500 (GMT-05:00)
+# timestamp: Mon Aug 27 2018 18:56:51 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -33,10 +33,13 @@ type Appointment implements Node {
   id: ID!
   user(where: UserWhereInput): User!
   sitter(where: SitterWhereInput): Sitter!
+  children: Int
+  pets: Int
+  price: Float!
   comment: String!
   app_types: [String!]!
   todoList(where: TodoListWhereInput): TodoList
-  pending: Boolean
+  status: AppStatus!
   userRating: Float
   sitterRating: Float
   userReview: String
@@ -58,8 +61,11 @@ input AppointmentCreateapp_typesInput {
 }
 
 input AppointmentCreateInput {
+  children: Int
+  pets: Int
+  price: Float!
   comment: String!
-  pending: Boolean
+  status: AppStatus!
   userRating: Float
   sitterRating: Float
   userReview: String
@@ -87,10 +93,16 @@ type AppointmentEdge {
 enum AppointmentOrderByInput {
   id_ASC
   id_DESC
+  children_ASC
+  children_DESC
+  pets_ASC
+  pets_DESC
+  price_ASC
+  price_DESC
   comment_ASC
   comment_DESC
-  pending_ASC
-  pending_DESC
+  status_ASC
+  status_DESC
   userRating_ASC
   userRating_DESC
   sitterRating_ASC
@@ -107,9 +119,12 @@ enum AppointmentOrderByInput {
 
 type AppointmentPreviousValues {
   id: ID!
+  children: Int
+  pets: Int
+  price: Float!
   comment: String!
   app_types: [String!]!
-  pending: Boolean
+  status: AppStatus!
   userRating: Float
   sitterRating: Float
   userReview: String
@@ -160,8 +175,11 @@ input AppointmentUpdateapp_typesInput {
 }
 
 input AppointmentUpdateDataInput {
+  children: Int
+  pets: Int
+  price: Float
   comment: String
-  pending: Boolean
+  status: AppStatus
   userRating: Float
   sitterRating: Float
   userReview: String
@@ -173,8 +191,11 @@ input AppointmentUpdateDataInput {
 }
 
 input AppointmentUpdateInput {
+  children: Int
+  pets: Int
+  price: Float
   comment: String
-  pending: Boolean
+  status: AppStatus
   userRating: Float
   sitterRating: Float
   userReview: String
@@ -248,6 +269,72 @@ input AppointmentWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  children: Int
+
+  """All values that are not equal to given value."""
+  children_not: Int
+
+  """All values that are contained in given list."""
+  children_in: [Int!]
+
+  """All values that are not contained in given list."""
+  children_not_in: [Int!]
+
+  """All values less than the given value."""
+  children_lt: Int
+
+  """All values less than or equal the given value."""
+  children_lte: Int
+
+  """All values greater than the given value."""
+  children_gt: Int
+
+  """All values greater than or equal the given value."""
+  children_gte: Int
+  pets: Int
+
+  """All values that are not equal to given value."""
+  pets_not: Int
+
+  """All values that are contained in given list."""
+  pets_in: [Int!]
+
+  """All values that are not contained in given list."""
+  pets_not_in: [Int!]
+
+  """All values less than the given value."""
+  pets_lt: Int
+
+  """All values less than or equal the given value."""
+  pets_lte: Int
+
+  """All values greater than the given value."""
+  pets_gt: Int
+
+  """All values greater than or equal the given value."""
+  pets_gte: Int
+  price: Float
+
+  """All values that are not equal to given value."""
+  price_not: Float
+
+  """All values that are contained in given list."""
+  price_in: [Float!]
+
+  """All values that are not contained in given list."""
+  price_not_in: [Float!]
+
+  """All values less than the given value."""
+  price_lt: Float
+
+  """All values less than or equal the given value."""
+  price_lte: Float
+
+  """All values greater than the given value."""
+  price_gt: Float
+
+  """All values greater than or equal the given value."""
+  price_gte: Float
   comment: String
 
   """All values that are not equal to given value."""
@@ -288,10 +375,16 @@ input AppointmentWhereInput {
 
   """All values not ending with the given string."""
   comment_not_ends_with: String
-  pending: Boolean
+  status: AppStatus
 
   """All values that are not equal to given value."""
-  pending_not: Boolean
+  status_not: AppStatus
+
+  """All values that are contained in given list."""
+  status_in: [AppStatus!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [AppStatus!]
   userRating: Float
 
   """All values that are not equal to given value."""
@@ -423,6 +516,12 @@ input AppointmentWhereInput {
 
 input AppointmentWhereUniqueInput {
   id: ID
+}
+
+enum AppStatus {
+  Pending
+  Complete
+  Paid
 }
 
 type BatchPayload {

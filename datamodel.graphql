@@ -61,12 +61,21 @@ type Appointment {
   id: ID! @unique
   user: User!
   sitter: Sitter!
+  children: Int
+  pets: Int
+  price: Float!
   comment: String!
   app_types: [String!]!
   todoList: TodoList
-  pending: Boolean
+  status: AppStatus!
   userRating: Float
   sitterRating: Float
   userReview: String
   sitterReview: String
+}
+
+enum AppStatus {
+  Pending
+  Complete
+  Paid
 }

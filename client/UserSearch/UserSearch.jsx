@@ -237,7 +237,6 @@ export default class UserSearch extends React.Component {
           start = {this.state.apntStart}
           end = {this.state.apntEnd}
           values = {this.state.values}
-          
         />
       );
     }
