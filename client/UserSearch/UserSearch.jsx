@@ -152,10 +152,10 @@ export default class UserSearch extends React.Component {
                 </center>
               </Col>
             </Row>
+            <Row><center><h2>DATES</h2></center></Row>
             <Row>
-              <Col xs={6} xsOffset={3}>
+              <Col xs={3} xsOffset={3}>
                 <center>
-                  <h2>DATES</h2>
                   <div>
                     <h4>Start Date/Time</h4>
                     <Datetime
@@ -164,7 +164,11 @@ export default class UserSearch extends React.Component {
                       defaultValue={this.state.initStart}
                       input={false}
                     />
-                  </div>{' '}
+                  </div>
+                  </center>
+                  </Col>
+                  <Col xs={3}>
+                  <center>
                   <div>
                     <h4>End Date/Time</h4>
                     <Datetime
