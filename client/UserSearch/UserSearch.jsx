@@ -62,6 +62,8 @@ export default class UserSearch extends React.Component {
       currentDay: 'NonDay',
       currentStart: new Date (),
       currentEnd: new Date (),
+      apntStart: '',
+      apntEnd: '',
       value: []
     };
 
@@ -100,22 +102,27 @@ export default class UserSearch extends React.Component {
                   '0' + newDate._d.getDate()
                   : '' + newDate._d.getDate())
     let newDateString = newMonth + ' ' + newDay + ' ' + newYear
+    let newMinutes = (newDate._d.getHours() * 60) + newDate._d.getMinutes()
     this.setState({
-      currentStart: newDateString,
+      apntStart: newDateString,
+      currentStart: newMinutes,
       currentDay: this.dateObj[newDay]
     });
   }
   handleEndChange(newDate) {
-    let newMonth = (newDate._d.getMonth() < 10 ? 
-                    '0' + newDate._d.getMonth() 
-                    : '' + newDate._d.getMonth())
+    let newMonth = newDate._d.getMonth()
+    let newMonth = (newMonth < 10 ? 
+                    '0' + newMonth 
+                    : '' + newMonth)
     let newYear = newDate._d.getFullYear();
     let newDay = (newDate._d.getDate() < 10 ? 
                   '0' + newDate._d.getDate()
                   : '' + newDate._d.getDate())
     let newDateString = newMonth + ' ' + newDay + ' ' + newYear
+    let newMinutes = (newDate._d.getHours() * 60) + newDate._d.getMinutes()
     this.setState({
-      currentEnd: newDateString
+      apntEnd: newDateString,
+      currentEnd: newMinutes
     });
   }
 
@@ -131,8 +138,8 @@ export default class UserSearch extends React.Component {
             query={FIND_SITTERS}
             variables={{
               day: this.state.currentDay,
-              start: (this.state.currentStart.getHours() * 60 + this.state.currentStart.getMinutes()),
-              end: (this.state.currentEnd.getHours() * 60 + this.state.currentEnd.getMinutes()),
+              start: this.state.currentStart,
+              end: this.state.currentEnd,
               baby: this.state.value.includes('baby'),
               pet: this.state.value.includes('pet'),
               home: this.state.value.includes('house')
@@ -227,6 +234,8 @@ export default class UserSearch extends React.Component {
           handleSearchClick={this.handleSearchClick}
           reviews={this.state.currentResults}
           day = {this.state.currentDay}
+          start = {this.state.apntStart}
+          end = {this.state.apntEnd}
           values = {this.state.values}
         />
       );
