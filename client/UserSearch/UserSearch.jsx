@@ -58,7 +58,6 @@ export default class UserSearch extends React.Component {
     this.state = {
       searchResults: false,
       currentResults: [],
-      findValues: [],
       currentDay: 'NonDay',
       currentStart: 0,
       currentEnd: 0,
@@ -207,9 +206,12 @@ export default class UserSearch extends React.Component {
         <UserSearchResults
           handleSearchClick={this.handleSearchClick}
           reviews={this.state.currentResults}
-          day={this.state.currentDay}
-          start={this.state.currentStart}
-          end={this.state.currentEnd}
+          day = {this.state.currentDay}
+          start = {this.state.currentStart}
+          end = {this.state.currentEnd}
+          values = {this.state.value}
+          user = {this.props.user}
+          lists = {this.props.lists}
         />
       );
     }

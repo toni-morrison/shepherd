@@ -1,6 +1,7 @@
 import React from 'react'
-import { Popover, Modal, OverlayTrigger } from 'react-bootstrap';
-
+import { Popover, Modal, OverlayTrigger, Button } from 'react-bootstrap';
+import { FIND_INSTRUCTIONS } from '../UserTasks/ApolloHelper.jsx';
+import { Query } from 'react-apollo';
 
 
 
@@ -9,98 +10,47 @@ export default class AddListToRequest extends React.Component {
     super(props)
   }
 
+  //this.props.user = email of user
+  // this.props.lists
+//   {findTodoLists: Array(1)}
+// findTodoLists:Array(1)
+// 0:{id: "cjl9tds6jteyz07843gs2n3n2", name: "TESTING LIST", startTime: "06:00 PM", endTime: "10:00 PM", __typename: "TodoList", …}
+// length
+
+  // componentDidMount() {
+  //   console.log(this.props.lists)
+  // }
+
 
   render () {
-    const listPopover1 = (
-      <Popover id="modal-popover" title="Instructions List 1">
-        <div>
-          <ul>
-            <li>Take out the dog</li>
-            <li>Give Mikey medicine</li>
-            <li>Take the kids to the park with the dog</li>
-            <li>Watch TV </li>
-            <li>Put Mikey to bed at 8:30</li>
-            <li>Put Tracey to bed at 9:30</li>
-          </ul>
-        </div>
-      </Popover>
-    );
-    const listPopover2 = (
-      <Popover id="modal-popover" title="Instructions List 2">
-        <div>
-          <ul>
-            <li>Make some sandwiches for the kids</li>
-            <li>Anything but fish sandwiches</li>
-            <li>Feed the kids some doritos</li>
-            <li>Feed the kids some cheese</li>
-            <li>Feed the kids some whipped cream</li>
-            <li>Feed the kids some candy</li>
-            <li>Gosh darn our genetics</li>
-          </ul>
-        </div>
-      </Popover>
-    );
-    const listPopover3 = (
-      <Popover id="modal-popover" title="Instructions List 3">
-        <div>
-          <ul>
-            <li>Something something that things</li>
-            <li>Give me a high five</li>
-            <li>Find my children</li>
-            <li>If you cant thats fine also</li>
-            <li>I am 90% sure I have children somewhere</li>
-            <li>Dont set our house on fire</li>
-          </ul>
-        </div>
-      </Popover>
-    );
-    const listPopover4 = (
-      <Popover id="modal-popover" title="Instructions List 4">
-        <div>
-          <ul>
-            <li>Hello? Can you hear me?</li>
-            <li>I am trapped, help please.</li>
-            <li>Where? in the computer i think.</li>
-            <li>Dont worry about it actually, its nice here.</li>
-          </ul>
-        </div>
-      </Popover>
-    );
-    
-    const addList = (
-      <Modal show={this.props.show} onHide={this.props.hide}>
-        <Modal.Header closeButton>
-          <Modal.Title>Instructions</Modal.Title>
-        </Modal.Header>
-        <div>
-          <ul>
-            <OverlayTrigger overlay={listPopover1}>
-              <li>
-                <a href="#popover">Instructions 1</a>
-              </li>
-            </OverlayTrigger>
-            <OverlayTrigger overlay={listPopover2}>
-              <li>
-                <a href="#popover">Instructions 2</a>
-              </li>
-            </OverlayTrigger>
-            <OverlayTrigger overlay={listPopover3}>
-              <li>
-                <a href="#popover">Instructions 3</a>
-              </li>
-            </OverlayTrigger>
-            <OverlayTrigger overlay={listPopover4}>
-              <li>
-                <a href="#popover">Instructions 4</a>
-              </li>
-            </OverlayTrigger>
-          </ul>
-        </div>
-      </Modal>
-    );
-
-    return (<div>
-      {addList}
-    </div>)
+    return (
+      <div>
+        <Query
+        query={FIND_INSTRUCTIONS}
+        variables={{ id: this.props.listId }}>
+        {({ loading, error, data }) => {
+          if (loading) {
+            return <span />;
+          }
+          if (error) {
+            console.log('error: ', error);
+            return <span />;
+          }
+          return(
+            <Modal show={this.props.show} onHide={this.props.hide}>
+              <Modal.Header closeButton>
+                <Modal.Title>Instructions</Modal.Title>
+              </Modal.Header>
+              <ul>
+              {data.findInstructions.map(instruction => {
+                return <li key={instruction.id}>{instruction.desc}</li>
+              })}
+              </ul>
+            </Modal>
+          )
+        }}
+        </Query>
+      </div>
+    )
   }
 }
