@@ -14,7 +14,9 @@ export default class ReviewButton extends React.Component {
       variables: {
         id: this.props.id,
         userRating: this.props.userRating,
-        userReview: this.props.userReview
+        userReview: this.props.userReview,
+        sitterRating: this.props.sitterRating,
+        sitterReview: this.props.sitterReview
       }
     }).then(({ data }) => {
       this.props.handleSave();
@@ -43,39 +45,3 @@ export default class ReviewButton extends React.Component {
     );
   }
 }
-
-//createAppt mutation playground:
-// mutation{
-//   createAppointment(data:{
-// 		comment: "something something"
-//     user: {
-//     	connect: {
-//         id: "cjl5aqepp6jy80784fhlrlmjb"
-//       }
-//     }
-//     sitter:{
-//       connect:{
-//         id: "cjl5bde9u6nro0784vn7xm4cj"
-//       }
-//     }
-
-//   }){
-//     id
-//   }
-// }
-
-//appt ID: cjl9gl6hrqesx07849oag4k6u
-
-//updateAppt mutation playground:
-// mutation{
-//   updateAppointment(where: {
-//     id: "cjl9gl6hrqesx07849oag4k6u"
-//   }
-//   data:{
-//     userRating: 5
-//     userReview: "so wonderfule"
-//   }
-//   ) {
-//     id
-//   }
-// }
