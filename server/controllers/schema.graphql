@@ -91,7 +91,7 @@ type Mutation {
   updateAppointment(
     id: ID!
     todoList: ID
-    pending: Boolean
+    status: AppStatus
     userRating: Float
     sitterRating: Float
     userReview: String

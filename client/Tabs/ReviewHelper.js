@@ -16,6 +16,7 @@ const REVIEW_MODAL = gql`
             email
           }
         }
+        price
       }
       end
       day
@@ -55,6 +56,7 @@ const checkData = (obj, sitterId) => {
     if (then < now) {
       appointmentInfo['id'] = appt.appointment.id;
       appointmentInfo['display'] = displayTime;
+      appointmentInfo['price'] = appt.appointment.price;
       if (
         appt.appointment.userRating === null &&
         appt.appointment.sitterRating !== null
@@ -79,7 +81,6 @@ const checkData = (obj, sitterId) => {
   }
 
   if (result === true) {
-    console.log('appt info:', appointmentInfo);
     return appointmentInfo;
   } else {
     return result;

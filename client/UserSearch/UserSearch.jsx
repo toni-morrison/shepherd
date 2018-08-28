@@ -60,8 +60,8 @@ export default class UserSearch extends React.Component {
       currentResults: [],
       findValues: [],
       currentDay: 'NonDay',
-      currentStart: new Date (),
-      currentEnd: new Date (),
+      currentStart: 0,
+      currentEnd: 0,
       apntStart: '',
       apntEnd: '',
       value: []
@@ -94,17 +94,13 @@ export default class UserSearch extends React.Component {
   }
 
   handleStartChange(newDate) {
-    let newMonth = newDate._d.getMonth()
-    newMonth = (newMonth < 10 ? 
-                    '0' + newMonth 
-                    : '' + newMonth)
+    let newMonth = newDate._d.getMonth();
+    newMonth = newMonth < 10 ? '0' + newMonth : '' + newMonth;
     let newYear = newDate._d.getFullYear();
-    let newDay = newDate
-    newDay = (newDay < 10 ? 
-                  '0' + newDay
-                  : '' + newDay)
-    let newDateString = newMonth + ' ' + newDay + ' ' + newYear
-    let newMinutes = (newDate._d.getHours() * 60) + newDate._d.getMinutes()
+    let newDay = newDate;
+    newDay = newDay < 10 ? '0' + newDay : '' + newDay;
+    let newDateString = newMonth + ' ' + newDay + ' ' + newYear;
+    let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
     this.setState({
       apntStart: newDateString,
       currentStart: newMinutes,
@@ -112,17 +108,13 @@ export default class UserSearch extends React.Component {
     });
   }
   handleEndChange(newDate) {
-    let newMonth = newDate._d.getMonth()
-    newMonth = (newMonth < 10 ? 
-                    '0' + newMonth 
-                    : '' + newMonth)
+    let newMonth = newDate._d.getMonth();
+    newMonth = newMonth < 10 ? '0' + newMonth : '' + newMonth;
     let newYear = newDate._d.getFullYear();
-    let newDay = newDate
-    newDay = (newDay < 10 ? 
-                  '0' + newDay
-                  : '' + newDay)
-    let newDateString = newMonth + ' ' + newDay + ' ' + newYear
-    let newMinutes = (newDate._d.getHours() * 60) + newDate._d.getMinutes()
+    let newDay = newDate;
+    newDay = newDay < 10 ? '0' + newDay : '' + newDay;
+    let newDateString = newMonth + ' ' + newDay + ' ' + newYear;
+    let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
     this.setState({
       apntEnd: newDateString,
       currentEnd: newMinutes
@@ -193,17 +185,18 @@ export default class UserSearch extends React.Component {
                     <Datetime
                       onChange={this.handleStartChange}
                       viewMode="time"
-                      value = {new Date()}
-                      input = {false}
+                      value={new Date()}
+                      input={false}
                     />
                   </div>{' '}
                   <div>
                     <h4>End Date/Time</h4>
-                    <Datetime 
+                    <Datetime
                       onChange={this.handleEndChange}
-                      viewMode="time" 
-                      value = {new Date()}
-                      input = {false}/>
+                      viewMode="time"
+                      value={new Date()}
+                      input={false}
+                    />
                   </div>
                 </center>
               </Col>
@@ -236,10 +229,10 @@ export default class UserSearch extends React.Component {
         <UserSearchResults
           handleSearchClick={this.handleSearchClick}
           reviews={this.state.currentResults}
-          day = {this.state.currentDay}
-          start = {this.state.apntStart}
-          end = {this.state.apntEnd}
-          values = {this.state.values}
+          day={this.state.currentDay}
+          start={this.state.apntStart}
+          end={this.state.apntEnd}
+          values={this.state.values}
         />
       );
     }

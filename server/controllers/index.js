@@ -329,11 +329,12 @@ const resolvers = {
         {
           data: {
             todoList: args.todoList,
-            pending: args.pending,
+
             userRating: args.userRating,
             sitterRating: args.sitterRating,
             userReview: args.userReview,
-            sitterReview: args.sitterReview
+            sitterReview: args.sitterReview,
+            status: args.status
           },
           where: {
             id: args.id
