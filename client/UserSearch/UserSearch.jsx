@@ -12,45 +12,8 @@ import {
 import UserSearchResults from './UserSearchResults.jsx';
 import Datetime from 'react-datetime';
 import gql from 'graphql-tag';
+import UserSearchQuery from './UserSearchQuery.jsx'
 import { Query } from 'react-apollo';
-
-const FIND_SITTERS = gql`
-  query findSitters(
-    $day: String!
-    $start: Int!
-    $end: Int!
-    $baby: Boolean!
-    $pet: Boolean!
-    $home: Boolean!
-  ) {
-    findSitters(
-      day: $day
-      start: $start
-      end: $end
-      baby: $baby
-      pet: $pet
-      home: $home
-    ) {
-      day
-      sitter {
-        id
-        bio
-        rating
-        rates {
-          child_rate
-          child_addl
-          pet_rate
-          pet_addl
-          home_rate
-        }
-        user {
-          first_name
-          last_name
-        }
-      }
-    }
-  }
-`;
 
 export default class UserSearch extends React.Component {
   constructor(props) {
@@ -62,6 +25,7 @@ export default class UserSearch extends React.Component {
       currentDay: 'NonDay',
       initStart: new Date(),
       initEnd: new Date(),
+      skipped: false,
       currentStart: 0,
       currentEnd: 0,
       apntStart: '',
@@ -73,6 +37,8 @@ export default class UserSearch extends React.Component {
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleQuery = this.handleQuery.bind(this)
+    this.handleBack = this.handleBack.bind(this)
     this.dateObj = {
       0: 'Sunday',
       1: 'Monday',
@@ -85,12 +51,23 @@ export default class UserSearch extends React.Component {
   }
 
   // changes searchResults to true/false for conditional render
+  handleQuery (data) {
+    this.setState ({
+      skipped : true,
+      currentResults : data,
+    })
+  }
   handleSearchClick(data) {
     this.setState({
-      searchResults: !this.state.searchResults
+      searchResults: !this.state.searchResults,
+      skipped: false
     });
   }
-
+  handleBack () {
+    this.setState ({
+      searchResults : !this.state.searchResults
+    })
+  }
   handleChange(e) {
     this.setState({ value: e });
   }
@@ -103,10 +80,11 @@ export default class UserSearch extends React.Component {
     newDay = newDay < 10 ? '0' + newDay : '' + newDay;
     let newDateString = newMonth + ' ' + newDay + ' ' + newYear;
     let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
+    let DOW = newDate._d.getDay();
     this.setState({
       apntStart: newDateString,
       currentStart: newMinutes,
-      currentDay: this.dateObj[newDay]
+      currentDay: this.dateObj[DOW]
     });
   }
   handleEndChange(newDate) {
@@ -117,10 +95,13 @@ export default class UserSearch extends React.Component {
     newDay = newDay < 10 ? '0' + newDay : '' + newDay;
     let newDateString = newMonth + ' ' + newDay + ' ' + newYear;
     let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
+    let DOW = newDate._d.getDay();
 
     this.setState({
       apntEnd: newDateString,
-      currentEnd: newMinutes
+      currentEnd: newMinutes,
+      currentDay: this.dateObj[DOW]
+
     });
   }
 
@@ -132,6 +113,15 @@ export default class UserSearch extends React.Component {
     if (this.state.searchResults === false) {
       return (
         <div>
+          {this.state.skipped ? 
+            <span /> 
+            : <UserSearchQuery 
+                currentDay = {this.state.currentDay}
+                currentStart = {this.state.currentStart}
+                currentEnd = {this.state.currentEnd}
+                value = {this.state.value}
+                handleQuery = {this.handleQuery}/>
+          }
           <Grid>
             <Row>
               <Col xs={6} xsOffset={3}>
@@ -203,7 +193,7 @@ export default class UserSearch extends React.Component {
     } else {
       return (
         <UserSearchResults
-          handleSearchClick={this.handleSearchClick}
+          handleSearchClick={this.handleBack}
           reviews={this.state.currentResults}
           day={this.state.currentDay}
           start={this.state.apntStart}

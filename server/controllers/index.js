@@ -167,6 +167,16 @@ const resolvers = {
     }
   },
   Mutation: {
+    cancelAppointment: (_, args, context, info) => {
+      return context.prisma.mutation.deleteAppointment (
+        {
+          where : {
+            id: args.apntID
+          }
+        },
+        info
+      )
+    },
     signup: (_, args, context, info) => {
       return context.prisma.mutation.createUser(
         {
