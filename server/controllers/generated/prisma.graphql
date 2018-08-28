@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Mon Aug 27 2018 18:56:51 GMT-0500 (GMT-05:00)
+# timestamp: Tue Aug 28 2018 09:45:51 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -42,8 +42,10 @@ type Appointment implements Node {
   status: AppStatus!
   userRating: Float
   sitterRating: Float
+  userWords: [String!]!
   userReview: String
   sitterReview: String
+  sitterWords: [String!]!
 }
 
 """A connection to a list of items."""
@@ -71,6 +73,8 @@ input AppointmentCreateInput {
   userReview: String
   sitterReview: String
   app_types: AppointmentCreateapp_typesInput
+  userWords: AppointmentCreateuserWordsInput
+  sitterWords: AppointmentCreatesitterWordsInput
   user: UserCreateOneInput!
   sitter: SitterCreateOneInput!
   todoList: TodoListCreateOneInput
@@ -79,6 +83,14 @@ input AppointmentCreateInput {
 input AppointmentCreateOneInput {
   create: AppointmentCreateInput
   connect: AppointmentWhereUniqueInput
+}
+
+input AppointmentCreatesitterWordsInput {
+  set: [String!]
+}
+
+input AppointmentCreateuserWordsInput {
+  set: [String!]
 }
 
 """An edge in a connection."""
@@ -127,8 +139,10 @@ type AppointmentPreviousValues {
   status: AppStatus!
   userRating: Float
   sitterRating: Float
+  userWords: [String!]!
   userReview: String
   sitterReview: String
+  sitterWords: [String!]!
 }
 
 type AppointmentSubscriptionPayload {
@@ -185,6 +199,8 @@ input AppointmentUpdateDataInput {
   userReview: String
   sitterReview: String
   app_types: AppointmentUpdateapp_typesInput
+  userWords: AppointmentUpdateuserWordsInput
+  sitterWords: AppointmentUpdatesitterWordsInput
   user: UserUpdateOneInput
   sitter: SitterUpdateOneInput
   todoList: TodoListUpdateOneInput
@@ -201,6 +217,8 @@ input AppointmentUpdateInput {
   userReview: String
   sitterReview: String
   app_types: AppointmentUpdateapp_typesInput
+  userWords: AppointmentUpdateuserWordsInput
+  sitterWords: AppointmentUpdatesitterWordsInput
   user: UserUpdateOneInput
   sitter: SitterUpdateOneInput
   todoList: TodoListUpdateOneInput
@@ -213,6 +231,14 @@ input AppointmentUpdateOneInput {
   delete: Boolean
   update: AppointmentUpdateDataInput
   upsert: AppointmentUpsertNestedInput
+}
+
+input AppointmentUpdatesitterWordsInput {
+  set: [String!]
+}
+
+input AppointmentUpdateuserWordsInput {
+  set: [String!]
 }
 
 input AppointmentUpsertNestedInput {
