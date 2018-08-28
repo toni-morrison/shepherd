@@ -39,6 +39,8 @@ const FIND_USER_APPOINTMENTS = gql `
   }
 `;
 function CalendarQuery (props) {
+  console.log (props)
+
   return (<Query query = {FIND_USER_APPOINTMENTS} variables = {{userID: "cjl5ayias6ket0784klc0hy42"}} >
         {
           ({ loading, error, data }) => {
@@ -72,6 +74,7 @@ function CalendarQuery (props) {
                 }
                 tempData.push ({
                   allDay: false,
+                  cost: timeInt.appointment.price,
                   appointmentID: timeInt.appointment.id,
                   start: startTime,
                   end: endTime,

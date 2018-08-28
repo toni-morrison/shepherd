@@ -54,11 +54,13 @@ const FIND_SITTERS = gql`
 export default class UserSearch extends React.Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       searchResults: false,
       currentResults: [],
       currentDay: 'NonDay',
+      initStart: new Date (),
+      initEnd: new Date(),
       currentStart: 0,
       currentEnd: 0,
       apntStart: '',
@@ -104,6 +106,7 @@ export default class UserSearch extends React.Component {
                   : '' + newDay)
     let newDateString = newMonth + ' ' + newDay + ' ' + newYear
     let newMinutes = (newDate._d.getHours() * 60) + newDate._d.getMinutes()
+    console.log (newMinutes)
     this.setState({
       apntStart: newDateString,
       currentStart: newMinutes,
@@ -122,6 +125,8 @@ export default class UserSearch extends React.Component {
                   : '' + newDay)
     let newDateString = newMonth + ' ' + newDay + ' ' + newYear
     let newMinutes = (newDate._d.getHours() * 60) + newDate._d.getMinutes()
+    console.log (newMinutes)
+
     this.setState({
       apntEnd: newDateString,
       currentEnd: newMinutes
@@ -166,7 +171,7 @@ export default class UserSearch extends React.Component {
                     <Datetime
                       onChange={this.handleStartChange}
                       viewMode="time"
-                      value = {new Date()}
+                      defaultValue = {this.state.initStart}
                       input = {false}
                     />
                   </div>{' '}
@@ -175,7 +180,7 @@ export default class UserSearch extends React.Component {
                     <Datetime 
                       onChange={this.handleEndChange}
                       viewMode="time" 
-                      value = {new Date()}
+                      defaultValue = {this.state.initEnd}
                       input = {false}/>
                   </div>
                 </center>
