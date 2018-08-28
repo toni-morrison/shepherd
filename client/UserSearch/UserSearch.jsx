@@ -15,7 +15,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const FIND_SITTERS = gql`
-  query findSitters(
+  query findSitters (
     $day: String!
     $start: Int!
     $end: Int!

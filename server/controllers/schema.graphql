@@ -8,7 +8,12 @@
 # import AppStatus from './generated/prisma.graphql'
 
 type Query {
-  findAppointments (userID: String!) : [TimeInterval!]!
+  findUserAppointments (
+    userID: String!
+  ) : [TimeInterval!]!
+  findSitterAppointments (
+    sitterID: String!
+  ) : [TimeInterval!]!
   findSitters(
     day: String!
     start: Int!
@@ -89,7 +94,6 @@ type Mutation {
   updateAppointment(
     id: ID!
     todoList: ID
-    pending: Boolean
     userRating: Float
     sitterRating: Float
     userReview: String

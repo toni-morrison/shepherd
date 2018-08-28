@@ -1,16 +1,20 @@
 import React from 'react'
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-const FIND_APPOINTMENTS = gql `
-  query findAppointments ($userID: String!) {
-    findAppointments (userID: $userID) {
+const FIND_USER_APPOINTMENTS = gql `
+  query findUserAppointments ($userID: String!) {
+    findUserAppointments (userID: $userID) {
       start  
       end
       day
       appointment {
         id
-        pending
+        price
+        children
+        pets  
+        comment
         app_types
+        status
         todoList {
           id
         }
@@ -35,7 +39,7 @@ const FIND_APPOINTMENTS = gql `
   }
 `;
 function CalendarQuery (props) {
-  return (<Query query = {FIND_APPOINTMENTS} variables = {{userID: "cjl5aqepp6jy80784fhlrlmjb"}} >
+  return (<Query query = {FIND_USER_APPOINTMENTS} variables = {{userID: "cjl5ayias6ket0784klc0hy42"}} >
         {
           ({ loading, error, data }) => {
             if (loading) {
@@ -46,7 +50,7 @@ function CalendarQuery (props) {
             }
             console.log ('data: ', data)
             let tempData = []
-            data.findAppointments.map (
+            data.findUserAppointments.map (
               function (timeInt) {
                 let startMin = timeInt.start % 60;
                 let endMin = timeInt.end % 60;
@@ -73,7 +77,7 @@ function CalendarQuery (props) {
                   end: endTime,
                   userID: timeInt.appointment.user.id,
                   sitterID: timeInt.appointment.sitter.id,
-                  status: timeInt.appointment.pending,
+                  status: timeInt.appointment.status,
                   username: timeInt.appointment.sitter.user.first_name + ' ' + timeInt.appointment.sitter.user.last_name,
                   instructionID: (timeInt.appointment.todoList !== null ? timeInt.appointment.todoList.id : null)
                 })

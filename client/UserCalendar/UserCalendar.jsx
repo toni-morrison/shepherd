@@ -10,52 +10,16 @@ import CalendarQuery from './CalendarQuery.jsx'
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const FIND_APPOINTMENTS = gql `
-  query findAppointments ($userID: String!) {
-    findAppointments (userID: $userID) {
-      start  
-      end
-      day
-      appointment {
-        id
-        pending
-        app_types
-        todoList {
-          id
-        }
-        sitterRating
-        sitter {
-          id
-          rates {
-            child_rate
-            pet_rate
-            home_rate
-          }
-          user {
-            first_name
-            last_name
-          }
-        }
-        user {
-          id
-        }
-      }
-    }
-  }
-`;
-
-
 export default class UserCalendar extends React.Component {
   constructor (props) {
       super(props)
-
       this.state = {
         modalShow: false,
         cancelShow: false,
         events: events,
         currentEvent: {},
         skipped: false
-      }
+    }
     BigCalendar.setLocalizer(BigCalendar.momentLocalizer (moment))
     this.allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
     events.forEach (
@@ -129,7 +93,6 @@ export default class UserCalendar extends React.Component {
 //                  end: endTime,
 //                  userID: timeInt.appointment.user.id,
 //                  sitterID: timeInt.appointment.sitter.id,
-//                  status: timeInt.appointment.pending,
 //                  username: timeInt.appointment.sitter.user.first_name + ' ' + timeInt.appointment.sitter.user.last_name,
 //                  instructionID: (timeInt.appointment.todoList !== null ? timeInt.appointment.todoList.id : null)
 //                })
