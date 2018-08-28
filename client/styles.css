@@ -104,6 +104,12 @@ button#review-button-submit {
   display: flex;
   justify-content: center;
 }
+
+.signup .row {
+  display: flex;
+  justify-content: center;
+}
+
 .sitterJoinSchedule select {
   display: inline;
 }

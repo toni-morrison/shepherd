@@ -77,7 +77,10 @@ class UserTabs extends React.Component {
                         <UserTasks data={data} user={this.props.user} />
                       </Tab.Pane>
                       <Tab.Pane eventKey="fourth">
-                        <UserProfile user={this.props.user} />
+                        <UserProfile
+                          user={this.props.user}
+                          userPic={this.props.userPic}
+                        />
                       </Tab.Pane>
                     </Tab.Content>
                   </Col>

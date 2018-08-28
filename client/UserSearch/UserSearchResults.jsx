@@ -141,7 +141,6 @@ export default class UserSearchResults extends React.Component {
                       first_name={this.state.first_name}
                       last_name={this.state.last_name}
                       review={review}
-                      user={this.props.user}
                       lists={this.props.lists}
                       values={this.props.values}
                     />

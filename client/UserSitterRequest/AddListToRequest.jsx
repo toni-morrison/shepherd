@@ -10,18 +10,6 @@ export default class AddListToRequest extends React.Component {
     super(props)
   }
 
-  //this.props.user = email of user
-  // this.props.lists
-//   {findTodoLists: Array(1)}
-// findTodoLists:Array(1)
-// 0:{id: "cjl9tds6jteyz07843gs2n3n2", name: "TESTING LIST", startTime: "06:00 PM", endTime: "10:00 PM", __typename: "TodoList", …}
-// length
-
-  // componentDidMount() {
-  //   console.log(this.props.lists)
-  // }
-
-
   render () {
     return (
       <div>

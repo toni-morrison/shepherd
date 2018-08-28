@@ -88,7 +88,6 @@ export default class UserSitterRequest extends React.Component {
                 <AddListToRequest
                   show={this.state.showAddList}
                   hide={this.handleShowList}
-                  user={this.props.user}
                   listId={this.state.listId}/>
               </h3>
               <h3>

@@ -1,6 +1,7 @@
 const express = require('express');
 const { GraphQLServer } = require('graphql-yoga');
 const { Prisma } = require('prisma-binding');
+const { getSignedUrl, uploadFile } = require('../s3/s3.js');
 
 const options = {
   port: 8080,
@@ -11,6 +12,37 @@ const options = {
 
 const resolvers = {
   Query: {
+    findUserAppointments: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            appointment : {
+              user : {
+                id: args.userID
+              }
+            }
+          }
+        },
+        info
+      );
+    },
+    findSitterAppointments: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            appointment : {
+              sitter : {
+                user: {
+                  id: args.sitterID
+                }
+              }
+            }
+          }
+        },
+        info
+      );
+    },
+    
     findSitters: (_, args, context, info) => {
       let ANDConditions = [
         {
@@ -105,6 +137,33 @@ const resolvers = {
         },
         info
       );
+    },
+    reviewModal: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            OR: [
+              {
+                appointment: {
+                  user: {
+                    email: args.email
+                  }
+                }
+              },
+              {
+                appointment: {
+                  sitter: {
+                    user: {
+                      email: args.email
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        info
+      );
     }
   },
   Mutation: {
@@ -119,7 +178,8 @@ const resolvers = {
             city: args.city,
             state: args.state,
             zip_code: args.zip_code,
-            rating: 0
+            rating: 0,
+            pic_url: args.pic_url
           }
         },
         info
@@ -253,7 +313,8 @@ const resolvers = {
             street_address: args.street_address,
             city: args.city,
             state: args.state,
-            zip_code: args.zip_code
+            zip_code: args.zip_code,
+            pic_url: args.pic_url
           },
           where: {
             email: args.email
@@ -299,7 +360,6 @@ const resolvers = {
         {
           data: {
             todoList: args.todoList,
-            pending: args.pending,
             userRating: args.userRating,
             sitterRating: args.sitterRating,
             userReview: args.userReview,
