@@ -17,9 +17,7 @@ export default class SitterSchedule extends React.Component {
     }
     BigCalendar.setLocalizer (BigCalendar.momentLocalizer (moment))
     this.allViews = Object.keys (BigCalendar.Views).map(k => BigCalendar.Views[k])
-    events.forEach (
-      (event) => event.title = event.status + ': ' + event.username
-    )
+
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleAccept = this.handleAccept.bind(this)
@@ -76,7 +74,7 @@ export default class SitterSchedule extends React.Component {
           <span></span> 
           : <CalendarQuery handleQuery = {this.handleQuery} user = {this.props.user} />}
         <BigCalendar 
-          events = {events}
+          events = {this.state.events}
           views = {this.allViews}
           step = {60}
           showMultiDayTimes
