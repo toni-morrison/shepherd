@@ -85,30 +85,19 @@ export default class TopTabs extends React.Component {
   }
 
   handleReviewModal(obj) {
-    console.log('toptabs fired');
     if (this.state.appointmentId.length === 0) {
       if (obj.user === this.props.user) {
-        this.setState(
-          {
-            renderUserReviewModal: true,
-            appointmentId: obj.id,
-            displayTime: obj.display
-          },
-          () => {
-            console.log('toptabs state:', this.state);
-          }
-        );
+        this.setState({
+          renderUserReviewModal: true,
+          appointmentId: obj.id,
+          displayTime: obj.display
+        });
       } else if (obj.sitter === this.props.user) {
-        this.setState(
-          {
-            renderSitterReviewModal: true,
-            appointmentId: obj.id,
-            displayTime: obj.display
-          },
-          () => {
-            console.log('toptabs state:', this.state);
-          }
-        );
+        this.setState({
+          renderSitterReviewModal: true,
+          appointmentId: obj.id,
+          displayTime: obj.display
+        });
       }
     }
   }
@@ -143,8 +132,6 @@ export default class TopTabs extends React.Component {
               const sitterId = data.getUserInfo.sitter
                 ? data.getUserInfo.sitter.id
                 : null;
-              console.log('sitter query:', sitterId, 'email:', this.props.user);
-
               return (
                 <Tab.Container
                   id="top-tabs"
