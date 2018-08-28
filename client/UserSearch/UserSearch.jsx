@@ -15,7 +15,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const FIND_SITTERS = gql`
-  query findSitters (
+  query findSitters(
     $day: String!
     $start: Int!
     $end: Int!
@@ -51,15 +51,16 @@ const FIND_SITTERS = gql`
     }
   }
 `;
+
 export default class UserSearch extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       searchResults: false,
       currentResults: [],
       currentDay: 'NonDay',
-      initStart: new Date (),
+      initStart: new Date(),
       initEnd: new Date(),
       currentStart: 0,
       currentEnd: 0,
@@ -95,18 +96,13 @@ export default class UserSearch extends React.Component {
   }
 
   handleStartChange(newDate) {
-    let newMonth = newDate._d.getMonth()
-    newMonth = (newMonth < 10 ? 
-                    '0' + newMonth 
-                    : '' + newMonth)
+    let newMonth = newDate._d.getMonth();
+    newMonth = newMonth < 10 ? '0' + newMonth : '' + newMonth;
     let newYear = newDate._d.getFullYear();
-    let newDay = newDate._d.getDate()
-    newDay = (newDay < 10 ? 
-                  '0' + newDay
-                  : '' + newDay)
-    let newDateString = newMonth + ' ' + newDay + ' ' + newYear
-    let newMinutes = (newDate._d.getHours() * 60) + newDate._d.getMinutes()
-    console.log (newMinutes)
+    let newDay = newDate._d.getDate();
+    newDay = newDay < 10 ? '0' + newDay : '' + newDay;
+    let newDateString = newMonth + ' ' + newDay + ' ' + newYear;
+    let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
     this.setState({
       apntStart: newDateString,
       currentStart: newMinutes,
@@ -114,18 +110,13 @@ export default class UserSearch extends React.Component {
     });
   }
   handleEndChange(newDate) {
-    let newMonth = newDate._d.getMonth()
-    newMonth = (newMonth < 10 ? 
-                    '0' + newMonth 
-                    : '' + newMonth)
+    let newMonth = newDate._d.getMonth();
+    newMonth = newMonth < 10 ? '0' + newMonth : '' + newMonth;
     let newYear = newDate._d.getFullYear();
-    let newDay = newDate._d.getDate()
-    newDay = (newDay < 10 ? 
-                  '0' + newDay
-                  : '' + newDay)
-    let newDateString = newMonth + ' ' + newDay + ' ' + newYear
-    let newMinutes = (newDate._d.getHours() * 60) + newDate._d.getMinutes()
-    console.log (newMinutes)
+    let newDay = newDate._d.getDate();
+    newDay = newDay < 10 ? '0' + newDay : '' + newDay;
+    let newDateString = newMonth + ' ' + newDay + ' ' + newYear;
+    let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
 
     this.setState({
       apntEnd: newDateString,
@@ -141,7 +132,6 @@ export default class UserSearch extends React.Component {
     if (this.state.searchResults === false) {
       return (
         <div>
-          
           <Grid>
             <Row>
               <Col xs={6} xsOffset={3}>
@@ -171,17 +161,18 @@ export default class UserSearch extends React.Component {
                     <Datetime
                       onChange={this.handleStartChange}
                       viewMode="time"
-                      defaultValue = {this.state.initStart}
-                      input = {false}
+                      defaultValue={this.state.initStart}
+                      input={false}
                     />
                   </div>{' '}
                   <div>
                     <h4>End Date/Time</h4>
-                    <Datetime 
+                    <Datetime
                       onChange={this.handleEndChange}
-                      viewMode="time" 
-                      defaultValue = {this.state.initEnd}
-                      input = {false}/>
+                      viewMode="time"
+                      defaultValue={this.state.initEnd}
+                      input={false}
+                    />
                   </div>
                 </center>
               </Col>
@@ -214,10 +205,10 @@ export default class UserSearch extends React.Component {
         <UserSearchResults
           handleSearchClick={this.handleSearchClick}
           reviews={this.state.currentResults}
-          day = {this.state.currentDay}
-          start = {this.state.apntStart}
-          end = {this.state.apntEnd}
-          values = {this.state.values}
+          day={this.state.currentDay}
+          start={this.state.apntStart}
+          end={this.state.apntEnd}
+          values={this.state.values}
         />
       );
     }

@@ -1,6 +1,7 @@
-import React from 'react'
+import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+
 const FIND_USER_APPOINTMENTS = gql `
   query findUserAppointments ($userEmail: String!) {
     findUserAppointments (userEmail: $userEmail) {
@@ -11,7 +12,7 @@ const FIND_USER_APPOINTMENTS = gql `
         id
         price
         children
-        pets  
+        pets
         comment
         app_types
         status
@@ -40,6 +41,7 @@ const FIND_USER_APPOINTMENTS = gql `
     }
   }
 `;
+<<<<<<< HEAD
 function CalendarQuery (props) {
   return (<Query query = {FIND_USER_APPOINTMENTS} variables = {{userEmail: props.user}} >
         {
@@ -90,7 +92,68 @@ function CalendarQuery (props) {
             props.handleQuery (tempData)
             return <span></span>
           }
+=======
+
+function CalendarQuery(props) {
+  return (
+    <Query
+      query={FIND_USER_APPOINTMENTS}
+      variables={{ userID: 'cjl5ayias6ket0784klc0hy42' }}
+    >
+      {({ loading, error, data }) => {
+        if (loading) {
+          return <span />;
+>>>>>>> 86912c0c6aca29c6c77802025dcce8aeb1d29dd6
         }
-      </Query>)
+        if (error) {
+          return <span />;
+        }
+        let tempData = [];
+        data.findUserAppointments.map(function(timeInt) {
+          let startMin = timeInt.start % 60;
+          let endMin = timeInt.end % 60;
+          startMin = startMin < 10 ? '0' + startMin : '' + startMin;
+          endMin = endMin < 10 ? '0' + endMin : '' + endMin;
+          let startHour = Math.floor(timeInt.start / 60);
+          let endHour = Math.floor(timeInt.end / 60);
+          startHour = startHour < 10 ? '0' + startHour : '' + startHour;
+          endHour = endHour < 10 ? '0' + endHour : '' + endHour;
+          let startTime =
+            timeInt.day + 'T' + startHour + ':' + startMin + ':00';
+          let endTime = timeInt.day + 'T' + endHour + ':' + endMin + ':00';
+          startTime = new Date(startTime);
+          endTime = new Date(endTime);
+          let cost = 0;
+          for (var i = 0; i < timeInt.appointment.app_types.length; i++) {
+            cost +=
+              ((timeInt.start - timeInt.End) / 60) *
+              timeInt.application.sitter.rates[
+                timeInt.application.app_types[i] + '_rate'
+              ];
+          }
+          tempData.push({
+            allDay: false,
+            cost: timeInt.appointment.price,
+            appointmentID: timeInt.appointment.id,
+            start: startTime,
+            end: endTime,
+            userID: timeInt.appointment.user.id,
+            sitterID: timeInt.appointment.sitter.id,
+            status: timeInt.appointment.status,
+            username:
+              timeInt.appointment.sitter.user.first_name +
+              ' ' +
+              timeInt.appointment.sitter.user.last_name,
+            instructionID:
+              timeInt.appointment.todoList !== null
+                ? timeInt.appointment.todoList.id
+                : null
+          });
+        });
+        props.handleQuery(tempData);
+        return <span />;
+      }}
+    </Query>
+  );
 }
-export default CalendarQuery
+export default CalendarQuery;

@@ -44,7 +44,6 @@ export default class UserCalendar extends React.Component {
   }
   
   handleOpenCancel () {
-    console.log ('cancelShow: ', this.state.cancelShow)
     this.setState ({cancelShow: true})
   }
   
