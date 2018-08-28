@@ -1,9 +1,9 @@
 import React from 'react'
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-const FIND_USER_APPOINTMENTS = gql `
-  query findUserAppointments ($userEmail: String!) {
-    findUserAppointments (userEmail: $userEmail) {
+const FIND_SITTER_APPOINTMENTS = gql `
+  query findSitterAppointments ($sitterEmail: String!) {
+    findSitterAppointments (sitterEmail: $sitterEmail) {
       start  
       end
       day
@@ -41,7 +41,7 @@ const FIND_USER_APPOINTMENTS = gql `
   }
 `;
 function CalendarQuery (props) {
-  return (<Query query = {FIND_USER_APPOINTMENTS} variables = {{userEmail: props.user}} >
+  return (<Query query = {FIND_SITTER_APPOINTMENTS} variables = {{sitterEmail: props.user}} >
         {
           ({ loading, error, data }) => {
             if (loading) {
@@ -52,7 +52,7 @@ function CalendarQuery (props) {
             }
             console.log ('data: ', data)
             let tempData = []
-            data.findUserAppointments.map (
+            data.findSitterAppointments.map (
               function (timeInt) {
                 let startMin = timeInt.start % 60;
                 let endMin = timeInt.end % 60;

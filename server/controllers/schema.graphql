@@ -9,10 +9,10 @@
 
 type Query {
   findUserAppointments (
-    userID: String!
+    userEmail: String!
   ) : [TimeInterval!]!
   findSitterAppointments (
-    sitterID: String!
+    sitterEmail: String!
   ) : [TimeInterval!]!
   findSitters(
     day: String!

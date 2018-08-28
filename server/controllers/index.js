@@ -18,7 +18,7 @@ const resolvers = {
           where: {
             appointment : {
               user : {
-                id: args.userID
+                email: args.userEmail
               }
             }
           }
@@ -33,7 +33,7 @@ const resolvers = {
             appointment : {
               sitter : {
                 user: {
-                  id: args.sitterID
+                  email: args.sitterEmail
                 }
               }
             }
