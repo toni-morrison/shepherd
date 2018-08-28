@@ -58,10 +58,9 @@ export default class UserSearch extends React.Component {
     this.state = {
       searchResults: false,
       currentResults: [],
-      findValues: [],
       currentDay: 'NonDay',
-      currentStart: new Date (),
-      currentEnd: new Date (),
+      currentStart: 0,
+      currentEnd: 0,
       apntStart: '',
       apntEnd: '',
       value: []
@@ -99,7 +98,7 @@ export default class UserSearch extends React.Component {
                     '0' + newMonth 
                     : '' + newMonth)
     let newYear = newDate._d.getFullYear();
-    let newDay = newDate
+    let newDay = newDate._d.getDate()
     newDay = (newDay < 10 ? 
                   '0' + newDay
                   : '' + newDay)
@@ -117,7 +116,7 @@ export default class UserSearch extends React.Component {
                     '0' + newMonth 
                     : '' + newMonth)
     let newYear = newDate._d.getFullYear();
-    let newDay = newDate
+    let newDay = newDate._d.getDate()
     newDay = (newDay < 10 ? 
                   '0' + newDay
                   : '' + newDay)
