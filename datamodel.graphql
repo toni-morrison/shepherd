@@ -78,6 +78,7 @@ type Appointment {
 
 enum AppStatus {
   Pending
+  Accepted
   Complete
   Paid
 }
