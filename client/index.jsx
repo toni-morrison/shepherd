@@ -1,42 +1,66 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider, Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Button } from 'react-bootstrap';
 import TopTabs from './Tabs/TopTabs.jsx';
-// import Calendar from "./Calendar/Calendar.jsx"
 import SplashPage from './SplashPage/SplashPage.jsx';
+import { CircleLoader } from 'react-spinners';
+import firebase from '../server/firebase/firebase.js';
 
-const client = new ApolloClient();
+const client = new ApolloClient({
+  uri: 'http://localhost:8080/graphql'
+});
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      signedIn: false // TODO: Change to false during production
+      loaded: false,
+      user: undefined
     };
-    this.handleLogin = this.handleLogin.bind(this);
   }
 
-  handleLogin() {
-    this.setState({
-      signedIn: true
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ user: user.email, loaded: false }, () => {
+          setTimeout(() => {
+            this.setState({ loaded: true });
+          }, 500);
+        });
+      } else {
+        console.log('not signed in!');
+        this.setState({ user: undefined, loaded: false }, () => {
+          setTimeout(() => {
+            this.setState({ loaded: true });
+          }, 500);
+        });
+      }
     });
   }
 
   render() {
-    return (
-      <ApolloProvider client={client}>
-        <SplashPage
-          signedIn={this.state.signedIn}
-          handleLogin={this.handleLogin}
-        />
-        <TopTabs signedIn={this.state.signedIn} />
-      </ApolloProvider>
-    );
+    if (!this.state.loaded) {
+      return (
+        <div className="loader">
+          <CircleLoader
+            sizeUnit={'px'}
+            size={150}
+            color={'#123abc'}
+            loading={!this.state.loaded}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <ApolloProvider client={client}>
+          <TopTabs user={this.state.user} />
+          <SplashPage user={this.state.user} />
+        </ApolloProvider>
+      );
+    }
   }
 }
 

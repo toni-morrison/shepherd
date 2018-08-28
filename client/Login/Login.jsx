@@ -1,6 +1,7 @@
 import React from 'react';
 import GoogleLogin from './GoogleLogin.jsx';
 import EmailLogin from './EmailLogin.jsx';
+import {Button} from 'react-bootstrap';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -9,13 +10,8 @@ export default class Login extends React.Component {
       renderEmailField: false,
       renderGoogleLogin: false
     };
-    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.renderEmail = this.renderEmail.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleLoginSubmit() {
-    this.props.handleUserLogin();
   }
 
   renderEmail() {
@@ -35,14 +31,14 @@ export default class Login extends React.Component {
       <div className="auth-form">
         Login
         <br />
-        <button type="button" onClick={this.renderEmail}>
+        <Button type="button" onClick={this.renderEmail}>
           Login With Email
-        </button>
+        </Button>
         <EmailLogin
           renderEmailField={this.state.renderEmailField}
-          handleLoginSubmit={this.handleLoginSubmit}
+          handleToggleLogin={this.props.handleToggleLogin}
         />
-        <GoogleLogin />
+        <GoogleLogin handleToggleLogin={this.props.handleToggleLogin} />
       </div>
     );
   }
