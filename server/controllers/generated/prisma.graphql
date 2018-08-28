@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Tue Aug 28 2018 09:45:51 GMT-0500 (GMT-05:00)
+# timestamp: Tue Aug 28 2018 10:03:00 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -546,6 +546,7 @@ input AppointmentWhereUniqueInput {
 
 enum AppStatus {
   Pending
+  Accepted
   Complete
   Paid
 }
