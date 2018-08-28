@@ -19,7 +19,8 @@ var getSignedUploadUrl = (fileName, cb) => {
       Bucket: bucketName,
       Key: fileName,
       ACL: 'authenticated-read', // This must match with your ajax contentType parameter
-      ContentType: 'binary/octet-stream'
+      ContentType: 'binary/octet-stream',
+      Expires: 30
     },
     cb
   );
@@ -31,7 +32,8 @@ var getSignedDownloadUrl = (fileName, cb) => {
     {
       Bucket: bucketName,
       Key: fileName,
-      ResponseContentType: 'image/jpeg'
+      ResponseContentType: 'image/jpeg',
+      Expires: 31557600
     },
     cb
   );
