@@ -12,6 +12,37 @@ const options = {
 
 const resolvers = {
   Query: {
+    findUserAppointments: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            appointment : {
+              user : {
+                id: args.userID
+              }
+            }
+          }
+        },
+        info
+      );
+    },
+    findSitterAppointments: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            appointment : {
+              sitter : {
+                user: {
+                  id: args.sitterID
+                }
+              }
+            }
+          }
+        },
+        info
+      );
+    },
+    
     findSitters: (_, args, context, info) => {
       let ANDConditions = [
         {
@@ -329,7 +360,6 @@ const resolvers = {
         {
           data: {
             todoList: args.todoList,
-            pending: args.pending,
             userRating: args.userRating,
             sitterRating: args.sitterRating,
             userReview: args.userReview,

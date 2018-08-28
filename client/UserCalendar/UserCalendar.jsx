@@ -6,15 +6,20 @@ import dates from './dates.js'
 import events from './events.js'
 import AppointmentModal from './AppointmentModal.jsx'
 import CancelModal from './CancelModal.jsx'
+import CalendarQuery from './CalendarQuery.jsx'
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+
 export default class UserCalendar extends React.Component {
   constructor (props) {
       super(props)
-
       this.state = {
         modalShow: false,
         cancelShow: false,
-        currentEvent: {}
-      }
+        events: events,
+        currentEvent: {},
+        skipped: false
+    }
     BigCalendar.setLocalizer(BigCalendar.momentLocalizer (moment))
     this.allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
     events.forEach (
@@ -25,13 +30,18 @@ export default class UserCalendar extends React.Component {
     this.handleOpenCancel = this.handleOpenCancel.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
     this.handleEventCancel = this.handleEventCancel.bind(this)
+    this.handleQuery = this.handleQuery.bind(this)
   }
-  
+  handleQuery (data) {
+    this.setState ({
+      events: data,
+      skipped: true
+    })
+  }
   handleCloseCancel () {
     this.setState ({cancelShow: false})
   }
   handleOpenCancel () {
-    console.log ('cancelShow: ', this.state.cancelShow)
     this.setState ({cancelShow: true})
   }
   
@@ -47,13 +57,12 @@ export default class UserCalendar extends React.Component {
   handleCloseApnt () {
     this.setState({modalShow: false})
   }
-  
-  
 
   render () {
     return (<div>
+      {this.state.skipped ? <span></span> : <CalendarQuery handleQuery = {this.handleQuery} user = {this.props.user} />}
       <BigCalendar
-        events={events}
+        events={this.state.events}
         views={this.allViews}
         step={60}
         showMultiDayTimes
