@@ -135,7 +135,6 @@ export default class TopTabs extends React.Component {
               const sitterId = data.getUserInfo.sitter
                 ? data.getUserInfo.sitter.id
                 : null;
-
               return (
                 <Tab.Container
                   id="top-tabs"

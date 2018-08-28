@@ -5,8 +5,11 @@
 # import TimeInterval from './generated/prisma.graphql'
 # import TodoList from './generated/prisma.graphql'
 # import User from './generated/prisma.graphql'
+# import AppStatus from './generated/prisma.graphql'
 
 type Query {
+  findUserAppointments(userID: String!): [TimeInterval!]!
+  findSitterAppointments(sitterID: String!): [TimeInterval!]!
   findSitters(
     day: String!
     start: Int!
@@ -64,8 +67,6 @@ type Mutation {
   ): Instruction!
   deleteInstructions(id: ID!): BatchPayload!
   deleteTodo(id: ID!): TodoList!
-  # deleteTodoList(id: ID!): Todolist!
-
   updateUser(
     email: String!
     first_name: String
@@ -76,7 +77,6 @@ type Mutation {
     zip_code: String
     pic_url: String
   ): User!
-
   updateSitter(
     id: ID!
     bio: String
@@ -87,7 +87,6 @@ type Mutation {
     pet_addl: Float
     home_rate: Float
   ): Sitter!
-
   updateAppointment(
     id: ID!
     todoList: ID

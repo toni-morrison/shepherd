@@ -70,12 +70,15 @@ type Appointment {
   status: AppStatus!
   userRating: Float
   sitterRating: Float
+  userWords: [String!]
   userReview: String
   sitterReview: String
+  sitterWords: [String!]
 }
 
 enum AppStatus {
   Pending
+  Accepted
   Complete
   Paid
 }
