@@ -40,7 +40,7 @@ export default class UpdateSitter extends React.Component {
                   <Mutation mutation={UPDATE_USER_RATING}>
                     {(updateSitter, { loading, error, data }) => {
                       if (loading) return <p>Loading...</p>;
-                      if (error) return <p>error....</p>;
+                      if (error) return <p>ERROROROROROR....</p>;
                       updateSitter({
                         variables: {
                           id: this.props.sitterId,

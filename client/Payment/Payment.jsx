@@ -1,5 +1,5 @@
 import React from 'react';
-import { MAKE_PAYMENT } from './PaymentHelper.js';
+
 import { PUBLISH_KEY } from '../../server/stripe_config.js';
 
 import { Elements, StripeProvider } from 'react-stripe-elements';

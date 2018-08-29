@@ -22,8 +22,9 @@ type Query {
   findInstructions(id: ID!): [Instruction!]!
   getUserInfo(email: String!): User!
   getSitterSchedule(id: String!): [TimeInterval!]!
-  reviewModal(email: String!): [TimeInterval!]!
+  reviewModal(email: String!): [TimeInterval]
   findSitterReviews(id: ID!): [Appointment]!
+  findAppointments: [TimeInterval]!
 }
 
 type Mutation {

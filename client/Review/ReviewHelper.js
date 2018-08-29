@@ -45,7 +45,6 @@ const UPDATE_USER_RATING = gql`
 `;
 
 const calculateAvg = arr => {
-  console.log('calcavg arr:', arr);
   let div = arr.length;
   let sum = 0;
   for (let i = 0; i < arr.length; i++) {

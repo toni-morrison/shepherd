@@ -105,7 +105,8 @@ export default class TopTabs extends React.Component {
           displayTime: obj.display,
           price: obj.price,
           sitterPic: obj.sitterPic,
-          sitterName: obj.sitterName
+          sitterName: obj.sitterName,
+          skipReviewModal: false
         });
       }
     }
@@ -206,6 +207,7 @@ export default class TopTabs extends React.Component {
                         </Tab.Pane>
                       </Tab.Content>
                     </Col>
+
                     <ReviewModal
                       handleReviewModal={this.handleReviewModal}
                       user={this.props.user}

@@ -1,6 +1,7 @@
 import React from 'react';
 import c3 from 'c3';
 import d3 from 'd3';
+import FindAppointments from './FindAppointments.js';
 // import 'c3/c3.css';
 
 const columns = [
@@ -50,6 +51,11 @@ export default class MonthlyTarget extends React.Component {
   }
 
   render() {
-    return <div id="monthlyTarget">hi</div>;
+    return (
+      <div id="monthlyTarget">
+        hi
+        <FindAppointments />
+      </div>
+    );
   }
 }

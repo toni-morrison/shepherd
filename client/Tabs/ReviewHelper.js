@@ -19,12 +19,38 @@ const REVIEW_MODAL = gql`
           }
         }
         price
+        status
       }
       end
       day
     }
   }
 `;
+
+// const REVIEW_MODAL = gql`
+//   query reviewModal($email: String!) {
+//     reviewModal(email: $email) {
+//       appointment {
+//         id
+//         userRating
+//         user {
+//           email
+//         }
+//         sitter {
+//           user {
+//             first_name
+//             pic_url
+//             email
+//           }
+//         }
+//         price
+//         status
+//       }
+//       end
+//       day
+//     }
+//   }
+// `;
 
 const convertToEndTime = obj => {
   var endTimeHr = Math.floor(obj.end / 60);
@@ -46,6 +72,7 @@ const convertToEndTime = obj => {
 };
 
 const checkData = (obj, sitterId) => {
+  console.log('function topfired:', obj);
   var result = false;
   var appointmentInfo = {};
   var arr = obj.reviewModal;
@@ -56,6 +83,8 @@ const checkData = (obj, sitterId) => {
     var then = new Date(endTime);
     var displayTime = moment(endTime).format('LL');
     if (then < now) {
+      console.log('function fired!');
+      console.log(appt.appointment.status);
       appointmentInfo['id'] = appt.appointment.id;
       appointmentInfo['display'] = displayTime;
       appointmentInfo['price'] = appt.appointment.price;
@@ -86,13 +115,17 @@ const checkData = (obj, sitterId) => {
   }
 
   if (result === true) {
-    console.log('apptobj:', appointmentInfo);
+    console.log('apptinfor:', appointmentInfo);
     return appointmentInfo;
   } else {
     return result;
   }
 };
 
+// if (
+//   appt.appointment.userRating === null &&
+//   appt.appointment.sitterRating !== null
+// )
 module.exports = {
   REVIEW_MODAL,
   checkData
