@@ -151,7 +151,7 @@ export default class UserProfileUpdate extends React.Component {
                 <br />
                 <Row>
                   <Form>
-                    <Col xs={3}>
+                    <Col xs={6}>
                       <FormGroup>
                         <ControlLabel>Address</ControlLabel>{' '}
                         <Geosuggest
