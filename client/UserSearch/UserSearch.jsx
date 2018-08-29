@@ -204,6 +204,8 @@ export default class UserSearch extends React.Component {
           end = {this.state.currentEnd}
           values = {this.state.value}
           lists = {this.props.lists}
+          startDate = {this.state.apntStart}
+          endDate = {this.state.apntEnd}
         />
       );
     }

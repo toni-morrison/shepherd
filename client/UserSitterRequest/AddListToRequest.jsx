@@ -1,5 +1,5 @@
 import React from 'react'
-import { Popover, Modal, OverlayTrigger, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { FIND_INSTRUCTIONS } from '../UserTasks/ApolloHelper.jsx';
 import { Query } from 'react-apollo';
 
