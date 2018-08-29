@@ -3,10 +3,9 @@ type User {
   email: String! @unique
   first_name: String!
   last_name: String!
-  street_address: String
-  city: String
-  state: String
-  zip_code: String
+  address: String!
+  lat: Float!
+  long: Float!
   gCalID: String
   rating: Float
   sitter: Sitter

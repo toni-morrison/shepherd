@@ -11,10 +11,7 @@ const GET_USER_INFO = gql`
       email
       first_name
       last_name
-      street_address
-      city
-      state
-      zip_code
+      address
       rating
       pic_url
     }
@@ -108,9 +105,7 @@ export default class UserProfile extends React.Component {
                           <Col xs={12}>
                             <h4>
                               <strong>Address:</strong>{' '}
-                              {data.getUserInfo.street_address},{' '}
-                              {data.getUserInfo.city}, {data.getUserInfo.state}{' '}
-                              {data.getUserInfo.zip_code}
+                              {data.getUserInfo.address}
                             </h4>
                           </Col>
                         </Row>
@@ -154,10 +149,7 @@ export default class UserProfile extends React.Component {
                           handleUpdate={this.handleUpdate}
                           first_name={data.getUserInfo.first_name}
                           last_name={data.getUserInfo.last_name}
-                          address={data.getUserInfo.street_address}
-                          city={data.getUserInfo.city}
-                          state={data.getUserInfo.state}
-                          zip={data.getUserInfo.zip_code}
+                          address={data.getUserInfo.address}
                           user={this.props.user}
                         />
                       </Well>

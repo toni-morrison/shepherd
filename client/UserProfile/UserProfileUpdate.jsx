@@ -18,20 +18,18 @@ const UPDATE_USER = gql`
     $email: String!
     $first_name: String
     $last_name: String
-    $street_address: String
-    $city: String
-    $state: String
-    $zip_code: String
+    $address: String
+    $long: Float
+    $lat: Float
     $pic_url: String
   ) {
     updateUser(
       email: $email
       first_name: $first_name
       last_name: $last_name
-      street_address: $street_address
-      city: $city
-      state: $state
-      zip_code: $zip_code
+      address: $address
+      long: $long
+      lat: $lat
       pic_url: $pic_url
     ) {
       email
@@ -46,13 +44,14 @@ export default class UserProfileUpdate extends React.Component {
     this.state = {
       first_name: this.props.first_name,
       last_name: this.props.last_name,
-      street_address: this.props.address,
-      city: this.props.city,
-      state: this.props.state,
-      zip_code: this.props.zip
+      address: this.props.address,
+      long: '',
+      lat: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
+    this.handleSuggest = this.handleSuggest.bind(this);
+    this.validateForm = this.validateForm.bind(this);
   }
 
   async handleSubmit(updateUser) {
@@ -65,10 +64,9 @@ export default class UserProfileUpdate extends React.Component {
             email: this.props.user,
             first_name: this.state.first_name,
             last_name: this.state.last_name,
-            street_address: this.state.street_address,
-            city: this.state.city,
-            state: this.state.state,
-            zip_code: this.state.zip_code,
+            address: this.state.address,
+            long: this.state.long,
+            lat: this.state.lat,
             pic_url: url || undefined
           }
         }).then(({ data }) => {
@@ -82,6 +80,31 @@ export default class UserProfileUpdate extends React.Component {
     this.setState({
       [e.target.id]: e.target.value
     });
+  }
+
+  handleSuggest(suggest) {
+    if (suggest) {
+      this.setState({
+        address: suggest.gmaps.formatted_address,
+        long: suggest.location.lng,
+        lat: suggest.location.lat
+      });
+    } else {
+      this.setState({
+        address: '',
+        long: '',
+        lat: ''
+      });
+    }
+  }
+
+  validateForm() {
+    return (
+      this.state.email &&
+      this.state.first_name &&
+      this.state.last_name &&
+      this.state.address
+    );
   }
 
   render() {
@@ -130,49 +153,11 @@ export default class UserProfileUpdate extends React.Component {
                     <Col xs={3}>
                       <FormGroup>
                         <ControlLabel>Address</ControlLabel>{' '}
-                        <FormControl
-                          type="text"
-                          defaultValue={this.props.address}
-                          id="street_address"
-                          onChange={this.handleChangeInput}
-                        />
-                      </FormGroup>{' '}
-                    </Col>
-
-                    <Col xs={3}>
-                      <FormGroup>
-                        <ControlLabel>City</ControlLabel>{' '}
-                        <FormControl
-                          type="text"
-                          defaultValue={this.props.city}
-                          id="city"
-                          onChange={this.handleChangeInput}
-                        />
-                      </FormGroup>{' '}
-                    </Col>
-
-                    <Col xs={2}>
-                      <FormGroup>
-                        <ControlLabel>State</ControlLabel>{' '}
-                        <FormControl
-                          type="text"
-                          style={{ width: '50%' }}
-                          defaultValue={this.props.state}
-                          id="state"
-                          onChange={this.handleChangeInput}
-                        />
-                      </FormGroup>{' '}
-                    </Col>
-
-                    <Col xs={2}>
-                      <FormGroup>
-                        <ControlLabel>Zip Code</ControlLabel>{' '}
-                        <FormControl
-                          type="text"
-                          style={{ width: '50%' }}
-                          defaultValue={this.props.zip}
-                          id="zip_code"
-                          onChange={this.handleChangeInput}
+                        <Geosuggest
+                          style={{ width: '100%' }}
+                          placeholder="Address"
+                          id="address"
+                          onSuggestSelect={this.handleSuggest}
                         />
                       </FormGroup>{' '}
                     </Col>
@@ -191,6 +176,7 @@ export default class UserProfileUpdate extends React.Component {
                     <Button
                       onClick={() => this.handleSubmit(updateUser)}
                       style={{ marginTop: '5%' }}
+                      disabled={this.validateForm}
                     >
                       Submit/Update
                     </Button>

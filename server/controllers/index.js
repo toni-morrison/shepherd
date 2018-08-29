@@ -1,7 +1,6 @@
 const express = require('express');
 const { GraphQLServer } = require('graphql-yoga');
 const { Prisma } = require('prisma-binding');
-const { getSignedUrl, uploadFile } = require('../s3/s3.js');
 
 const options = {
   port: 8080,
@@ -18,7 +17,7 @@ const resolvers = {
           where: {
             appointment: {
               user: {
-                id: args.userID
+                email: args.userEmail
               }
             }
           }
@@ -184,10 +183,9 @@ const resolvers = {
             email: args.email,
             first_name: args.first_name,
             last_name: args.last_name,
-            street_address: args.street_address,
-            city: args.city,
-            state: args.state,
-            zip_code: args.zip_code,
+            address: args.address,
+            long: args.long,
+            lat: args.lat,
             rating: 0,
             pic_url: args.pic_url
           }
@@ -320,10 +318,9 @@ const resolvers = {
           data: {
             first_name: args.first_name,
             last_name: args.last_name,
-            street_address: args.street_address,
-            city: args.city,
-            state: args.state,
-            zip_code: args.zip_code,
+            address: args.address,
+            long: args.long,
+            lat: args.lat,
             pic_url: args.pic_url
           },
           where: {
