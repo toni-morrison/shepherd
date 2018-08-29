@@ -108,6 +108,8 @@ export default class TopTabs extends React.Component {
           sitterName: obj.sitterName,
           skipReviewModal: false
         });
+      } else {
+        return;
       }
     }
   }

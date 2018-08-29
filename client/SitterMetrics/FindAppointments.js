@@ -22,7 +22,7 @@ export default class FindAppointments extends React.Component {
             return (
               <Query
                 query={FIND_SITTER_APPOINTMENTS}
-                variables={{ sitterEmail: 'sitter@test.com' }}
+                variables={{ sitterEmail: this.props.user }}
               >
                 {({ loading, error, data }) => {
                   if (loading) return <p>loading...</p>;

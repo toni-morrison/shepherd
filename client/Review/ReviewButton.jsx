@@ -25,7 +25,7 @@ export default class ReviewButton extends React.Component {
       }
     }).then(({ data }) => {
       let sitterId = data.updateAppointment.sitter.id;
-      console.log('sitterId in func', sitterId);
+
       this.setState(
         {
           sitterId: sitterId

@@ -5,6 +5,7 @@ import WeeklyChart from './WeeklyChart.jsx';
 import DailyChart from './DailyChart.jsx';
 import MonthlyChart from './MonthlyChart.jsx';
 import MonthlyTarget from './MonthlyTarget.jsx';
+import FindAppointments from './FindAppointments.js';
 // import 'c3/c3.css';
 
 export default class SitterMetrics extends React.Component {
@@ -53,6 +54,7 @@ export default class SitterMetrics extends React.Component {
 
           <br />
         </div>
+        <FindAppointments user={this.props.user} />
       </div>
     );
   }

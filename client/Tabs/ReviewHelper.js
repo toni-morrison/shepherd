@@ -9,9 +9,11 @@ const REVIEW_MODAL = gql`
         userRating
         sitterRating
         user {
+          id
           email
         }
         sitter {
+          id
           user {
             email
             pic_url
@@ -72,7 +74,6 @@ const convertToEndTime = obj => {
 };
 
 const checkData = (obj, sitterId) => {
-  console.log('function topfired:', obj);
   var result = false;
   var appointmentInfo = {};
   var arr = obj.reviewModal;
@@ -83,8 +84,6 @@ const checkData = (obj, sitterId) => {
     var then = new Date(endTime);
     var displayTime = moment(endTime).format('LL');
     if (then < now) {
-      console.log('function fired!');
-      console.log(appt.appointment.status);
       appointmentInfo['id'] = appt.appointment.id;
       appointmentInfo['display'] = displayTime;
       appointmentInfo['price'] = appt.appointment.price;
@@ -115,7 +114,6 @@ const checkData = (obj, sitterId) => {
   }
 
   if (result === true) {
-    console.log('apptinfor:', appointmentInfo);
     return appointmentInfo;
   } else {
     return result;
