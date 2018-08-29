@@ -8,16 +8,14 @@ import events from './events.js'
 export default class SitterSchedule extends React.Component {
   constructor (props) {
     super(props)
-
     this.state = {
       show: false,
       skipped: false,
       events: [],
-      currentEvent: {},
+      currentEvent: {}
     }
     BigCalendar.setLocalizer (BigCalendar.momentLocalizer (moment))
     this.allViews = Object.keys (BigCalendar.Views).map(k => BigCalendar.Views[k])
-
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleAccept = this.handleAccept.bind(this)
@@ -72,7 +70,9 @@ export default class SitterSchedule extends React.Component {
       <div>
         {this.state.skipped ? 
           <span></span> 
-          : <CalendarQuery handleQuery = {this.handleQuery} user = {this.props.user} />}
+          : <CalendarQuery 
+              handleQuery = {this.handleQuery} 
+              user = {this.props.user} />}
         <BigCalendar 
           events = {this.state.events}
           views = {this.allViews}

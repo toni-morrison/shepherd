@@ -73,7 +73,7 @@ export default class UserSearch extends React.Component {
   }
 
   handleStartChange(newDate) {
-    let newMonth = newDate._d.getMonth();
+    let newMonth = newDate._d.getMonth() + 1;
     newMonth = newMonth < 10 ? '0' + newMonth : '' + newMonth;
     let newYear = newDate._d.getFullYear();
     let newDay = newDate._d.getDate();
@@ -88,7 +88,7 @@ export default class UserSearch extends React.Component {
     });
   }
   handleEndChange(newDate) {
-    let newMonth = newDate._d.getMonth();
+    let newMonth = newDate._d.getMonth() + 1;
     newMonth = newMonth < 10 ? '0' + newMonth : '' + newMonth;
     let newYear = newDate._d.getFullYear();
     let newDay = newDate._d.getDate();

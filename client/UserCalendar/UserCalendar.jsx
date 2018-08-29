@@ -83,6 +83,7 @@ export default class UserCalendar extends React.Component {
         handleOpenCancel = {this.handleOpenCancel}/>
       <CancelModal 
         show = {this.state.cancelShow} 
+        event = {this.state.currentEvent}
         handleClose = {this.handleCloseCancel} 
         handleEventCancel = {this.handleEventCancel}/>
       </div>)
