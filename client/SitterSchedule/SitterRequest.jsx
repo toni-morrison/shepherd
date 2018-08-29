@@ -55,8 +55,8 @@ export default class SitterRequest extends React.Component {
         <div>
           <ul>
               {
-                this.props.currentEvent.instructions.map (
-                  (instruction) => <li>{instruction}</li>)
+                this.props.currentEvent.instructions ? this.props.currentEvent.instructions.map (
+                  (instruction) => <li>{instruction}</li>) : <li>No Instructions Given</li>
               }
           </ul>
         </div>
