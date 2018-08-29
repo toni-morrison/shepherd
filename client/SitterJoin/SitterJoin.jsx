@@ -67,7 +67,7 @@ export default class SitterJoin extends React.Component {
     if (val) {
       this.setState({
         [e.target.name]: val
-      });
+      }, console.log(this.state));
     } else {
       this.setState({ [e.target.name]: e.target.value });
     }
