@@ -32,7 +32,10 @@ function CancelMutation (props) {
                         variables: {
                           apntID: props.apntID
                         }
-                      }).then (props.handleClose)
+                      }).then (({ data }) => {
+                        console.log (data)
+                        props.handleClose();
+                      })
               }}>Yes, Cancel It</Button>)
         }
       }

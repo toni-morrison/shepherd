@@ -43,6 +43,7 @@ const FIND_USER_APPOINTMENTS = gql `
   }
 `;
 function CalendarQuery (props) {
+  console.log ()
   return (<Query 
             query = {FIND_USER_APPOINTMENTS} 
             variables = {{userEmail: props.user}} >
