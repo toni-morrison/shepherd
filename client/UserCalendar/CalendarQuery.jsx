@@ -51,7 +51,7 @@ function CalendarQuery (props) {
             if (error) {
               return <span></span>
             }
-            console.log ('data: ', data)
+            console.log ('data, User Query: ', data)
             let tempData = []
             data.findUserAppointments.map (
               function (timeInt) {
@@ -71,7 +71,7 @@ function CalendarQuery (props) {
                 console.log ('endTime: ', endTime)
                 let cost = 0;
                 for (var i = 0; i < timeInt.appointment.app_types.length; i++) {
-                  cost += ((timeInt.start - timeInt.End) / 60) * timeInt.application.sitter.rates [timeInt.application.app_types[i] + '_rate']
+                  cost += ((timeInt.start - timeInt.End) / 60) * timeInt.appointment.sitter.rates [timeInt.appointment.app_types[i] + '_rate']
                 }
                 tempData.push ({
                   allDay: false,
@@ -87,7 +87,7 @@ function CalendarQuery (props) {
                 })
               }
             )
-            console.log ('tempData: ', tempData)
+            console.log ('tempData, User: ', tempData)
             props.handleQuery (tempData)
         return <span />;
       }}
