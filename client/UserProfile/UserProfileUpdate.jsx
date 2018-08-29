@@ -12,6 +12,7 @@ import {
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getSignedUrls } from '../../server/s3/s3.js';
+import Geosuggest from 'react-geosuggest';
 
 const UPDATE_USER = gql`
   mutation updateUser(
@@ -45,8 +46,8 @@ export default class UserProfileUpdate extends React.Component {
       first_name: this.props.first_name,
       last_name: this.props.last_name,
       address: this.props.address,
-      long: '',
-      lat: ''
+      long: undefined,
+      lat: undefined
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeInput = this.handleChangeInput.bind(this);
@@ -91,9 +92,9 @@ export default class UserProfileUpdate extends React.Component {
       });
     } else {
       this.setState({
-        address: '',
-        long: '',
-        lat: ''
+        address: undefined,
+        long: undefined,
+        lat: undefined
       });
     }
   }
@@ -150,7 +151,7 @@ export default class UserProfileUpdate extends React.Component {
                 <br />
                 <Row>
                   <Form>
-                    <Col xs={3}>
+                    <Col xs={6}>
                       <FormGroup>
                         <ControlLabel>Address</ControlLabel>{' '}
                         <Geosuggest
@@ -176,7 +177,7 @@ export default class UserProfileUpdate extends React.Component {
                     <Button
                       onClick={() => this.handleSubmit(updateUser)}
                       style={{ marginTop: '5%' }}
-                      disabled={this.validateForm}
+                      disabled={this.validateForm()}
                     >
                       Submit/Update
                     </Button>

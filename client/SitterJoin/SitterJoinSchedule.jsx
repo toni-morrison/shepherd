@@ -83,11 +83,7 @@ export default class SitterJoinSchedule extends React.Component {
                                 <option
                                   key={hour}
                                   value={
-                                    parseInt(hour) === 0
-                                      ? '12'
-                                      : parseInt(hour) < 10
-                                        ? '0' + hour
-                                        : hour
+                                    parseInt(hour) < 10 ? '0' + hour : hour
                                   }
                                 >
                                   {parseInt(hour) === 0
@@ -105,19 +101,19 @@ export default class SitterJoinSchedule extends React.Component {
                             placeholder="Min"
                             onChange={e => this.handleChange(e, day, 3, 5)}
                           >
-                            {[...Array(4).keys()].map(min => {
+                            {[...Array(2).keys()].map(min => {
                               return (
                                 <option
                                   key={min}
                                   value={
-                                    parseInt(min * 15) < 10
+                                    parseInt(min * 30) < 10
                                       ? '0' + min
-                                      : min * 15
+                                      : min * 30
                                   }
                                 >
-                                  {parseInt(min * 15) < 10
+                                  {parseInt(min * 30) < 10
                                     ? '0' + min
-                                    : min * 15}
+                                    : min * 30}
                                 </option>
                               );
                             })}
@@ -156,11 +152,7 @@ export default class SitterJoinSchedule extends React.Component {
                                 <option
                                   key={hour}
                                   value={
-                                    parseInt(hour) === 0
-                                      ? '12'
-                                      : parseInt(hour) < 10
-                                        ? '0' + hour
-                                        : hour
+                                    parseInt(hour) < 10 ? '0' + hour : hour
                                   }
                                 >
                                   {parseInt(hour) === 0
@@ -178,19 +170,19 @@ export default class SitterJoinSchedule extends React.Component {
                             placeholder="Min"
                             onChange={e => this.handleChange(e, day, 11, 13)}
                           >
-                            {[...Array(4).keys()].map(min => {
+                            {[...Array(2).keys()].map(min => {
                               return (
                                 <option
                                   key={min}
                                   value={
-                                    parseInt(min * 15) < 10
+                                    parseInt(min * 30) < 10
                                       ? '0' + min
-                                      : min * 15
+                                      : min * 30
                                   }
                                 >
-                                  {parseInt(min * 15) < 10
+                                  {parseInt(min * 30) < 10
                                     ? '0' + min
-                                    : min * 15}
+                                    : min * 30}
                                 </option>
                               );
                             })}
