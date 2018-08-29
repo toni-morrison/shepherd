@@ -52,8 +52,8 @@ export default class Signup extends React.Component {
       firstname: '',
       lastname: '',
       address: '',
-      long: '',
-      lat: '',
+      long: undefined,
+      lat: undefined,
       badFile: false
     };
     this.validateForm = this.validateForm.bind(this);
@@ -144,8 +144,8 @@ export default class Signup extends React.Component {
     } else {
       this.setState({
         address: '',
-        long: '',
-        lat: ''
+        long: undefined,
+        lat: undefined
       });
     }
   }
