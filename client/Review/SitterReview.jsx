@@ -82,7 +82,7 @@ export default class SitterReview extends React.Component {
           />
         </div>
         <div className="review-title">
-          <h3>What did you think of your sitter? </h3>
+          <h3>What did you think of the Customer? </h3>
         </div>
 
         <div className="review-buttons">

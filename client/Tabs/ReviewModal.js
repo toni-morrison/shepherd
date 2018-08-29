@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { REVIEW_MODAL, checkData } from './ReviewHelper.js';
 import { Query } from 'react-apollo';
-// import Review from '../Review/Review.jsx';
 
 export default class ReviewModal extends React.Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
+import { Button, Modal, FormGroup, FormControl, DropdownButton, MenuItem } from 'react-bootstrap';
 import AddListToRequest from './AddListToRequest.jsx'
 
 export default class UserSitterRequest extends React.Component {
@@ -8,17 +8,20 @@ export default class UserSitterRequest extends React.Component {
     this.state = {
       show: true,
       showAddList: false,
-      showAddMessage: false,
       start: {hour: '', min: '', am: ''},
-      end: {hour: '', min: '', am: ''}
+      end: {hour: '', min: '', am: ''},
+      listName: 'Select List',
+      listId: '123'
     };
 
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleShowList = this.handleShowList.bind(this);
+    this.addList = this.addList.bind(this)
   }
 
   componentDidMount(){
+    //formats start and end times
     let startHour, startMin, startAm, endHour, endMin, endAm;
     (Math.floor(this.props.start/60) % 12 === 0) ? startHour = 12 : startHour = Math.floor(this.props.start/60) % 12;
     startMin = this.props.start % 60;
@@ -52,9 +55,15 @@ export default class UserSitterRequest extends React.Component {
     });
   }
 
+  addList(e, id) {
+    this.setState({
+      listName: e.target.text,
+      listId: id
+    })
+  }
+
   render() {
     if (this.props.id === this.props.review.id) {
-      var currentDay = this.props.day
         return (
           <div className="request-modal" key={this.props.review.id}>
             <Modal show={this.props.show} onHide={this.props.showOff}>
@@ -63,15 +72,23 @@ export default class UserSitterRequest extends React.Component {
               </Modal.Header>
     
               <h3>Name: {this.props.first_name} {this.props.last_name}</h3>
-              <h3>Date: {currentDay}</h3>
+              <h3>Date: {this.props.day}</h3>
               <h3>Time: {this.state.start.hour}:{this.state.start.min} {this.state.start.am} to {this.state.end.hour}:{this.state.end.min} {this.state.end.am}</h3>
               <h3>Total Price: $175 </h3>
-              <h3>
-                List:{' '}
-                <a href="#addList" onClick={this.handleShowList}>
-                  Add List
-                </a>
-                <AddListToRequest show={this.state.showAddList} hide={this.handleShowList}/>
+              <h3>Instruction List: (optional)<br/>
+                <DropdownButton title={this.state.listName} id='dropdown'>
+                  <MenuItem key='' onClick={(e) => this.addList(e, '')}>Select List</MenuItem>
+                  {this.props.lists.findTodoLists.map((list) => {
+                    return(
+                      <MenuItem key={list.id} onClick={(e) => this.addList(e, list.id)}>{list.name}</MenuItem>
+                    )
+                  })}
+                </DropdownButton>{' '}<Button onClick={this.handleShowList}>View</Button>
+
+                <AddListToRequest
+                  show={this.state.showAddList}
+                  hide={this.handleShowList}
+                  listId={this.state.listId}/>
               </h3>
               <h3>
                 Add Message:{' '}

@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Tue Aug 28 2018 10:03:00 GMT-0500 (GMT-05:00)
+# timestamp: Tue Aug 28 2018 19:34:59 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -2081,10 +2081,9 @@ type User implements Node {
   email: String!
   first_name: String!
   last_name: String!
-  street_address: String
-  city: String
-  state: String
-  zip_code: String
+  address: String!
+  lat: Float!
+  long: Float!
   gCalID: String
   rating: Float
   sitter(where: SitterWhereInput): Sitter
@@ -2105,10 +2104,9 @@ input UserCreateInput {
   email: String!
   first_name: String!
   last_name: String!
-  street_address: String
-  city: String
-  state: String
-  zip_code: String
+  address: String!
+  lat: Float!
+  long: Float!
   gCalID: String
   rating: Float
   pic_url: String
@@ -2129,10 +2127,9 @@ input UserCreateWithoutSitterInput {
   email: String!
   first_name: String!
   last_name: String!
-  street_address: String
-  city: String
-  state: String
-  zip_code: String
+  address: String!
+  lat: Float!
+  long: Float!
   gCalID: String
   rating: Float
   pic_url: String
@@ -2156,14 +2153,12 @@ enum UserOrderByInput {
   first_name_DESC
   last_name_ASC
   last_name_DESC
-  street_address_ASC
-  street_address_DESC
-  city_ASC
-  city_DESC
-  state_ASC
-  state_DESC
-  zip_code_ASC
-  zip_code_DESC
+  address_ASC
+  address_DESC
+  lat_ASC
+  lat_DESC
+  long_ASC
+  long_DESC
   gCalID_ASC
   gCalID_DESC
   rating_ASC
@@ -2181,10 +2176,9 @@ type UserPreviousValues {
   email: String!
   first_name: String!
   last_name: String!
-  street_address: String
-  city: String
-  state: String
-  zip_code: String
+  address: String!
+  lat: Float!
+  long: Float!
   gCalID: String
   rating: Float
   pic_url: String
@@ -2233,10 +2227,9 @@ input UserUpdateDataInput {
   email: String
   first_name: String
   last_name: String
-  street_address: String
-  city: String
-  state: String
-  zip_code: String
+  address: String
+  lat: Float
+  long: Float
   gCalID: String
   rating: Float
   pic_url: String
@@ -2247,10 +2240,9 @@ input UserUpdateInput {
   email: String
   first_name: String
   last_name: String
-  street_address: String
-  city: String
-  state: String
-  zip_code: String
+  address: String
+  lat: Float
+  long: Float
   gCalID: String
   rating: Float
   pic_url: String
@@ -2277,10 +2269,9 @@ input UserUpdateWithoutSitterDataInput {
   email: String
   first_name: String
   last_name: String
-  street_address: String
-  city: String
-  state: String
-  zip_code: String
+  address: String
+  lat: Float
+  long: Float
   gCalID: String
   rating: Float
   pic_url: String
@@ -2465,166 +2456,90 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   last_name_not_ends_with: String
-  street_address: String
+  address: String
 
   """All values that are not equal to given value."""
-  street_address_not: String
+  address_not: String
 
   """All values that are contained in given list."""
-  street_address_in: [String!]
+  address_in: [String!]
 
   """All values that are not contained in given list."""
-  street_address_not_in: [String!]
+  address_not_in: [String!]
 
   """All values less than the given value."""
-  street_address_lt: String
+  address_lt: String
 
   """All values less than or equal the given value."""
-  street_address_lte: String
+  address_lte: String
 
   """All values greater than the given value."""
-  street_address_gt: String
+  address_gt: String
 
   """All values greater than or equal the given value."""
-  street_address_gte: String
+  address_gte: String
 
   """All values containing the given string."""
-  street_address_contains: String
+  address_contains: String
 
   """All values not containing the given string."""
-  street_address_not_contains: String
+  address_not_contains: String
 
   """All values starting with the given string."""
-  street_address_starts_with: String
+  address_starts_with: String
 
   """All values not starting with the given string."""
-  street_address_not_starts_with: String
+  address_not_starts_with: String
 
   """All values ending with the given string."""
-  street_address_ends_with: String
+  address_ends_with: String
 
   """All values not ending with the given string."""
-  street_address_not_ends_with: String
-  city: String
+  address_not_ends_with: String
+  lat: Float
 
   """All values that are not equal to given value."""
-  city_not: String
+  lat_not: Float
 
   """All values that are contained in given list."""
-  city_in: [String!]
+  lat_in: [Float!]
 
   """All values that are not contained in given list."""
-  city_not_in: [String!]
+  lat_not_in: [Float!]
 
   """All values less than the given value."""
-  city_lt: String
+  lat_lt: Float
 
   """All values less than or equal the given value."""
-  city_lte: String
+  lat_lte: Float
 
   """All values greater than the given value."""
-  city_gt: String
+  lat_gt: Float
 
   """All values greater than or equal the given value."""
-  city_gte: String
-
-  """All values containing the given string."""
-  city_contains: String
-
-  """All values not containing the given string."""
-  city_not_contains: String
-
-  """All values starting with the given string."""
-  city_starts_with: String
-
-  """All values not starting with the given string."""
-  city_not_starts_with: String
-
-  """All values ending with the given string."""
-  city_ends_with: String
-
-  """All values not ending with the given string."""
-  city_not_ends_with: String
-  state: String
+  lat_gte: Float
+  long: Float
 
   """All values that are not equal to given value."""
-  state_not: String
+  long_not: Float
 
   """All values that are contained in given list."""
-  state_in: [String!]
+  long_in: [Float!]
 
   """All values that are not contained in given list."""
-  state_not_in: [String!]
+  long_not_in: [Float!]
 
   """All values less than the given value."""
-  state_lt: String
+  long_lt: Float
 
   """All values less than or equal the given value."""
-  state_lte: String
+  long_lte: Float
 
   """All values greater than the given value."""
-  state_gt: String
+  long_gt: Float
 
   """All values greater than or equal the given value."""
-  state_gte: String
-
-  """All values containing the given string."""
-  state_contains: String
-
-  """All values not containing the given string."""
-  state_not_contains: String
-
-  """All values starting with the given string."""
-  state_starts_with: String
-
-  """All values not starting with the given string."""
-  state_not_starts_with: String
-
-  """All values ending with the given string."""
-  state_ends_with: String
-
-  """All values not ending with the given string."""
-  state_not_ends_with: String
-  zip_code: String
-
-  """All values that are not equal to given value."""
-  zip_code_not: String
-
-  """All values that are contained in given list."""
-  zip_code_in: [String!]
-
-  """All values that are not contained in given list."""
-  zip_code_not_in: [String!]
-
-  """All values less than the given value."""
-  zip_code_lt: String
-
-  """All values less than or equal the given value."""
-  zip_code_lte: String
-
-  """All values greater than the given value."""
-  zip_code_gt: String
-
-  """All values greater than or equal the given value."""
-  zip_code_gte: String
-
-  """All values containing the given string."""
-  zip_code_contains: String
-
-  """All values not containing the given string."""
-  zip_code_not_contains: String
-
-  """All values starting with the given string."""
-  zip_code_starts_with: String
-
-  """All values not starting with the given string."""
-  zip_code_not_starts_with: String
-
-  """All values ending with the given string."""
-  zip_code_ends_with: String
-
-  """All values not ending with the given string."""
-  zip_code_not_ends_with: String
+  long_gte: Float
   gCalID: String
 
   """All values that are not equal to given value."""

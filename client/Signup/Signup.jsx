@@ -4,6 +4,7 @@ import { getSignedUrls } from '../../server/s3/s3';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import axios from 'axios';
+import Geosuggest from 'react-geosuggest';
 import {
   Button,
   Form,
@@ -19,20 +20,18 @@ const SIGNUP = gql`
     $email: String!
     $first_name: String!
     $last_name: String!
-    $street_address: String
-    $city: String
-    $state: String
-    $zip_code: String
+    $address: String!
+    $long: Float!
+    $lat: Float!
     $pic_url: String
   ) {
     signup(
       email: $email
       first_name: $first_name
       last_name: $last_name
-      street_address: $street_address
-      city: $city
-      state: $state
-      zip_code: $zip_code
+      address: $address
+      long: $long
+      lat: $lat
       pic_url: $pic_url
     ) {
       id
@@ -52,23 +51,24 @@ export default class Signup extends React.Component {
       confirmPassword: '',
       firstname: '',
       lastname: '',
-      street: '',
-      city: '',
-      state: '',
-      zipcode: '',
+      address: '',
+      long: '',
+      lat: '',
       badFile: false
     };
     this.validateForm = this.validateForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleSignupSubmit = this.handleSignupSubmit.bind(this);
+    this.handleSuggest = this.handleSuggest.bind(this);
   }
 
   validateForm() {
     return (
       this.state.email.length > 0 &&
       this.state.password.length > 0 &&
-      this.state.password === this.state.confirmPassword
+      this.state.password === this.state.confirmPassword &&
+      this.state.address.length > 0
     );
   }
 
@@ -94,7 +94,7 @@ export default class Signup extends React.Component {
     //grab the User uid from firebase and add it to info being passed to db
     //pass all information to db USER and save
     //redirect to dashboard
-    await getSignedUrls(document, 'image-file', (err, url) => {
+    await getSignedUrls(document, 'signupPropic', (err, url) => {
       if (err) {
         console.log(err);
       } else {
@@ -107,10 +107,9 @@ export default class Signup extends React.Component {
                 email: this.state.email,
                 first_name: this.state.firstname,
                 last_name: this.state.lastname,
-                street_address: this.state.street,
-                city: this.state.city,
-                state: this.state.state,
-                zip_code: this.state.zipcode,
+                address: this.state.address,
+                long: this.state.long,
+                lat: this.state.lat,
                 pic_url: url
               }
             })
@@ -127,13 +126,28 @@ export default class Signup extends React.Component {
           });
       }
     });
-    
   }
 
   handleChange(e) {
     this.setState({
       [e.target.id]: e.target.value
     });
+  }
+
+  handleSuggest(suggest) {
+    if (suggest) {
+      this.setState({
+        address: suggest.gmaps.formatted_address,
+        long: suggest.location.lng,
+        lat: suggest.location.lat
+      });
+    } else {
+      this.setState({
+        address: '',
+        long: '',
+        lat: ''
+      });
+    }
   }
 
   render() {
@@ -204,46 +218,12 @@ export default class Signup extends React.Component {
                   </FormGroup>
                   <Row>Enter Your Address</Row>
                   <FormGroup>
-                    <Col xs={6} xsOffset={3}>
-                      <FormControl
-                        type="text"
-                        value={this.state.street}
-                        id="street"
-                        placeholder="Enter your street"
-                        onChange={this.handleChange}
-                      />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup>
-                    <Col xs={6} xsOffset={3}>
-                      <FormControl
-                        type="text"
-                        value={this.state.city}
-                        id="city"
-                        placeholder="Enter your city"
-                        onChange={this.handleChange}
-                      />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup>
-                    <Col xs={6} xsOffset={3}>
-                      <FormControl
-                        type="text"
-                        value={this.state.state}
-                        id="state"
-                        placeholder="Enter your state"
-                        onChange={this.handleChange}
-                      />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup>
-                    <Col xs={6} xsOffset={3}>
-                      <FormControl
-                        type="text"
-                        value={this.state.zipcode}
-                        id="zipcode"
-                        placeholder="Enter your zip code"
-                        onChange={this.handleChange}
+                    <Col xs={10} xsOffset={1}>
+                      <Geosuggest
+                        style={{ width: '100%' }}
+                        placeholder="Address"
+                        id="address"
+                        onSuggestSelect={this.handleSuggest}
                       />
                     </Col>
                   </FormGroup>

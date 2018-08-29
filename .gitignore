@@ -87,3 +87,4 @@ typings/
 # config files
 docker-compose.yml
 /server/s3/s3_config.js
+stripe_config.js
