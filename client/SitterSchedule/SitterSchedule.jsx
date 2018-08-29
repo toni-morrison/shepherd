@@ -82,7 +82,9 @@ export default class SitterSchedule extends React.Component {
           onSelectEvent = {this.handleShow}/>
         <Button onClick={this.handleShow}>SITTER REQUEST</Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
-          <SitterRequest currentEvent = {this.state.currentEvent} handleAccept = {this.handleAccept} handleReject = {this.handleReject}/>
+          <SitterRequest 
+            currentEvent = {this.state.currentEvent} handleAccept = {this.handleAccept} 
+            handleReject = {this.handleReject}/>
         </Modal>
       </div>
     )

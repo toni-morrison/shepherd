@@ -38,15 +38,16 @@ export default class SitterRequest extends React.Component {
     const sitterPic = (
       <img
         id="sitterPicture"
-        src="https://secure.gravatar.com/avatar/d850b1b3ba6566142f958048a998cf0a?s=96&d=mm&r=g"
+        src={this.props.currentEvent.pic_url}
       />
     );
-
+    const sitterRating = this.props.currentEvent.rating;
+    const userComment = this.props.currentEvent.comment
     const namePopover = (
       <Popover id="modal-popover" title="Debbie Childparent">
         {sitterPic}
         <br />
-        Other sitters have rated her 4.5/5
+        {sitterRating ? ("Other sitters have rated her" + sitterRating + "//5") : ""}
       </Popover>
     );
 
@@ -64,12 +65,14 @@ export default class SitterRequest extends React.Component {
     );
 
     const messagePopover = (
-      <Popover id="modal-popover" title="Message">
+      this.props.currentEvent.comment ? 
+      (<Popover id="modal-popover" title="Message">
         <p>
-          Thank you so much for doing this! If you want anything to eat, please
-          order a pizza on us!
+          {this.props.currentEvent.comment}
         </p>
-      </Popover>
+      </Popover>)
+      : (<span />)
+
     );
 
     return (
