@@ -1,7 +1,6 @@
 const express = require('express');
 const { GraphQLServer } = require('graphql-yoga');
 const { Prisma } = require('prisma-binding');
-const { getSignedUrl, uploadFile } = require('../s3/s3.js');
 
 const options = {
   port: 8080,
@@ -16,9 +15,9 @@ const resolvers = {
       return context.prisma.query.timeIntervals(
         {
           where: {
-            appointment : {
-              user : {
-                id: args.userID
+            appointment: {
+              user: {
+                email: args.userEmail
               }
             }
           }
@@ -30,10 +29,10 @@ const resolvers = {
       return context.prisma.query.timeIntervals(
         {
           where: {
-            appointment : {
-              sitter : {
+            appointment: {
+              sitter: {
                 user: {
-                  id: args.sitterID
+                  email: args.sitterEmail
                 }
               }
             }
@@ -42,7 +41,7 @@ const resolvers = {
         info
       );
     },
-    
+
     findSitters: (_, args, context, info) => {
       let ANDConditions = [
         {
@@ -167,6 +166,16 @@ const resolvers = {
     }
   },
   Mutation: {
+    cancelAppointment: (_, args, context, info) => {
+      return context.prisma.mutation.deleteAppointment (
+        {
+          where : {
+            id: args.apntID
+          }
+        },
+        info
+      )
+    },
     signup: (_, args, context, info) => {
       return context.prisma.mutation.createUser(
         {
@@ -174,10 +183,9 @@ const resolvers = {
             email: args.email,
             first_name: args.first_name,
             last_name: args.last_name,
-            street_address: args.street_address,
-            city: args.city,
-            state: args.state,
-            zip_code: args.zip_code,
+            address: args.address,
+            long: args.long,
+            lat: args.lat,
             rating: 0,
             pic_url: args.pic_url
           }
@@ -310,10 +318,9 @@ const resolvers = {
           data: {
             first_name: args.first_name,
             last_name: args.last_name,
-            street_address: args.street_address,
-            city: args.city,
-            state: args.state,
-            zip_code: args.zip_code,
+            address: args.address,
+            long: args.long,
+            lat: args.lat,
             pic_url: args.pic_url
           },
           where: {
@@ -363,7 +370,8 @@ const resolvers = {
             userRating: args.userRating,
             sitterRating: args.sitterRating,
             userReview: args.userReview,
-            sitterReview: args.sitterReview
+            sitterReview: args.sitterReview,
+            status: args.status
           },
           where: {
             id: args.id

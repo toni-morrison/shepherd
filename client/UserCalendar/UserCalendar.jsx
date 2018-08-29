@@ -38,9 +38,11 @@ export default class UserCalendar extends React.Component {
       skipped: true
     })
   }
+  
   handleCloseCancel () {
     this.setState ({cancelShow: false})
   }
+  
   handleOpenCancel () {
     this.setState ({cancelShow: true})
   }
@@ -59,8 +61,13 @@ export default class UserCalendar extends React.Component {
   }
 
   render () {
+    this.state.events.forEach (
+      (event) => event.title = event.status + ': ' + event.sittername
+    )
     return (<div>
-      {this.state.skipped ? <span></span> : <CalendarQuery handleQuery = {this.handleQuery} user = {this.props.user} />}
+      {this.state.skipped ? 
+          <span></span> 
+          : <CalendarQuery handleQuery = {this.handleQuery} user = {this.props.user} />}
       <BigCalendar
         events={this.state.events}
         views={this.allViews}

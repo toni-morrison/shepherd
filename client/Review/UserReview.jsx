@@ -4,6 +4,8 @@ import { fiveStar, fourStar, threeStar, twoStar, oneStar } from './Synonyms.js';
 import { wordJumble } from './ReviewHelper.js';
 import { ToggleButtonGroup, ToggleButton, FormControl } from 'react-bootstrap';
 import ReviewButton from './ReviewButton.jsx';
+import Payment from '../Payment/Payment.jsx';
+import { Row, Col, Tab, Nav, NavItem, Modal, Button } from 'react-bootstrap';
 
 const stars = {
   1: oneStar,
@@ -23,13 +25,15 @@ export default class UserReview extends React.Component {
       textarea: '',
       user: this.props.user,
       sitter: '',
-
-      id: this.props.id
+      id: this.props.id,
+      renderPayment: false,
+      paid: false
     };
     this.onChangeRating = this.onChangeRating.bind(this);
     this.onHandleClick = this.onHandleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleClosePayment = this.handleClosePayment.bind(this);
   }
 
   componentDidMount() {
@@ -57,7 +61,26 @@ export default class UserReview extends React.Component {
     this.setState(
       { rating: 3, renderWords: [], value: [], textarea: '' },
       () => {
-        this.props.closeReviewModal();
+        this.setState({
+          renderPayment: true
+        });
+      }
+    );
+  }
+
+  handleClosePayment() {
+    this.setState(
+      {
+        renderPayment: false,
+        paid: true
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({
+            paid: false
+          });
+          this.props.closeReviewModal();
+        }, 1500);
       }
     );
   }
@@ -85,7 +108,6 @@ export default class UserReview extends React.Component {
         <div className="review-title">
           <h3>What did you think of your sitter? </h3>
         </div>
-
         <div className="review-buttons">
           <ToggleButtonGroup
             onChange={this.onHandleClick}
@@ -111,6 +133,27 @@ export default class UserReview extends React.Component {
           reviewWords={this.state.value}
           userReview={this.state.textarea}
         />
+        <Modal className="payment-modal" show={this.state.renderPayment}>
+          <Modal.Header>
+            <Modal.Title>Make A Payment!</Modal.Title>
+          </Modal.Header>
+          <Payment
+            price={this.props.price}
+            displayTime={this.props.displayTime}
+            handleClosePayment={this.handleClosePayment}
+            user={this.props.user}
+            id={this.state.id}
+          />
+        </Modal>
+
+        {this.state.paid && (
+          <div id="running-cash">
+            <img
+              id="running-cash"
+              src="https://78.media.tumblr.com/bd0e0030518c3ede2f96a698ef89ed14/tumblr_okblpveg9I1u6w1edo1_500.gif"
+            />
+          </div>
+        )}
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import SitterRequest from './SitterRequest.jsx';
 import BigCalendar from 'react-big-calendar';
+import CalendarQuery from './CalendarQuery.jsx';
 import moment from 'moment'
 import events from './events.js'
 export default class SitterSchedule extends React.Component {
@@ -10,26 +11,31 @@ export default class SitterSchedule extends React.Component {
 
     this.state = {
       show: false,
+      skipped: false,
+      events: [],
       currentEvent: {},
     }
     BigCalendar.setLocalizer (BigCalendar.momentLocalizer (moment))
     this.allViews = Object.keys (BigCalendar.Views).map(k => BigCalendar.Views[k])
-    events.forEach (
-      (event) => event.title = event.status + ': ' + event.username
-    )
+
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleAccept = this.handleAccept.bind(this)
     this.handleReject = this.handleReject.bind(this)
+    this.handleQuery = this.handleQuery.bind(this);
   }
   
   handleAccept () {
     this.state.currentEvent.status = 'ACCEPTED';
     this.state.currentEvent.title = this.state.currentEvent.status + ': ' + this.state.currentEvent.username
     this.setState ({currentEvent: this.state.currentEvent})
-//        var newCurrentEvent = Object.assign ({}, this.state.currentEvent);
-//    newCurrentEvent.status = 'ACCEPTED'
-//    this.setState ({currentEvent: newCurrentEvent})
+  }
+  
+  handleQuery (data) {
+    this.setState ({
+      events: data,
+      skipped: true
+    })
   }
   
   handleReject () {
@@ -57,11 +63,18 @@ export default class SitterSchedule extends React.Component {
     
   }
   
+  
   render () {
+    this.state.events.forEach (
+      (event) => event.title = event.status + ': ' + event.username
+    )
     return(
       <div>
+        {this.state.skipped ? 
+          <span></span> 
+          : <CalendarQuery handleQuery = {this.handleQuery} user = {this.props.user} />}
         <BigCalendar 
-          events = {events}
+          events = {this.state.events}
           views = {this.allViews}
           step = {60}
           showMultiDayTimes

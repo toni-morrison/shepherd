@@ -1,10 +1,9 @@
-import React from 'react';
+import React from 'react'
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-
-const FIND_USER_APPOINTMENTS = gql `
-  query findUserAppointments ($userEmail: String!) {
-    findUserAppointments (userEmail: $userEmail) {
+const FIND_SITTER_APPOINTMENTS = gql `
+  query findSitterAppointments ($sitterEmail: String!) {
+    findSitterAppointments (sitterEmail: $sitterEmail) {
       start  
       end
       day
@@ -12,7 +11,7 @@ const FIND_USER_APPOINTMENTS = gql `
         id
         price
         children
-        pets
+        pets  
         comment
         app_types
         status
@@ -42,7 +41,7 @@ const FIND_USER_APPOINTMENTS = gql `
   }
 `;
 function CalendarQuery (props) {
-  return (<Query query = {FIND_USER_APPOINTMENTS} variables = {{userEmail: props.user}} >
+  return (<Query query = {FIND_SITTER_APPOINTMENTS} variables = {{sitterEmail: props.user}} >
         {
           ({ loading, error, data }) => {
             if (loading) {
@@ -51,9 +50,9 @@ function CalendarQuery (props) {
             if (error) {
               return <span></span>
             }
-            console.log ('data, User Query: ', data)
+            console.log ('data, Sitter Query: ', data)
             let tempData = []
-            data.findUserAppointments.map (
+            data.findSitterAppointments.map (
               function (timeInt) {
                 let startMin = timeInt.start % 60;
                 let endMin = timeInt.end % 60;
@@ -87,11 +86,11 @@ function CalendarQuery (props) {
                 })
               }
             )
-            console.log ('tempData, User: ', tempData)
+            console.log ('tempData, Sitter: ', tempData)
             props.handleQuery (tempData)
-        return <span />;
-      }}
-    </Query>
-  );
+            return <span></span>
+          }
+        }
+      </Query>)
 }
-export default CalendarQuery;
+export default CalendarQuery
