@@ -16,9 +16,9 @@ const resolvers = {
       return context.prisma.query.timeIntervals(
         {
           where: {
-            appointment : {
-              user : {
-                email: args.userEmail
+            appointment: {
+              user: {
+                id: args.userID
               }
             }
           }
@@ -30,8 +30,8 @@ const resolvers = {
       return context.prisma.query.timeIntervals(
         {
           where: {
-            appointment : {
-              sitter : {
+            appointment: {
+              sitter: {
                 user: {
                   email: args.sitterEmail
                 }
@@ -42,7 +42,7 @@ const resolvers = {
         info
       );
     },
-    
+
     findSitters: (_, args, context, info) => {
       let ANDConditions = [
         {
@@ -373,7 +373,8 @@ const resolvers = {
             userRating: args.userRating,
             sitterRating: args.sitterRating,
             userReview: args.userReview,
-            sitterReview: args.sitterReview
+            sitterReview: args.sitterReview,
+            status: args.status
           },
           where: {
             id: args.id

@@ -31,7 +31,8 @@ export default class TopTabs extends React.Component {
       renderReviewModal: false,
       renderSitterReviewModal: false,
       appointmentId: '',
-      displayTime: ''
+      displayTime: '',
+      price: ''
     };
     this.toggleSubmitted = this.toggleSubmitted.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -90,13 +91,15 @@ export default class TopTabs extends React.Component {
         this.setState({
           renderUserReviewModal: true,
           appointmentId: obj.id,
-          displayTime: obj.display
+          displayTime: obj.display,
+          price: obj.price
         });
       } else if (obj.sitter === this.props.user) {
         this.setState({
           renderSitterReviewModal: true,
           appointmentId: obj.id,
-          displayTime: obj.display
+          displayTime: obj.display,
+          price: obj.price
         });
       }
     }
@@ -202,7 +205,10 @@ export default class TopTabs extends React.Component {
                       user={this.props.user}
                       sitterId={sitterId}
                     />
-                    <Modal show={this.state.renderUserReviewModal}>
+                    <Modal
+                      className="review-modal"
+                      show={this.state.renderUserReviewModal}
+                    >
                       <Modal.Header>
                         <Modal.Title>
                           Review Appointment That Ended:{' '}
@@ -213,9 +219,14 @@ export default class TopTabs extends React.Component {
                         user={this.props.user}
                         id={this.state.appointmentId}
                         closeReviewModal={this.closeReviewModal}
+                        displayTime={this.state.displayTime}
+                        price={this.state.price}
                       />
                     </Modal>
-                    <Modal show={this.state.renderSitterReviewModal}>
+                    <Modal
+                      className="review-modal"
+                      show={this.state.renderSitterReviewModal}
+                    >
                       <Modal.Header>
                         <Modal.Title>
                           Review Appointment That Ended:{' '}
