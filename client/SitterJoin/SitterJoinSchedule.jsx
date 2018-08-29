@@ -83,11 +83,7 @@ export default class SitterJoinSchedule extends React.Component {
                                 <option
                                   key={hour}
                                   value={
-                                    parseInt(hour) === 0
-                                      ? '12'
-                                      : parseInt(hour) < 10
-                                        ? '0' + hour
-                                        : hour
+                                    parseInt(hour) < 10 ? '0' + hour : hour
                                   }
                                 >
                                   {parseInt(hour) === 0
@@ -156,11 +152,7 @@ export default class SitterJoinSchedule extends React.Component {
                                 <option
                                   key={hour}
                                   value={
-                                    parseInt(hour) === 0
-                                      ? '12'
-                                      : parseInt(hour) < 10
-                                        ? '0' + hour
-                                        : hour
+                                    parseInt(hour) < 10 ? '0' + hour : hour
                                   }
                                 >
                                   {parseInt(hour) === 0
