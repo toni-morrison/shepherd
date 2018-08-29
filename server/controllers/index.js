@@ -41,6 +41,25 @@ const resolvers = {
         info
       );
     },
+    findSitterReviews: (_, args, context, info) => {
+      return context.prisma.query.appointments(
+        {
+          where: {
+            AND: [
+              {
+                status: 'Paid'
+              },
+              {
+                sitter: {
+                  id: args.sitterId
+                }
+              }
+            ]
+          }
+        },
+        info
+      );
+    },
 
     findSitters: (_, args, context, info) => {
       let ANDConditions = [
@@ -167,14 +186,14 @@ const resolvers = {
   },
   Mutation: {
     cancelAppointment: (_, args, context, info) => {
-      return context.prisma.mutation.deleteAppointment (
+      return context.prisma.mutation.deleteAppointment(
         {
-          where : {
+          where: {
             id: args.apntID
           }
         },
         info
-      )
+      );
     },
     signup: (_, args, context, info) => {
       return context.prisma.mutation.createUser(
@@ -355,9 +374,7 @@ const resolvers = {
               }
             }
           },
-          where: {
-            id: args.id
-          }
+          where: { id: args.id }
         },
         info
       );

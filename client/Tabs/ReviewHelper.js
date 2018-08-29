@@ -14,6 +14,8 @@ const REVIEW_MODAL = gql`
         sitter {
           user {
             email
+            pic_url
+            first_name
           }
         }
         price
@@ -33,10 +35,10 @@ const convertToEndTime = obj => {
     var hr = String(endTimeHr);
   }
 
-  if (endTimeMin === 0) {
-    var min = '00';
+  if (endTimeMin < 10) {
+    var min = '0' + String(endTimeMin);
   } else {
-    var min = '30';
+    var min = String(endTimeMin);
   }
   var time = hr + ':' + min;
   var endTime = obj.day + 'T' + time;
@@ -57,6 +59,9 @@ const checkData = (obj, sitterId) => {
       appointmentInfo['id'] = appt.appointment.id;
       appointmentInfo['display'] = displayTime;
       appointmentInfo['price'] = appt.appointment.price;
+      appointmentInfo['sitterPic'] = appt.appointment.sitter.user.pic_url;
+      appointmentInfo['sitterName'] = appt.appointment.sitter.user.first_name;
+
       if (
         appt.appointment.userRating === null &&
         appt.appointment.sitterRating !== null
@@ -81,6 +86,7 @@ const checkData = (obj, sitterId) => {
   }
 
   if (result === true) {
+    console.log('apptobj:', appointmentInfo);
     return appointmentInfo;
   } else {
     return result;
