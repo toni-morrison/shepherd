@@ -45,8 +45,8 @@ const FIND_USER_APPOINTMENTS = gql`
 
 function CalendarQuery(props) {
   return (
-    <Query query={FIND_USER_APPOINTMENTS} variables={{ userEmail: props.user }}>
-      {({ loading, error, data }) => {
+    <Query query={FIND_USER_APPOINTMENTS} variables={{ userEmail: props.user }} pollInterval = {2000}>
+      {({ loading, error, data, startPolling, stopPolling }) => {
         if (loading) {
           return <span />;
         }

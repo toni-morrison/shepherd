@@ -71,7 +71,7 @@ export default class UserCalendar extends React.Component {
           : <CalendarQuery 
               handleQuery = {this.handleQuery} 
               user = {this.props.user} 
-              skipStatus = {this.state.skipped}/>}
+              skip = {this.state.skipped}/>}
       <BigCalendar
         events={this.state.events}
         views={this.allViews}
