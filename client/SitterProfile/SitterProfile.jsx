@@ -62,9 +62,7 @@ export default class SitterProfile extends React.Component {
                             <Image
                               style={{ width: '20vh', maxHeight: '20vh' }}
                               src={
-                                data.getUserInfo.pic_url ||
-                                this.props.userPic ||
-                                'https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_1280.png'
+                                data.getUserInfo.pic_url
                               }
                             />
                           </Col>

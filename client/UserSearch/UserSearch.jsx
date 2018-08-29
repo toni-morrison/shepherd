@@ -1,19 +1,15 @@
 import React from 'react';
 import {
-  Button,
   Grid,
   Row,
   Col,
   ToggleButtonGroup,
-  ToggleButton,
-  FormGroup,
-  FormControl
+  ToggleButton
 } from 'react-bootstrap';
 import UserSearchResults from './UserSearchResults.jsx';
 import Datetime from 'react-datetime';
-import gql from 'graphql-tag';
-import UserSearchQuery from './UserSearchQuery.jsx'
-import { Query } from 'react-apollo';
+import UserSearchQuery from './UserSearchQuery.jsx';
+import UserSearchLocation from './UserSearchLocation.jsx';
 
 export default class UserSearch extends React.Component {
   constructor(props) {
@@ -30,15 +26,20 @@ export default class UserSearch extends React.Component {
       currentEnd: 0,
       apntStart: '',
       apntEnd: '',
-      value: []
+      value: [],
+      address: '',
+      long: undefined,
+      lat: undefined
     };
 
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleQuery = this.handleQuery.bind(this)
-    this.handleBack = this.handleBack.bind(this)
+    this.handleSuggest = this.handleSuggest.bind(this);
+    this.handleInitAddress = this.handleInitAddress.bind(this);
+    this.handleQuery = this.handleQuery.bind(this);
+    this.handleBack = this.handleBack.bind(this);
     this.dateObj = {
       0: 'Sunday',
       1: 'Monday',
@@ -51,11 +52,15 @@ export default class UserSearch extends React.Component {
   }
 
   // changes searchResults to true/false for conditional render
-  handleQuery (data) {
-    this.setState ({
-      skipped : true,
-      currentResults : data,
-    })
+  handleQuery(data) {
+    this.setState(
+      {
+        currentResults: data
+      },
+      () => {
+        this.handleSearchClick(data);
+      }
+    );
   }
   handleSearchClick(data) {
     this.setState({
@@ -63,13 +68,38 @@ export default class UserSearch extends React.Component {
       skipped: false
     });
   }
-  handleBack () {
-    this.setState ({
-      searchResults : !this.state.searchResults
-    })
+  handleBack() {
+    this.setState({
+      searchResults: !this.state.searchResults
+    });
   }
+
   handleChange(e) {
     this.setState({ value: e });
+  }
+
+  handleSuggest(suggest) {
+    if (suggest) {
+      this.setState({
+        address: suggest.gmaps.formatted_address,
+        long: suggest.location.lng,
+        lat: suggest.location.lat
+      });
+    } else {
+      this.setState({
+        address: '',
+        long: undefined,
+        lat: undefined
+      });
+    }
+  }
+
+  handleInitAddress(address, lat, long) {
+    this.setState({
+      address,
+      lat,
+      long
+    });
   }
 
   handleStartChange(newDate) {
@@ -101,7 +131,6 @@ export default class UserSearch extends React.Component {
       apntEnd: newDateString,
       currentEnd: newMinutes,
       currentDay: this.dateObj[DOW]
-
     });
   }
 
@@ -113,15 +142,6 @@ export default class UserSearch extends React.Component {
     if (this.state.searchResults === false) {
       return (
         <div>
-          {this.state.skipped ? 
-            <span /> 
-            : <UserSearchQuery 
-                currentDay = {this.state.currentDay}
-                currentStart = {this.state.currentStart}
-                currentEnd = {this.state.currentEnd}
-                value = {this.state.value}
-                handleQuery = {this.handleQuery}/>
-          }
           <Grid>
             <Row>
               <Col xs={6} xsOffset={3}>
@@ -142,7 +162,11 @@ export default class UserSearch extends React.Component {
                 </center>
               </Col>
             </Row>
-            <Row><center><h2>DATES</h2></center></Row>
+            <Row>
+              <center>
+                <h2>DATES</h2>
+              </center>
+            </Row>
             <Row>
               <Col xs={3} xsOffset={3}>
                 <center>
@@ -155,10 +179,10 @@ export default class UserSearch extends React.Component {
                       input={false}
                     />
                   </div>
-                  </center>
-                  </Col>
-                  <Col xs={3}>
-                  <center>
+                </center>
+              </Col>
+              <Col xs={3}>
+                <center>
                   <div>
                     <h4>End Date/Time</h4>
                     <Datetime
@@ -175,19 +199,27 @@ export default class UserSearch extends React.Component {
               <Col xs={6} xsOffset={3}>
                 <center>
                   <h2>LOCATION</h2>
-                  <FormGroup>
-                    <FormControl
-                      type="text"
-                      placeholder="Enter your address to find Sitters near you"
-                    />
-                  </FormGroup>
+                  <UserSearchLocation
+                    handleSuggest={this.handleSuggest}
+                    handleInitAddress={this.handleInitAddress}
+                    address={this.state.address}
+                    email={this.props.user}
+                  />
                 </center>
               </Col>
             </Row>
             <Row>
               <Col xs={6} xsOffset={3}>
                 <center>
-                  <Button onClick={this.handleSearchClick}>SEARCH</Button>
+                  <UserSearchQuery
+                    currentDay={this.state.currentDay}
+                    currentStart={this.state.currentStart}
+                    currentEnd={this.state.currentEnd}
+                    value={this.state.value}
+                    handleQuery={this.handleQuery}
+                    lat={this.state.lat}
+                    long={this.state.long}
+                  />
                 </center>
               </Col>
             </Row>
@@ -199,11 +231,11 @@ export default class UserSearch extends React.Component {
         <UserSearchResults
           handleSearchClick={this.handleBack}
           reviews={this.state.currentResults}
-          day = {this.state.currentDay}
-          start = {this.state.currentStart}
-          end = {this.state.currentEnd}
-          values = {this.state.value}
-          lists = {this.props.lists}
+          day={this.state.currentDay}
+          start={this.state.currentStart}
+          end={this.state.currentEnd}
+          values={this.state.value}
+          lists={this.props.lists}
         />
       );
     }

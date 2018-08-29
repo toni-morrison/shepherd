@@ -110,7 +110,9 @@ export default class Signup extends React.Component {
                 address: this.state.address,
                 long: this.state.long,
                 lat: this.state.lat,
-                pic_url: url
+                pic_url:
+                  url ||
+                  'https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_1280.png'
               }
             })
               .then(() => {

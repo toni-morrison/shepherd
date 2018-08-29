@@ -30,13 +30,11 @@ const resolvers = {
         {
           where: {
             appointment: {
-              sitter: {
-                user: {
-                  email: args.sitterEmail
-                }
-              }
+              sitter: { user: { email: args.sitterEmail } },
+              status: args.status
             }
-          }
+          },
+          orderBy: args.order
         },
         info
       );
