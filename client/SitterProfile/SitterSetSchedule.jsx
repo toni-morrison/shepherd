@@ -76,17 +76,8 @@ export default class SitterSetSchedule extends React.Component {
     for (var day in this.state) {
       current = this.state[day]
       // console.log(day)
-      if (current.startAm === 'PM' && current.startHour !== 12) {
-        start = parseInt(current.startHour) * 60 + parseInt(current.startMin) + 720
-      } else {
-        start = parseInt(current.startHour) * 60 + parseInt(current.startMin)
-      }
-
-      if (current.endAm === 'PM' && current.endHour !== 12) {
-        end = parseInt(current.endHour) * 60 + parseInt(current.endMin) + 720
-      } else {
-        end = parseInt(current.endHour) * 60 + parseInt(current.endMin)
-      }
+      start = (parseInt(current.startHour) % 12) * 60 + parseInt(current.startMin) + (current.startAm === 'PM') * 720
+      end = (parseInt(current.endHour) % 12) * 60 + parseInt(current.endMin) + (current.endAm === 'PM') * 720;
 
       updateSchedule({
         variables: {

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
@@ -40,36 +39,33 @@ const FIND_SITTERS = gql`
     }
   }
 `;
-function UserSearchQuery (props) {
-  console.log (props)
-  return ( 
-          <Query
-            query={FIND_SITTERS}
-            variables={{
-              day: props.currentDay,
-              start: props.currentStart,
-              end: props.currentEnd,
-              baby: props.value.includes('baby'),
-              pet: props.value.includes('pet'),
-              home: props.value.includes('house')
-            }}
-          >
-            {({ loading, error, data }) => {
-              if (loading) {
-                return <span />;
-              }
-              if (error) {
-                console.log('error: ', error);
-                return <span />;
-              }
-              let sitterData = [];
-              data.findSitters.map(interval =>
-                sitterData.push(interval.sitter)
-              );
-              props.handleQuery(sitterData)
-              return <span />;
-            }}
-          </Query>
+function UserSearchQuery(props) {
+  return (
+    <Query
+      query={FIND_SITTERS}
+      variables={{
+        day: props.currentDay,
+        start: props.currentStart,
+        end: props.currentEnd,
+        baby: props.value.includes('baby'),
+        pet: props.value.includes('pet'),
+        home: props.value.includes('house')
+      }}
+    >
+      {({ loading, error, data }) => {
+        if (loading) {
+          return <span />;
+        }
+        if (error) {
+          console.log('error: ', error);
+          return <span />;
+        }
+        let sitterData = [];
+        data.findSitters.map(interval => sitterData.push(interval.sitter));
+        props.handleQuery(sitterData);
+        return <span />;
+      }}
+    </Query>
   );
 }
 export default UserSearchQuery;

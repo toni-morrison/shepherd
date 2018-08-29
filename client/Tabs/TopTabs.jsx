@@ -32,7 +32,9 @@ export default class TopTabs extends React.Component {
       renderSitterReviewModal: false,
       appointmentId: '',
       displayTime: '',
-      price: ''
+      price: '',
+      sitterPic: '',
+      sitterName: ''
     };
     this.toggleSubmitted = this.toggleSubmitted.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -92,14 +94,18 @@ export default class TopTabs extends React.Component {
           renderUserReviewModal: true,
           appointmentId: obj.id,
           displayTime: obj.display,
-          price: obj.price
+          price: obj.price,
+          sitterPic: obj.sitterPic,
+          sitterName: obj.sitterName
         });
       } else if (obj.sitter === this.props.user) {
         this.setState({
           renderSitterReviewModal: true,
           appointmentId: obj.id,
           displayTime: obj.display,
-          price: obj.price
+          price: obj.price,
+          sitterPic: obj.sitterPic,
+          sitterName: obj.sitterName
         });
       }
     }
@@ -216,6 +222,8 @@ export default class TopTabs extends React.Component {
                         </Modal.Title>
                       </Modal.Header>
                       <UserReview
+                        sitterPic={this.state.sitterPic}
+                        sitterName={this.state.sitterName}
                         user={this.props.user}
                         id={this.state.appointmentId}
                         closeReviewModal={this.closeReviewModal}
