@@ -1,7 +1,8 @@
-
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { ApolloConsumer } from 'react-apollo';
+import geolib from 'geolib';
 
 const FIND_SITTERS = gql`
   query findSitters(
@@ -35,41 +36,57 @@ const FIND_SITTERS = gql`
         user {
           first_name
           last_name
+          long
+          lat
+          pic_url
         }
       }
     }
   }
 `;
-function UserSearchQuery (props) {
-  console.log (props)
-  return ( 
-          <Query
-            query={FIND_SITTERS}
-            variables={{
-              day: props.currentDay,
-              start: props.currentStart,
-              end: props.currentEnd,
-              baby: props.value.includes('baby'),
-              pet: props.value.includes('pet'),
-              home: props.value.includes('house')
+function UserSearchQuery(props) {
+  return (
+    <ApolloConsumer>
+      {client => {
+        return (
+          <Button
+            onClick={async () => {
+              const { data } = await client.query({
+                query: FIND_SITTERS,
+                variables: {
+                  day: props.currentDay,
+                  start: props.currentStart,
+                  end: props.currentEnd,
+                  baby: props.value.includes('baby'),
+                  pet: props.value.includes('pet'),
+                  home: props.value.includes('house')
+                }
+              });
+              let sitterData = [];
+              data.findSitters.map(interval => {
+                if (
+                  geolib.getDistanceSimple(
+                    {
+                      latitude: props.lat,
+                      longitude: props.long
+                    },
+                    {
+                      latitude: interval.sitter.user.lat,
+                      longitude: interval.sitter.user.long
+                    }
+                  ) <= 48280
+                ) {
+                  sitterData.push(interval.sitter);
+                }
+              });
+              props.handleQuery(sitterData);
             }}
           >
-            {({ loading, error, data }) => {
-              if (loading) {
-                return <span />;
-              }
-              if (error) {
-                console.log('error: ', error);
-                return <span />;
-              }
-              let sitterData = [];
-              data.findSitters.map(interval =>
-                sitterData.push(interval.sitter)
-              );
-              props.handleQuery(sitterData)
-              return <span />;
-            }}
-          </Query>
+            SUBMIT
+          </Button>
+        );
+      }}
+    </ApolloConsumer>
   );
 }
 export default UserSearchQuery;

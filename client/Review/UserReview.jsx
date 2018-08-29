@@ -4,7 +4,10 @@ import { fiveStar, fourStar, threeStar, twoStar, oneStar } from './Synonyms.js';
 import { wordJumble } from './ReviewHelper.js';
 import { ToggleButtonGroup, ToggleButton, FormControl } from 'react-bootstrap';
 import ReviewButton from './ReviewButton.jsx';
+import UpdateSitter from './UpdateSitter.js';
+
 import Payment from '../Payment/Payment.jsx';
+
 import { Row, Col, Tab, Nav, NavItem, Modal, Button } from 'react-bootstrap';
 
 const stars = {
@@ -24,7 +27,7 @@ export default class UserReview extends React.Component {
       value: [],
       textarea: '',
       user: this.props.user,
-      sitter: '',
+      sitterId: '',
       id: this.props.id,
       renderPayment: false,
       paid: false
@@ -37,7 +40,7 @@ export default class UserReview extends React.Component {
   }
 
   componentDidMount() {
-    //maybe assign the user/sitter/appt ID to the state to pass to the DB
+    //maybe assign the user/Id/appt ID to the state to pass to the DB
   }
 
   onChangeRating(newRating) {
@@ -59,7 +62,12 @@ export default class UserReview extends React.Component {
   }
   handleSave() {
     this.setState(
-      { rating: 3, renderWords: [], value: [], textarea: '' },
+      {
+        rating: 3,
+        renderWords: [],
+        value: [],
+        textarea: ''
+      },
       () => {
         this.setState({
           renderPayment: true
@@ -86,6 +94,11 @@ export default class UserReview extends React.Component {
   }
 
   render() {
+    // if (this.props.sitterName.length === 0) {
+    //   let sitterName = 'Your Sitter';
+    // } else {
+    //   let sitterName = this.props.sitterName;
+    // }
     const buttons = this.state.renderWords.map(word => {
       return (
         <ToggleButton className="review-toggle-button" value={word}>
@@ -106,7 +119,8 @@ export default class UserReview extends React.Component {
           />
         </div>
         <div className="review-title">
-          <h3>What did you think of your sitter? </h3>
+          <h3>What did you think of {this.props.sitterName}? </h3>
+          <img id="sitterPic" src={this.props.sitterPic} />
         </div>
         <div className="review-buttons">
           <ToggleButtonGroup

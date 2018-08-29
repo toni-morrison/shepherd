@@ -24,7 +24,17 @@ export default class UserSearchResults extends React.Component {
     this.hideUserSitterRequest = this.hideUserSitterRequest.bind(this);
   }
 
-  showUserSitterRequest(e, id, first, last, child, childPlus, pet, petPlus, house) {
+  showUserSitterRequest(
+    e,
+    id,
+    first,
+    last,
+    child,
+    childPlus,
+    pet,
+    petPlus,
+    house
+  ) {
     this.setState({
       showUserSitterRequest: true,
       currentId: id,
@@ -52,8 +62,13 @@ export default class UserSearchResults extends React.Component {
             return (
               <div key={review.bio}>
                 <Well bsSize="large" style={{ width: '100%' }}>
-                  <Row>
-                    <Col xs={4}>
+                  <Row
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <Col>
                       <StarRatings
                         numberOfStars={5}
                         rating={review.rating || 0}
@@ -72,11 +87,11 @@ export default class UserSearchResults extends React.Component {
                   <Row>
                     <Col xs={3}>
                       <Image
-                        src={'https://i.imgur.com/QT0uEU6.jpg'}
-                        responsive
+                        src={review.user.pic_url}
+                        style={{ width: '20vh', maxHeight: '20vh' }}
                       />
                     </Col>
-                    <Col xs={9}>
+                    <Col xs={8} xsOffset={1}>
                       <Row>
                         <h4>
                           <b>Name:</b>{' '}
@@ -119,10 +134,21 @@ export default class UserSearchResults extends React.Component {
                         </h4>
                       </Row>
                     </Col>
-                    <Button onClick={(e) => this.showUserSitterRequest(
-                      e, review.id, review.user.first_name, review.user.last_name,
-                      review.rates.child_rate, review.rates.child_addl, review.rates.pet_rate,
-                      review.rates.pet_addl, review.rates.home_rate)}>
+                    <Button
+                      onClick={e =>
+                        this.showUserSitterRequest(
+                          e,
+                          review.id,
+                          review.user.first_name,
+                          review.user.last_name,
+                          review.rates.child_rate,
+                          review.rates.child_addl,
+                          review.rates.pet_rate,
+                          review.rates.pet_addl,
+                          review.rates.home_rate
+                        )
+                      }
+                    >
                       Request Sitter
                     </Button>
                     <UserSitterRequest

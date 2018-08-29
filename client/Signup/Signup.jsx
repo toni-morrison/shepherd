@@ -52,8 +52,8 @@ export default class Signup extends React.Component {
       firstname: '',
       lastname: '',
       address: '',
-      long: '',
-      lat: '',
+      long: undefined,
+      lat: undefined,
       badFile: false
     };
     this.validateForm = this.validateForm.bind(this);
@@ -110,7 +110,9 @@ export default class Signup extends React.Component {
                 address: this.state.address,
                 long: this.state.long,
                 lat: this.state.lat,
-                pic_url: url
+                pic_url:
+                  url ||
+                  'https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_1280.png'
               }
             })
               .then(() => {
@@ -144,8 +146,8 @@ export default class Signup extends React.Component {
     } else {
       this.setState({
         address: '',
-        long: '',
-        lat: ''
+        long: undefined,
+        lat: undefined
       });
     }
   }

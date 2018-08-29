@@ -169,3 +169,7 @@ img#running-cash {
     transform: translate(-1920px, 0);
   }
 }
+
+img#sitterPic {
+  height: 45%;
+}
