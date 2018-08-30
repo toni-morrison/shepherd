@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  ButtonToolbar,
-  Grid,
-  Row,
-  Col,
-  Well,
-  DropdownButton,
-  MenuItem,
-  Button
-} from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import StarRatings from 'react-star-ratings';
 import SitterReviewCard from './SitterReviewCard.jsx';
 import { Query } from 'react-apollo';
@@ -20,13 +11,20 @@ const GET_SITTER_REVIEWS = gql`
     $status: AppStatus
     $order: String
   ) {
-    findSitterAppointments(sitterEmail: $sitterEmail, status: $status, order: $order) {
+    findSitterAppointments(
+      sitterEmail: $sitterEmail
+      status: $status
+      order: $order
+    ) {
       appointment {
         id
         user {
           first_name
           last_name
           pic_url
+        }
+        sitter {
+          rating
         }
         userReview
         userRating
@@ -69,7 +67,12 @@ export default class SitterReviews extends React.Component {
                     </h3>
                     <StarRatings
                       numberOfStars={5}
-                      rating={4} // pull current user rating from DB
+                      rating={
+                        data.findSitterAppointments
+                          ? data.findSitterAppointments[0].appointment.sitter
+                              .rating
+                          : 0
+                      }
                       starDimension="30px"
                       starSpacing="1px"
                       starRatedColor="gold"
@@ -79,16 +82,20 @@ export default class SitterReviews extends React.Component {
                 </Col>
               </Row>
               <br />
-              {data.findSitterAppointments.map(appointment => {
-                return (
-                  <Row key={appointment.appointment.id}>
-                    <SitterReviewCard
-                      review={appointment.appointment}
-                      day={appointment.day}
-                    />
-                  </Row>
-                );
-              })}
+              {data.findSitterAppointments ? (
+                data.findSitterAppointments.map(appointment => {
+                  return (
+                    <Row key={appointment.appointment.id}>
+                      <SitterReviewCard
+                        review={appointment.appointment}
+                        day={appointment.day}
+                      />
+                    </Row>
+                  );
+                })
+              ) : (
+                <h3>You do not currently have any reviews!</h3>
+              )}
             </Grid>
           );
         }}
