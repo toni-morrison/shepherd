@@ -16,7 +16,7 @@ const CREATE_APPOINTMENT = gql`
     $price: Float!
     $comment: String!
     $set: [String!]!
-    $todoListId: ID!
+    $todoList: ID
     $day: String
     $start: Int!
     $end: Int!
@@ -29,7 +29,7 @@ const CREATE_APPOINTMENT = gql`
       price: $price
       comment: $comment
       set: $set
-      todoListId: $todoListId
+      todoList: $todoList
       day: $day
       start: $start
       end: $end
@@ -48,7 +48,7 @@ export default class UserSitterRequest extends React.Component {
       start: {hour: '', min: '', am: ''},
       end: {hour: '', min: '', am: ''},
       listName: 'Select List',
-      listId: '123',
+      listId: 'cjlh3qfpbgp6k0784jv62d4a2',
       children: 'Children',
       pets: 'Pets',
       home: 0,
@@ -182,14 +182,14 @@ export default class UserSitterRequest extends React.Component {
           price: this.state.price,
           comment: this.state.message,
           set: this.props.values,
-          todoListId: this.state.listId,
+          todoList: this.state.listId,
           day: this.props.startDate,
           start: this.props.start,
           end: this.props.end
         }
       }).then(({ data }) => {
         console.log(data)
-        this.showOff();
+        this.props.showOff();
       })
     }
   }

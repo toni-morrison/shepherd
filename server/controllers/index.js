@@ -253,11 +253,15 @@ const resolvers = {
             pets: args.pets,
             children: args.children,
             price: args.price,
-            comment: args.message,
+            comment: args.comment,
             app_types: {
               set: args.values
             },
-            todoListId: args.todoListId,
+            todoList: {
+              connect: {
+                id: args.todoList
+              }
+            },
             status: 'Pending',
             timeInterval: {
               create: {

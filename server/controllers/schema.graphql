@@ -52,7 +52,7 @@ type Mutation {
     price: Float!
     comment: String!
     set: [String!]!
-    todoListId: ID!
+    todoList: ID
     day: String
     start: Int!
     end: Int!

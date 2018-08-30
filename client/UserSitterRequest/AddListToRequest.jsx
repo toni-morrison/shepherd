@@ -4,7 +4,6 @@ import { FIND_INSTRUCTIONS } from '../UserTasks/ApolloHelper.jsx';
 import { Query } from 'react-apollo';
 
 
-
 export default class AddListToRequest extends React.Component {
   constructor (props) {
     super(props)
