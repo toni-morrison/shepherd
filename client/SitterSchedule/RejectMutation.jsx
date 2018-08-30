@@ -4,8 +4,8 @@ import { Mutation } from 'react-apollo';
 import { Button } from 'react-bootstrap';
 
 const CANCEL_APPOINTMENT = gql `
-  mutation cancelAppointment ($apntID: String!) {
-    cancelAppointment (apntID: $apntID) {
+  mutation rejectAppointment ($apntID: String!) {
+   rejectAppointment (apntID: $apntID) {
       id
     } 
   }
@@ -14,7 +14,7 @@ const CANCEL_APPOINTMENT = gql `
 function RejectMutation (props) {
   return (
     <Mutation mutation = {CANCEL_APPOINTMENT}>
-      {(cancelAppointment, {loading, error, data}) => 
+      {(rejectAppointment, {loading, error, data}) => 
         {
           if (loading) {
             console.log ('Loading...')
@@ -30,7 +30,7 @@ function RejectMutation (props) {
                     bsSize="large"
                     type = "button"
                     onClick = {() => {
-                      cancelAppointment ({
+                      rejectAppointment ({
                         variables: {
                           apntID: props.apntID
                         }

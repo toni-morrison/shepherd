@@ -196,6 +196,19 @@ const resolvers = {
         info
       );
     },
+    rejectAppointment: (_, args, context, info) => {
+      return context.prisma.mutation.updateAppointment (
+        {
+          where : {
+            id: args.apntID
+          },
+          data : {
+            status : "Rejected"
+          }
+        },
+        info
+      );
+    },
     cancelAppointment: (_, args, context, info) => {
       return context.prisma.mutation.deleteAppointment(
         {

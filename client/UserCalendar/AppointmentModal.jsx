@@ -33,11 +33,14 @@ function AppointmentModal(props) {
           )}
         </div>
       </Modal.Body>
-      <Button 
+      <Col md = {4} mdOffset = {4}>
+        <Button 
         bsStyle="primary" 
         bsSize="large"
         onClick={props.handleOpenCancel}>
         Cancel Appointment</Button>
+      </Col>
+      
     </Modal>
   );
 }
