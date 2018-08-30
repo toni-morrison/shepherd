@@ -7,8 +7,8 @@ import {
   Row,
   Image
 } from 'react-bootstrap';
-import AcceptMutation from './AcceptMutation.jsx'
-import RejectMutation from './RejectMutation.jsx'
+import AcceptMutation from './AcceptMutation.jsx';
+import RejectMutation from './RejectMutation.jsx';
 import InstructionsQuery from './InstructionsQuery.jsx';
 
 export default class SitterRequest extends React.Component {
@@ -99,28 +99,30 @@ export default class SitterRequest extends React.Component {
             )}
           </Row>
           <Row>
-            <h3>Message: {this.props.currentEvent.userAppReview}</h3>
+            <h3>Message: {this.props.currentEvent.comment}</h3>
           </Row>
           <Row>
-            <h3>User's Rating: {this.props.currentEvent.userAppRating}</h3>
+            <h3>User's Rating: {this.props.currentEvent.userRating}</h3>
           </Row>
           {this.props.currentEvent.status === 'Pending' ? (
             <Row>
-              <AcceptMutation 
-              apntID = {this.props.currentEvent.appointmentID}
-              handleClose = {this.props.handleClose}
+              <AcceptMutation
+                apntID={this.props.currentEvent.appointmentID}
+                handleClose={this.props.handleClose}
               />
-              <RejectMutation 
-              apntID = {this.props.currentEvent.appointmentID}
-              handleClose = {this.props.handleClose}
+              <RejectMutation
+                apntID={this.props.currentEvent.appointmentID}
+                handleClose={this.props.handleClose}
               />
             </Row>
           ) : (
             <Button
-              bsStyle="primary" 
+              bsStyle="primary"
               bsSize="large"
-              onClick = {this.props.handleOpenCancel}>
-          Cancel Appointment</Button>
+              onClick={this.props.handleOpenCancel}
+            >
+              Cancel Appointment
+            </Button>
           )}
         </Modal.Body>
       </div>

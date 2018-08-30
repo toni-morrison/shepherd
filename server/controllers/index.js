@@ -254,7 +254,8 @@ const resolvers = {
               connect: {
                 email: args.email
               }
-            }
+            },
+            rating: 0
           }
         },
         info

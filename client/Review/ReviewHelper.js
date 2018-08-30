@@ -26,6 +26,7 @@ const ADD_REVIEW = gql`
 const GET_REVIEWS = gql`
   query findSitterReviews($id: ID!) {
     findSitterReviews(id: $id) {
+      id
       sitterReview
       sitterRating
       sitterWords
@@ -39,6 +40,7 @@ const GET_REVIEWS = gql`
 const UPDATE_USER_RATING = gql`
   mutation updateSitter($id: ID!, $rating: Float) {
     updateSitter(id: $id, rating: $rating) {
+      id
       rating
     }
   }

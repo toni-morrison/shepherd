@@ -3,9 +3,9 @@ import { Button, Modal } from 'react-bootstrap';
 import SitterRequest from './SitterRequest.jsx';
 import BigCalendar from 'react-big-calendar';
 import CalendarQuery from './CalendarQuery.jsx';
-import CancelModal from './CancelModal.jsx'
-import moment from 'moment'
-import events from './events.js'
+import CancelModal from './CancelModal.jsx';
+import moment from 'moment';
+import events from './events.js';
 export default class SitterSchedule extends React.Component {
   constructor(props) {
     super(props);
@@ -14,34 +14,34 @@ export default class SitterSchedule extends React.Component {
       skipped: false,
       events: [],
       currentEvent: {},
-      cancelShow: false,
-    }
-    BigCalendar.setLocalizer (BigCalendar.momentLocalizer (moment))
-    this.allViews = Object.keys (BigCalendar.Views).map(k => BigCalendar.Views[k])
+      cancelShow: false
+    };
+    BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
+    this.allViews = Object.keys(BigCalendar.Views).map(
+      k => BigCalendar.Views[k]
+    );
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleQuery = this.handleQuery.bind(this);
-    this.handleCloseCancel = this.handleCloseCancel.bind(this)
-    this.handleOpenCancel = this.handleOpenCancel.bind(this)
+    this.handleCloseCancel = this.handleCloseCancel.bind(this);
+    this.handleOpenCancel = this.handleOpenCancel.bind(this);
   }
 
-  handleCloseCancel () {
-    this.setState ({
+  handleCloseCancel() {
+    this.setState({
       cancelShow: false,
       skipped: true
-    })
+    });
   }
-  
-  handleOpenCancel () {
-    this.setState ({
-      cancelShow: true
-    })
-  }
-  
 
-  
-  handleQuery (data) {
-    this.setState ({
+  handleOpenCancel() {
+    this.setState({
+      cancelShow: true
+    });
+  }
+
+  handleQuery(data) {
+    this.setState({
       events: data,
       skipped: true
     });
@@ -96,15 +96,18 @@ export default class SitterSchedule extends React.Component {
           onSelectEvent={this.handleShow}
         />
         <Modal show={this.state.show} onHide={this.handleClose}>
-          <SitterRequest 
-            currentEvent = {this.state.currentEvent} handleClose = {this.handleClose}
-            handleOpenCancel = {this.handleOpenCancel}/>
+          <SitterRequest
+            currentEvent={this.state.currentEvent}
+            handleClose={this.handleClose}
+            handleOpenCancel={this.handleOpenCancel}
+          />
         </Modal>
-        <CancelModal 
-          show = {this.state.cancelShow} 
-          event = {this.state.currentEvent}
-          handleClose = {this.handleCloseCancel} 
-          apntID = {this.state.currentEvent.appointmentID}/>
+        <CancelModal
+          show={this.state.cancelShow}
+          event={this.state.currentEvent}
+          handleClose={this.handleCloseCancel}
+          apntID={this.state.currentEvent.appointmentID}
+        />
       </div>
     );
   }

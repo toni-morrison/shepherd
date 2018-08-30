@@ -62,6 +62,14 @@ export default class SitterJoinSchedule extends React.Component {
             <center>
               <h3>Schedule</h3>
             </center>
+            {this.state.showErr ? (
+              <Alert bsStyle="warning">
+                Please make sure that all schedule end times are after schedule
+                start times!
+              </Alert>
+            ) : (
+              ''
+            )}
             <Well bsSize="large" style={{ width: '100%' }}>
               {days.map(day => {
                 return (
