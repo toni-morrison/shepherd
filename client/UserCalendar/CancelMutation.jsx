@@ -1,56 +1,44 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+import { Button } from 'react-bootstrap';
 
 const CANCEL_APPOINTMENT = gql `
   mutation cancelAppointment ($apntID: String!) {
-    cancelAppointment ($)  
+    cancelAppointment (apntID: $apntID) {
+      id
+    } 
   }
 `
 
-
-
-const CANCEL_APPOINTMENT = gql `
-  query findUserAppointments ($userEmail: String!) {
-    findUserAppointments (userEmail: $userEmail) {
-      start  
-      end
-      day
-      appointment {
-        id
-        price
-        children
-        pets
-        comment
-        app_types
-        status
-        todoList {
-          id
-        }
-        sitterRating
-        sitter {
-          id
-          rates {
-            child_rate
-            pet_rate
-            home_rate
-          }
-          user {
-            email
-            first_name
-            last_name
-          }
-        }
-        user {
-          email
-          id
-        }
-      }
-    }
-  }
-`;
 function CancelMutation (props) {
   return (
-  );
+    <Mutation mutation = {CANCEL_APPOINTMENT}>
+      {(cancelAppointment, {loading, error, data}) => 
+        {
+          if (loading) {
+            console.log ('Loading...')
+            return <span/>
+          }
+          if (error) {
+            console.log ('Error: ', error)
+            return <p>Error</p>
+          }
+ 
+          return (<Button
+                    type = "button"
+                    onClick = {() => {
+                      cancelAppointment ({
+                        variables: {
+                          apntID: props.apntID
+                        }
+                      }).then (({ data }) => {
+                        console.log (data)
+                        props.handleClose();
+                      })
+              }}>Yes, Cancel It</Button>)
+        }
+      }
+    </Mutation>);
 }
 export default CancelMutation;

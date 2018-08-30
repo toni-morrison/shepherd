@@ -9,7 +9,11 @@
 
 type Query {
   findUserAppointments(userEmail: String!): [TimeInterval!]!
-  findSitterAppointments(sitterEmail: String!): [TimeInterval!]!
+  findSitterAppointments(
+    sitterEmail: String!
+    status: AppStatus
+    order: String
+  ): [TimeInterval]
   findSitters(
     day: String!
     start: Int!
@@ -27,7 +31,7 @@ type Query {
 }
 
 type Mutation {
-  cancelAppointment(apntID: String!): String!
+  cancelAppointment (apntID: String!): Appointment!
   signup(
     email: String!
     first_name: String!

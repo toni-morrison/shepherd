@@ -1,6 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { ApolloProvider } from "react-apollo";
 
 const FIND_USER_APPOINTMENTS = gql`
   query findUserAppointments($userEmail: String!) {
@@ -41,17 +42,19 @@ const FIND_USER_APPOINTMENTS = gql`
     }
   }
 `;
+
 function CalendarQuery(props) {
   return (
     <Query query={FIND_USER_APPOINTMENTS} variables={{ userEmail: props.user }}>
-      {({ loading, error, data }) => {
+      {({ loading, error, data, startPolling, stopPolling }) => {
         if (loading) {
           return <span />;
         }
         if (error) {
           return <span />;
         }
-
+        console.log ('skipped: ', props.user)
+        console.log ('data, user calendar query: ', data)
         let tempData = [];
         data.findUserAppointments.map(function(timeInt) {
           let startMin = timeInt.start % 60;
@@ -85,7 +88,7 @@ function CalendarQuery(props) {
             userID: timeInt.appointment.user.id,
             sitterID: timeInt.appointment.sitter.id,
             status: timeInt.appointment.status,
-            username:
+            sittername:
               timeInt.appointment.sitter.user.first_name +
               ' ' +
               timeInt.appointment.sitter.user.last_name,
