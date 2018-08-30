@@ -9,10 +9,13 @@ const REVIEW_MODAL = gql`
         userRating
         sitterRating
         user {
+          id
           email
         }
         sitter {
+          id
           user {
+            id
             email
             pic_url
             first_name

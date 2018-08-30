@@ -21,7 +21,7 @@ type SitterRate {
 }
 
 type TimeInterval {
-  appointment: Appointment
+  appointment: Appointment @relation(name: "AppointmentInterval")
   sitter: Sitter
   day: String
   start: Int!
@@ -73,11 +73,13 @@ type Appointment {
   userReview: String
   sitterReview: String
   sitterWords: [String!]
+  timeInterval: TimeInterval! @relation(name: "AppointmentInterval", onDelete: CASCADE)
 }
 
 enum AppStatus {
   Pending
   Accepted
+  Rejected
   Complete
   Paid
 }
