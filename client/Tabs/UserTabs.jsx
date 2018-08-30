@@ -68,7 +68,7 @@ class UserTabs extends React.Component {
                   <Col sm={8}>
                     <Tab.Content>
                       <Tab.Pane eventKey="first">
-                        <UserSearch user={this.props.user} lists={data} />
+                        <UserSearch user={this.props.user} lists={data}/>
                       </Tab.Pane>
                       <Tab.Pane eventKey="second">
                         <UserCalendar user={this.props.user} />

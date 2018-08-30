@@ -171,6 +171,7 @@ export default class UserSearchResults extends React.Component {
                       values={this.props.values}
                       startDate={this.props.startDate}
                       endDate={this.props.endDate}
+                      user={this.props.user}
                     />
                   </Row>
                 </Well>

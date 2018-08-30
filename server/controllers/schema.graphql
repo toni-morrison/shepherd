@@ -42,6 +42,19 @@ type Mutation {
     rating: Int
     pic_url: String
   ): User!
+  createAppointment(
+    email: String!
+    id: ID!
+    pets: Int
+    children: Int
+    price: Float!
+    comment: String!
+    set: [String!]!
+    todoListId: ID!
+    day: String
+    start: Int!
+    end: Int!
+  ): Appointment!
   createSitter(
     email: String!
     bio: String!

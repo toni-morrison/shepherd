@@ -227,7 +227,6 @@ export default class UserSearch extends React.Component {
         </div>
       );
     } else {
-      console.log (this.state.apntStart)
       return (
         <UserSearchResults
           handleSearchClick={this.handleBack}
@@ -239,6 +238,7 @@ export default class UserSearch extends React.Component {
           lists = {this.props.lists}
           startDate = {this.state.apntStart}
           endDate = {this.state.apntEnd}
+          user = {this.props.user}
         />
       );
     }

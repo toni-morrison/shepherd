@@ -13,10 +13,10 @@ export default class BabyPrice extends React.Component {
         <Row>
         <Col xs={1}>
         <DropdownButton title={this.props.childState} id='children'>
-        <MenuItem key='' onClick={(e) => this.props.setChildren(e, '')}>Select Children</MenuItem>
+        <MenuItem key='' onClick={(e) => this.props.setNumber(e, '', 'children')}>Select Children</MenuItem>
         {[...Array(10).keys()].map(children => {
           return(
-            <MenuItem key={children} onClick={(e) => this.props.setChildren(e, children)}>{children}</MenuItem>
+            <MenuItem key={children} onClick={(e) => this.props.setNumber(e, children, 'children')}>{children}</MenuItem>
           )
         })}
         </DropdownButton>

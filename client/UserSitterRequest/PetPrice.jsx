@@ -13,10 +13,10 @@ export default class PetPrice extends React.Component {
         <Row>
         <Col xs={1}>
         <DropdownButton title={this.props.petState} id='pet'>
-        <MenuItem key='' onClick={(e) => this.props.setPets(e, '')}>Select Pets</MenuItem>
+        <MenuItem key='' onClick={(e) => this.props.setNumber(e, '', 'pets')}>Select Pets</MenuItem>
         {[...Array(10).keys()].map(pets => {
           return(
-            <MenuItem key={pets} onClick={(e) => this.props.setPets(e, pets)}>{pets}</MenuItem>
+            <MenuItem key={pets} onClick={(e) => this.props.setNumber(e, pets, 'pets')}>{pets}</MenuItem>
           )
         })}
         </DropdownButton>
