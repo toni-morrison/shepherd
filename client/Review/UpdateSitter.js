@@ -24,7 +24,6 @@ export default class UpdateSitter extends React.Component {
   }
 
   render() {
-    console.log('sitterid in render:', this.props.sitterId);
     return (
       <div>
         <Query query={GET_REVIEWS} variables={{ id: this.props.sitterId }}>
@@ -33,7 +32,7 @@ export default class UpdateSitter extends React.Component {
             if (error) return <p>Error...</p>;
 
             var avg = calculateAvg(data.findSitterReviews);
-            console.log('avg:', avg);
+
             return (
               <div>
                 {this.state.renderUpdate && (

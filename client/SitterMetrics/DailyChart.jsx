@@ -1,6 +1,8 @@
 import React from 'react';
 import c3 from 'c3';
 import d3 from 'd3';
+import { dateArray, weeklyArray } from './MetricsHelper.js';
+
 // import 'c3/c3.css';
 
 export default class DailyChart extends React.Component {
@@ -14,6 +16,9 @@ export default class DailyChart extends React.Component {
 
   componentDidMount() {
     var dateX = ['x'].concat(Object.keys(this.props.dailyGlobalMetrics));
+    var pastWeek = dateArray();
+    var weekEarn = weeklyArray(this.props.dailySitterMetrics, pastWeek);
+    console.log('weekEarn:', weekEarn);
 
     var newColumns = [
       ['Your Daily Numbers'].concat(

@@ -15,7 +15,6 @@ export default class ReviewButton extends React.Component {
   }
 
   handleButtonClick(updateAppointment) {
-    console.log('userwords:', this.props.userWords);
     updateAppointment({
       variables: {
         id: this.props.id,

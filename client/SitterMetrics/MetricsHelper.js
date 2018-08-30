@@ -5,10 +5,9 @@ const FIND_APPOINTMENTS = gql`
   query findAppointments {
     findAppointments {
       appointment {
+        id
         sitter {
-          user {
-            email
-          }
+          id
         }
         price
         userRating
@@ -25,6 +24,9 @@ const FIND_SITTER_APPOINTMENTS = gql`
     findSitterAppointments(sitterEmail: $sitterEmail) {
       appointment {
         id
+        sitter {
+          id
+        }
         price
         userRating
         userReview
@@ -46,8 +48,8 @@ const calculateMetrics = arr => {
   for (let i = 0; i < arr.length; i++) {
     let month = new Date(arr[i].day).getMonth();
     let year = new Date(arr[i].day).getFullYear();
-    console.log('data:', arr[i].appointment.sitter.user.email);
-    usersObj[arr[i].appointment.sitter.user.email] = true;
+
+    usersObj[arr[i].appointment.sitter.id] = true;
 
     if (monthEarning[month] === undefined) {
       monthEarning[month] = arr[i].appointment.price;
@@ -68,13 +70,15 @@ const calculateMetrics = arr => {
     }
     total += arr[i].appointment.price;
   }
+
   var totalUsers = Object.keys(usersObj).length;
 
   metricsObj['total'] = total;
+  // console.log('monthEarning:', monthEarning, 'totalusers:', totalUsers);
   metricsObj['monthEarning'] = getTotalAvg(monthEarning, totalUsers);
   metricsObj['dailyEarning'] = getAvg(dailyEarning, dayDiv);
   metricsObj['yearlyEarning'] = getTotalAvg(yearlyEarning, totalUsers);
-  console.log(metricsObj);
+  // console.log(metricsObj);
 
   return metricsObj;
 };
@@ -95,8 +99,50 @@ const getTotalAvg = (timeTotal, totalUsers) => {
   return timeTotal;
 };
 
+const dateArray = () => {
+  var dates = [];
+  var date = new Date();
+  for (var i = 0; i < 7; i++) {
+    var tempDate = new Date();
+    tempDate.setDate(date.getDate() - i);
+    if (Number(tempDate.getMonth()) + 1 < 10) {
+      var str =
+        '2018' +
+        '-' +
+        '0' +
+        (Number(tempDate.getMonth()) + 1) +
+        '-' +
+        tempDate.getDate();
+      dates.push(str);
+    } else {
+      var str =
+        '2018' +
+        '-' +
+        (Number(tempDate.getMonth()) + 1) +
+        '-' +
+        tempDate.getDate();
+      dates.push(str);
+    }
+  }
+
+  return dates;
+};
+
+const weeklyArray = (weeklyEarning, pastWeek) => {
+  var result = {};
+  for (var i = 0; i < pastWeek.length; i++) {
+    var day = pastWeek[i];
+    if (weeklyEarning[day] !== undefined) {
+      result[day] = weeklyEarning[day];
+    }
+  }
+  return result;
+};
+
 module.exports = {
   FIND_APPOINTMENTS,
   calculateMetrics,
-  FIND_SITTER_APPOINTMENTS
+  FIND_SITTER_APPOINTMENTS,
+  dateArray,
+  weeklyArray
 };
