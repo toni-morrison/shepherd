@@ -27,6 +27,8 @@ function CancelMutation (props) {
  
           return (<Button
                     type = "button"
+                    bsStyle="primary" 
+                    bsSize="large"
                     onClick = {() => {
                       cancelAppointment ({
                         variables: {

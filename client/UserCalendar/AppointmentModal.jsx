@@ -33,7 +33,12 @@ function AppointmentModal(props) {
           )}
         </div>
       </Modal.Body>
-      <Button onClick={props.handleOpenCancel}>Cancel Appointment</Button>
+        <Button 
+        bsStyle="primary" 
+        bsSize="large"
+        onClick={props.handleOpenCancel}>
+        Cancel Appointment</Button>
+      
     </Modal>
   );
 }

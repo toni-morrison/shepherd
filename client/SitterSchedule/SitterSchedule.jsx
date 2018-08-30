@@ -3,6 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import SitterRequest from './SitterRequest.jsx';
 import BigCalendar from 'react-big-calendar';
 import CalendarQuery from './CalendarQuery.jsx';
+import CancelModal from './CancelModal.jsx';
 import moment from 'moment';
 import events from './events.js';
 export default class SitterSchedule extends React.Component {
@@ -12,7 +13,8 @@ export default class SitterSchedule extends React.Component {
       show: false,
       skipped: false,
       events: [],
-      currentEvent: {}
+      currentEvent: {},
+      cancelShow: false
     };
     BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
     this.allViews = Object.keys(BigCalendar.Views).map(
@@ -20,16 +22,22 @@ export default class SitterSchedule extends React.Component {
     );
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
-    this.handleAccept = this.handleAccept.bind(this);
-    this.handleReject = this.handleReject.bind(this);
     this.handleQuery = this.handleQuery.bind(this);
+    this.handleCloseCancel = this.handleCloseCancel.bind(this);
+    this.handleOpenCancel = this.handleOpenCancel.bind(this);
   }
 
-  handleAccept() {
-    this.state.currentEvent.status = 'ACCEPTED';
-    this.state.currentEvent.title =
-      this.state.currentEvent.status + ': ' + this.state.currentEvent.username;
-    this.setState({ currentEvent: this.state.currentEvent });
+  handleCloseCancel() {
+    this.setState({
+      cancelShow: false,
+      skipped: true
+    });
+  }
+
+  handleOpenCancel() {
+    this.setState({
+      cancelShow: true
+    });
   }
 
   handleQuery(data) {
@@ -90,10 +98,16 @@ export default class SitterSchedule extends React.Component {
         <Modal show={this.state.show} onHide={this.handleClose}>
           <SitterRequest
             currentEvent={this.state.currentEvent}
-            handleAccept={this.handleAccept}
-            handleReject={this.handleReject}
+            handleClose={this.handleClose}
+            handleOpenCancel={this.handleOpenCancel}
           />
         </Modal>
+        <CancelModal
+          show={this.state.cancelShow}
+          event={this.state.currentEvent}
+          handleClose={this.handleCloseCancel}
+          apntID={this.state.currentEvent.appointmentID}
+        />
       </div>
     );
   }

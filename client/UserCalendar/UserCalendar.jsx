@@ -29,6 +29,7 @@ export default class UserCalendar extends React.Component {
     this.handleEventCancel = this.handleEventCancel.bind(this);
     this.handleQuery = this.handleQuery.bind(this);
   }
+
   handleQuery(data) {
     this.setState({
       events: data,
@@ -60,41 +61,35 @@ export default class UserCalendar extends React.Component {
     this.setState({ modalShow: false });
   }
 
-  render() {
-    this.state.events.forEach(
-      event => (event.title = event.status + ': ' + event.sittername)
-    );
-    return (
-      <div>
-        {this.state.skipped ? (
-          <span />
-        ) : (
-          <CalendarQuery
-            handleQuery={this.handleQuery}
-            user={this.props.user}
-          />
-        )}
-        <BigCalendar
-          events={this.state.events}
-          views={this.allViews}
-          step={60}
-          showMultiDayTimes
-          selectable
-          onSelectEvent={this.handleSelect}
-        />
-        <AppointmentModal
-          show={this.state.modalShow}
-          handleClose={this.handleCloseApnt}
-          currentEvent={this.state.currentEvent}
-          handleOpenCancel={this.handleOpenCancel}
-        />
-        <CancelModal
-          show={this.state.cancelShow}
-          event={this.state.currentEvent}
-          handleClose={this.handleCloseCancel}
-          handleEventCancel={this.handleEventCancel}
-        />
-      </div>
-    );
+  render () {
+    this.state.events.forEach (
+      (event) => event.title = event.status + ': ' + event.sittername
+    )
+    return (<div>
+      {this.state.skipped ? 
+          <span></span> 
+          : <CalendarQuery 
+              handleQuery = {this.handleQuery} 
+              user = {this.props.user} 
+              skip = {this.state.skipped}/>}
+      <BigCalendar
+        events={this.state.events}
+        views={this.allViews}
+        step={60}
+        showMultiDayTimes
+        selectable
+        onSelectEvent={this.handleSelect}
+      />
+      <AppointmentModal 
+        show = {this.state.modalShow} 
+        handleClose = {this.handleCloseApnt} 
+        currentEvent = {this.state.currentEvent} 
+        handleOpenCancel = {this.handleOpenCancel}/>
+      <CancelModal 
+        show = {this.state.cancelShow} 
+        event = {this.state.currentEvent}
+        handleClose = {this.handleCloseCancel} 
+        handleEventCancel = {this.handleEventCancel}/>
+      </div>)
   }
 }
