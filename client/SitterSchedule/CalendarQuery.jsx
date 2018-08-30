@@ -54,7 +54,6 @@ const FIND_SITTER_APPOINTMENTS = gql`
   }
 `;
 
-
 function CalendarQuery(props) {
   return (
     <Query
