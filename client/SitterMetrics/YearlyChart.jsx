@@ -14,6 +14,8 @@ export default class YearlyChart extends React.Component {
   }
 
   componentDidMount() {
+    console.log('yearlyglobal', this.props.yearlyGlobalMetrics);
+    console.log('yearlySitter', this.props.yearlySitterMetrics);
     this.updateChart();
   }
 

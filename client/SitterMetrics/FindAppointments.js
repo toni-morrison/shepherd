@@ -29,7 +29,7 @@ export default class FindAppointments extends React.Component {
             if (loading) return <p>loading...</p>;
             if (error) return <p>error....</p>;
             var globalMetrics = calculateMetrics(data.findAppointments);
-            console.log('globalmetrics:', globalMetrics);
+
             return (
               <Query
                 query={FIND_SITTER_APPOINTMENTS}
@@ -42,7 +42,6 @@ export default class FindAppointments extends React.Component {
                   var sitterMetrics = calculateMetrics(
                     data.findSitterAppointments
                   );
-                  console.log('sitterMetrics:', sitterMetrics);
 
                   this.props.getMetrics(globalMetrics, sitterMetrics);
 
