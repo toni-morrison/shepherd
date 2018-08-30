@@ -139,10 +139,21 @@ const weeklyArray = (weeklyEarning, pastWeek) => {
   return result;
 };
 
+const monthArray = monthlyEarning => {
+  var result = {};
+  var month = new Date().getMonth();
+  if (monthlyEarning[month] !== undefined) {
+    var newMonth = String(Number(month) + 1);
+    result[newMonth] = monthlyEarning[month];
+  }
+  return result;
+};
+
 module.exports = {
   FIND_APPOINTMENTS,
   calculateMetrics,
   FIND_SITTER_APPOINTMENTS,
   dateArray,
-  weeklyArray
+  weeklyArray,
+  monthArray
 };

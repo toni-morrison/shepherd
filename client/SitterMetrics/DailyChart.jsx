@@ -17,8 +17,14 @@ export default class DailyChart extends React.Component {
   componentDidMount() {
     var dateX = ['x'].concat(Object.keys(this.props.dailyGlobalMetrics));
     var pastWeek = dateArray();
-    var weekEarn = weeklyArray(this.props.dailySitterMetrics, pastWeek);
-    console.log('weekEarn:', weekEarn);
+    var weekSitterEarn = weeklyArray(this.props.dailySitterMetrics, pastWeek);
+    var weekGlobalEarn = weeklyArray(this.props.dailyGlobalMetrics, pastWeek);
+    console.log(
+      'weekSitterEarn:',
+      weekSitterEarn,
+      'weekGlobalEarn',
+      weekGlobalEarn
+    );
 
     var newColumns = [
       ['Your Daily Numbers'].concat(

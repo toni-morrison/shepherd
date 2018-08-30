@@ -1,6 +1,7 @@
 import React from 'react';
 import c3 from 'c3';
 import d3 from 'd3';
+import { monthArray } from './MetricsHelper.js';
 // import 'c3/c3.css';
 
 const columns = [
@@ -14,8 +15,12 @@ export default class MonthlyChart extends React.Component {
   }
 
   componentDidMount() {
-    console.log('monthlyglobal:', this.props.monthlyGlobalMetrics);
-    console.log('monthlysitter:', this.props.monthlySitterMetrics);
+    // console.log('monthlyglobal:', this.props.monthlyGlobalMetrics);
+    // console.log('monthlysitter:', this.props.monthlySitterMetrics);
+    console.log('monthsitter:', this.props.monthlySitterMetrics);
+
+    var monthArr = monthArray(this.props.monthlySitterMetrics);
+    console.log('monthArr:', monthArr);
     this.updateChart();
   }
 
