@@ -3,7 +3,6 @@ import BigCalendar from 'react-big-calendar'
 import {Modal} from 'react-bootstrap'
 import moment from 'moment'
 import dates from './dates.js'
-import events from './events.js'
 import AppointmentModal from './AppointmentModal.jsx'
 import CancelModal from './CancelModal.jsx'
 import CalendarQuery from './CalendarQuery.jsx'
@@ -16,13 +15,13 @@ export default class UserCalendar extends React.Component {
       this.state = {
         modalShow: false,
         cancelShow: false,
-        events: events,
+        events: [],
         currentEvent: {},
         skipped: false
     }
     BigCalendar.setLocalizer(BigCalendar.momentLocalizer (moment))
     this.allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
-    events.forEach (
+    this.state.events.forEach (
       (event) => event.title = event.status + ': ' + event.sittername
     )
     this.handleCloseApnt = this.handleCloseApnt.bind(this)
@@ -33,6 +32,7 @@ export default class UserCalendar extends React.Component {
     this.handleQuery = this.handleQuery.bind(this)
   }
   handleQuery (data) {
+    console.log ('handleQuery called')
     this.setState ({
       events: data,
       skipped: true
@@ -40,7 +40,8 @@ export default class UserCalendar extends React.Component {
   }
   
   handleCloseCancel () {
-    this.setState ({cancelShow: false})
+    this.setState ({cancelShow: false,
+                    skipped: false})
   }
   
   handleOpenCancel () {
@@ -59,7 +60,12 @@ export default class UserCalendar extends React.Component {
   handleCloseApnt () {
     this.setState({modalShow: false})
   }
-
+//      {this.state.skipped ? 
+//          <span></span> 
+//          : <CalendarQuery 
+//              handleQuery = {this.handleQuery} 
+//              user = {this.props.user} 
+//              skip = {this.state.skipped}/>}
   render () {
     this.state.events.forEach (
       (event) => event.title = event.status + ': ' + event.sittername
@@ -67,7 +73,10 @@ export default class UserCalendar extends React.Component {
     return (<div>
       {this.state.skipped ? 
           <span></span> 
-          : <CalendarQuery handleQuery = {this.handleQuery} user = {this.props.user} />}
+          : <CalendarQuery 
+              handleQuery = {this.handleQuery} 
+              user = {this.props.user} 
+              skip = {this.state.skipped}/>}
       <BigCalendar
         events={this.state.events}
         views={this.allViews}
@@ -83,6 +92,7 @@ export default class UserCalendar extends React.Component {
         handleOpenCancel = {this.handleOpenCancel}/>
       <CancelModal 
         show = {this.state.cancelShow} 
+        event = {this.state.currentEvent}
         handleClose = {this.handleCloseCancel} 
         handleEventCancel = {this.handleEventCancel}/>
       </div>)
