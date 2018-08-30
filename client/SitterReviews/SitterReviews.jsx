@@ -68,7 +68,7 @@ export default class SitterReviews extends React.Component {
                     <StarRatings
                       numberOfStars={5}
                       rating={
-                        data.findSitterAppointments
+                        data.findSitterAppointments[0]
                           ? data.findSitterAppointments[0].appointment.sitter
                               .rating
                           : 0

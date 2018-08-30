@@ -34,6 +34,7 @@ const FIND_SITTERS = gql`
           home_rate
         }
         user {
+          id
           first_name
           last_name
           long
