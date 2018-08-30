@@ -65,7 +65,7 @@ function UserSearchQuery(props) {
               let sitterData = [];
               data.findSitters.map(interval => {
                 if (
-                  geolib.getDistanceSimple(
+                  geolib.getDistance(
                     {
                       latitude: props.lat,
                       longitude: props.long
