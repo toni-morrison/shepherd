@@ -15,6 +15,7 @@ const REVIEW_MODAL = gql`
         sitter {
           id
           user {
+            id
             email
             pic_url
             first_name

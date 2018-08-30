@@ -34,6 +34,7 @@ const FIND_SITTERS = gql`
           home_rate
         }
         user {
+          id
           first_name
           last_name
           long
@@ -65,7 +66,7 @@ function UserSearchQuery(props) {
               let sitterData = [];
               data.findSitters.map(interval => {
                 if (
-                  geolib.getDistanceSimple(
+                  geolib.getDistance(
                     {
                       latitude: props.lat,
                       longitude: props.long

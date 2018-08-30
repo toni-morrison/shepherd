@@ -1,10 +1,12 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import InstructionsQuery from '../SitterSchedule/InstructionsQuery.jsx';
+
 function AppointmentModal(props) {
   return (
     <Modal show={props.show} onHide={props.handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{props.currentEvent.username}</Modal.Title>
+        <Modal.Title>{props.currentEvent.sittername}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div> Status: {props.currentEvent.status} </div>
@@ -21,18 +23,22 @@ function AppointmentModal(props) {
         <div>
           {' '}
           Instructions:
-          <ul>
-            {props.currentEvent.instructions ? (
-              props.currentEvent.instructions.map(function(instruction) {
-                return <li>{instruction}</li>;
-              })
-            ) : (
-              <li>No Instructions</li>
-            )}
-          </ul>
+          {props.currentEvent.instructionsName ? (
+            <InstructionsQuery
+              id={props.currentEvent.instructionsID}
+              name={props.currentEvent.instructionsName}
+            />
+          ) : (
+            'N/A'
+          )}
         </div>
       </Modal.Body>
-      <Button onClick={props.handleOpenCancel}>Cancel Appointment</Button>
+        <Button 
+        bsStyle="primary" 
+        bsSize="large"
+        onClick={props.handleOpenCancel}>
+        Cancel Appointment</Button>
+      
     </Modal>
   );
 }

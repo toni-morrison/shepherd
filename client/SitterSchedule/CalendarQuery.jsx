@@ -15,26 +15,38 @@ const FIND_SITTER_APPOINTMENTS = gql`
         comment
         app_types
         status
+        userRating
+        userReview
+        sitterRating
+        sitterReview
         todoList {
           id
+          name
         }
-        sitterRating
         sitter {
           id
+          rating
           rates {
             child_rate
             pet_rate
             home_rate
           }
           user {
+            id
             email
             first_name
             last_name
+            rating
+            pic_url
           }
         }
         user {
-          email
           id
+          first_name
+          last_name
+          email
+          rating
+          pic_url
         }
       }
     }
@@ -51,6 +63,7 @@ function CalendarQuery(props) {
           return <span />;
         }
         if (error) {
+          console.log(error);
           return <span />;
         }
 
@@ -70,14 +83,6 @@ function CalendarQuery(props) {
           startTime = new Date(startTime);
           endTime = new Date(endTime);
 
-          let cost = 0;
-          for (var i = 0; i < timeInt.appointment.app_types.length; i++) {
-            cost +=
-              ((timeInt.start - timeInt.End) / 60) *
-              timeInt.appointment.sitter.rates[
-                timeInt.appointment.app_types[i] + '_rate'
-              ];
-          }
           tempData.push({
             allDay: false,
             cost: timeInt.appointment.price,
@@ -88,16 +93,31 @@ function CalendarQuery(props) {
             sitterID: timeInt.appointment.sitter.id,
             status: timeInt.appointment.status,
             username:
+              timeInt.appointment.user.first_name +
+              ' ' +
+              timeInt.appointment.user.last_name,
+            sittername:
               timeInt.appointment.sitter.user.first_name +
               ' ' +
               timeInt.appointment.sitter.user.last_name,
-            instructionID:
-              timeInt.appointment.todoList !== null
-                ? timeInt.appointment.todoList.id
-                : null
+            instructionsID: timeInt.appointment.todoList
+              ? timeInt.appointment.todoList.id
+              : undefined,
+            instructionsName: timeInt.appointment.todoList
+              ? timeInt.appointment.todoList.name
+              : undefined,
+            comment: timeInt.appointment.comment,
+            userAppRating: timeInt.appointment.userRating,
+            userAppReview: timeInt.appointment.userReview,
+            sitterAppRating: timeInt.appointment.sitterRating,
+            sitterAppReview: timeInt.appointment.sitterReview,
+            sitterRating: timeInt.appointment.sitter.rating,
+            userRating: timeInt.appointment.user.rating,
+            sitterRating: timeInt.appointment.sitter.rating,
+            pic_url: timeInt.appointment.user.pic_url,
+            sitter_pic_url: timeInt.appointment.sitter.user.pic_url
           });
         });
-
         props.handleQuery(tempData);
         return <span />;
       }}
