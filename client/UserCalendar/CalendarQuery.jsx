@@ -34,6 +34,7 @@ const FIND_USER_APPOINTMENTS = gql`
             home_rate
           }
           user {
+            id
             email
             first_name
             last_name
@@ -42,11 +43,11 @@ const FIND_USER_APPOINTMENTS = gql`
           }
         }
         user {
+          id
           first_name
           last_name
           email
           rating
-          id
           pic_url
         }
       }
