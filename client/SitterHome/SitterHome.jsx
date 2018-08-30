@@ -14,7 +14,7 @@ export default class SitterHome extends React.Component {
         <h1>A Quick Glance</h1>
         <div className="app-wrap">
           <h3>Monthly Target: $1000</h3>
-          <MonthlyTarget />
+          {/* <MonthlyTarget /> */}
 
           <br />
         </div>

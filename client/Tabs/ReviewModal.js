@@ -14,14 +14,18 @@ export default class ReviewModal extends React.Component {
         <Query query={REVIEW_MODAL} variables={{ email: this.props.user }}>
           {({ loading, error, data }) => {
             if (loading) return <p>loading...</p>;
-            if (error) {
-              return <p>error...</p>;
-            }
+            if (error)
+              return (
+                <p>
+                  error
+                  {console.log(error)}
+                </p>
+              );
 
             return (
               <div>
                 {' '}
-                {checkData(data, this.props.sitterId) &&
+                {checkData(data) &&
                   this.props.handleReviewModal(checkData(data))}
               </div>
             );
