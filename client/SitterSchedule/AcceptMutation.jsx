@@ -3,18 +3,19 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { Button } from 'react-bootstrap';
 
-const CANCEL_APPOINTMENT = gql `
-  mutation cancelAppointment ($apntID: String!) {
-    cancelAppointment (apntID: $apntID) {
+const ACCEPT_APPOINTMENT = gql `
+  mutation acceptAppointment ($apntID: String!) {
+    acceptAppointment (apntID: $apntID) {
       id
+      status
     } 
   }
 `
 
-function CancelMutation (props) {
+function AcceptMutation (props) {
   return (
-    <Mutation mutation = {CANCEL_APPOINTMENT}>
-      {(cancelAppointment, {loading, error, data}) => 
+    <Mutation mutation = {ACCEPT_APPOINTMENT}>
+      {(acceptAppointment, {loading, error, data}) => 
         {
           if (loading) {
             console.log ('Loading...')
@@ -26,11 +27,11 @@ function CancelMutation (props) {
           }
  
           return (<Button
-                    type = "button"
                     bsStyle="primary" 
                     bsSize="large"
+                    type = "button"
                     onClick = {() => {
-                      cancelAppointment ({
+                      acceptAppointment ({
                         variables: {
                           apntID: props.apntID
                         }
@@ -38,9 +39,9 @@ function CancelMutation (props) {
                         console.log (data)
                         props.handleClose();
                       })
-              }}>Yes, Cancel It</Button>)
+              }}>Accept</Button>)
         }
       }
     </Mutation>);
 }
-export default CancelMutation;
+export default AcceptMutation;

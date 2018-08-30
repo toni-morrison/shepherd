@@ -29,13 +29,15 @@ const FIND_SITTER_APPOINTMENTS = gql `
             home_rate
           }
           user {
-            pic_url
             email
             first_name
             last_name
           }
         }
         user {
+          pic_url
+          first_name
+          last_name
           email
           id
         }
@@ -88,10 +90,10 @@ function CalendarQuery (props) {
                   status: timeInt.appointment.status,
                   username: timeInt.appointment.sitter.user.first_name + ' ' + timeInt.appointment.sitter.user.last_name,
                   instructionID: (timeInt.appointment.todoList !== null ? timeInt.appointment.todoList.id : null),
-                  sittername: timeInt.appointment.sitter.user.first_name + ' ' + timeInt.appointment.sitter.user.last_name,
+                  sittername: timeInt.appointment.user.first_name + ' ' + timeInt.appointment.user.last_name,
                   comment: timeInt.appointment.comment,
                   rating: timeInt.appointment.sitterRating,
-                  pic_url: timeInt.appointment.sitter.user.pic_url
+                  pic_url: timeInt.appointment.user.pic_url
                 })
               }
             )

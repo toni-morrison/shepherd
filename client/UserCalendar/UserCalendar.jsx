@@ -31,6 +31,7 @@ export default class UserCalendar extends React.Component {
     this.handleEventCancel = this.handleEventCancel.bind(this)
     this.handleQuery = this.handleQuery.bind(this)
   }
+  
   handleQuery (data) {
     console.log ('handleQuery called')
     this.setState ({
@@ -60,12 +61,7 @@ export default class UserCalendar extends React.Component {
   handleCloseApnt () {
     this.setState({modalShow: false})
   }
-//      {this.state.skipped ? 
-//          <span></span> 
-//          : <CalendarQuery 
-//              handleQuery = {this.handleQuery} 
-//              user = {this.props.user} 
-//              skip = {this.state.skipped}/>}
+
   render () {
     this.state.events.forEach (
       (event) => event.title = event.status + ': ' + event.sittername

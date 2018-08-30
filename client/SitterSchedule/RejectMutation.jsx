@@ -11,7 +11,7 @@ const CANCEL_APPOINTMENT = gql `
   }
 `
 
-function CancelMutation (props) {
+function RejectMutation (props) {
   return (
     <Mutation mutation = {CANCEL_APPOINTMENT}>
       {(cancelAppointment, {loading, error, data}) => 
@@ -26,9 +26,9 @@ function CancelMutation (props) {
           }
  
           return (<Button
-                    type = "button"
                     bsStyle="primary" 
                     bsSize="large"
+                    type = "button"
                     onClick = {() => {
                       cancelAppointment ({
                         variables: {
@@ -38,9 +38,9 @@ function CancelMutation (props) {
                         console.log (data)
                         props.handleClose();
                       })
-              }}>Yes, Cancel It</Button>)
+              }}>Reject</Button>)
         }
       }
     </Mutation>);
 }
-export default CancelMutation;
+export default RejectMutation;

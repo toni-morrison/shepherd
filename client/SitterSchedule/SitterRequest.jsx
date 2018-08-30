@@ -6,6 +6,7 @@ import {
   Popover,
   OverlayTrigger
 } from 'react-bootstrap';
+import AcceptMutation from './AcceptMutation.jsx'
 
 export default class SitterRequest extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ export default class SitterRequest extends React.Component {
     const sitterRating = this.props.currentEvent.rating;
     const userComment = this.props.currentEvent.comment
     const namePopover = (
-      <Popover id="modal-popover" title="Debbie Childparent">
+      <Popover id="modal-popover" title={this.props.currentEvent.username}>
         {sitterPic}
         <br />
         {sitterRating ? ("Other sitters have rated her" + sitterRating + "//5") : ""}
@@ -89,7 +90,7 @@ export default class SitterRequest extends React.Component {
           </h3>
           <h3>Date: {new Date (this.props.currentEvent.start).toDateString()}</h3>
           <h3>Time: {new Date (this.props.currentEvent.start).toLocaleTimeString('en-US')} to {new Date (this.props.currentEvent.end).toLocaleTimeString('en-US')}</h3>
-          <h3>Total Price: $175 </h3>
+          <h3>Total Price: ${this.props.currentEvent.cost} </h3>
 
           <h3>
             List:{' '}
@@ -103,12 +104,19 @@ export default class SitterRequest extends React.Component {
               <a href="#popover">Thank you!</a>
             </OverlayTrigger>
           </h3>
-          {this.props.currentEvent.status === 'PENDING' ? <div><Button bsStyle="primary" bsSize="large" onClick={this.props.handleAccept}>
-            Accept
-          </Button>
+          {this.props.currentEvent.status === 'Pending' ? <div>
+            <AcceptMutation 
+              apntID = {this.props.currentEvent.appointmentID}
+              handleClose = {this.props.handleClose}
+              />
             <Button bsStyle="primary" bsSize="large" onClick={this.props.handleReject}>
             Decline
-          </Button></div> : <Button>Cancel Appointment</Button>}
+          </Button></div> 
+          : <Button
+              bsStyle="primary" 
+              bsSize="large"
+              onClick = {this.props.handleOpenCancel}>
+          Cancel Appointment</Button>}
       </div>
     );
   }
