@@ -15,10 +15,6 @@ export default class MonthlyChart extends React.Component {
   }
 
   componentDidMount() {
-    // console.log('monthlyglobal:', this.props.monthlyGlobalMetrics);
-    // console.log('monthlysitter:', this.props.monthlySitterMetrics);
-    console.log('monthsitter:', this.props.monthlySitterMetrics);
-
     var monthArr = monthArray(this.props.monthlySitterMetrics);
     console.log('monthArr:', monthArr);
     this.updateChart();

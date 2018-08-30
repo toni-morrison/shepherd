@@ -25,7 +25,7 @@ export default class YearlyChart extends React.Component {
 
   updateChart() {
     const chart = c3.generate({
-      bindto: '#monthlyChart',
+      bindto: '#yearlyChart',
       data: {
         columns: columns,
         type: this.props.chartType
@@ -34,6 +34,6 @@ export default class YearlyChart extends React.Component {
   }
 
   render() {
-    return <div id="monthlyChart">hi</div>;
+    return <div id="yearlyChart">hi</div>;
   }
 }

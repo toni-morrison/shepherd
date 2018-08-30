@@ -100,7 +100,7 @@ const getTotalAvg = (timeTotal, totalUsers) => {
 };
 
 const dateArray = () => {
-  var dates = [];
+  var dates = ['x'];
   var date = new Date();
   for (var i = 0; i < 7; i++) {
     var tempDate = new Date();
@@ -129,22 +129,25 @@ const dateArray = () => {
 };
 
 const weeklyArray = (weeklyEarning, pastWeek) => {
-  var result = {};
-  for (var i = 0; i < pastWeek.length; i++) {
+  var result = [];
+  for (var i = 1; i < pastWeek.length; i++) {
     var day = pastWeek[i];
-    if (weeklyEarning[day] !== undefined) {
-      result[day] = weeklyEarning[day];
+    if (weeklyEarning[day] === undefined) {
+      result.push(0);
+    } else if (weeklyEarning[day] !== undefined) {
+      result.push(weeklyEarning[day]);
     }
   }
   return result;
 };
 
 const monthArray = monthlyEarning => {
-  var result = {};
+  var result = [];
   var month = new Date().getMonth();
   if (monthlyEarning[month] !== undefined) {
     var newMonth = String(Number(month) + 1);
-    result[newMonth] = monthlyEarning[month];
+    result.push(newMonth);
+    result.push(monthlyEarning[month]);
   }
   return result;
 };

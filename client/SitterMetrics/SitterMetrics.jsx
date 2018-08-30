@@ -49,6 +49,17 @@ export default class SitterMetrics extends React.Component {
   render() {
     return (
       <div>
+        <div className="Monthly-wrap">
+          <h3>Monthly target</h3>
+
+          {!this.state.sitterObj.monthEarning ? null : (
+            <MonthlyTarget
+              monthlySitterMetrics={this.state.sitterObj.monthEarning}
+            />
+          )}
+
+          <br />
+        </div>
         <div className="app-wrap">
           <h3>Daily Earnings</h3>
           <button onClick={this.setBarChart}>bar</button>

@@ -8,61 +8,52 @@ import { dateArray, weeklyArray } from './MetricsHelper.js';
 export default class DailyChart extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      newColumns: [],
-      dateX: []
-    };
+    this.state = { columnA: [], columnB: [] };
   }
 
   componentDidMount() {
-    var dateX = ['x'].concat(Object.keys(this.props.dailyGlobalMetrics));
     var pastWeek = dateArray();
     var weekSitterEarn = weeklyArray(this.props.dailySitterMetrics, pastWeek);
     var weekGlobalEarn = weeklyArray(this.props.dailyGlobalMetrics, pastWeek);
-    console.log(
-      'weekSitterEarn:',
-      weekSitterEarn,
-      'weekGlobalEarn',
-      weekGlobalEarn
-    );
+    var columnA = ['Your Daily Earning'].concat(weekSitterEarn);
+    var columnB = ['Global Daily Earning'].concat(weekGlobalEarn);
 
-    var newColumns = [
-      ['Your Daily Numbers'].concat(
-        Object.values(this.props.dailySitterMetrics)
-      ),
-      ['Global Average'].concat(Object.values(this.props.dailyGlobalMetrics))
-    ];
     this.setState(
       {
-        newColumns: newColumns,
-        dateX: dateX
+        columnA: columnA,
+        columnB: columnB
       },
       () => {
+        console.log(
+          'columna:',
+          this.state.columnA,
+          'columnb:',
+          this.state.columnB
+        );
         this.updateChart();
       }
     );
   }
 
-  // componentDidUpdate() {
-  //   this.updateChart();
-  // }
-
   updateChart() {
     const chart = c3.generate({
       bindto: '#dailyChart',
       data: {
-        // xFormat: '%Y-%m-%d',
-        columns: this.state.newColumns,
-        type: this.props.chartType
+        x: 'x',
+        columns: [dateArray(), this.state.columnA, this.state.columnB]
+      },
+      axis: {
+        x: {
+          type: 'timeseries',
+          tick: {
+            format: '%Y-%m-%d'
+          }
+        }
       }
     });
   }
 
   render() {
-    // console.log('dailysitterchart:', this.props.dailySitterMetrics);
-    // console.log('dailygloablchart:', this.props.dailyGlobalMetrics);
-    // console.log('totalsitter:', this.props.totalSitter);
-    // console.log('totalGlobal:', this.props.totalGlobal);
     return <div id="dailyChart">hi</div>;
   }
 }
