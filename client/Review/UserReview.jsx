@@ -144,7 +144,7 @@ export default class UserReview extends React.Component {
           handleSave={this.handleSave}
           id={this.state.id}
           userRating={this.state.rating}
-          reviewWords={this.state.value}
+          userWords={this.state.value}
           userReview={this.state.textarea}
         />
         <Modal className="payment-modal" show={this.state.renderPayment}>

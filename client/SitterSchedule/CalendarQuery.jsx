@@ -1,7 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-
 const FIND_SITTER_APPOINTMENTS = gql`
   query findSitterAppointments($sitterEmail: String!) {
     findSitterAppointments(sitterEmail: $sitterEmail) {
@@ -53,7 +52,6 @@ const FIND_SITTER_APPOINTMENTS = gql`
     }
   }
 `;
-
 function CalendarQuery(props) {
   return (
     <Query

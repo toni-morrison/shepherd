@@ -39,6 +39,18 @@ const resolvers = {
         info
       );
     },
+    findAppointments: (_, args, context, info) => {
+      return context.prisma.query.timeIntervals(
+        {
+          where: {
+            appointment: {
+              status: 'Paid'
+            }
+          }
+        },
+        info
+      );
+    },
     findSitterReviews: (_, args, context, info) => {
       return context.prisma.query.appointments(
         {
@@ -170,7 +182,7 @@ const resolvers = {
                 appointment: {
                   sitter: {
                     user: {
-                      email: args.email
+                      email: args.sitterEmail
                     }
                   }
                 }
@@ -412,6 +424,9 @@ const resolvers = {
             userRating: args.userRating,
             sitterRating: args.sitterRating,
             userReview: args.userReview,
+            userWords: {
+              set: args.userWords
+            },
             sitterReview: args.sitterReview,
             status: args.status
           },

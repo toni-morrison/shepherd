@@ -22,6 +22,7 @@ const REVIEW_MODAL = gql`
           }
         }
         price
+        status
       }
       end
       day
@@ -65,37 +66,40 @@ const checkData = (obj, sitterId) => {
       appointmentInfo['sitterPic'] = appt.appointment.sitter.user.pic_url;
       appointmentInfo['sitterName'] = appt.appointment.sitter.user.first_name;
 
-      if (
-        appt.appointment.userRating === null &&
-        appt.appointment.sitterRating !== null
-      ) {
+      if (appt.appointment.userRating === null) {
         result = true;
         appointmentInfo['user'] = appt.appointment.user.email;
-      } else if (
-        appt.appointment.sitterRating === null &&
-        appt.appointment.userRating !== null
-      ) {
-        result = true;
-        appointmentInfo['sitter'] = appt.appointment.sitter.user.email;
-      } else if (
-        appt.appointment.sitterRating === null &&
-        appt.appointment.userRating === null
-      ) {
-        result = true;
-        appointmentInfo['user'] = appt.appointment.user.email;
-        appointmentInfo['sitter'] = appt.appointment.sitter.user.email;
       }
     }
   }
 
   if (result === true) {
-    console.log('apptobj:', appointmentInfo);
     return appointmentInfo;
   } else {
     return result;
   }
 };
-
+//removed sitter reviewing users for now!
+// if (
+//   appt.appointment.userRating === null &&
+//   appt.appointment.sitterRating !== null
+// ) {
+//   result = true;
+//   appointmentInfo['user'] = appt.appointment.user.email;
+// } else if (
+//   appt.appointment.sitterRating === null &&
+//   appt.appointment.userRating !== null
+// ) {
+//   result = true;
+//   appointmentInfo['sitter'] = appt.appointment.sitter.user.email;
+// } else if (
+//   appt.appointment.sitterRating === null &&
+//   appt.appointment.userRating === null
+// ) {
+//   result = true;
+//   appointmentInfo['user'] = appt.appointment.user.email;
+//   appointmentInfo['sitter'] = appt.appointment.sitter.user.email;
+// }
 module.exports = {
   REVIEW_MODAL,
   checkData
