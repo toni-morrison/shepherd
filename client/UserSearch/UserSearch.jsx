@@ -108,7 +108,7 @@ export default class UserSearch extends React.Component {
     let newYear = newDate._d.getFullYear();
     let newDay = newDate._d.getDate();
     newDay = newDay < 10 ? '0' + newDay : '' + newDay;
-    let newDateString = newMonth + ' ' + newDay + ' ' + newYear;
+    let newDateString = newMonth + '-' + newDay + '-' + newYear;
     let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
     let DOW = newDate._d.getDay();
     this.setState({
@@ -123,7 +123,7 @@ export default class UserSearch extends React.Component {
     let newYear = newDate._d.getFullYear();
     let newDay = newDate._d.getDate();
     newDay = newDay < 10 ? '0' + newDay : '' + newDay;
-    let newDateString = newMonth + ' ' + newDay + ' ' + newYear;
+    let newDateString = newMonth + '-' + newDay + '-' + newYear;
     let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
     let DOW = newDate._d.getDay();
 
