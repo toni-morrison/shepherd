@@ -18,6 +18,8 @@ const FIND_SITTER_APPOINTMENTS = gql`
         status
         userRating
         userReview
+        sitterRating
+        sitterReview
         todoList {
           id
           name
@@ -31,29 +33,23 @@ const FIND_SITTER_APPOINTMENTS = gql`
             home_rate
           }
           user {
+            id
             email
             first_name
             last_name
             rating
+            pic_url
           }
         }
         user {
+          id
           first_name
           last_name
           email
-          id
+          rating
           pic_url
         }
       }
-    }
-  }
-`;
-
-const FIND_INSTRUCTIONS = gql`
-  query findInstructions($id: ID!) {
-    findInstructions(id: $id) {
-      time
-      desc
     }
   }
 `;
@@ -102,22 +98,26 @@ function CalendarQuery(props) {
               timeInt.appointment.user.first_name +
               ' ' +
               timeInt.appointment.user.last_name,
+            sittername:
+              timeInt.appointment.sitter.user.first_name +
+              ' ' +
+              timeInt.appointment.sitter.user.last_name,
             instructionsID: timeInt.appointment.todoList
               ? timeInt.appointment.todoList.id
               : undefined,
             instructionsName: timeInt.appointment.todoList
               ? timeInt.appointment.todoList.name
               : undefined,
-            sittername:
-              timeInt.appointment.sitter.user.first_name +
-              ' ' +
-              timeInt.appointment.sitter.user.last_name,
             comment: timeInt.appointment.comment,
             userAppRating: timeInt.appointment.userRating,
             userAppReview: timeInt.appointment.userReview,
+            sitterAppRating: timeInt.appointment.sitterRating,
+            sitterAppReview: timeInt.appointment.sitterReview,
             sitterRating: timeInt.appointment.sitter.rating,
             userRating: timeInt.appointment.user.rating,
-            pic_url: timeInt.appointment.user.pic_url
+            sitterRating: timeInt.appointment.sitter.rating,
+            pic_url: timeInt.appointment.user.pic_url,
+            sitter_pic_url: timeInt.appointment.sitter.user.pic_url
           });
         });
         props.handleQuery(tempData);

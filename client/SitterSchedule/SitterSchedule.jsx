@@ -33,15 +33,10 @@ export default class SitterSchedule extends React.Component {
   }
 
   handleQuery(data) {
-    this.setState(
-      {
-        events: data,
-        skipped: true
-      },
-      () => {
-        console.log(data);
-      }
-    );
+    this.setState({
+      events: data,
+      skipped: true
+    });
   }
 
   handleReject() {
@@ -64,24 +59,15 @@ export default class SitterSchedule extends React.Component {
   }
 
   handleShow(event) {
-    this.setState(
-      {
-        show: true,
-        currentEvent: event
-      },
-      () => {
-        console.log(this.state.currentEvent);
-      }
-    );
+    this.setState({
+      show: true,
+      currentEvent: event
+    });
   }
 
   render() {
     this.state.events.forEach(
-      event =>
-        (event.title =
-          event.status +
-          ': ' +
-          event.username)
+      event => (event.title = event.status + ': ' + event.username)
     );
     return (
       <div>
