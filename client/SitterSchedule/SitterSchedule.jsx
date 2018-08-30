@@ -7,8 +7,8 @@ import CancelModal from './CancelModal.jsx'
 import moment from 'moment'
 import events from './events.js'
 export default class SitterSchedule extends React.Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       show: false,
       skipped: false,
@@ -24,7 +24,7 @@ export default class SitterSchedule extends React.Component {
     this.handleCloseCancel = this.handleCloseCancel.bind(this)
     this.handleOpenCancel = this.handleOpenCancel.bind(this)
   }
-  
+
   handleCloseCancel () {
     this.setState ({
       cancelShow: false,
@@ -44,22 +44,22 @@ export default class SitterSchedule extends React.Component {
     this.setState ({
       events: data,
       skipped: true
-    })
+    });
   }
-  
-  handleReject () {
+
+  handleReject() {
     for (var i = 0; i < events.length; i++) {
       if (events[i].id === this.state.currentEvent.id) {
-        events.splice (i, 1)
+        events.splice(i, 1);
         break;
       }
     }
-    this.setState ({
+    this.setState({
       currentEvent: {
         instructions: []
       },
       show: false
-    })
+    });
   }
 
   handleClose() {
@@ -67,31 +67,34 @@ export default class SitterSchedule extends React.Component {
   }
 
   handleShow(event) {
-    this.setState({ show: true,
-                    currentEvent: event});
-    
+    this.setState({
+      show: true,
+      currentEvent: event
+    });
   }
-  
-  
-  render () {
-    this.state.events.forEach (
-      (event) => event.title = event.status + ': ' + event.username
-    )
-    return(
+
+  render() {
+    this.state.events.forEach(
+      event => (event.title = event.status + ': ' + event.username)
+    );
+    return (
       <div>
-        {this.state.skipped ? 
-          <span></span> 
-          : <CalendarQuery 
-              handleQuery = {this.handleQuery} 
-              user = {this.props.user} />}
-        <BigCalendar 
-          events = {this.state.events}
-          views = {this.allViews}
-          step = {60}
+        {this.state.skipped ? (
+          <span />
+        ) : (
+          <CalendarQuery
+            handleQuery={this.handleQuery}
+            user={this.props.user}
+          />
+        )}
+        <BigCalendar
+          events={this.state.events}
+          views={this.allViews}
+          step={60}
           showMultiDayTimes
           Selectable
-          onSelectEvent = {this.handleShow}/>
-        <Button onClick={this.handleShow}>SITTER REQUEST</Button>
+          onSelectEvent={this.handleShow}
+        />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <SitterRequest 
             currentEvent = {this.state.currentEvent} handleClose = {this.handleClose}
@@ -103,6 +106,6 @@ export default class SitterSchedule extends React.Component {
           handleClose = {this.handleCloseCancel} 
           apntID = {this.state.currentEvent.appointmentID}/>
       </div>
-    )
+    );
   }
 }
