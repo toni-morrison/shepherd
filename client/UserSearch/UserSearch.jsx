@@ -103,12 +103,12 @@ export default class UserSearch extends React.Component {
   }
 
   handleStartChange(newDate) {
-    let newMonth = newDate._d.getMonth();
+    let newMonth = newDate._d.getMonth() + 1;
     newMonth = newMonth < 10 ? '0' + newMonth : '' + newMonth;
     let newYear = newDate._d.getFullYear();
     let newDay = newDate._d.getDate();
     newDay = newDay < 10 ? '0' + newDay : '' + newDay;
-    let newDateString = newMonth + ' ' + newDay + ' ' + newYear;
+    let newDateString = newMonth + '-' + newDay + '-' + newYear;
     let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
     let DOW = newDate._d.getDay();
     this.setState({
@@ -118,12 +118,12 @@ export default class UserSearch extends React.Component {
     });
   }
   handleEndChange(newDate) {
-    let newMonth = newDate._d.getMonth();
+    let newMonth = newDate._d.getMonth() + 1;
     newMonth = newMonth < 10 ? '0' + newMonth : '' + newMonth;
     let newYear = newDate._d.getFullYear();
     let newDay = newDate._d.getDate();
     newDay = newDay < 10 ? '0' + newDay : '' + newDay;
-    let newDateString = newMonth + ' ' + newDay + ' ' + newYear;
+    let newDateString = newMonth + '-' + newDay + '-' + newYear;
     let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
     let DOW = newDate._d.getDay();
 
@@ -227,6 +227,7 @@ export default class UserSearch extends React.Component {
         </div>
       );
     } else {
+      console.log (this.state.apntStart)
       return (
         <UserSearchResults
           handleSearchClick={this.handleBack}

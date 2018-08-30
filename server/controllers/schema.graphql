@@ -32,7 +32,9 @@ type Query {
 }
 
 type Mutation {
-  cancelAppointment(apntID: String!): String!
+  acceptAppointment (apntID: String!): Appointment!
+  rejectAppointment (apntID: String!): Appointment!
+  cancelAppointment (apntID: String!): Appointment!
   signup(
     email: String!
     first_name: String!
