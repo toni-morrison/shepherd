@@ -4,11 +4,11 @@ import d3 from 'd3';
 // import 'c3/c3.css';
 
 const columns = [
-  ['Your Monthly Numbers', 1500, 1700, 2000, 2000, 2100, 2200],
-  ['Global Average', 1500, 1450, 1520, 1520, 1533, 1528]
+  ['Your Weekly Numbers', 200, 220, 400, 400, 350, 250],
+  ['Global Average', 175, 200, 420, 340, 320, 210]
 ];
 
-export default class MontlyhChart extends React.Component {
+export default class MonthlyChart extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -23,7 +23,7 @@ export default class MontlyhChart extends React.Component {
 
   updateChart() {
     const chart = c3.generate({
-      bindto: '#monthlyChart',
+      bindto: '#weeklyChart',
       data: {
         columns: columns,
         type: this.props.chartType
@@ -32,6 +32,6 @@ export default class MontlyhChart extends React.Component {
   }
 
   render() {
-    return <div id="monthlyChart">hi</div>;
+    return <div id="weeklyChart">hi</div>;
   }
 }

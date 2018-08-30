@@ -41,8 +41,6 @@ const calculateMetrics = arr => {
     let year = new Date(arr[i].day).getFullYear();
     if (monthEarning[month] === undefined) {
       monthEarning[month] = arr[i].appointment.price;
-      console.log('monthernin month:', monthEarning[month]);
-      // monthEarning[month]['review'] = arr[i].appointment.userReview;
     } else {
       monthEarning[month] += arr[i].appointment.price;
     }
@@ -62,6 +60,7 @@ const calculateMetrics = arr => {
   metricsObj['monthEarning'] = monthEarning;
   metricsObj['dailyEarning'] = dailyEarning;
   metricsObj['yearlyEarning'] = yearlyEarning;
+  console.log(metricsObj);
 
   return metricsObj;
 };

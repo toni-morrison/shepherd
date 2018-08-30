@@ -15,11 +15,13 @@ export default class ReviewButton extends React.Component {
   }
 
   handleButtonClick(updateAppointment) {
+    console.log('userwords:', this.props.userWords);
     updateAppointment({
       variables: {
         id: this.props.id,
         userRating: this.props.userRating,
         userReview: this.props.userReview,
+        userWords: this.props.userWords,
         sitterRating: this.props.sitterRating,
         sitterReview: this.props.sitterReview
       }

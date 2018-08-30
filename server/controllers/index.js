@@ -397,6 +397,9 @@ const resolvers = {
             userRating: args.userRating,
             sitterRating: args.sitterRating,
             userReview: args.userReview,
+            userWords: {
+              set: args.userWords
+            },
             sitterReview: args.sitterReview,
             status: args.status
           },

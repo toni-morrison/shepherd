@@ -9,20 +9,32 @@ import {
 export default class FindAppointments extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      skipped: true
+    };
+  }
+  componentDidMount() {
+    if (this.props.user) {
+      this.setState({
+        skipped: false
+      });
+    }
   }
 
   render() {
     return (
       <div>
-        <Query query={FIND_APPOINTMENTS}>
+        <Query query={FIND_APPOINTMENTS} skip={this.state.skipped}>
           {({ loading, error, data }) => {
             if (loading) return <p>loading...</p>;
             if (error) return <p>error....</p>;
             var globalMetrics = calculateMetrics(data.findAppointments);
+            console.log('globalmetrics:', globalMetrics);
             return (
               <Query
                 query={FIND_SITTER_APPOINTMENTS}
                 variables={{ sitterEmail: this.props.user }}
+                skip={this.state.skipped}
               >
                 {({ loading, error, data }) => {
                   if (loading) return <p>loading...</p>;
@@ -31,7 +43,8 @@ export default class FindAppointments extends React.Component {
                     data.findSitterAppointments
                   );
                   console.log('sitterMetrics:', sitterMetrics);
-                  console.log('globalMetrics:', globalMetrics);
+
+                  this.props.getMetrics(globalMetrics, sitterMetrics);
 
                   return <div> HELLO!</div>;
                 }}

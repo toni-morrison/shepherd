@@ -1,7 +1,7 @@
 import React from 'react';
 import c3 from 'c3';
 import d3 from 'd3';
-import WeeklyChart from './WeeklyChart.jsx';
+import YearlyChart from './YearlyChart.jsx';
 import DailyChart from './DailyChart.jsx';
 import MonthlyChart from './MonthlyChart.jsx';
 import MonthlyTarget from './MonthlyTarget.jsx';
@@ -12,10 +12,13 @@ export default class SitterMetrics extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartType: 'bar'
+      chartType: 'bar',
+      globalObj: {},
+      sitterObj: {}
     };
     this.setBarChart = this.setBarChart.bind(this);
     this.setLineChart = this.setLineChart.bind(this);
+    this.getMetrics = this.getMetrics.bind(this);
   }
   setBarChart() {
     console.log('bar fired');
@@ -30,31 +33,60 @@ export default class SitterMetrics extends React.Component {
     });
   }
 
+  getMetrics(globalObj, sitterObj) {
+    if (Object.keys(this.state.globalObj).length === 0) {
+      let globalObject = Object.assign({}, globalObj);
+      let sitterObject = Object.assign({}, sitterObj);
+      this.setState(
+        { globalObj: globalObject, sitterObj: sitterObject },
+        () => {
+          console.log('STATESTATE:', this.state);
+        }
+      );
+    }
+  }
+
   render() {
     return (
       <div>
         <div className="app-wrap">
           <h3>Daily Earnings</h3>
-
-          <DailyChart chartType={this.state.chartType} />
-
           <button onClick={this.setBarChart}>bar</button>
           <button onClick={this.setLineChart}>line</button>
-          <br />
-        </div>
-        <div className="app-wrap">
-          <h3>Weekly Earnings</h3>
-          <WeeklyChart chartType={this.state.chartType} />
+          {!this.state.sitterObj.dailyEarning ? null : (
+            <DailyChart
+              dailySitterMetrics={this.state.sitterObj.dailyEarning}
+              dailyGlobalMetrics={this.state.globalObj.dailyEarning}
+            />
+          )}
 
           <br />
         </div>
         <div className="app-wrap">
           <h3>Monthly Earnings</h3>
-          <MonthlyChart chartType={this.state.chartType} />
+          {!this.state.sitterObj.monthEarning ? null : (
+            <MonthlyChart
+              monthlySitterMetrics={this.state.sitterObj.monthEarning}
+              monthlyGlobalMetrics={this.state.globalObj.monthEarning}
+              chartType={this.state.chartType}
+            />
+          )}
 
           <br />
         </div>
-        <FindAppointments user={this.props.user} />
+        <div className="app-wrap">
+          <h3>Yearly Earnings</h3>
+          {!this.state.sitterObj.yearlyEarning ? null : (
+            <YearlyChart
+              yearlySitterMetrics={this.state.sitterObj.yearlyEarning}
+              yearlyGlobalMetrics={this.state.globalObj.yearlyEarning}
+              chartType={this.state.chartType}
+            />
+          )}
+
+          <br />
+        </div>
+        <FindAppointments getMetrics={this.getMetrics} user={this.props.user} />
       </div>
     );
   }

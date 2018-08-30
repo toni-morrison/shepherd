@@ -7,6 +7,7 @@ const ADD_REVIEW = gql`
     $userReview: String
     $sitterRating: Float
     $sitterReview: String
+    $userWords: [String!]
   ) {
     updateAppointment(
       id: $id
@@ -14,6 +15,7 @@ const ADD_REVIEW = gql`
       userReview: $userReview
       sitterRating: $sitterRating
       sitterReview: $sitterReview
+      userWords: $userWords
     ) {
       id
       sitter {

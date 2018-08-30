@@ -8,8 +8,10 @@ import UserReview from '../Review/UserReview.jsx';
 import SitterReview from '../Review/SitterReview.jsx';
 import { days } from '../SitterJoin/Days.js';
 import { CircleLoader } from 'react-spinners';
-import { Query } from 'react-apollo';
+import { Query, ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
+import SitterTabsQuery from './SitterTabsQuery.jsx';
+import { FIND_APPOINTMENTS } from '../SitterMetrics/MetricsHelper.js';
 
 const GET_USER_INFO = gql`
   query getUserInfo($email: String!) {
@@ -34,12 +36,18 @@ export default class TopTabs extends React.Component {
       displayTime: '',
       price: '',
       sitterPic: '',
-      sitterName: ''
+      sitterName: '',
+      skipApptQuery: true
     };
     this.toggleSubmitted = this.toggleSubmitted.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleReviewModal = this.handleReviewModal.bind(this);
     this.closeReviewModal = this.closeReviewModal.bind(this);
+    this.handleQuery = this.handleQuery.bind(this);
+  }
+
+  handleQuery() {
+    console.log('button click!');
   }
 
   toggleSubmitted() {
@@ -176,6 +184,7 @@ export default class TopTabs extends React.Component {
                     <Col sm={12}>
                       <Nav bsStyle="tabs" className="nav-justified">
                         <NavItem eventKey="first">USER</NavItem>
+                        {/* <Appointment>{client}</Appointment> */}
                         <NavItem eventKey="second">
                           {sitterId ? 'SITTER' : 'BECOME A SITTER'}
                         </NavItem>
@@ -194,6 +203,7 @@ export default class TopTabs extends React.Component {
                         <Tab.Pane eventKey="second">
                           <br />
                           <br />
+
                           <SitterTabs
                             user={this.props.user}
                             sitterId={sitterId}
