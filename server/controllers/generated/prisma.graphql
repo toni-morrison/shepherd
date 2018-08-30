@@ -1,5 +1,5 @@
 # source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Thu Aug 30 2018 14:24:27 GMT-0500 (GMT-05:00)
+# timestamp: Thu Aug 30 2018 14:36:53 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
@@ -46,6 +46,7 @@ type Appointment implements Node {
   userReview: String
   sitterReview: String
   sitterWords: [String!]!
+  timeInterval(where: TimeIntervalWhereInput): TimeInterval!
 }
 
 """A connection to a list of items."""
@@ -78,10 +79,11 @@ input AppointmentCreateInput {
   user: UserCreateOneInput!
   sitter: SitterCreateOneInput!
   todoList: TodoListCreateOneInput
+  timeInterval: TimeIntervalCreateOneWithoutAppointmentInput!
 }
 
-input AppointmentCreateOneInput {
-  create: AppointmentCreateInput
+input AppointmentCreateOneWithoutTimeIntervalInput {
+  create: AppointmentCreateWithoutTimeIntervalInput
   connect: AppointmentWhereUniqueInput
 }
 
@@ -91,6 +93,24 @@ input AppointmentCreatesitterWordsInput {
 
 input AppointmentCreateuserWordsInput {
   set: [String!]
+}
+
+input AppointmentCreateWithoutTimeIntervalInput {
+  children: Int
+  pets: Int
+  price: Float!
+  comment: String!
+  status: AppStatus!
+  userRating: Float
+  sitterRating: Float
+  userReview: String
+  sitterReview: String
+  app_types: AppointmentCreateapp_typesInput
+  userWords: AppointmentCreateuserWordsInput
+  sitterWords: AppointmentCreatesitterWordsInput
+  user: UserCreateOneInput!
+  sitter: SitterCreateOneInput!
+  todoList: TodoListCreateOneInput
 }
 
 """An edge in a connection."""
@@ -188,24 +208,6 @@ input AppointmentUpdateapp_typesInput {
   set: [String!]
 }
 
-input AppointmentUpdateDataInput {
-  children: Int
-  pets: Int
-  price: Float
-  comment: String
-  status: AppStatus
-  userRating: Float
-  sitterRating: Float
-  userReview: String
-  sitterReview: String
-  app_types: AppointmentUpdateapp_typesInput
-  userWords: AppointmentUpdateuserWordsInput
-  sitterWords: AppointmentUpdatesitterWordsInput
-  user: UserUpdateOneInput
-  sitter: SitterUpdateOneInput
-  todoList: TodoListUpdateOneInput
-}
-
 input AppointmentUpdateInput {
   children: Int
   pets: Int
@@ -222,15 +224,16 @@ input AppointmentUpdateInput {
   user: UserUpdateOneInput
   sitter: SitterUpdateOneInput
   todoList: TodoListUpdateOneInput
+  timeInterval: TimeIntervalUpdateOneWithoutAppointmentInput
 }
 
-input AppointmentUpdateOneInput {
-  create: AppointmentCreateInput
+input AppointmentUpdateOneWithoutTimeIntervalInput {
+  create: AppointmentCreateWithoutTimeIntervalInput
   connect: AppointmentWhereUniqueInput
   disconnect: Boolean
   delete: Boolean
-  update: AppointmentUpdateDataInput
-  upsert: AppointmentUpsertNestedInput
+  update: AppointmentUpdateWithoutTimeIntervalDataInput
+  upsert: AppointmentUpsertWithoutTimeIntervalInput
 }
 
 input AppointmentUpdatesitterWordsInput {
@@ -241,9 +244,27 @@ input AppointmentUpdateuserWordsInput {
   set: [String!]
 }
 
-input AppointmentUpsertNestedInput {
-  update: AppointmentUpdateDataInput!
-  create: AppointmentCreateInput!
+input AppointmentUpdateWithoutTimeIntervalDataInput {
+  children: Int
+  pets: Int
+  price: Float
+  comment: String
+  status: AppStatus
+  userRating: Float
+  sitterRating: Float
+  userReview: String
+  sitterReview: String
+  app_types: AppointmentUpdateapp_typesInput
+  userWords: AppointmentUpdateuserWordsInput
+  sitterWords: AppointmentUpdatesitterWordsInput
+  user: UserUpdateOneInput
+  sitter: SitterUpdateOneInput
+  todoList: TodoListUpdateOneInput
+}
+
+input AppointmentUpsertWithoutTimeIntervalInput {
+  update: AppointmentUpdateWithoutTimeIntervalDataInput!
+  create: AppointmentCreateWithoutTimeIntervalInput!
 }
 
 input AppointmentWhereInput {
@@ -538,6 +559,7 @@ input AppointmentWhereInput {
   user: UserWhereInput
   sitter: SitterWhereInput
   todoList: TodoListWhereInput
+  timeInterval: TimeIntervalWhereInput
 }
 
 input AppointmentWhereUniqueInput {
@@ -848,37 +870,37 @@ scalar Long
 type Mutation {
   createTimeInterval(data: TimeIntervalCreateInput!): TimeInterval!
   createInstruction(data: InstructionCreateInput!): Instruction!
-  createTodoList(data: TodoListCreateInput!): TodoList!
   createAppointment(data: AppointmentCreateInput!): Appointment!
+  createTodoList(data: TodoListCreateInput!): TodoList!
   createUser(data: UserCreateInput!): User!
   createSitterRate(data: SitterRateCreateInput!): SitterRate!
   createSitter(data: SitterCreateInput!): Sitter!
   updateInstruction(data: InstructionUpdateInput!, where: InstructionWhereUniqueInput!): Instruction
-  updateTodoList(data: TodoListUpdateInput!, where: TodoListWhereUniqueInput!): TodoList
   updateAppointment(data: AppointmentUpdateInput!, where: AppointmentWhereUniqueInput!): Appointment
+  updateTodoList(data: TodoListUpdateInput!, where: TodoListWhereUniqueInput!): TodoList
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateSitter(data: SitterUpdateInput!, where: SitterWhereUniqueInput!): Sitter
   deleteInstruction(where: InstructionWhereUniqueInput!): Instruction
-  deleteTodoList(where: TodoListWhereUniqueInput!): TodoList
   deleteAppointment(where: AppointmentWhereUniqueInput!): Appointment
+  deleteTodoList(where: TodoListWhereUniqueInput!): TodoList
   deleteUser(where: UserWhereUniqueInput!): User
   deleteSitter(where: SitterWhereUniqueInput!): Sitter
   upsertInstruction(where: InstructionWhereUniqueInput!, create: InstructionCreateInput!, update: InstructionUpdateInput!): Instruction!
-  upsertTodoList(where: TodoListWhereUniqueInput!, create: TodoListCreateInput!, update: TodoListUpdateInput!): TodoList!
   upsertAppointment(where: AppointmentWhereUniqueInput!, create: AppointmentCreateInput!, update: AppointmentUpdateInput!): Appointment!
+  upsertTodoList(where: TodoListWhereUniqueInput!, create: TodoListCreateInput!, update: TodoListUpdateInput!): TodoList!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertSitter(where: SitterWhereUniqueInput!, create: SitterCreateInput!, update: SitterUpdateInput!): Sitter!
   updateManyTimeIntervals(data: TimeIntervalUpdateInput!, where: TimeIntervalWhereInput): BatchPayload!
   updateManyInstructions(data: InstructionUpdateInput!, where: InstructionWhereInput): BatchPayload!
-  updateManyTodoLists(data: TodoListUpdateInput!, where: TodoListWhereInput): BatchPayload!
   updateManyAppointments(data: AppointmentUpdateInput!, where: AppointmentWhereInput): BatchPayload!
+  updateManyTodoLists(data: TodoListUpdateInput!, where: TodoListWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManySitterRates(data: SitterRateUpdateInput!, where: SitterRateWhereInput): BatchPayload!
   updateManySitters(data: SitterUpdateInput!, where: SitterWhereInput): BatchPayload!
   deleteManyTimeIntervals(where: TimeIntervalWhereInput): BatchPayload!
   deleteManyInstructions(where: InstructionWhereInput): BatchPayload!
-  deleteManyTodoLists(where: TodoListWhereInput): BatchPayload!
   deleteManyAppointments(where: AppointmentWhereInput): BatchPayload!
+  deleteManyTodoLists(where: TodoListWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManySitterRates(where: SitterRateWhereInput): BatchPayload!
   deleteManySitters(where: SitterWhereInput): BatchPayload!
@@ -914,20 +936,20 @@ type PageInfo {
 type Query {
   timeIntervals(where: TimeIntervalWhereInput, orderBy: TimeIntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TimeInterval]!
   instructions(where: InstructionWhereInput, orderBy: InstructionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Instruction]!
-  todoLists(where: TodoListWhereInput, orderBy: TodoListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TodoList]!
   appointments(where: AppointmentWhereInput, orderBy: AppointmentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Appointment]!
+  todoLists(where: TodoListWhereInput, orderBy: TodoListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TodoList]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   sitterRates(where: SitterRateWhereInput, orderBy: SitterRateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SitterRate]!
   sitters(where: SitterWhereInput, orderBy: SitterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sitter]!
   instruction(where: InstructionWhereUniqueInput!): Instruction
-  todoList(where: TodoListWhereUniqueInput!): TodoList
   appointment(where: AppointmentWhereUniqueInput!): Appointment
+  todoList(where: TodoListWhereUniqueInput!): TodoList
   user(where: UserWhereUniqueInput!): User
   sitter(where: SitterWhereUniqueInput!): Sitter
   timeIntervalsConnection(where: TimeIntervalWhereInput, orderBy: TimeIntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TimeIntervalConnection!
   instructionsConnection(where: InstructionWhereInput, orderBy: InstructionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): InstructionConnection!
-  todoListsConnection(where: TodoListWhereInput, orderBy: TodoListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TodoListConnection!
   appointmentsConnection(where: AppointmentWhereInput, orderBy: AppointmentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AppointmentConnection!
+  todoListsConnection(where: TodoListWhereInput, orderBy: TodoListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TodoListConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   sitterRatesConnection(where: SitterRateWhereInput, orderBy: SitterRateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitterRateConnection!
   sittersConnection(where: SitterWhereInput, orderBy: SitterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitterConnection!
@@ -1519,8 +1541,8 @@ input SitterWhereUniqueInput {
 type Subscription {
   timeInterval(where: TimeIntervalSubscriptionWhereInput): TimeIntervalSubscriptionPayload
   instruction(where: InstructionSubscriptionWhereInput): InstructionSubscriptionPayload
-  todoList(where: TodoListSubscriptionWhereInput): TodoListSubscriptionPayload
   appointment(where: AppointmentSubscriptionWhereInput): AppointmentSubscriptionPayload
+  todoList(where: TodoListSubscriptionWhereInput): TodoListSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   sitterRate(where: SitterRateSubscriptionWhereInput): SitterRateSubscriptionPayload
   sitter(where: SitterSubscriptionWhereInput): SitterSubscriptionPayload
@@ -1548,7 +1570,18 @@ input TimeIntervalCreateInput {
   day: String
   start: Int!
   end: Int!
-  appointment: AppointmentCreateOneInput
+  appointment: AppointmentCreateOneWithoutTimeIntervalInput
+  sitter: SitterCreateOneInput
+}
+
+input TimeIntervalCreateOneWithoutAppointmentInput {
+  create: TimeIntervalCreateWithoutAppointmentInput
+}
+
+input TimeIntervalCreateWithoutAppointmentInput {
+  day: String
+  start: Int!
+  end: Int!
   sitter: SitterCreateOneInput
 }
 
@@ -1625,8 +1658,27 @@ input TimeIntervalUpdateInput {
   day: String
   start: Int
   end: Int
-  appointment: AppointmentUpdateOneInput
+  appointment: AppointmentUpdateOneWithoutTimeIntervalInput
   sitter: SitterUpdateOneInput
+}
+
+input TimeIntervalUpdateOneWithoutAppointmentInput {
+  create: TimeIntervalCreateWithoutAppointmentInput
+  delete: Boolean
+  update: TimeIntervalUpdateWithoutAppointmentDataInput
+  upsert: TimeIntervalUpsertWithoutAppointmentInput
+}
+
+input TimeIntervalUpdateWithoutAppointmentDataInput {
+  day: String
+  start: Int
+  end: Int
+  sitter: SitterUpdateOneInput
+}
+
+input TimeIntervalUpsertWithoutAppointmentInput {
+  update: TimeIntervalUpdateWithoutAppointmentDataInput!
+  create: TimeIntervalCreateWithoutAppointmentInput!
 }
 
 input TimeIntervalWhereInput {
