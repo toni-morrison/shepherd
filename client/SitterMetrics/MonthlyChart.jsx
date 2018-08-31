@@ -30,11 +30,18 @@ export default class MonthlyChart extends React.Component {
   }
 
   componentDidMount() {
-    var sitterMonthArr = monthArray(this.props.monthlySitterMetrics);
-    var globalMonthArr = monthArray(this.props.monthlyGlobalMetrics);
-    var month = months[sitterMonthArr[0]];
-    var sitterCurrent = sitterMonthArr[1];
-    var globalCurrent = globalMonthArr[1];
+    if (Object.keys(this.props.monthlySitterMetrics).length === 0) {
+      var globalMonthArr = monthArray(this.props.monthlyGlobalMetrics);
+      var month = months[globalMonthArr[0]];
+      var sitterCurrent = 0;
+      var globalCurrent = globalMonthArr[1];
+    } else {
+      var sitterMonthArr = monthArray(this.props.monthlySitterMetrics);
+      var globalMonthArr = monthArray(this.props.monthlyGlobalMetrics);
+      var month = months[sitterMonthArr[0]];
+      var sitterCurrent = sitterMonthArr[1];
+      var globalCurrent = globalMonthArr[1];
+    }
 
     this.setState({
       month: month,
