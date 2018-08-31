@@ -60,7 +60,7 @@ export default class MonthlyTargetDash extends React.Component {
           percentage: 0,
           current: 0,
 
-          currentMonth: 'August'
+          currentMonth: months[new Date().getMonth() + 1]
         },
         () => {
           this.updateChart();
