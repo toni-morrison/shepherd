@@ -1,20 +1,19 @@
 import React from 'react';
-import c3 from 'c3';
-import d3 from 'd3';
-import FindAppointments from '../SitterMetrics/FindAppointments.js';
 import MonthlyTargetDash from './MonthlyTargetDash.jsx';
+import { Query } from 'react-apollo';
+import {
+  FIND_SITTER_APPOINTMENTS,
+  calculateMetrics
+} from '../SitterMetrics/MetricsHelper.js';
 
 export default class SitterHome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       chartType: 'bar',
-      globalObj: {},
-      sitterObj: {},
       current: '',
       target: ''
     };
-    this.getMetrics = this.getMetrics.bind(this);
     this.getValues = this.getValues.bind(this);
   }
 
@@ -27,35 +26,36 @@ export default class SitterHome extends React.Component {
     });
   }
 
-  getMetrics(globalObj, sitterObj) {
-    if (Object.keys(this.state.globalObj).length === 0) {
-      let globalObject = Object.assign({}, globalObj);
-      let sitterObject = Object.assign({}, sitterObj);
-      this.setState({
-        globalObj: globalObject,
-        sitterObj: sitterObject
-      });
-    }
-  }
   render() {
     return (
-      <div>
-        <h1>A Quick Glance</h1>
-        <div className="Monthly-wrap">
-          <h3> Your Target: {this.state.target} </h3>
-          <h3> Current: {this.state.current}</h3>
+      <Query
+        query={FIND_SITTER_APPOINTMENTS}
+        variables={{ sitterEmail: this.props.user }}
+      >
+        {({ loading, error, data }) => {
+          if (loading) return <p>loading...</p>;
+          if (error) return <p>{console.log(error)}</p>;
 
-          {!this.state.sitterObj.monthEarning ? null : (
-            <MonthlyTargetDash
-              monthlySitterMetrics={this.state.sitterObj.monthEarning}
-              getValues={this.getValues}
-            />
-          )}
+          var sitterMetrics = calculateMetrics(
+            data.findSitterAppointments,
+            this.props.user
+          );
 
-          <br />
-        </div>
-        <FindAppointments getMetrics={this.getMetrics} user={this.props.user} />
-      </div>
+          return (
+            <div>
+              <h1>A Quick Glance</h1>
+              <div className="Monthly-wrap">
+                <h3> Your Target: {this.state.target} </h3>
+                <h3> Current: {this.state.current}</h3>
+                <MonthlyTargetDash
+                  monthlySitterMetrics={sitterMetrics.monthEarning}
+                  getValues={this.getValues}
+                />
+              </div>
+            </div>
+          );
+        }}
+      </Query>
     );
   }
 }
