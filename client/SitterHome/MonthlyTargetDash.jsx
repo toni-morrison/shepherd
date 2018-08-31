@@ -33,26 +33,62 @@ export default class MonthlyTargetDash extends React.Component {
   }
 
   componentDidMount() {
-    var monthArr = monthArray(this.props.monthlySitterMetrics);
-    var target = 1000;
-    var percentage = Math.floor((monthArr[1] / target) * 100);
-    var current = '$' + String(monthArr[1]) + '.00';
-    var month = months[monthArr[0]];
+    if (Object.keys(this.props.monthlySitterMetrics).length !== 0) {
+      var monthArr = monthArray(this.props.monthlySitterMetrics);
+      var target = 1000;
+      var percentage = Math.floor((monthArr[1] / target) * 100);
+      var current = '$' + String(monthArr[1]) + '.00';
+      var month = months[monthArr[0]];
 
-    this.setState(
-      {
-        target: 1000,
-        percentage: percentage,
-        current: current,
+      this.setState(
+        {
+          target: 1000,
+          percentage: percentage,
+          current: current,
 
-        currentMonth: month
-      },
-      () => {
-        this.updateChart();
-        this.props.getValues(target, monthArr[1]);
-      }
-    );
+          currentMonth: month
+        },
+        () => {
+          this.updateChart();
+          this.props.getValues(target, monthArr[1]);
+        }
+      );
+    } else {
+      this.setState(
+        {
+          target: 1000,
+          percentage: 0,
+          current: 0,
+
+          currentMonth: months[new Date().getMonth() + 1]
+        },
+        () => {
+          this.updateChart();
+          this.props.getValues(1000, 0);
+        }
+      );
+    }
   }
+  //   var monthArr = monthArray(this.props.monthlySitterMetrics);
+  //   var target = 1000;
+  //   var percentage = Math.floor((monthArr[1] / target) * 100);
+  //   var current = '$' + String(monthArr[1]) + '.00';
+  //   var month = months[monthArr[0]];
+
+  //   this.setState(
+  //     {
+  //       target: 1000,
+  //       percentage: percentage,
+  //       current: current,
+
+  //       currentMonth: month
+  //     },
+  //     () => {
+  //       this.updateChart();
+  //       this.props.getValues(target, monthArr[1]);
+  //     }
+  //   );
+  // }
 
   // componentDidUpdate() {
   //   this.updateChart();

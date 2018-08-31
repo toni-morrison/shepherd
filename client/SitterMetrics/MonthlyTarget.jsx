@@ -32,6 +32,7 @@ export default class MonthlyTarget extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.monthlySitterMetrics);
     var monthArr = monthArray(this.props.monthlySitterMetrics);
     var target = 1000;
     var percentage = Math.floor((monthArr[1] / target) * 100);
