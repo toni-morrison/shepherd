@@ -30,7 +30,7 @@ export default class SitterSchedule extends React.Component {
   handleCloseCancel() {
     this.setState({
       cancelShow: false,
-      skipped: true
+      skipped: false
     });
   }
 

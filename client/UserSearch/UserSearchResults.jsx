@@ -156,11 +156,11 @@ export default class UserSearchResults extends React.Component {
                       showTrue={this.showUserSitterRequest}
                       showOff={this.hideUserSitterRequest}
                       id={this.state.currentId}
-                      child={this.state.child_rate}
+                      child_rate={this.state.child_rate}
                       child_addl={this.state.child_addl}
-                      pet={this.state.pet_rate}
+                      pet_rate={this.state.pet_rate}
                       pet_addl={this.state.pet_addl}
-                      home={this.state.home}
+                      home_rate={this.state.home}
                       day={this.props.day}
                       start={this.props.start}
                       end={this.props.end}
@@ -169,6 +169,9 @@ export default class UserSearchResults extends React.Component {
                       review={review}
                       lists={this.props.lists}
                       values={this.props.values}
+                      startDate={this.props.startDate}
+                      endDate={this.props.endDate}
+                      user={this.props.user}
                     />
                   </Row>
                 </Well>
