@@ -22,8 +22,8 @@ export default class UserSearch extends React.Component {
       initStart: new Date(),
       initEnd: new Date(),
       skipped: false,
-      currentStart: 0,
-      currentEnd: 0,
+      currentStart: new Date().getHours() * 60 + new Date().getMinutes(),
+      currentEnd: new Date().getHours() * 60 + new Date().getMinutes(),
       apntStart: '',
       apntEnd: '',
       value: [],
@@ -58,6 +58,7 @@ export default class UserSearch extends React.Component {
         currentResults: data
       },
       () => {
+        console.log(this.state);
         this.handleSearchClick(data);
       }
     );
@@ -108,9 +109,10 @@ export default class UserSearch extends React.Component {
     let newYear = newDate._d.getFullYear();
     let newDay = newDate._d.getDate();
     newDay = newDay < 10 ? '0' + newDay : '' + newDay;
-    let newDateString = newMonth + '-' + newDay + '-' + newYear;
+    let newDateString = newYear + '-' + newMonth + '-' + newDay;
     let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
     let DOW = newDate._d.getDay();
+
     this.setState({
       apntStart: newDateString,
       currentStart: newMinutes,
@@ -123,7 +125,7 @@ export default class UserSearch extends React.Component {
     let newYear = newDate._d.getFullYear();
     let newDay = newDate._d.getDate();
     newDay = newDay < 10 ? '0' + newDay : '' + newDay;
-    let newDateString = newMonth + '-' + newDay + '-' + newYear;
+    let newDateString = newYear + '-' + newMonth + '-' + newDay;
     let newMinutes = newDate._d.getHours() * 60 + newDate._d.getMinutes();
     let DOW = newDate._d.getDay();
 
@@ -218,6 +220,7 @@ export default class UserSearch extends React.Component {
                   handleQuery={this.handleQuery}
                   lat={this.state.lat}
                   long={this.state.long}
+                  user={this.props.user}
                 />
               </center>
             </Col>
@@ -229,14 +232,14 @@ export default class UserSearch extends React.Component {
         <UserSearchResults
           handleSearchClick={this.handleBack}
           reviews={this.state.currentResults}
-          day = {this.state.currentDay}
-          start = {this.state.currentStart}
-          end = {this.state.currentEnd}
-          values = {this.state.value}
-          lists = {this.props.lists}
-          startDate = {this.state.apntStart}
-          endDate = {this.state.apntEnd}
-          user = {this.props.user}
+          day={this.state.currentDay}
+          start={this.state.currentStart}
+          end={this.state.currentEnd}
+          values={this.state.value}
+          lists={this.props.lists}
+          startDate={this.state.apntStart}
+          endDate={this.state.apntEnd}
+          user={this.props.user}
         />
       );
     }

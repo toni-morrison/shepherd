@@ -19,11 +19,13 @@ const GET_SITTER_REVIEWS = gql`
       appointment {
         id
         user {
+          id
           first_name
           last_name
           pic_url
         }
         sitter {
+          id
           rating
         }
         userReview

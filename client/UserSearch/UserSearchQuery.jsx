@@ -39,6 +39,7 @@ const FIND_SITTERS = gql`
           last_name
           long
           lat
+          email
           pic_url
         }
       }
@@ -51,6 +52,9 @@ function UserSearchQuery(props) {
       {client => {
         return (
           <Button
+            disabled={
+              props.value.length === 0 || props.currentStart > props.currentEnd
+            }
             onClick={async () => {
               const { data } = await client.query({
                 query: FIND_SITTERS,
@@ -67,15 +71,13 @@ function UserSearchQuery(props) {
               data.findSitters.map(interval => {
                 if (
                   geolib.getDistance(
-                    {
-                      latitude: props.lat,
-                      longitude: props.long
-                    },
+                    { latitude: props.lat, longitude: props.long },
                     {
                       latitude: interval.sitter.user.lat,
                       longitude: interval.sitter.user.long
                     }
-                  ) <= 48280
+                  ) <= 48280 &&
+                  interval.sitter.user.email !== props.user
                 ) {
                   sitterData.push(interval.sitter);
                 }
