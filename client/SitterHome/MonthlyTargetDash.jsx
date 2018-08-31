@@ -69,30 +69,6 @@ export default class MonthlyTargetDash extends React.Component {
       );
     }
   }
-  //   var monthArr = monthArray(this.props.monthlySitterMetrics);
-  //   var target = 1000;
-  //   var percentage = Math.floor((monthArr[1] / target) * 100);
-  //   var current = '$' + String(monthArr[1]) + '.00';
-  //   var month = months[monthArr[0]];
-
-  //   this.setState(
-  //     {
-  //       target: 1000,
-  //       percentage: percentage,
-  //       current: current,
-
-  //       currentMonth: month
-  //     },
-  //     () => {
-  //       this.updateChart();
-  //       this.props.getValues(target, monthArr[1]);
-  //     }
-  //   );
-  // }
-
-  // componentDidUpdate() {
-  //   this.updateChart();
-  // }
 
   updateChart() {
     var chart = c3.generate({
@@ -132,26 +108,12 @@ export default class MonthlyTargetDash extends React.Component {
 
   render() {
     return (
-      <div id="monthlyTarget">
-        <h3>Your Target: {this.state.target}</h3>
-        <h3>You Have Made: {this.state.current}</h3>
-        hi
-        <div />
+      <div>
+        <div id="monthlyTarget">
+          <h3>Your Target: {this.state.target}</h3>
+          <h3>You Have Made: {this.state.current}</h3>
+        </div>
       </div>
     );
   }
 }
-
-//  updateChart() {
-//     const chart = c3.generate({
-//       bindto: '#monthlyTarget',
-//       data: {
-//         columns: [this.state.data1, this.state.data2]
-//       },
-//       grid: {
-//         y: {
-//           lines: [{ value: 1000 }]
-//         }
-//       }
-//     });
-//   }

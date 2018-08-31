@@ -20,8 +20,8 @@ const FIND_APPOINTMENTS = gql`
 `;
 
 const FIND_SITTER_APPOINTMENTS = gql`
-  query findSitterAppointments($sitterEmail: String!) {
-    findSitterAppointments(sitterEmail: $sitterEmail) {
+  query findSitterAppointments($sitterEmail: String!, $status: AppStatus) {
+    findSitterAppointments(sitterEmail: $sitterEmail, status: $status) {
       appointment {
         id
         sitter {
@@ -102,23 +102,23 @@ const getTotalAvg = (timeTotal, totalUsers) => {
 const dateArray = () => {
   var dates = ['x'];
   var date = new Date();
-  for (var i = 0; i < 7; i++) {
+  for (var i = 0; i < 8; i++) {
     var tempDate = new Date();
-    tempDate.setDate(date.getDate() - i);
+    tempDate.setDate(date.getDate() - i + 1);
     if (Number(tempDate.getMonth()) + 1 < 10) {
       var str =
-        '2018' +
+        tempDate.getFullYear() +
         '-' +
         '0' +
-        (Number(tempDate.getMonth()) + 1) +
+        (tempDate.getMonth() + 1) +
         '-' +
         tempDate.getDate();
       dates.push(str);
     } else {
       var str =
-        '2018' +
+        tempDate.getFullYear() +
         '-' +
-        (Number(tempDate.getMonth()) + 1) +
+        (tempDate.getMonth() + 1) +
         '-' +
         tempDate.getDate();
       dates.push(str);
@@ -144,11 +144,16 @@ const weeklyArray = (weeklyEarning, pastWeek) => {
 const monthArray = monthlyEarning => {
   var result = [];
   var month = new Date().getMonth();
+
   if (monthlyEarning[month] !== undefined) {
     var newMonth = String(Number(month) + 1);
     result.push(newMonth);
     result.push(monthlyEarning[month]);
+  } else {
+    var newMonth = String(Number(month) + 1);
+    result.push(newMonth, 0);
   }
+
   return result;
 };
 
