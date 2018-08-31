@@ -60,14 +60,14 @@ const checkData = (obj, sitterId) => {
     var then = new Date(endTime);
     var displayTime = moment(endTime).format('LL');
     if (then < now) {
-      appointmentInfo['id'] = appt.appointment.id;
       appointmentInfo['display'] = displayTime;
       appointmentInfo['price'] = appt.appointment.price;
       appointmentInfo['sitterPic'] = appt.appointment.sitter.user.pic_url;
       appointmentInfo['sitterName'] = appt.appointment.sitter.user.first_name;
-
+      
       if (appt.appointment.userRating === null) {
         result = true;
+        appointmentInfo['id'] = appt.appointment.id;
         appointmentInfo['user'] = appt.appointment.user.email;
       }
     }
