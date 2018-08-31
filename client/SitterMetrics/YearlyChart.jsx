@@ -11,12 +11,36 @@ const columns = [
 export default class YearlyChart extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      sitYear: ['Your Yearly Earnings'],
+      globYear: ['Global Year'],
+      years: ['x']
+    };
   }
 
   componentDidMount() {
     console.log('yearlyglobal', this.props.yearlyGlobalMetrics);
     console.log('yearlySitter', this.props.yearlySitterMetrics);
-    this.updateChart();
+    var sitterYear = this.state.sitYear
+      .slice()
+      .concat(Object.values(this.props.yearlySitterMetrics));
+    var globalYear = this.state.globYear
+      .slice()
+      .concat(Object.values(this.props.yearlyGlobalMetrics));
+    console.log('yearl:', sitterYear, globalYear);
+    var years = this.state.years
+      .slice()
+      .concat(Object.keys(this.props.yearlyGlobalMetrics));
+    this.setState(
+      {
+        sitYear: sitterYear,
+        globYear: globalYear,
+        years: years
+      },
+      () => {
+        this.updateChart();
+      }
+    );
   }
 
   componentDidUpdate() {
@@ -27,7 +51,8 @@ export default class YearlyChart extends React.Component {
     const chart = c3.generate({
       bindto: '#yearlyChart',
       data: {
-        columns: columns,
+        x: 'x',
+        columns: [this.state.years, this.state.sitYear, this.state.globYear],
         type: this.props.chartType
       }
     });
