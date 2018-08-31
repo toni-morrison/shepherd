@@ -248,6 +248,45 @@ const resolvers = {
         info
       );
     },
+    createAppointment: (_, args, context, info) => {
+      return context.prisma.mutation.createAppointment(
+        {
+          data: {
+            user: {
+              connect: {
+                email: args.email
+              }
+            },
+            sitter: {
+              connect: {
+                id: args.id
+              }
+            },
+            pets: args.pets,
+            children: args.children,
+            price: args.price,
+            comment: args.comment,
+            app_types: {
+              set: args.values
+            },
+            todoList: {
+              connect: {
+                id: args.todoList
+              }
+            },
+            status: 'Pending',
+            timeInterval: {
+              create: {
+                day: args.day,
+                start: args.start,
+                end: args.end
+              }
+            }
+          }
+        },
+        info
+      )
+    },
     createSitter: (_, args, context, info) => {
       return context.prisma.mutation.createSitter(
         {
