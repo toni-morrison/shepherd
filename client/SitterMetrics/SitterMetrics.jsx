@@ -4,9 +4,12 @@ import d3 from 'd3';
 import YearlyChart from './YearlyChart.jsx';
 import DailyChart from './DailyChart.jsx';
 import MonthlyChart from './MonthlyChart.jsx';
-import MonthlyTarget from './MonthlyTarget.jsx';
-import FindAppointments from './FindAppointments.js';
-// import 'c3/c3.css';
+import { Query } from 'react-apollo';
+import {
+  FIND_APPOINTMENTS,
+  FIND_SITTER_APPOINTMENTS,
+  calculateMetrics
+} from './MetricsHelper.js';
 
 export default class SitterMetrics extends React.Component {
   constructor(props) {
@@ -33,65 +36,78 @@ export default class SitterMetrics extends React.Component {
 
   getMetrics(globalObj, sitterObj) {
     if (Object.keys(this.state.globalObj).length === 0) {
-      let globalObject = Object.assign({}, globalObj);
-      let sitterObject = Object.assign({}, sitterObj);
-      this.setState({ globalObj: globalObject, sitterObj: sitterObject });
+      this.setState({ globalObj: globalObj, sitterObj: sitterObj });
     }
   }
 
   render() {
     return (
-      <div>
-        {/* <div className="Monthly-wrap">
-          <h3>Monthly target</h3>
+      <Query query={FIND_APPOINTMENTS} pollInterval={5000}>
+        {({ loading, error, data }) => {
+          if (loading) return <p>loading...</p>;
+          if (error) return <p>error....</p>;
+          var globalMetrics = calculateMetrics(data.findAppointments);
 
-          {!this.state.sitterObj.monthEarning ? null : (
-            <MonthlyTarget
-              monthlySitterMetrics={this.state.sitterObj.monthEarning}
-            />
-          )}
+          return (
+            <Query
+              query={FIND_SITTER_APPOINTMENTS}
+              variables={{ sitterEmail: this.props.user, status: 'Paid' }}
+              pollInterval={50}
+            >
+              {({ loading, error, data }) => {
+                if (loading) return <p>loading...</p>;
+                if (error) return <p>{console.log(error)}</p>;
+                var sitterMetrics = calculateMetrics(
+                  data.findSitterAppointments,
+                  this.props.user
+                );
 
-          <br />
-        </div> */}
-        <div className="app-wrap">
-          <h3>Daily Earnings</h3>
-          <button onClick={this.setBarChart}>bar</button>
-          <button onClick={this.setLineChart}>line</button>
-          {!this.state.sitterObj.dailyEarning ? null : (
-            <DailyChart
-              dailySitterMetrics={this.state.sitterObj.dailyEarning}
-              dailyGlobalMetrics={this.state.globalObj.dailyEarning}
-            />
-          )}
+                return (
+                  <div>
+                    <div className="app-wrap">
+                      <h3>Daily Earnings</h3>
+                      <button onClick={this.setBarChart}>bar</button>
+                      <button onClick={this.setLineChart}>line</button>
+                      {!sitterMetrics ? null : (
+                        <DailyChart
+                          dailySitterMetrics={sitterMetrics.dailyEarning}
+                          dailyGlobalMetrics={globalMetrics.dailyEarning}
+                        />
+                      )}
 
-          <br />
-        </div>
-        <div className="app-wrap">
-          <h3>Monthly Earnings</h3>
-          {!this.state.sitterObj.monthEarning ? null : (
-            <MonthlyChart
-              monthlySitterMetrics={this.state.sitterObj.monthEarning}
-              monthlyGlobalMetrics={this.state.globalObj.monthEarning}
-              chartType={this.state.chartType}
-            />
-          )}
+                      <br />
+                    </div>
+                    <div className="app-wrap">
+                      <h3>Monthly Earnings</h3>
+                      {!sitterMetrics.monthEarning ? null : (
+                        <MonthlyChart
+                          monthlySitterMetrics={sitterMetrics.monthEarning}
+                          monthlyGlobalMetrics={globalMetrics.monthEarning}
+                          chartType={this.state.chartType}
+                        />
+                      )}
 
-          <br />
-        </div>
-        <div className="app-wrap">
-          <h3>Yearly Earnings</h3>
-          {!this.state.sitterObj.yearlyEarning ? null : (
-            <YearlyChart
-              yearlySitterMetrics={this.state.sitterObj.yearlyEarning}
-              yearlyGlobalMetrics={this.state.globalObj.yearlyEarning}
-              chartType={this.state.chartType}
-            />
-          )}
+                      <br />
+                    </div>
+                    <div className="app-wrap">
+                      <h3>Yearly Earnings</h3>
+                      {!sitterMetrics.yearlyEarning ? null : (
+                        <YearlyChart
+                          yearlySitterMetrics={sitterMetrics.yearlyEarning}
+                          yearlyGlobalMetrics={globalMetrics.yearlyEarning}
+                          chartType={this.state.chartType}
+                        />
+                      )}
 
-          <br />
-        </div>
-        <FindAppointments getMetrics={this.getMetrics} user={this.props.user} />
-      </div>
+                      <br />
+                    </div>
+                  </div>
+                );
+              }}
+            </Query>
+          );
+        }}
+      </Query>
     );
   }
 }
