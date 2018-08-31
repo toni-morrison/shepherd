@@ -35,17 +35,12 @@ export default class MonthlyChart extends React.Component {
     var month = months[sitterMonthArr[0]];
     var sitterCurrent = sitterMonthArr[1];
     var globalCurrent = globalMonthArr[1];
-    console.log('data:', sitterCurrent, globalCurrent);
-    this.setState(
-      {
-        month: month,
-        sitterCurrent: sitterCurrent,
-        globalCurrent: globalCurrent
-      },
-      () => {
-        console.log('state:statsteastat:', this.state);
-      }
-    );
+
+    this.setState({
+      month: month,
+      sitterCurrent: sitterCurrent,
+      globalCurrent: globalCurrent
+    });
 
     this.updateChart();
   }

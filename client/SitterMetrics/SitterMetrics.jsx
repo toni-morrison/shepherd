@@ -21,13 +21,11 @@ export default class SitterMetrics extends React.Component {
     this.getMetrics = this.getMetrics.bind(this);
   }
   setBarChart() {
-    console.log('bar fired');
     this.setState({
       chartType: 'bar'
     });
   }
   setLineChart() {
-    console.log('line fired');
     this.setState({
       chartType: 'line'
     });
@@ -37,12 +35,7 @@ export default class SitterMetrics extends React.Component {
     if (Object.keys(this.state.globalObj).length === 0) {
       let globalObject = Object.assign({}, globalObj);
       let sitterObject = Object.assign({}, sitterObj);
-      this.setState(
-        { globalObj: globalObject, sitterObj: sitterObject },
-        () => {
-          console.log('STATESTATE:', this.state);
-        }
-      );
+      this.setState({ globalObj: globalObject, sitterObj: sitterObject });
     }
   }
 

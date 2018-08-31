@@ -19,15 +19,13 @@ export default class YearlyChart extends React.Component {
   }
 
   componentDidMount() {
-    console.log('yearlyglobal', this.props.yearlyGlobalMetrics);
-    console.log('yearlySitter', this.props.yearlySitterMetrics);
     var sitterYear = this.state.sitYear
       .slice()
       .concat(Object.values(this.props.yearlySitterMetrics));
     var globalYear = this.state.globYear
       .slice()
       .concat(Object.values(this.props.yearlyGlobalMetrics));
-    console.log('yearl:', sitterYear, globalYear);
+
     var years = this.state.years
       .slice()
       .concat(Object.keys(this.props.yearlyGlobalMetrics));

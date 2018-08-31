@@ -39,7 +39,6 @@ export default class MonthlyTargetDash extends React.Component {
     var current = '$' + String(monthArr[1]) + '.00';
     var month = months[monthArr[0]];
 
-    console.log('monthArr:', monthArr);
     this.setState(
       {
         target: 1000,
@@ -65,15 +64,9 @@ export default class MonthlyTargetDash extends React.Component {
       data: {
         columns: [[this.state.currentMonth, this.state.percentage]],
         type: 'gauge',
-        onclick: function(d, i) {
-          console.log('onclick', d, i);
-        },
-        onmouseover: function(d, i) {
-          console.log('onmouseover', d, i);
-        },
-        onmouseout: function(d, i) {
-          console.log('onmouseout', d, i);
-        }
+        onclick: function(d, i) {},
+        onmouseover: function(d, i) {},
+        onmouseout: function(d, i) {}
       },
       gauge: {
         label: {
