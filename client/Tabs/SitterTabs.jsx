@@ -28,7 +28,7 @@ export default class SitterTabs extends React.Component {
         <Tab.Container id="sitter-tabs" defaultActiveKey="first">
           <Row className="clearfix">
             <Col sm={2}>
-              <Nav bsStyle="pills" stacked>
+              <Nav id="nav-pills" bsStyle="pills" stacked>
                 <NavItem eventKey="first">HOME</NavItem>
                 <NavItem eventKey="second">METRICS</NavItem>
                 <NavItem eventKey="third">REVIEWS</NavItem>

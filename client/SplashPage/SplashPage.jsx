@@ -76,7 +76,7 @@ export default class SplashPage extends React.Component {
                       textAlign: 'center'
                     }}
                   >
-                    <h1>Shepherd</h1>
+                    <h1 id="title">Shepherd</h1>
                     <p>Peace of mind for you</p>
                     <Button
                       bsStyle="primary"

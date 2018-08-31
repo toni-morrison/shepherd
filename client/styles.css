@@ -4,7 +4,7 @@
   background-repeat: no-repeat;
 }
 #section1 {
-  background-color: #9bedff;
+  background-color: #e2dccf;
 }
 @keyframes fadeIn {
   0% {
@@ -172,4 +172,65 @@ img#running-cash {
 
 img#sitterPic {
   height: 45%;
+}
+
+#body {
+  background-image: linear-gradient(#e2dccf, #FFF);
+  color: #7A5300;
+}
+
+.nav {
+  background-color: #ccc0a9;
+  border-color: #FFE4A8;
+  color: #7A5300;
+}
+
+.nav-stacked > li {
+  float: none;
+  background-color: #ccc0a9;
+  border-color: #FFE4A8;
+}
+
+#nav-pills>li.active>a {
+  color: #7A5300;
+  background-color: #FFE4A8;
+}
+
+#nav-pills>li>a:hover {
+  text-decoration: none;
+  background-color: #c0b49e;
+}
+
+#nav-pills>li>a {
+  color: #fff;
+  text-decoration: none;
+}
+
+div>.well {
+  background-color: #ffdd93;
+  border: 4px double;
+}
+
+#button {
+  color: #fff;
+  background-color: #ccc0a9;
+  border-color: #FFE4A8;
+}
+
+#button:hover{
+  background-color: #c0b49e;
+  border-color: #FFE4A8;
+}
+
+.btn>btn-default:active{
+  background-color: #FFE4A8;
+  color: #7A5300;
+}
+
+#title {
+  font-family: 'Cedarville Cursive', cursive;
+}
+
+.rdtPicker {
+  background-color: #e2dccf
 }
