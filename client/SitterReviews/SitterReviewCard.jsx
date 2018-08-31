@@ -13,7 +13,7 @@ export default class SitterReviewCard extends React.Component {
       <div key={this.props.review}>
         <Well bsSize="large" style={{ width: '100%' }}>
           <Row>
-            <Col xs={3}>
+            <Col xs={1}>
               <Image
                 src={this.props.review.user.pic_url}
                 style={{ width: '20vh', maxHeight: '20vh' }}

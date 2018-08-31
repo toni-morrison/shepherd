@@ -207,30 +207,15 @@ img#sitterPic {
 }
 
 div>.well {
-  background-color: #ffdd93;
-  border: 4px double;
-}
-
-#button {
-  color: #fff;
-  background-color: #ccc0a9;
-  border-color: #FFE4A8;
-}
-
-#button:hover{
-  background-color: #c0b49e;
-  border-color: #FFE4A8;
-}
-
-.btn>btn-default:active{
   background-color: #FFE4A8;
-  color: #7A5300;
+  border: 4px double;
 }
 
 #title {
   font-family: 'Cedarville Cursive', cursive;
 }
 
-.rdtPicker {
-  background-color: #e2dccf
+.colorDateTime {
+  background-color: #FFE4A8;
+  color: rgb(28, 168, 91);
 }

@@ -156,9 +156,9 @@ export default class UserSearch extends React.Component {
                   value={this.state.value}
                   onChange={this.handleChange}
                 >
-                  <ToggleButton value={'baby'} id="button">Baby Sitter</ToggleButton>
-                  <ToggleButton value={'pet'} id="button">Pet Sitter</ToggleButton>
-                  <ToggleButton value={'house'} id="button">House Sitter</ToggleButton>
+                  <ToggleButton value={'baby'}>Baby Sitter</ToggleButton>
+                  <ToggleButton value={'pet'}>Pet Sitter</ToggleButton>
+                  <ToggleButton value={'house'}>House Sitter</ToggleButton>
                 </ToggleButtonGroup>
               </center>
             </Col>
