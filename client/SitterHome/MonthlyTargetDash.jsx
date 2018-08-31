@@ -1,8 +1,8 @@
 import React from 'react';
 import c3 from 'c3';
 import d3 from 'd3';
-// import FindAppointments from './FindAppointments.js';
-import { monthArray } from './MetricsHelper.js';
+
+import { monthArray } from '../SitterMetrics/MetricsHelper.js';
 
 const months = {
   1: 'January',
@@ -19,13 +19,14 @@ const months = {
   12: 'December'
 };
 
-export default class MonthlyTarget extends React.Component {
+export default class MonthlyTargetDash extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       target: '$1000.00',
       current: '',
-      percentage: 0
+      percentage: 0,
+      currentMonth: ''
     };
 
     this.updateChart = this.updateChart.bind(this);
@@ -36,15 +37,19 @@ export default class MonthlyTarget extends React.Component {
     var target = 1000;
     var percentage = Math.floor((monthArr[1] / target) * 100);
     var current = '$' + String(monthArr[1]) + '.00';
+    var month = months[monthArr[0]];
 
-    console.log('monthArr:', monthArr);
     this.setState(
       {
+        target: 1000,
         percentage: percentage,
-        current: current
+        current: current,
+
+        currentMonth: month
       },
       () => {
         this.updateChart();
+        this.props.getValues(target, monthArr[1]);
       }
     );
   }
@@ -57,40 +62,34 @@ export default class MonthlyTarget extends React.Component {
     var chart = c3.generate({
       bindto: '#monthlyTarget',
       data: {
-        columns: [['August', this.state.percentage]],
+        columns: [[this.state.currentMonth, this.state.percentage]],
         type: 'gauge',
-        onclick: function(d, i) {
-          console.log('onclick', d, i);
-        },
-        onmouseover: function(d, i) {
-          console.log('onmouseover', d, i);
-        },
-        onmouseout: function(d, i) {
-          console.log('onmouseout', d, i);
-        }
+        onclick: function(d, i) {},
+        onmouseover: function(d, i) {},
+        onmouseout: function(d, i) {}
       },
       gauge: {
         label: {
           format: function(value, ratio) {
             return value;
           },
-          show: false // to turn off the min/max labels.
+          show: true // to turn off the min/max labels.
         },
         min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
         max: 100, // 100 is default
-        units: ' %',
-        width: 39 // for adjusting arc thickness
+        units: '  %',
+        width: 65 // for adjusting arc thickness
       },
       color: {
         pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
         threshold: {
-          //            unit: 'value', // percentage is default
-          //            max: 200, // 100 is default
+          // unit: 'value', // percentage is default
+          // max: 200, // 100 is default
           values: [30, 60, 90, 100]
         }
       },
       size: {
-        height: 180
+        height: 300
       }
     });
   }
@@ -102,7 +101,6 @@ export default class MonthlyTarget extends React.Component {
         <h3>You Have Made: {this.state.current}</h3>
         hi
         <div />
-        {/* <FindAppointments /> */}
       </div>
     );
   }

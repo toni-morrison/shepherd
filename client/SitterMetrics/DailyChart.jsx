@@ -24,12 +24,6 @@ export default class DailyChart extends React.Component {
         columnB: columnB
       },
       () => {
-        console.log(
-          'columna:',
-          this.state.columnA,
-          'columnb:',
-          this.state.columnB
-        );
         this.updateChart();
       }
     );

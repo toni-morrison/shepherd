@@ -4,19 +4,44 @@ import d3 from 'd3';
 import { monthArray } from './MetricsHelper.js';
 // import 'c3/c3.css';
 
-const columns = [
-  ['Your Weekly Numbers', 200, 220, 400, 400, 350, 250],
-  ['Global Average', 175, 200, 420, 340, 320, 210]
-];
+const months = {
+  1: 'January',
+  2: 'Febuary',
+  3: 'March',
+  4: 'April',
+  5: 'May',
+  6: 'June',
+  7: 'July',
+  8: 'August',
+  9: 'September',
+  10: 'October',
+  11: 'November',
+  12: 'December'
+};
 
 export default class MonthlyChart extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      month: '',
+      sitterCurrent: 0,
+      globalCurrent: 0
+    };
   }
 
   componentDidMount() {
-    var monthArr = monthArray(this.props.monthlySitterMetrics);
-    console.log('monthArr:', monthArr);
+    var sitterMonthArr = monthArray(this.props.monthlySitterMetrics);
+    var globalMonthArr = monthArray(this.props.monthlyGlobalMetrics);
+    var month = months[sitterMonthArr[0]];
+    var sitterCurrent = sitterMonthArr[1];
+    var globalCurrent = globalMonthArr[1];
+
+    this.setState({
+      month: month,
+      sitterCurrent: sitterCurrent,
+      globalCurrent: globalCurrent
+    });
+
     this.updateChart();
   }
 
@@ -26,15 +51,23 @@ export default class MonthlyChart extends React.Component {
 
   updateChart() {
     const chart = c3.generate({
-      bindto: '#weeklyChart',
+      bindto: '#monthlyChart',
       data: {
-        columns: columns,
+        columns: [
+          ['Your Month So Far:', this.state.sitterCurrent],
+          ['Global Month So far', this.state.globalCurrent]
+        ],
         type: this.props.chartType
+      },
+      axis: {
+        x: {
+          label: this.state.month
+        }
       }
     });
   }
 
   render() {
-    return <div id="weeklyChart">hi</div>;
+    return <div id="monthlyChart">hi</div>;
   }
 }

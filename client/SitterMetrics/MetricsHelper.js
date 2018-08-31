@@ -37,7 +37,7 @@ const FIND_SITTER_APPOINTMENTS = gql`
   }
 `;
 
-const calculateMetrics = arr => {
+const calculateMetrics = (arr, user) => {
   let metricsObj = {};
   let monthEarning = {};
   let dayDiv = {};

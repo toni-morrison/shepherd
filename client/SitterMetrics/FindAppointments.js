@@ -40,18 +40,18 @@ export default class FindAppointments extends React.Component {
                   if (loading) return <p>loading...</p>;
                   if (error) return <p>{console.log(error)}</p>;
                   var sitterMetrics = calculateMetrics(
-                    data.findSitterAppointments
+                    data.findSitterAppointments,
+                    this.props.user
                   );
 
                   this.props.getMetrics(globalMetrics, sitterMetrics);
 
-                  return <div> HELLO!</div>;
+                  return <div> </div>;
                 }}
               </Query>
             );
           }}
         </Query>
-        hello!
       </div>
     );
   }
