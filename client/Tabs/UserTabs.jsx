@@ -55,7 +55,7 @@ class UserTabs extends React.Component {
               <Tab.Container id="user-tabs" defaultActiveKey="first">
                 <Row className="clearfix">
                   <Col sm={2}>
-                    <Nav bsStyle="pills" stacked>
+                    <Nav bsStyle="pills" id="nav-pills" stacked>
                       <NavItem eventKey="first">SEARCH</NavItem>
                       <NavItem eventKey="second">SCHEDULE</NavItem>
                       <NavItem eventKey="third">LISTS</NavItem>

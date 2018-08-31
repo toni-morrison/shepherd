@@ -182,7 +182,7 @@ export default class TopTabs extends React.Component {
                       </Modal>
                     )}
                     <Col sm={12}>
-                      <Nav bsStyle="tabs" className="nav-justified">
+                      <Nav bsStyle="tabs" className="nav-justified" id="nav-pills">
                         <NavItem eventKey="first">USER</NavItem>
                         {/* <Appointment>{client}</Appointment> */}
                         <NavItem eventKey="second">
