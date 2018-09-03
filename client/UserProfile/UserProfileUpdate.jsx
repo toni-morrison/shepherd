@@ -178,6 +178,7 @@ export default class UserProfileUpdate extends React.Component {
                       onClick={() => this.handleSubmit(updateUser)}
                       style={{ marginTop: '5%' }}
                       disabled={this.validateForm()}
+                      bsClass="colorDateTime btn"
                     >
                       Submit/Update
                     </Button>

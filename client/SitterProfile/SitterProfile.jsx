@@ -58,7 +58,7 @@ export default class SitterProfile extends React.Component {
                       </center>
                       <Well bsSize="large" style={{ width: '100%' }}>
                         <Row>
-                          <Col xs={12}>
+                          <Col xs={1}>
                             <Image
                               style={{ width: '20vh', maxHeight: '20vh' }}
                               src={
@@ -66,26 +66,18 @@ export default class SitterProfile extends React.Component {
                               }
                             />
                           </Col>
-                        </Row>
-                        <Row>
-                          <Col xs={12}>
+                          <Col xs={8} xsOffset={1}>
                             <h4>
                               <strong>Name: </strong>
                               {data.getUserInfo.first_name}{' '}
                               {data.getUserInfo.last_name}
                             </h4>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col xs={12}>
+                          <br/>
                             <h4>
                               <strong>Email: </strong>
                               {data.getUserInfo.email}
                             </h4>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col xs={12}>
+                          <br/>
                             <h4>
                               <strong>Address: </strong>
                               {data.getUserInfo.address}
