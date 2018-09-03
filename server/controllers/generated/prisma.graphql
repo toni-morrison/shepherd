@@ -1,5 +1,5 @@
-# source: http://ec2-34-203-9-237.compute-1.amazonaws.com:4466
-# timestamp: Thu Aug 30 2018 14:36:53 GMT-0500 (GMT-05:00)
+# source: http://ec2-184-72-85-225.compute-1.amazonaws.com:4466
+# timestamp: Sun Sep 02 2018 22:54:05 GMT-0500 (GMT-05:00)
 
 type AggregateAppointment {
   count: Int!
