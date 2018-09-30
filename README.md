@@ -5,7 +5,7 @@
 ## Team
 
   - __Product Owner__: [Debbie Lee (@DebbieLittle)](https://github.com/DebbieLittle)
-  - __Scrum Master__: [Daniel Guan (@StrykeBack)](https://github.com/StrykeBack)
+  - __Scrum Master__: [Daniel Guan (@danguan)](https://github.com/danguan)
   - __Development Team Members__: [Kiernan Hahn (@KYHAHN)](https://github.com/KYHAHN), [David Levy (@lennox-davidlevy)](https://github.com/lennox-davidlevy)
 
 ## Table of Contents
