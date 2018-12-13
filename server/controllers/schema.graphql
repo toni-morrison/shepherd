@@ -1,0 +1,126 @@
+# import Appointment from './generated/prisma.graphql'
+# import Instruction from './generated/prisma.graphql'
+# import Sitter from './generated/prisma.graphql'
+# import SitterRate from './generated/prisma.graphql'
+# import TimeInterval from './generated/prisma.graphql'
+# import TodoList from './generated/prisma.graphql'
+# import User from './generated/prisma.graphql'
+# import AppStatus from './generated/prisma.graphql'
+
+type Query {
+  findUserAppointments(userEmail: String!): [TimeInterval!]!
+  findSitterAppointments(
+    sitterEmail: String!
+    status: AppStatus
+    order: String
+  ): [TimeInterval]
+  findSitters(
+    day: String!
+    start: Int!
+    end: Int!
+    baby: Boolean!
+    pet: Boolean!
+    home: Boolean!
+  ): [TimeInterval!]!
+  findTodoLists(email: String!): [TodoList!]!
+  findInstructions(id: ID!): [Instruction!]!
+  getUserInfo(email: String!): User!
+  getSitterSchedule(id: String!): [TimeInterval!]!
+  reviewModal(email: String!): [TimeInterval]
+  findSitterReviews(id: ID!): [Appointment]!
+  findAppointments: [TimeInterval]!
+}
+
+type Mutation {
+  acceptAppointment (apntID: String!): Appointment!
+  rejectAppointment (apntID: String!): Appointment!
+  cancelAppointment (apntID: String!): Appointment!
+  signup(
+    email: String!
+    first_name: String!
+    last_name: String!
+    address: String!
+    long: Float!
+    lat: Float!
+    rating: Int
+    pic_url: String
+  ): User!
+  createAppointment(
+    email: String!
+    id: ID!
+    pets: Int
+    children: Int
+    price: Float!
+    comment: String!
+    set: [String!]!
+    todoList: ID
+    day: String
+    start: Int!
+    end: Int!
+  ): Appointment!
+  createSitter(
+    email: String!
+    bio: String!
+    child_rate: Float
+    child_addl: Float
+    pet_rate: Float
+    pet_addl: Float
+    home_rate: Float
+  ): Sitter!
+  createSchedule(id: ID!, day: String!, start: Int!, end: Int!): TimeInterval!
+  createList(
+    email: String!
+    name: String!
+    startTime: String!
+    endTime: String!
+  ): TodoList!
+  updateListName(
+    id: ID!
+    name: String
+    startTime: String
+    endTime: String
+  ): TodoList!
+  createInstruction(
+    id: ID!
+    time: String!
+    desc: String!
+    list_id: ID!
+  ): Instruction!
+  deleteInstructions(id: ID!): BatchPayload!
+  deleteTodo(id: ID!): TodoList!
+  updateUser(
+    email: String!
+    first_name: String
+    last_name: String
+    address: String
+    long: Float
+    lat: Float
+    pic_url: String
+  ): User!
+  updateSitter(
+    id: ID!
+    bio: String
+    rating: Float
+    child_rate: Float
+    child_addl: Float
+    pet_rate: Float
+    pet_addl: Float
+    home_rate: Float
+  ): Sitter!
+  updateAppointment(
+    id: ID!
+    todoList: ID
+    status: AppStatus
+    userRating: Float
+    sitterRating: Float
+    userReview: String
+    userWords: [String!]
+    sitterReview: String
+  ): Appointment!
+  updateSchedule(
+    start: Float
+    end: Float
+    day: String
+    id: String
+  ): BatchPayload!
+}

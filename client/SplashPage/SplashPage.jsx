@@ -14,8 +14,7 @@ import Signup from '../Signup/Signup.jsx';
 
 let fullpageOptions = {
   licenseKey: 'OPEN-SOURCE-GPLV3-LICENSE',
-  autoScrolling: true,
-  scrollHorizontally: true
+  autoScrolling: true
 };
 
 export default class SplashPage extends React.Component {
@@ -28,7 +27,6 @@ export default class SplashPage extends React.Component {
     };
     this.handleToggleLogin = this.handleToggleLogin.bind(this);
     this.handleToggleSignup = this.handleToggleSignup.bind(this);
-    this.handleUserLogin = this.handleUserLogin.bind(this);
   }
 
   handleToggleLogin() {
@@ -43,13 +41,8 @@ export default class SplashPage extends React.Component {
     });
   }
 
-  handleUserLogin() {
-    this.handleToggleLogin();
-    this.props.handleLogin();
-  }
-
   render() {
-    if (this.props.signedIn) {
+    if (this.props.user) {
       return null;
     } else {
       return (
@@ -59,15 +52,13 @@ export default class SplashPage extends React.Component {
             return (
               <div>
                 <div className="section" id="section0">
-                  <div
-                    style={{ position: 'absolute', right: '1em', top: '1em' }}
-                  >
+                  <div style={{ position: 'absolute', right: '1em', top: '1em' }}>
                     <Button onClick={this.handleToggleLogin}>Log In</Button>
                     <Modal
                       show={this.state.showLogin}
                       onHide={this.handleToggleLogin}
                     >
-                      <Login handleUserLogin={this.handleUserLogin} />
+                      <Login handleToggleLogin={this.handleToggleLogin} />
                     </Modal>
                     <Button bsStyle="info" onClick={this.handleToggleSignup}>
                       Sign Up
@@ -76,7 +67,7 @@ export default class SplashPage extends React.Component {
                       show={this.state.showSignup}
                       onHide={this.handleToggleSignup}
                     >
-                      <Signup toggleSignup={this.handleToggleSignup} />
+                      <Signup handleToggleSignup={this.handleToggleSignup} />
                     </Modal>
                   </div>
                   <Jumbotron
@@ -85,7 +76,7 @@ export default class SplashPage extends React.Component {
                       textAlign: 'center'
                     }}
                   >
-                    <h1>Shepherd</h1>
+                    <h1 id="title">Shepherd</h1>
                     <p>Peace of mind for you</p>
                     <Button
                       bsStyle="primary"
@@ -96,9 +87,7 @@ export default class SplashPage extends React.Component {
                   </Jumbotron>
                 </div>
                 <div className="section" id="section1">
-                  <Jumbotron
-                    style={{ backgroundColor: 'rgba(255,255,255,1.0)' }}
-                  >
+                  <Jumbotron style={{ backgroundColor: 'rgba(255,255,255,1.0)' }}>
                     <Grid>
                       <Row style={{ alignItems: 'center', display: 'flex' }}>
                         <Col md={9}>
@@ -107,11 +96,17 @@ export default class SplashPage extends React.Component {
                             Shepherd makes finding a housesitter, petsitter, or
                             babysitter easy.
                           </p>
-                          <Button bsStyle="primary" onClick={this.handleToggleSignup}>Sign Up Now</Button>
+                          <Button
+                            bsStyle="primary"
+                            onClick={this.handleToggleSignup}
+                          >
+                            Sign Up Now
+                          </Button>
                         </Col>
                         <Col md={3}>
                           <Image
-                            src="https://i.imgur.com/S1hQpzk.png"
+                            className="splashImage"
+                            src="https://i.imgur.com/pm7T4XY.png"
                             responsive
                             id="splashImg0"
                           />

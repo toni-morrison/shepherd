@@ -1,14 +1,15 @@
 type User {
   id: ID! @unique
-  username: String!
+  email: String! @unique
   first_name: String!
   last_name: String!
-  street_address: String
-  city: String
-  state: String
-  zip_code: Int
-  sitter: Boolean
-  rating: Int
+  address: String!
+  lat: Float!
+  long: Float!
+  gCalID: String
+  rating: Float
+  sitter: Sitter
+  pic_url: String
 }
 
 type SitterRate {
@@ -17,51 +18,68 @@ type SitterRate {
   pet_rate: Float
   pet_addl: Float
   home_rate: Float
-  home_addl: Float
-}
-
-enum DayOfWeek {
-  SUNDAY
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
 }
 
 type TimeInterval {
-  start_time: Int!
-  end_time: Int!
-  day_of_week: DayOfWeek
+  appointment: Appointment @relation(name: "AppointmentInterval")
+  sitter: Sitter
+  day: String
+  start: Int!
+  end: Int!
 }
 
 type Sitter {
   id: ID! @unique
   bio: String!
   rates: SitterRate!
-  hours: [TimeInterval!]!
+  gCalID: String
+  rating: Float
+  user: User!
 }
 
 type TodoList {
   id: ID! @unique
   user: User!
   name: String!
+  startTime: String!
+  endTime: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Instruction {
   id: ID! @unique
-  list: TodoList!
-  time: TimeInterval!
+  time: String!
   desc: String!
+  list_id: TodoList!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Appointment {
   id: ID! @unique
-  time: TimeInterval!
   user: User!
   sitter: Sitter!
+  children: Int
+  pets: Int
+  price: Float!
   comment: String!
-  rating: Int
-  pending: Boolean!
+  app_types: [String!]!
+  todoList: TodoList
+  status: AppStatus!
+  userRating: Float
+  sitterRating: Float
+  userWords: [String!]
+  userReview: String
+  sitterReview: String
+  sitterWords: [String!]
+  timeInterval: TimeInterval! @relation(name: "AppointmentInterval", onDelete: CASCADE)
+}
+
+enum AppStatus {
+  Pending
+  Accepted
+  Rejected
+  Complete
+  Paid
 }

@@ -1,5 +1,6 @@
 import firebase from '../../server/firebase/firebase.js';
 import React from 'react';
+import {Button} from 'react-bootstrap';
 
 export default class GoogleLogin extends React.Component {
   constructor(props) {
@@ -16,10 +17,8 @@ export default class GoogleLogin extends React.Component {
       .auth()
       .signInWithPopup(provider)
       .then(result => {
-        const user = result.user;
-        this.setState({
-          user
-        });
+        this.props.handleToggleLogin();
+        window.location.reload();
       })
       .catch(err => {
         console.log(err);
@@ -29,9 +28,9 @@ export default class GoogleLogin extends React.Component {
   render() {
     return (
       <div className="auth-form">
-        <button type="button" onClick={() => this.loginWithGoogle()}>
+        < Button type="button" onClick={() => this.loginWithGoogle()}>
           Login With Google
-        </button>
+        </Button>
       </div>
     );
   }

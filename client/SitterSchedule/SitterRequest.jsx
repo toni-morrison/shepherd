@@ -1,17 +1,23 @@
 import React from 'react';
 import {
   Button,
-  ButtonToolbar,
   Modal,
   Popover,
-  OverlayTrigger
+  OverlayTrigger,
+  Row,
+  Image
 } from 'react-bootstrap';
+import AcceptMutation from './AcceptMutation.jsx';
+import RejectMutation from './RejectMutation.jsx';
+import InstructionsQuery from './InstructionsQuery.jsx';
 
 export default class SitterRequest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false
+      show: false,
+      startDate: new Date(props.currentEvent.start),
+      endDate: new Date(props.currentEvent.end)
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -22,6 +28,7 @@ export default class SitterRequest extends React.Component {
       show: false
     });
   }
+
   handleShow() {
     this.setState({
       show: true
@@ -29,80 +36,95 @@ export default class SitterRequest extends React.Component {
   }
 
   render() {
-    //all information will passed to this component, for now dummy data
-    const sitterPic = (
-      <img
-        id="sitterPicture"
-        src="https://secure.gravatar.com/avatar/d850b1b3ba6566142f958048a998cf0a?s=96&d=mm&r=g"
-      />
-    );
-
     const namePopover = (
-      <Popover id="modal-popover" title="Debbie Childparent">
-        {sitterPic}
+      <Popover id="modal-popover" title={this.props.currentEvent.username}>
+        <Image
+          src={this.props.currentEvent.pic_url}
+          style={{ width: '20vh', maxHeight: '20vh' }}
+        />
         <br />
-        Other sitters have rated her 4.5/5
-      </Popover>
-    );
-
-    const listPopover = (
-      <Popover id="modal-popover" title="Instructions List">
-        <div>
-          <ul>
-            <li>Take out the dog</li>
-            <li>Give Mikey medicine</li>
-            <li>Take the kids to the park with the dog</li>
-            <li>Watch TV </li>
-            <li>Put Mikey to bed at 8:30</li>
-            <li>Put Tracey to bed at 9:30</li>
-          </ul>
-        </div>
-      </Popover>
-    );
-
-    const messagePopover = (
-      <Popover id="modal-popover" title="Message">
-        <p>
-          Thank you so much for doing this! If you want anything to eat, please
-          order a pizza on us!
-        </p>
+        {this.props.currentEvent.userRating
+          ? 'Other sitters have rated ' +
+            this.props.currentEvent.username +
+            ' ' +
+            this.props.currentEvent.userRating +
+            '/5'
+          : 'This user has not yet been rated!'}
       </Popover>
     );
 
     return (
       <div className="request-modal">
-          <Modal.Header closeButton>
-            <Modal.Title>Pending Request</Modal.Title>
-          </Modal.Header>
-
-          <h3>
-            Name:{' '}
-            <OverlayTrigger overlay={namePopover}>
-              <a href="#popover">Debbie Childparent</a>
-            </OverlayTrigger>
-          </h3>
-          <h3>Date: August, 21st 2018</h3>
-          <h3>Time: 5:30pm to 10:00pm</h3>
-          <h3>Total Price: $175 </h3>
-
-          <h3>
-            List:{' '}
-            <OverlayTrigger overlay={listPopover}>
-              <a href="#popover">Instructions</a>
-            </OverlayTrigger>
-          </h3>
-          <h3>
-            Message:{' '}
-            <OverlayTrigger overlay={messagePopover}>
-              <a href="#popover">Thank you!</a>
-            </OverlayTrigger>
-          </h3>
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
-            Accept
-          </Button>
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
-            Decline
-          </Button>
+        <Modal.Header closeButton>
+          <Modal.Title>{this.props.currentEvent.status} Request</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <h3>
+              Name:{' '}
+              <OverlayTrigger overlay={namePopover}>
+                <a href="#popover">{this.props.currentEvent.username}</a>
+              </OverlayTrigger>
+            </h3>
+          </Row>
+          <Row>
+            <h3>
+              Date: {new Date(this.props.currentEvent.start).toDateString()}
+            </h3>
+          </Row>
+          <Row>
+            <h3>
+              Time:{' '}
+              {new Date(this.props.currentEvent.start).toLocaleTimeString(
+                'en-US'
+              )}{' '}
+              to{' '}
+              {new Date(this.props.currentEvent.end).toLocaleTimeString(
+                'en-US'
+              )}
+            </h3>
+          </Row>
+          <Row>
+            <h3>Total Price: ${this.props.currentEvent.cost} </h3>
+          </Row>
+          <Row>
+            <h3>List: </h3>
+            {this.props.currentEvent.instructionsName ? (
+              <InstructionsQuery
+                id={this.props.currentEvent.instructionsID}
+                name={this.props.currentEvent.instructionsName}
+              />
+            ) : (
+              'N/A'
+            )}
+          </Row>
+          <Row>
+            <h3>Message: {this.props.currentEvent.comment}</h3>
+          </Row>
+          <Row>
+            <h3>User's Rating: {this.props.currentEvent.userRating}</h3>
+          </Row>
+          {this.props.currentEvent.status === 'Pending' ? (
+            <Row>
+              <AcceptMutation
+                apntID={this.props.currentEvent.appointmentID}
+                handleClose={this.props.handleClose}
+              />
+              <RejectMutation
+                apntID={this.props.currentEvent.appointmentID}
+                handleClose={this.props.handleClose}
+              />
+            </Row>
+          ) : (
+            <Button
+              bsStyle="primary"
+              bsSize="large"
+              onClick={this.props.handleOpenCancel}
+            >
+              Cancel Appointment
+            </Button>
+          )}
+        </Modal.Body>
       </div>
     );
   }

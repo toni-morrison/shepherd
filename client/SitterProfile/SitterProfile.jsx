@@ -1,12 +1,143 @@
-import React from 'react'
+import React from 'react';
+import { Button, Grid, Row, Col, Well, Image } from 'react-bootstrap';
+import UserProfileUpdate from '../UserProfile/UserProfileUpdate.jsx';
+import SitterViewSchedule from './SitterViewSchedule.jsx';
+import SitterPrices from './SitterPrices.jsx';
+import SitterBio from './SitterBio.jsx';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+
+const GET_USER_INFO = gql`
+  query getUserInfo($email: String!) {
+    getUserInfo(email: $email) {
+      email
+      first_name
+      last_name
+      address
+      rating
+      pic_url
+    }
+  }
+`;
 
 export default class SitterProfile extends React.Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      info: false
+    };
+
+    this.handleInfoUpdate = this.handleInfoUpdate.bind(this);
   }
-  render () {
-    return(
-      <p>SITTER PROFILE COMPONENT CONNECTED</p>
-    )
+
+  handleInfoUpdate() {
+    this.setState({
+      info: !this.state.info
+    });
+  }
+
+  render() {
+    return (
+      <Query query={GET_USER_INFO} variables={{ email: this.props.user }}>
+        {({ loading, error, data }) => {
+          if (loading) {
+            return <p>Loading...</p>;
+          }
+          if (error) {
+            return <p>Error</p>;
+          }
+          if (this.state.info === false) {
+            return (
+              <div>
+                <Grid>
+                  <Row>
+                    <Col xs={12}>
+                      <center>
+                        <h3>Personal Information</h3>
+                      </center>
+                      <Well bsSize="large" style={{ width: '100%' }}>
+                        <Row>
+                          <Col xs={1}>
+                            <Image
+                              style={{ width: '20vh', maxHeight: '20vh' }}
+                              src={
+                                data.getUserInfo.pic_url
+                              }
+                            />
+                          </Col>
+                          <Col xs={8} xsOffset={1}>
+                            <h4>
+                              <strong>Name: </strong>
+                              {data.getUserInfo.first_name}{' '}
+                              {data.getUserInfo.last_name}
+                            </h4>
+                          <br/>
+                            <h4>
+                              <strong>Email: </strong>
+                              {data.getUserInfo.email}
+                            </h4>
+                          <br/>
+                            <h4>
+                              <strong>Address: </strong>
+                              {data.getUserInfo.address}
+                            </h4>
+                          </Col>
+                        </Row>
+                        <br />
+                        <Button onClick={this.handleInfoUpdate}>
+                          Click to Update
+                        </Button>
+                      </Well>
+                    </Col>
+                  </Row>
+                  <SitterBio
+                    user={this.props.user}
+                    sitterId={this.props.sitterId}
+                  />
+                  <SitterPrices
+                    user={this.props.user}
+                    sitterId={this.props.sitterId}
+                  />
+                  <SitterViewSchedule id={this.props.sitterId} />
+                </Grid>
+              </div>
+            );
+          } else if (this.state.info === true) {
+            return (
+              <div>
+                <Grid>
+                  <Row>
+                    <Col xs={12}>
+                      <center>
+                        <h3>Personal Information</h3>
+                      </center>
+                      <Well bsSize="large" style={{ width: '100%' }}>
+                        <UserProfileUpdate
+                          handleUpdate={this.handleInfoUpdate}
+                          first_name={data.getUserInfo.first_name}
+                          last_name={data.getUserInfo.last_name}
+                          address={data.getUserInfo.address}
+                          user={this.props.user}
+                        />
+                      </Well>
+                    </Col>
+                  </Row>
+                  <SitterBio
+                    user={this.props.user}
+                    sitterId={this.props.sitterId}
+                  />
+                  <SitterPrices
+                    user={this.props.user}
+                    sitterId={this.props.sitterId}
+                  />
+                  <SitterViewSchedule id={this.props.sitterId} />
+                </Grid>
+              </div>
+            );
+          }
+        }}
+      </Query>
+    );
   }
 }

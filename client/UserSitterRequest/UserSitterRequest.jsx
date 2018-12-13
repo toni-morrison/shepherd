@@ -1,25 +1,108 @@
 import React from 'react';
 import {
   Button,
-  ButtonToolbar,
   Modal,
-  Popover,
-  OverlayTrigger,
   FormGroup,
-  FormControl
+  FormControl,
+  DropdownButton,
+  MenuItem,
+  Row,
+  Col
 } from 'react-bootstrap';
+import AddListToRequest from './AddListToRequest.jsx';
+import BabyPrice from './BabyPrice.jsx';
+import PetPrice from './PetPrice.jsx';
+import HomePrice from './HomePrice.jsx';
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
+
+const CREATE_APPOINTMENT = gql`
+  mutation createAppointment(
+    $email: String!
+    $id: ID!
+    $pets: Int
+    $children: Int
+    $price: Float!
+    $comment: String!
+    $set: [String!]!
+    $todoList: ID
+    $day: String
+    $start: Int!
+    $end: Int!
+  ) {
+    createAppointment(
+      email: $email
+      id: $id
+      pets: $pets
+      children: $children
+      price: $price
+      comment: $comment
+      set: $set
+      todoList: $todoList
+      day: $day
+      start: $start
+      end: $end
+    ) {
+      id
+    }
+  }
+`;
 
 export default class UserSitterRequest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
+      show: true,
       showAddList: false,
-      showAddMessage: false
+      start: { hour: '', min: '', am: '' },
+      end: { hour: '', min: '', am: '' },
+      listName: 'Select List',
+      listId: 'cjlh3qfpbgp6k0784jv62d4a2',
+      children: 'Children',
+      pets: 'Pets',
+      home: 0,
+      price: 0,
+      message: '',
+      appointmentId: ''
     };
+
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleShowList = this.handleShowList.bind(this);
+    this.addList = this.addList.bind(this);
+    this.setNumber = this.setNumber.bind(this);
+    this.updateTotal = this.updateTotal.bind(this);
+    this.setMessage = this.setMessage.bind(this);
+    this.handleMutation = this.handleMutation.bind(this);
+  }
+
+  componentDidMount() {
+    //formats start and end times
+    let startHour, startMin, startAm, endHour, endMin, endAm;
+    Math.floor(this.props.start / 60) % 12 === 0
+      ? (startHour = 12)
+      : (startHour = Math.floor(this.props.start / 60) % 12);
+    startMin = this.props.start % 60;
+    startMin === 0 ? (startMin = '00') : (startMin = '30');
+    this.props.start <= 719 ? (startAm = 'AM') : (startAm = 'PM');
+
+    Math.floor(this.props.end / 60) % 12 === 0
+      ? (endHour = 12)
+      : (endHour = Math.floor(this.props.end / 60) % 12);
+    endMin = this.props.end % 60;
+    endMin === 0 ? (endMin = '00') : (endMin = '30');
+    this.props.end <= 719 ? (endAm = 'AM') : (endAm = 'PM');
+
+    this.setState({
+      start: { hour: startHour, min: startMin, am: startAm },
+      end: { hour: endHour, min: endMin, am: endAm }
+    });
+
+    if (this.props.values.includes('house')) {
+      this.setState({
+        home: 1
+      });
+    }
   }
 
   handleClose() {
@@ -38,154 +121,210 @@ export default class UserSitterRequest extends React.Component {
     });
   }
 
+  addList(e, id) {
+    this.setState({
+      listName: e.target.text,
+      listId: id || 'cjlh3qfpbgp6k0784jv62d4a2'
+    });
+  }
+
+  setNumber(e, num, type) {
+    this.setState(
+      {
+        [type]: num
+      },
+      () => {
+        this.updateTotal();
+      }
+    );
+  }
+
+  updateTotal() {
+    var total = 0;
+    if (this.state.home === 1) {
+      total += this.props.home_rate;
+    }
+    if (this.state.children !== 'Children') {
+      var parsed = parseInt(this.state.children);
+      if (parsed === 1) {
+        total += this.props.child_rate;
+      } else if (parsed > 1) {
+        total += this.props.child_rate;
+        total += this.props.child_addl * (parsed - 1);
+      }
+    }
+    if (this.state.pets !== 'Pets') {
+      var parsed = parseInt(this.state.pets);
+      if (parsed === 1) {
+        total += this.props.pet_rate;
+      } else if (parsed > 1) {
+        total += this.props.pet_rate;
+        total += this.props.pet_addl * (parsed - 1);
+      }
+    }
+    var hours = (parseInt(this.props.end) - parseInt(this.props.start)) / 60;
+    total = total * hours;
+    this.setState({
+      price: total
+    });
+  }
+
+  setMessage(e) {
+    this.setState({
+      message: e.target.value
+    });
+  }
+
+  handleMutation(createAppointment) {
+    let pets, children;
+    if (this.state.pets === 'Pets') {
+      pets = 0;
+    } else {
+      pets = this.state.pets;
+    }
+
+    if (this.state.children === 'Children') {
+      children = 0;
+    } else {
+      children = this.state.children;
+    }
+
+    if (this.state.price !== 0) {
+      createAppointment({
+        variables: {
+          email: this.props.user,
+          id: this.props.id,
+          pets: pets,
+          children: children,
+          price: this.state.price,
+          comment: this.state.message,
+          set: this.props.values,
+          todoList: this.state.listId,
+          day: this.props.startDate,
+          start: this.props.start,
+          end: this.props.end
+        }
+      }).then(({ data }) => {
+        this.props.showOff();
+      });
+    }
+  }
+
   render() {
-    //all information will passed to this component, for now dummy data
-    const sitterPic = (
-      <img
-        id="userPicture"
-        src="https://d7n0myfi538ky.cloudfront.net/production/users/2971/small/image1_1491361573.JPG?1491361573"
-      />
-    );
+    if (this.props.id === this.props.review.id) {
+      return (
+        <Mutation mutation={CREATE_APPOINTMENT}>
+          {(createAppointment, { loading, error, data }) => {
+            if (loading) {
+              return <p>Loading...</p>;
+            }
+            if (error) {
+              return <p>Error :(</p>;
+            }
 
-    const listPopover1 = (
-      <Popover id="modal-popover" title="Instructions List 1">
-        <div>
-          <ul>
-            <li>Take out the dog</li>
-            <li>Give Mikey medicine</li>
-            <li>Take the kids to the park with the dog</li>
-            <li>Watch TV </li>
-            <li>Put Mikey to bed at 8:30</li>
-            <li>Put Tracey to bed at 9:30</li>
-          </ul>
-        </div>
-      </Popover>
-    );
-    const listPopover2 = (
-      <Popover id="modal-popover" title="Instructions List 2">
-        <div>
-          <ul>
-            <li>Make some sandwiches for the kids</li>
-            <li>Anything but fish sandwiches</li>
-            <li>Feed the kids some doritos</li>
-            <li>Feed the kids some cheese</li>
-            <li>Feed the kids some whipped cream</li>
-            <li>Feed the kids some candy</li>
-            <li>Gosh darn our genetics</li>
-          </ul>
-        </div>
-      </Popover>
-    );
-    const listPopover3 = (
-      <Popover id="modal-popover" title="Instructions List 3">
-        <div>
-          <ul>
-            <li>Something something that things</li>
-            <li>Give me a high five</li>
-            <li>Find my children</li>
-            <li>If you cant thats fine also</li>
-            <li>I am 90% sure I have children somewhere</li>
-            <li>Dont set our house on fire</li>
-          </ul>
-        </div>
-      </Popover>
-    );
-    const listPopover4 = (
-      <Popover id="modal-popover" title="Instructions List 4">
-        <div>
-          <ul>
-            <li>Hello? Can you hear me?</li>
-            <li>I am trapped, help please.</li>
-            <li>Where? in the computer i think.</li>
-            <li>Dont worry about it actually, its nice here.</li>
-          </ul>
-        </div>
-      </Popover>
-    );
+            return (
+              <div className="request-modal" key={this.props.review.id}>
+                <Modal show={this.props.show} onHide={this.props.showOff}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>
+                      Appointment with {this.props.first_name}{' '}
+                      {this.props.last_name}
+                    </Modal.Title>
+                  </Modal.Header>
 
-    const addList = (
-      <Modal show={this.state.showAddList} onHide={this.handleShowList}>
-        <Modal.Header closeButton>
-          <Modal.Title>Instructions</Modal.Title>
-        </Modal.Header>
-        <div>
-          <ul>
-            <OverlayTrigger overlay={listPopover1}>
-              <li>
-                <a href="#popover">Instructions 1</a>
-              </li>
-            </OverlayTrigger>
-            <OverlayTrigger overlay={listPopover2}>
-              <li>
-                <a href="#popover">Instructions 2</a>
-              </li>
-            </OverlayTrigger>
-            <OverlayTrigger overlay={listPopover3}>
-              <li>
-                <a href="#popover">Instructions 3</a>
-              </li>
-            </OverlayTrigger>
-            <OverlayTrigger overlay={listPopover4}>
-              <li>
-                <a href="#popover">Instructions 4</a>
-              </li>
-            </OverlayTrigger>
-          </ul>
-        </div>
-      </Modal>
-    );
+                  <h3>
+                    Name: {this.props.first_name} {this.props.last_name}
+                  </h3>
 
-    const namePopover = (
-      <Popover id="modal-popover" title="Joana BabbyCarer">
-        {sitterPic}
-        <br />
-        Other users have rated her 4.5/5
-      </Popover>
-    );
+                  <h3>
+                    Date: {this.props.day} {this.state.date}
+                  </h3>
 
-    return (
-      <div className="request-modal">
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-          Send Request
-        </Button>
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Pending Request</Modal.Title>
-          </Modal.Header>
+                  <h3>
+                    Time: {this.state.start.hour}:{this.state.start.min}{' '}
+                    {this.state.start.am} to {this.state.end.hour}:
+                    {this.state.end.min} {this.state.end.am}
+                  </h3>
 
-          <h3>
-            Name:{' '}
-            <OverlayTrigger overlay={namePopover}>
-              <a href="#popover">Joana BabbyCarer</a>
-            </OverlayTrigger>
-          </h3>
-          <h3>Date: August, 21st 2018</h3>
-          <h3>Time: 5:30pm to 10:00pm</h3>
-          <h3>Total Price: $175 </h3>
-          <h3>
-            List:{' '}
-            <a href="#addList" onClick={this.handleShowList}>
-              Add List
-            </a>
-            {addList}
-          </h3>
-          <h3>
-            Add Message:{' '}
-            <FormGroup controlId="formControlsTextarea">
-              <FormControl
-                componentClass="textarea"
-                placeholder="Enter Message"
-              />
-            </FormGroup>
-          </h3>
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
-            Confirm
-          </Button>
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleClose}>
-            Go Back
-          </Button>
-        </Modal>
-      </div>
-    );
+                  <h3>Total Price: ${this.state.price} </h3>
+                  <HomePrice
+                    home_rate={this.props.home_rate}
+                    values={this.props.values}
+                  />
+
+                  <BabyPrice
+                    child_rate={this.props.child_rate}
+                    child_addl={this.props.child_addl}
+                    values={this.props.values}
+                    setNumber={this.setNumber}
+                    childState={this.state.children}
+                  />
+
+                  <PetPrice
+                    pet_rate={this.props.pet_rate}
+                    pet_addl={this.props.pet_addl}
+                    values={this.props.values}
+                    setNumber={this.setNumber}
+                    petState={this.state.pets}
+                  />
+
+                  <h3>
+                    Instruction List: (optional)
+                    <br />
+                    <DropdownButton title={this.state.listName} id="dropdown">
+                      <MenuItem key="" onClick={e => this.addList(e, '')}>
+                        Select List
+                      </MenuItem>
+                      {this.props.lists.findTodoLists.map(list => {
+                        return (
+                          <MenuItem
+                            key={list.id}
+                            onClick={e => this.addList(e, list.id)}
+                          >
+                            {list.name}
+                          </MenuItem>
+                        );
+                      })}
+                    </DropdownButton>{' '}
+                    <Button onClick={this.handleShowList}>View</Button>
+                    <AddListToRequest
+                      show={this.state.showAddList}
+                      hide={this.handleShowList}
+                      listId={this.state.listId}
+                    />
+                  </h3>
+                  <h3>
+                    Add Message:{' '}
+                    <FormGroup controlId="formControlsTextarea">
+                      <FormControl
+                        componentClass="textarea"
+                        placeholder="Enter Message"
+                        onChange={this.setMessage}
+                      />
+                    </FormGroup>
+                  </h3>
+                  <Button
+                    bsStyle="primary"
+                    bsSize="large"
+                    onClick={() => this.handleMutation(createAppointment)}
+                  >
+                    Confirm
+                  </Button>
+                  <Button
+                    bsStyle="primary"
+                    bsSize="large"
+                    onClick={this.props.showOff}
+                  >
+                    Go Back
+                  </Button>
+                </Modal>
+              </div>
+            );
+          }}
+        </Mutation>
+      );
+    } else {
+      return null;
+    }
   }
 }
