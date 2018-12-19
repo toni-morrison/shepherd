@@ -505,7 +505,7 @@ const server = new GraphQLServer({
     ...req,
     prisma: new Prisma({
       typeDefs: './server/controllers/generated/prisma.graphql',
-      endpoint: 'http://ec2-184-72-85-225.compute-1.amazonaws.com:4466'
+      endpoint: 'http://ec2-18-188-233-74.us-east-2.compute.amazonaws.com:4466'
     })
   })
 });
