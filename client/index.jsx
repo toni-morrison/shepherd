@@ -9,7 +9,7 @@ import { CircleLoader } from 'react-spinners';
 import firebase from '../server/firebase/firebase.js';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql'
+  uri: 'http://ec2-18-188-233-74.us-east-2.compute.amazonaws.com:8080/graphql'
 });
 
 class App extends React.Component {
